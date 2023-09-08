@@ -1,0 +1,259 @@
+= Cubism for GDScript
+:lang: ja
+:doctype: book
+:author: MizunagiKB
+:toc: left
+:toclevels: 3
+:stylesdir: res/theme/css
+:stylesheet: adoc-basic.css
+:source-highlighter: highlight.js
+:highlightjsdir: res/theme/css
+:highlightjs-theme: github-dark-custom
+:icons: font
+:experimental:
+:stem:
+
+
+== API Reference
+
+
+[.text-center]
+.
+
+
+=== class: GDCubismUserModel
+
+Live2D モデルを読み込み、描画や操作を行うための _Vieport_ 継承クラスです。
+
+
+==== Properties
+
+[cols="3",frame=none,grid=none]
+|===
+>|String <|<<id-property-assets,assets>> |[default: ""]
+>|bool <|<<id-property-autoscale,autoscale>> |[default: true]
+>|ParameterMode <|<<id-property-<parameter_mode,parameter_mode>> |[default: 0]
+>|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
+>|Shader <|<<id-property-shader_mask_mix,shader_mask_mix>> |
+>|Shader <|<<id-property-shader_mask_mix_inv,shader_mask_mix_inv>> |
+>|Shader <|<<id-property-shader_mix,shader_mix>> |
+>|float <|<<id-property-speed_scale,speed_scale>> |[default: 1.0]
+|===
+
+
+==== Methods
+
+[cols="2",frame=none,grid=none]
+|===
+>|void <|advance(delta: float)
+>|void <|clear()
+>|moc3FileFormatVersion <|csm_get_latest_moc_version()
+>|moc3FileFormatVersion <|csm_get_moc_version()
+>|Dictionary <|csm_get_version
+>|Dictionary <|get_canvas_info()
+>|Array <|get_cubism_motion_queue_entries()
+>|Array <|get_expressions()
+>|Array <|get_hit_areas()
+>|Dictionary <|get_motions()
+>|Array <|get_parameter()
+>|Array <|get_part_opacity()
+>|void <|set_expression(expression_id: String)
+>|GDCubismMotionQueueEntryHandle <|start_motion(group: String, no: int, priority: Priority)
+>|void <|stop_all_motions()
+|===
+
+
+==== Signals
+
+- motion_event(value: String)
+
+
+==== Enumerations
+
+enum moc3FileFormatVersion:
+
+* CSM_MOC_VERSION_UNKNOWN = 0
+* CSM_MOC_VERSION_30 = 1
+* CSM_MOC_VERSION_33 = 2
+* CSM_MOC_VERSION_40 = 3
+* CSM_MOC_VERSION_42 = 4
+* CSM_MOC_VERSION_50 = 5
+
+
+enum  Priority:
+
+* PRIORITY_NONE = 0
+* PRIORITY_IDLE = 1
+* PRIORITY_NORMAL = 2
+* PRIORITY_FORCE = 3
+
+
+enum  ParameterMode:
+
+* FULL_PARAMETER = 0 +
+<<id-method-start_motion,_start_motion_>> 関数で指定したモーションを再生する時に指定します。 +
+この指定がされているときはGDCubismParameterによる操作は行えません。
+* NONE_PARAMETER = 1 +
+<<id-method-start_motion,_get_parameter_>> 関数で取得したGDCubismParameterを使用して、Live2Dモデルを操作する場合に指定します。 +
+この指定がされているときは <<id-method-start_motion,_start_motion_>> 関数でモーション再生は行えません。
+
+
+enum  MotionProcessCallback:
+
+* PHYSICS = 0 +
+アニメーションの更新処理を __physics_process_ 関数内で行います。物理シミュレーションとインタラクションさせる場合に使用します。
+* IDLE = 1 +
+アニメーションの更新処理を __process_ 関数内で行います。
+* MANUAL = 2 +
+アニメーションの更新処理を行いません。アニメーションを処理するには <<id-method-advance,_advance_>> 関数を使用します。
+
+
+==== Property Descriptions
+
+[[id-property-assets]]
+String assets [default: ""]::
+*.model3.json 拡張子のファイルを指定することで Live2D モデルを読み込みます。
+ファイルを指定すると即座にファイルが読み込まれます。 +
+内部で _clear_ 関数を呼び出しているため、Live2Dモデルを切り替えたい場合は新しいファイルを指定してください。
+
+
+[[id-property-auto_scale]]
+bool auto_scale [default: true]::
+_GDCubismUserModel_ は、自分自身に指定された _Viewport_ 内に収まる様にLive2Dモデルを描画しようとします。これはとりあえず表示したい時には良いのですが、デザイン通りに表示させたい場合に不都合があります。 +
+そういった時はこのチェックを外すことで、スケーリングなしで表示を行います。
+
+
+[[id-property-parameter_mode]]
+ParameterMode parameter_mode [default: 0]::
+現在保持している Live2Dモデルのコントロール方法を指定します。
+
+
+[[id-property-playback_process_mode]]
+MotionProcessCallback playback_process_mode [default: 1]::
+現在保持している Live2Dモデルの再生方法を指定します。与えるパラメータの意味は _AnimationPlayer_ と互換です。
+
+
+[[id-property-shader_mask_mix]]
+Shader shader_mask_mix::
+開発中
+
+
+[[id-property-shader_mask_mix_inv]]
+Shader shader_mask_mix_inv::
+開発中
+
+
+[[id-property-shader_mix]]
+Shader shader_mix::
+開発中
+
+
+[[id-property-speed_scale]]
+floats peed_scale [default: 1.0]::
+現在保持している Live2D データの再生速度を指定します。
+
+
+<<<
+
+
+[.text-center]
+.
+
+
+==== Method Descriptions
+
+[[id-method-advance]]
+void advance(delta: float)::
+アニメーションを指定した _delta_ 時間（単位は秒数）だけ進めます。
++
+deltaには 0.0 以上の値を指定してください。
+
+
+[[id-method-clear]]
+void clear()::
+現在保持している Live2D データを破棄します。
+
+
+[[id-method-csm_get_latest_moc_version]]
+moc3FileFormatVersion csm_get_latest_moc_version()::
+
+
+[[id-method-csm_get_moc_version]]
+Dictionary csm_get_version()::
+
+
+[[id-method-csm_get_version]]
+Dictionary csm_get_version()::
+_Dictionary_ 形式で以下の情報を戻します。 +
++
+* version: int
+* major: int
+* minor: int
+* patch: int
+
+
+[[id-method-get_canvas_info]]
+Dictionary get_canvas_info()::
+_Dictionary_ 形式で以下の情報を戻します。 +
++ 
+* size_in_pixels: Vector2 +
+読み込んだ Live2D データのキャンバスの幅と高さをピクセル数で戻します。
+* origin_in_pixels: Vector2 +
+読み込んだ Live2D データの中心位置をピクセル数で戻します。
+* pixels_per_unit: float +
+読み込んだ Live2D データの _pixelsPerUnit_ を戻します。
+
+
+[[id-method-get_cubism_motion_queue_entries]]
+Array get_cubism_motion_queue_entries()::
+現在再生中の _Motion_ 情報を戻します。
+
+
+[[id-method-get_expressions]]
+Array get_expressions()::
+現在保持しているLive2Dモデルから、 _Expression_ 一覧を戻します。
++
+取得した情報は _set_expression_ 関数の引数として使用できます。
+
+
+[[id-method-get_hit_areas]]
+Array get_hit_areas()::
+機能が不明のため未調査です。
+
+
+[[id-method-get_motions]]
+Dictionary get_motions()::
+現在保持しているLive2Dモデルから、 _Motion_ 一覧を戻します。
+
+
+[[id-method-get_parameter]]
+Array get_parameter()::
+現在保持しているLive2Dモデルを操作するためのクラスを取得します。
++
+[source,gdscript]
+--
+var ary_param = $GDCubismUserModel.get_parameter()
+for o in ary_param:
+    o.reset()
+    o.value += 1
+--
+
+
+[[id-method-get_part_opacity]]
+Array get_part_opacity()::
+現在保持しているLive2Dモデルのパーツ透明度を操作するためのクラスを取得します。
+
+
+[[id-method-set_expression]]
+void set_expression(expression_id: String)::
+指定した _expression_id_ を有効化します。
+
+
+[[id-method-start_motion]]
+GDCubismMotionQueueEntryHandle start_motion(group: String, no: int, priority: Priority)::
+指定した _group_ と _no_ のモーションを再生します。
+
+
+[[id-method-stop_all_motions]]
+void stop_all_motions()::
+現在再生中のモーションとエクスプレッションを停止します。

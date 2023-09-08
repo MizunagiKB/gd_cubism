@@ -1,0 +1,158 @@
+= Cubism for GDScript
+:lang: ja
+:doctype: book
+:author: MizunagiKB
+:toc: left
+:toclevels: 3
+:source-highlighter: highlight.js
+:highlightjsdir: res/theme/css
+:highlightjs-theme: github-dark-custom
+:icons: font
+:experimental:
+:stem:
+
+
+== ビルド方法について
+
+
+=== ビルド前の準備
+
+
+==== ビルドに必要なソースコードの取得
+
+GDCubismのリポジトリからソースコードを取得してください。
+
+checkoutした場合はgitmoduleに指定された依存プログラムも取得できているはずです。
+
+なんらかの理由で手動で設定する場合は、以下の様にしてgitmoduleの追加を行ってください。
+
+[source,zsh]
+--
+# GDExtensionを作成するためのヘッダファイル
+git submodule add -b 4.1 https://github.com/godotengine/godot-cpp
+pushd godot-cpp
+git submodule update --init
+popd
+
+# Live2Dを使用するためのフレームワーク
+pushd thirdparty
+git submodule add https://github.com/Live2D/CubismNativeFramework
+pushd CubismNativeFramework
+git checkout refs/tags/5-r.1-beta.1
+git submodule update --init
+popd
+popd
+--
+
+
+==== CubismSdkForNativeの入手と配置
+
+Live2D Cubism SDK for Nativeを取得してください。
+
+ダウンロードしたファイルはthirdparty/CubismSdkForNativeに展開してください。
+
+コピー後は以下のような配置になるはずです。
+
+[source]
+----
+./thirdparty
+    /CubismNativeFramework
+        /Core
+            /dll
+            /include
+            /lib
+            ...
+----
+
+
+== ビルド方法
+
+
+=== Windows
+
+[NOTE]
+====
+ビルドには以下のものが必要となります。
+
+* link:https://visualstudio.microsoft.com/ja/vs/community/[VisualStudio Community], version 2019 or lator.
+* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+[source]
+--
+scons platform=windows target=template_debug
+scons platform=windows target=template_release
+--
+
+ビルドが完了すると以下のファイルがdemo/addons/gd_cubism/bin以下に生成されます。
+
+* libgd_cubism.windows.debug.x86_64.dll
+* libgd_cubism.windows.release.x86_64.dll
+
+
+=== macOS
+
+[NOTE]
+====
+ビルドには以下のものが必要となります。
+
+* link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
+* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+Live2D Cubism SDK for Nativeはx86_64とarm64向けにライブラリが用意されているのですが、アーキテクチャ別にファイルが配置されているためmacOS向けのuniversalバイナリが作成しづらいです。
+
+ビルドしやすい様に、それら二つのファイルを結合してしまいます。
+
+[source,zsh]
+--
+pushd thirdparty/CubismSdkForNative/Core/lib/macos
+# for Universal Binary
+lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output libLive2DCubismCore.universal.a
+popd
+--
+
+その後以下の手順でビルドを行ってください。
+
+[source,zsh]
+--
+scons platform=macos target=template_debug
+scons platform=macos target=template_release
+--
+
+ビルドが完了すると以下のファイルがdemo/addons/gd_cubism/bin以下に生成されます。
+
+* libgd_cubism.macos.debug.framework
+* libgd_cubism.macos.release.framework
+
+
+== デバッグ方法
+
+
+=== macOS
+
+GDCubismのデバッグを行うにはVisualStudio Codeを使用して以下の方法で行えます。
+
+1. SConsのビルド時にdebug_symbols=true optimize=noneを追加します。
+2. launch.jsonに以下を追加します。
+3. Godotでdemoプロジェクトを開きExportを行います。
+4. デバッグ実行を行います。
+
+[source.json]
+--
+{
+    "name": "Debug (macOS)",
+    "type":"cppdbg",
+    "request": "launch",
+    "program": "${workspaceRoot}/demo.export/demo.app/Contents/MacOS/demo",
+    "stopAtEntry": false,
+    "launchCompleteCommand": "exec-run",
+    "osx": {
+        "MIMode": "lldb"
+    },
+    "cwd": "${workspaceRoot}/demo.export",
+}
+--
+

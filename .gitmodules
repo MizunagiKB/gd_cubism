@@ -1,0 +1,7 @@
+[submodule "godot-cpp"]
+	path = godot-cpp
+	url = https://github.com/godotengine/godot-cpp
+	branch = 4.1
+[submodule "thirdparty/CubismNativeFramework"]
+	path = thirdparty/CubismNativeFramework
+	url = https://github.com/Live2D/CubismNativeFramework

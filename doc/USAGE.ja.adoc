@@ -1,0 +1,58 @@
+= Cubism for GDScript
+:lang: ja
+:doctype: book
+:author: MizunagiKB
+:toc: left
+:toclevels: 3
+:stylesdir: res/theme/css
+:stylesheet: adoc-basic.css
+:source-highlighter: highlight.js
+:highlightjsdir: res/theme/css
+:highlightjs-theme: github-dark-custom
+:icons: font
+:experimental:
+:stem:
+
+
+== 使用方法
+
+Addonが正常に読み込まれていれば、ノード追加時やオブジェクトの作成時に _GDCubismUserModel_ が使用できる様になります。
+
+このノードは _SubViewport_ の機能を持ったノードとして作成されており、Live2D モデルを読み込んで _ViewportTexture_ を生成します。
+
+画面に表示させるには、取り出したテクスチャを _Sprite2D_ に貼り付けて使用します。
+
+
+=== 簡単な使い方
+
+NOTE: 作成中
+
+
+=== GDScriptから使用する場合
+
+[source,gdscript]
+--
+var usermodel = GDCubismUserModel.new()
+var character_node = Node2D.new()
+usermodel.assets = "res://character.model3.json"
+character_node.texture = gd_cubism_user_node = usermodel.get_texture()
+--
+
+
+== API Reference
+
+* Object
+** Node
+*** GDCubismEffect
+**** link:API_gd_cubism_effect_breath.ja.adoc[GDCubismEffectBreath]
+**** link:API_gd_cubism_effect_eye_blink.ja.adoc[GDCubismEffectEyeBlink]
+*** Viewport
+**** SubViewport
+***** link:API_gd_cubism_usre_model.ja.adoc[GDCubismUserModel]
+** RefCounted
+*** Resource
+**** link:API_gd_cubism_motion_entry.ja.adoc[GDCubismMotionEntry]
+**** link:API_gd_cubism_motion_queue_entry_handle.ja.adoc[GDCubismMotionQueueEntryHandle]
+**** GDCubismValueAds
+***** link:API_gd_cubism_parameter.ja.adoc[GDCubismParameter]
+***** link:API_gd_cubism_part_opaciry.ja.adoc[GDCubismPartOpacity]

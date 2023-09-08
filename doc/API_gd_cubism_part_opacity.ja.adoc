@@ -1,0 +1,20 @@
+= Cubism for GDScript
+:lang: ja
+:doctype: book
+:author: MizunagiKB
+:toc: left
+:toclevels: 3
+:stylesdir: res/theme/css
+:stylesheet: adoc-basic.css
+:source-highlighter: highlight.js
+:highlightjsdir: res/theme/css
+:highlightjs-theme: github-dark-custom
+:icons: font
+:experimental:
+:stem:
+
+
+== API Reference
+
+
+NOTE: 作成中

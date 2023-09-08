@@ -1,0 +1,50 @@
+= Cubism for GDScript
+:lang: ja
+:doctype: book
+:author: MizunagiKB
+:toc: left
+:toclevels: 3
+:stylesdir: res/theme/css
+:stylesheet: adoc-basic.css
+:source-highlighter: highlight.js
+:highlightjsdir: res/theme/css
+:highlightjs-theme: github-dark-custom
+:icons: font
+:experimental:
+:stem:
+
+
+== API Reference
+
+
+=== class: GDCubismMotionQueueEntryHandle
+
+
+NOTE: 作成中
+
+
+_GDCubismUserModel_ の _start_motion_ 関数、 _start_random_motion_ 関数の戻り値。
+
+
+==== Properties
+
+[cols="3",frame=none,grid=none]
+|===
+>|HandleError <|error |[default: "FAILED"]
+|===
+
+
+==== Enumerations
+
+enum HandleError
+
+* OK = 0 +
+成功
+* FAILED = 1 +
+失敗
+
+
+==== Property Descriptions
+
+* HandleError error [default: 1] +
+get_error() getter +

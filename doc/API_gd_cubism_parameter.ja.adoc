@@ -1,0 +1,60 @@
+= Cubism for GDScript
+:lang: ja
+:doctype: book
+:author: MizunagiKB
+:toc: left
+:toclevels: 3
+:stylesdir: res/theme/css
+:stylesheet: adoc-basic.css
+:source-highlighter: highlight.js
+:highlightjsdir: res/theme/css
+:highlightjs-theme: github-dark-custom
+:icons: font
+:experimental:
+:stem:
+
+
+== API Reference
+
+
+=== class: GDCubismParameter
+
+_GDCubismUserModel_ の _get_parameter_ 関数で戻される _Array_ に含まれる要素。
+
+
+==== Properties
+
+[cols="3",frame=none,grid=none]
+|===
+>|float <|default_value |[default: 0.0]
+>|String <|id |[default: ""]
+>|float <|maximum_value |[default: 0.0]
+>|float <|minimum_value |[default: 0.0]
+>|float <|value |[default: 0.0]
+|===
+
+
+==== Methods
+[cols="2",frame=none,grid=none]
+|===
+>|void <|reset()
+|===
+
+
+==== Enumerations
+enum  Type:
+
+- NORMAL = 0
+- BLEND_SHAPE = 1
+
+
+==== Property Descriptions
+
+
+==== Method Descriptions
+
+[[id-method-reset]]
+void reset()::
+現在設定されている値を _default_value_ にします。
++
+機能と動作は ```value = default_value``` と同じです。
