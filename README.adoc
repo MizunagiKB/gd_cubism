@@ -1,0 +1,60 @@
+= Cubism for GDScript
+:lang: ja
+:doctype: book
+:author: MizunagiKB
+:toc: left
+:toclevels: 3
+:source-highlighter: highlight.js
+:highlightjsdir: res/theme/css
+:highlightjs-theme: github-dark-custom
+:icons: font
+:experimental:
+:stem:
+
+
+link:README.adoc[日本語] / link:README.en.adoc[English]
+
+
+== このソフトウェアについて
+
+このソフトウェア（以下GDCubism）はlink:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]をGDScript（Godot Engine 4.1）から呼び出せるようにするための、**非公式**なものです。
+
+このソフトウェアに関してオフィシャルの開発元に問い合わせない様お願い致します。
+
+GDCubism内部ではLive2D社が公開しているlink:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework]を併用しています。
+
+
+== ライセンスについて
+
+このソフトウェアは以下のソフトウェアに依存しており単品では動作しません。
+
+Live2D Cubism SDK:: Live2D Editorで作成されたファイルをを動かすためのライブラリです。
+Live2D Cubism NativeFramework:: SDKを使いやすくするためのライブラリです。
+
+そのため利用者の方がビルドを行う過程において、以下の内容を守る必要があります。
+
+* link:https://www.live2d.jp/terms/live2d-open-software-license-agreement/[Live2D Open Software 使用許諾契約書]
+
+また、GDCubismで作られたアプリケーションを公開する場合には、以下の契約を守る必要があります。
+
+* link:https://www.live2d.jp/terms/live2d-proprietary-software-license-agreement/[Live2D Proprietary Software 使用許諾契約書]
+
+[IMPORTANT]
+====
+GDCubismのリポジトリで公開されているソースコード部分のみがGDCubismのライセンス適用内です。
+ビルドして実行可能なバイナリを利用する時点でそうではなくなることにご注意ください。
+====
+
+
+== ビルド方法
+
+link:doc/BUILD.adoc[]を参照してください。
+
+
+== 関連情報
+
+* link:https://www.live2d.com/[Live2D Cubism]
+* link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]
+* link:https://github.com/Live2D[Live2D (GitHub)]
+* link:https://github.com/Live2D/CubismNativeFramework[CubismNativeFramework (GitHub)]
+* link:https://github.com/MizunagiKB/gd_cubism[MizunagiKB / gd_cubism (GitHub)]
