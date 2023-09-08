@@ -19,6 +19,13 @@ if env["platform"] == "windows":
 elif env["platform"] == "macos":
     env.Append(LIBPATH=["thirdparty/CubismSdkForNative/Core/lib/macos"])
     env.Append(LIBS=["Live2DCubismCore.universal"])
+elif env["platform"] == "linux":
+    env.Append(
+        LIBPATH=[
+            "thirdparty/CubismSdkForNative/Core/lib/linux/{:s}".format(env["arch"])
+        ]
+    )
+    env.Append(LIBS=["Live2DCubismCore"])
 else:
     pass
 
