@@ -79,6 +79,9 @@ Live2D Cubism SDK for Nativeを取得してください。
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
 
+
+環境が準備できたら以下の手順でビルドを行ってください。
+
 [source]
 --
 scons platform=windows target=template_debug
@@ -114,7 +117,7 @@ lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output li
 popd
 --
 
-その後以下の手順でビルドを行ってください。
+環境が準備できたら以下の手順でビルドを行ってください。
 
 [source,zsh]
 --
@@ -126,6 +129,37 @@ scons platform=macos target=template_release
 
 * libgd_cubism.macos.debug.framework
 * libgd_cubism.macos.release.framework
+
+
+== Linux
+
+[NOTE]
+====
+ビルドには以下のものが必要となります。
+
+* GCC 7+, Clang 6+.
+* link:https://www.python.org/downloads/windows/[Python 3.6+].
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+
+Linuxの場合、ディストリビューション毎に必要なパッケージが追加で必要となる場合があります。どのディストリビューションで何が必要になるかは Godot Engine のドキュメントを参考にしてください。
+
+* link:https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_linuxbsd.html[Compiling for Linux, *BSD]
+
+
+環境が準備できたら以下の手順でビルドを行ってください。
+
+[source,zsh]
+--
+scons platform=linux target=template_debug
+scons platform=linux target=template_release
+--
+
+ビルドが完了すると以下のファイルがdemo/addons/gd_cubism/bin以下に生成されます。
+
+* libgd_cubism.linux.debug.x86_64.so
+* libgd_cubism.linux.release.x86_64.so
 
 
 == デバッグ方法
