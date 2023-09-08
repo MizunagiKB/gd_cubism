@@ -26,29 +26,12 @@ GDCubism内部ではLive2D社が公開しているlink:https://github.com/Live2D
 
 == ライセンスについて
 
-このソフトウェアは以下のソフトウェアに依存しており単品では動作しません。
-
-Live2D Cubism SDK:: Live2D Editorで作成されたファイルをを動かすためのライブラリです。
-Live2D Cubism NativeFramework:: SDKを使いやすくするためのライブラリです。
-
-そのため利用者の方がビルドを行う過程において、以下の内容を守る必要があります。
-
-* link:https://www.live2d.jp/terms/live2d-open-software-license-agreement/[Live2D Open Software 使用許諾契約書]
-
-また、GDCubismで作られたアプリケーションを公開する場合には、以下の契約を守る必要があります。
-
-* link:https://www.live2d.jp/terms/live2d-proprietary-software-license-agreement/[Live2D Proprietary Software 使用許諾契約書]
-
-[IMPORTANT]
-====
-GDCubismのリポジトリで公開されているソースコード部分のみがGDCubismのライセンス適用内です。
-ビルドして実行可能なバイナリを利用する時点でそうではなくなることにご注意ください。
-====
+* link:LICENSE.adoc[]を参照してください。
 
 
 == ビルド方法
 
-link:doc/BUILD.adoc[]を参照してください。
+* link:doc/BUILD.adoc[]を参照してください。
 
 
 == 関連情報

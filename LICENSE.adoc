@@ -1,0 +1,72 @@
+= Cubism for GDScript
+:lang: ja
+:doctype: book
+:author: MizunagiKB
+:toc: left
+:toclevels: 3
+:source-highlighter: highlight.js
+:highlightjsdir: res/theme/css
+:highlightjs-theme: github-dark-custom
+:icons: font
+:experimental:
+:stem:
+
+
+link:README.adoc[日本語] / link:README.en.adoc[English]
+
+
+== ライセンスについて
+
+このソフトウェアは以下のソフトウェアに依存しており単品では動作しません。
+
+Live2D Cubism SDK:: Live2D Editorで作成されたファイルをを動かすためのライブラリです。
+Live2D Cubism NativeFramework:: SDKを使いやすくするためのライブラリです。
+
+そのため利用者の方がビルドを行う過程において、以下の内容を守る必要があります。
+
+* link:https://www.live2d.jp/terms/live2d-open-software-license-agreement/[Live2D Open Software 使用許諾契約書]
+
+また、GDCubismで作られたアプリケーションを公開する場合には、以下の契約を守る必要があります。
+
+* link:https://www.live2d.jp/terms/live2d-proprietary-software-license-agreement/[Live2D Proprietary Software 使用許諾契約書]
+
+[IMPORTANT]
+====
+GDCubismのリポジトリで公開されているソースコード部分のみがGDCubismのライセンス適用内です。
+ビルドして実行可能なバイナリを利用する時点でそうではなくなることにご注意ください。
+====
+
+
+=== ライセンス情報について
+==== Live2D Cubism SDK
+==== Cubism Native Framework
+
+Live2D Cubism Components, CubismNativeFrameworkについては以下のページにある license 情報を参照してください。
+
+* link:https://github.com/Live2D/CubismNativeFramework[]
+
+
+
+==== GDCubism
+
+MIT License
+
+Copyright (c) 2023 MizunagiKB
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
