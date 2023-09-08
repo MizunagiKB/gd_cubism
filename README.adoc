@@ -12,7 +12,7 @@
 :stem:
 
 
-link:README.adoc[日本語] / link:README.en.adoc[English]
+link:README.adoc[日本語] / English
 
 
 == このソフトウェアについて
