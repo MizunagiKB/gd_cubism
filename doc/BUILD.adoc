@@ -22,9 +22,11 @@
 
 GDCubismのリポジトリからソースコードを取得してください。
 
-checkoutした場合はgitmoduleに指定された依存プログラムも取得できているはずです。
+submoduleを使用していますので、git cloneした場合は ```git submodule update --init``` を行ってください。
 
-なんらかの理由で手動で設定する場合は、以下の様にしてgitmoduleの追加を行ってください。
+zipファイルでダウンロードした場合は、git submoduleがうまく動作しない可能性があります。
+
+その場合は手動でgit submoduleで追加を行ってください。
 
 [source,zsh]
 --
@@ -33,15 +35,6 @@ git submodule add -b 4.1 https://github.com/godotengine/godot-cpp
 pushd godot-cpp
 git submodule update --init
 popd
-
-# Live2Dを使用するためのフレームワーク
-pushd thirdparty
-git submodule add https://github.com/Live2D/CubismNativeFramework
-pushd CubismNativeFramework
-git checkout refs/tags/5-r.1-beta.1
-git submodule update --init
-popd
-popd
 --
 
 
@@ -49,9 +42,11 @@ popd
 
 Live2D Cubism SDK for Nativeを取得してください。
 
+GDCubismが使用しているSDKバージョンは**Cubism 5 SDK for Native R1 beta1**となります。
+
 ダウンロードしたファイルはthirdparty/CubismSdkForNativeに展開してください。
 
-コピー後は以下のような配置になるはずです。
+展開すると以下のような配置になるはずです。
 
 [source]
 ----
@@ -59,8 +54,9 @@ Live2D Cubism SDK for Nativeを取得してください。
     /CubismNativeFramework
         /Core
             /dll
-            /include
-            /lib
+            ...
+        /Framework
+            /build
             ...
 ----
 

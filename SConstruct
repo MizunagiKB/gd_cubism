@@ -32,9 +32,9 @@ else:
 sources = glob("src/*.cpp")
 sources += glob("src/private/*.cpp")
 
-env.Append(CPPPATH=["thirdparty/CubismNativeFramework/src"])
+env.Append(CPPPATH=["thirdparty/CubismSdkForNative/Framework/src"])
 
-sources_cubism = glob("thirdparty/CubismNativeFramework/src/*.cpp")
+sources_cubism = glob("thirdparty/CubismSdkForNative/Framework/src/*.cpp")
 
 for dirname in (
     "Effect",
@@ -48,7 +48,7 @@ for dirname in (
     "Utils",
 ):
     sources_cubism += glob(
-        "thirdparty/CubismNativeFramework/src/{:s}/*.cpp".format(dirname)
+        "thirdparty/CubismSdkForNative/Framework/src/{:s}/*.cpp".format(dirname)
     )
 
 sources += sources_cubism
