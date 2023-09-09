@@ -126,6 +126,8 @@ public:
     Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }
     void set_shader_mix(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_MIX, shader); }
     Ref<Shader> get_shader_mix() const { return this->get_shader(GD_CUBISM_SHADER_NORM_MIX); }
+    void set_shader_mask(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK, shader); }
+    Ref<Shader> get_shader_mask() const { return this->get_shader(GD_CUBISM_SHADER_MASK); }
     void set_shader_mask_mix(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MIX, shader); }
     Ref<Shader> get_shader_mask_mix() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MIX); }
     void set_shader_mask_mix_inv(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MUL_INV, shader); }
@@ -142,6 +144,8 @@ public:
 
     bool _set(const StringName &p_name, const Variant &p_value);
     bool _get(const StringName &p_name, Variant &r_ret) const;
+    bool _property_can_revert(const StringName &p_name) const;
+    bool _property_get_revert(const StringName &p_name, Variant &r_property) const;
     void _get_property_list(List<godot::PropertyInfo> *p_list);
 
     void _ready() override;
