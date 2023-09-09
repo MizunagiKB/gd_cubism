@@ -14,11 +14,16 @@
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
+void _recurisive_dispose_node(const Node* parent_node, const bool node_release);
+
+
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
 InternalCubismRendererResource::InternalCubismRendererResource(GDCubismUserModel *owner_viewport, Node *parent_node)
     : _owner_viewport(owner_viewport)
     , _parent_node(parent_node)
+    , sub_viewport_counter(0)
+    , mesh_instance_counter(0)
 {
     ResourceLoader* res_loader = memnew(ResourceLoader);
 
@@ -49,15 +54,59 @@ InternalCubismRendererResource::~InternalCubismRendererResource() {
 }
 
 
+SubViewport* InternalCubismRendererResource::request_viewport() {
+    const Csm::csmInt32 counter = this->sub_viewport_counter++;
+
+    if(counter < this->ary_sub_viewport.size()) {
+        return Object::cast_to<SubViewport>(this->ary_sub_viewport[counter]);
+    } else {
+        SubViewport* node = memnew(SubViewport);
+        this->ary_sub_viewport.append(node);
+        return node;
+    }
+};
+
+
+MeshInstance2D* InternalCubismRendererResource::request_mesh_instance() {
+    const Csm::csmInt32 counter = this->mesh_instance_counter++;
+
+    if(counter < this->ary_mesh_instance.size()) {
+        return Object::cast_to<MeshInstance2D>(this->ary_mesh_instance[counter]);
+    } else {
+        MeshInstance2D* node = memnew(MeshInstance2D);
+        this->ary_mesh_instance.append(node);
+        return node;
+    }
+}
+
+
 void InternalCubismRendererResource::pro_proc(const Csm::csmInt32 viewport_count, const Csm::csmInt32 mesh_instance_count) {
-    this->dispose_node();
+    this->dispose_node(false);
+    this->sub_viewport_counter = 0;
+    this->mesh_instance_counter = 0;
 }
 
 
 void InternalCubismRendererResource::epi_proc() {}
 
 
-void _recurisive_dispose_node(const Node* parent_node) {
+void InternalCubismRendererResource::dispose_node(const bool node_release) {
+    _recurisive_dispose_node(this->_parent_node, node_release);
+}
+
+
+void InternalCubismRendererResource::clear() {
+
+    this->dispose_node(true);
+
+    this->ary_texture.clear();
+    this->ary_sub_viewport.clear();
+    this->ary_mesh_instance.clear();
+}
+
+
+// ------------------------------------------------------------------ method(s)
+void _recurisive_dispose_node(const Node* parent_node, const bool node_release) {
 
     TypedArray<Node> ary_node = parent_node->get_children();
 
@@ -70,23 +119,10 @@ void _recurisive_dispose_node(const Node* parent_node) {
 
         Node* node = Object::cast_to<Node>(ary_node[i]);
         if(node != nullptr) {
-            _recurisive_dispose_node(node);
+            _recurisive_dispose_node(node, node_release);
             if(node->get_parent() != nullptr) node->get_parent()->remove_child(node);
-            node->queue_free();
+            if(node_release == true) node->queue_free();
         }
     }
 }
 
-void InternalCubismRendererResource::dispose_node() {
-    _recurisive_dispose_node(this->_parent_node);
-}
-
-
-void InternalCubismRendererResource::clear() {
-
-    this->dispose_node();
-    this->ary_texture.clear();
-}
-
-
-// ------------------------------------------------------------------ method(s)
