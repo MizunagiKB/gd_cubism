@@ -16,26 +16,85 @@
 
 == 使用方法
 
-Addonが正常に読み込まれていれば、ノード追加時やオブジェクトの作成時に _GDCubismUserModel_ が使用できる様になります。
+link:BUILD.adoc[BUILD]が正常に完了したら、demo/addonsフォルダにある、gd_cubismフォルダを利用したいプロジェクトのaddonsにコピーしてください。
 
-このノードは _SubViewport_ の機能を持ったノードとして作成されており、Live2D モデルを読み込んで _ViewportTexture_ を生成します。
+Godot Engine がGDCubism GDExtensionを正常に読み込めていれば、新たに以下のノードが使用できるようになります。
 
-画面に表示させるには、取り出したテクスチャを _Sprite2D_ に貼り付けて使用します。
+[cols="2",frame=ends,grid=rows]
+|===
+>|GDCubismEffect |規定クラスです。 +
+※このクラスは直接使用しません。
+>|GDCubismEffectBreath |Live2Dモデルに呼吸動作をさせたい時にGDCubismUserModelの子要素にしてください。
+>|GDCubismEffectEyeBlink |Live2Dモデルに目パチをさせたい時にGDCubismUserModelの子要素にしてください。
+>|GDCubismUserModel |Live2Dモデルを読み込んでGodot Engine上で取り扱えるようにするためのクラスです。
+|===
+
+さらに関連クラスととして以下のものが追加されます。
+
+[cols="2",frame=ends,grid=rows]
+|===
+>|GDCubismMotionEntry |（作成中）
+>|GDCubismMotionQueueEntryHandle |（作成中）
+>|GDCubismValueAbs |規定クラスです。 +
+※このクラスは直接使用しません。
+>|GDCubismParameter |Live2Dモデルを操作するためのクラスです。
+>|GDCubismPartOpacity |Live2Dモデルのパーツ透明度を操作するためのクラスです。
+|===
 
 
 === 簡単な使い方
 
-NOTE: 作成中
+Live2Dモデルを読み込んで _Sprite2D_ で表示を行う方法について説明します。
+
+
+==== ノードの配置
+
+以下の図を参考にしながら同じ様にノードを配置してください。
+
+image::res/images/usage_simple_01.png[fig01,256]
+
+
+==== Live2Dモデルの読込
+
+ノード一覧から _GDCubismUserModel_ を選択して、Assets項目の右にあるファイル選択ボタンを押してください。 +
+ファイル選択ダイアログが表示されますので、そこから任意の *.model3.json ファイルを選択します。
+
+image::res/images/usage_simple_02.png[fig02,256]
+
+
+==== プレビュー画面にLive2Dモデルが表示されているのを確認
+
+Live2Dモデルが正しく読み込まれましたら、プレビュー画面にLive2Dモデルが表示されます。
+
+image::res/images/usage_simple_03.png[fig03,256]
+
+
+==== スプライトにLive2Dモデルを表示
+
+次に _Sprite2D_ ノードを選択して、Texture項目を開きます。 +
+一覧から ```New ViewportTexture``` を選択すると _Viewport_ を選択するダイアログが表示されますので、 _GDCubismUserModel_ を選択します。
+
+image::res/images/usage_simple_04.png[fig04,256]
+
+Texture欄にLive2Dモデルが表示されます。
+
+image::res/images/usage_simple_05.png[fig05,256]
+
+_Sprite2D_ の位置にもLive2Dモデルが表示されます。
+
+image::res/images/usage_simple_06.png[fig06,512]
 
 
 === GDScriptから使用する場合
 
 [source,gdscript]
 --
-var usermodel = GDCubismUserModel.new()
-var character_node = Node2D.new()
-usermodel.assets = "res://character.model3.json"
-character_node.texture = gd_cubism_user_node = usermodel.get_texture()
+var character = Sprite2D.new()
+var model = GDCubismUserModel.new()
+model.assets = "res://character.model3.json"
+character.texture = model.get_texture()
+character.add_child(model)
+add_child(character)
 --
 
 
