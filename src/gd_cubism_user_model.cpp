@@ -80,12 +80,15 @@ void GDCubismUserModel::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("set_shader_mix"), &GDCubismUserModel::set_shader_mix);
 	ClassDB::bind_method(D_METHOD("get_shader_mix"), &GDCubismUserModel::get_shader_mix);
+	ClassDB::bind_method(D_METHOD("set_shader_mask"), &GDCubismUserModel::set_shader_mask);
+	ClassDB::bind_method(D_METHOD("get_shader_mask"), &GDCubismUserModel::get_shader_mask);
 	ClassDB::bind_method(D_METHOD("set_shader_mask_mix"), &GDCubismUserModel::set_shader_mask_mix);
 	ClassDB::bind_method(D_METHOD("get_shader_mask_mix"), &GDCubismUserModel::get_shader_mask_mix);
 	ClassDB::bind_method(D_METHOD("set_shader_mask_mix_inv"), &GDCubismUserModel::set_shader_mask_mix_inv);
 	ClassDB::bind_method(D_METHOD("get_shader_mask_mix_inv"), &GDCubismUserModel::get_shader_mask_mix_inv);
-    ADD_GROUP("Shader", "shader_");
+    ADD_GROUP("Shader", "");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mix", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mix", "get_shader_mix");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask", "get_shader_mask");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mix", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mix", "get_shader_mask_mix");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mix_inv", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mix_inv", "get_shader_mask_mix_inv");
 
@@ -477,32 +480,18 @@ bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
     Csm::CubismModel *model = this->internal_model->GetModel();
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
-        Csm::csmChar name[1024];
+        const String name(model->GetParameterId(index)->GetString().GetRawString());
 
-        snprintf(
-            name,
-            sizeof(name),
-            "%s",
-            model->GetParameterId(index)->GetString().GetRawString()
-        );
-
-        if(p_name == String(name)) {
+        if(p_name == name) {
             model->SetParameterValue(index, p_value);
             return true;
         }
     }
 
     for(Csm::csmInt32 index = 0; index < model->GetPartCount(); index++) {
-        Csm::csmChar name[1024];
+        const String name(model->GetPartId(index)->GetString().GetRawString());
 
-        snprintf(
-            name,
-            sizeof(name),
-            "%s",
-            model->GetPartId(index)->GetString().GetRawString()
-        );
-
-        if(p_name == String(name)) {
+        if(p_name == name) {
             model->SetPartOpacity(index, p_value);
             return true;
         }
@@ -517,33 +506,50 @@ bool GDCubismUserModel::_get(const StringName &p_name, Variant &r_ret) const {
     Csm::CubismModel *model = this->internal_model->GetModel();
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
-        Csm::csmChar name[1024];
+        const String name(model->GetParameterId(index)->GetString().GetRawString());
 
-        snprintf(
-            name,
-            sizeof(name),
-            "%s",
-            model->GetParameterId(index)->GetString().GetRawString()
-        );
-
-        if(p_name == String(name)) {
+        if(p_name == name) {
             r_ret = model->GetParameterValue(index);
             return true;
         }
     }
 
     for(Csm::csmInt32 index = 0; index < model->GetPartCount(); index++) {
-        Csm::csmChar name[1024];
+        const String name(model->GetPartId(index)->GetString().GetRawString());
 
-        snprintf(
-            name,
-            sizeof(name),
-            "%s",
-            model->GetPartId(index)->GetString().GetRawString()
-        );
-
-        if(p_name == String(name)) {
+        if(p_name == name) {
             r_ret = model->GetPartOpacity(index);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+bool GDCubismUserModel::_property_can_revert(const StringName &p_name) const {
+    if(this->is_initialized() == false) return false;
+    Csm::CubismModel *model = this->internal_model->GetModel();
+
+    for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
+        const String name(model->GetParameterId(index)->GetString().GetRawString());
+
+        if(p_name == name) return true;
+    }
+
+    return false;
+}
+
+
+bool GDCubismUserModel::_property_get_revert(const StringName &p_name, Variant &r_property) const {
+    if(this->is_initialized() == false) return false;
+    Csm::CubismModel *model = this->internal_model->GetModel();
+
+    for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
+        const String name(model->GetParameterId(index)->GetString().GetRawString());
+
+        if(p_name == name) {
+            r_property = model->GetParameterDefaultValue(index);
             return true;
         }
     }
