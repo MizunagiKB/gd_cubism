@@ -22,7 +22,7 @@ Godot Engine がGDCubism GDExtensionを正常に読み込めていれば、新�
 
 [cols="2",frame=ends,grid=rows]
 |===
->|GDCubismEffect |規定クラスです。 +
+>|GDCubismEffect |基底クラスです。 +
 ※このクラスは直接使用しません。
 >|GDCubismEffectBreath |Live2Dモデルに呼吸動作をさせたい時にGDCubismUserModelの子要素にしてください。
 >|GDCubismEffectEyeBlink |Live2Dモデルに目パチをさせたい時にGDCubismUserModelの子要素にしてください。
@@ -35,7 +35,7 @@ Godot Engine がGDCubism GDExtensionを正常に読み込めていれば、新�
 |===
 >|GDCubismMotionEntry |（作成中）
 >|GDCubismMotionQueueEntryHandle |（作成中）
->|GDCubismValueAbs |規定クラスです。 +
+>|GDCubismValueAbs |基底クラスです。 +
 ※このクラスは直接使用しません。
 >|GDCubismParameter |Live2Dモデルを操作するためのクラスです。
 >|GDCubismPartOpacity |Live2Dモデルのパーツ透明度を操作するためのクラスです。
