@@ -51,7 +51,7 @@ GDCubismが使用しているSDKバージョンは**Cubism 5 SDK for Native R1 b
 [source]
 ----
 ./thirdparty
-    /CubismNativeFramework
+    /CubismSdkForNative
         /Core
             /dll
             ...
