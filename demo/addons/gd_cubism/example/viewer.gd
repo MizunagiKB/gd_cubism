@@ -87,4 +87,4 @@ func _on_item_list_motion_item_selected(index):
 
 func _on_item_list_expression_item_selected(index):
     var expression_id = $UI/ItemListExpression.get_item_text(index)
-    cubism_model.set_expression(expression_id)
+    cubism_model.start_expression(expression_id)
