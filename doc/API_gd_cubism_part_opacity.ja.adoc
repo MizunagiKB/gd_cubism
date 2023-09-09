@@ -17,4 +17,7 @@
 == API Reference
 
 
+=== class: GDCubismPartOpacity
+
+
 NOTE: 作成中

@@ -4,42 +4,41 @@
 :author: MizunagiKB
 :toc: left
 :toclevels: 3
-:stylesdir: res/theme/css
-:stylesheet: adoc-basic.css
-:source-highlighter: highlight.js
-:highlightjsdir: res/theme/css
-:highlightjs-theme: github-dark-custom
+:source-highlighter: rouge
+:highlightjs-languages: gdscript
 :icons: font
 :experimental:
 :stem:
 
 
 == 使用方法
-
-link:BUILD.adoc[BUILD]が正常に完了したら、demo/addonsフォルダにある、gd_cubismフォルダを利用したいプロジェクトのaddonsにコピーしてください。
+GDExtensionのビルドが正常に完了したら、demo/addonsフォルダにある、gd_cubismフォルダを利用したいプロジェクトのaddonsにコピーしてください。a
 
 Godot Engine がGDCubism GDExtensionを正常に読み込めていれば、新たに以下のノードが使用できるようになります。
 
-[cols="2",frame=ends,grid=rows]
-|===
->|GDCubismEffect |基底クラスです。 +
+GDCubismEffect::
+基底クラスです。 +
 ※このクラスは直接使用しません。
->|GDCubismEffectBreath |Live2Dモデルに呼吸動作をさせたい時にGDCubismUserModelの子要素にしてください。
->|GDCubismEffectEyeBlink |Live2Dモデルに目パチをさせたい時にGDCubismUserModelの子要素にしてください。
->|GDCubismUserModel |Live2Dモデルを読み込んでGodot Engine上で取り扱えるようにするためのクラスです。
-|===
+GDCubismEffectBreath::
+Live2Dモデルに呼吸動作をさせたい時にGDCubismUserModelの子要素にしてください。
+GDCubismEffectEyeBlink::
+Live2Dモデルに目パチをさせたい時にGDCubismUserModelの子要素にしてください。
+GDCubismUserModel::
+Live2Dモデルを読み込んでGodot Engine上で取り扱えるようにするためのクラスです。
 
 さらに関連クラスととして以下のものが追加されます。
 
-[cols="2",frame=ends,grid=rows]
-|===
->|GDCubismMotionEntry |（作成中）
->|GDCubismMotionQueueEntryHandle |（作成中）
->|GDCubismValueAbs |基底クラスです。 +
+GDCubismMotionEntry::
+（作成中）
+GDCubismMotionQueueEntryHandle::
+（作成中）
+GDCubismValueAbs::
+基底クラスです。 +
 ※このクラスは直接使用しません。
->|GDCubismParameter |Live2Dモデルを操作するためのクラスです。
->|GDCubismPartOpacity |Live2Dモデルのパーツ透明度を操作するためのクラスです。
-|===
+GDCubismParameter::
+Live2Dモデルを操作するためのクラスです。
+GDCubismPartOpacity::
+Live2Dモデルのパーツ透明度を操作するためのクラスです。
 
 
 === 簡単な使い方
@@ -87,18 +86,21 @@ image::res/images/usage_simple_06.png[fig06,512]
 
 === GDScriptから使用する場合
 
-[source,gdscript]
---
+.sample.gd
+[source, python, linenum]
+----
 var character = Sprite2D.new()
 var model = GDCubismUserModel.new()
 model.assets = "res://character.model3.json"
 character.texture = model.get_texture()
 character.add_child(model)
 add_child(character)
---
+----
 
 
 == API Reference
+
+それぞれのクラスの詳細な使用方法は以下のリンク先のドキュメントを参照してください。
 
 * Object
 ** Node

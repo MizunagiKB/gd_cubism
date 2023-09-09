@@ -17,4 +17,7 @@
 == API Reference
 
 
+=== class: GDCubismValueAbs
+
+
 NOTE: 作成中

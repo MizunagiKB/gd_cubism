@@ -17,4 +17,7 @@
 == API Reference
 
 
+=== class: GDCubismEffect
+
+
 NOTE: 作成中

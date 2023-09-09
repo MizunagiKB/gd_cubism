@@ -17,13 +17,9 @@
 == API Reference
 
 
-[.text-center]
-.
-
-
 === class: GDCubismUserModel
 
-Live2Dモデルを読み込み、描画や操作を行うための _SubVieport_ 継承クラスです。
+Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり操作を行うための _SubVieport_ 継承クラスです。
 
 
 ==== Properties
@@ -57,9 +53,10 @@ Live2Dモデルを読み込み、描画や操作を行うための _SubVieport_ 
 >|Dictionary <|get_motions()
 >|Array <|get_parameter()
 >|Array <|get_part_opacity()
->|void <|set_expression(expression_id: String)
+>|void <|start_expression(expression_id: String)
 >|GDCubismMotionQueueEntryHandle <|start_motion(group: String, no: int, priority: Priority)
->|void <|stop_all_motions()
+>|void <|stop_expression()
+>|void <|stop_motion()
 |===
 
 
@@ -99,9 +96,9 @@ enum ParameterMode::
 
 * FULL_PARAMETER = 0 +
 <<id-method-start_motion,_start_motion_>> 関数で指定した _Motion_ を再生する時に指定します。 +
-この指定がされているときは link:API_gd_cubism_parameter.ja.adoc[GDCubismParameter] による操作は行えません。
+この指定がされているときは link:API_gd_cubism_parameter.ja.adoc[_GDCubismParameter_] による操作は行えません。
 * NONE_PARAMETER = 1 +
-<<id-method-start_motion,_get_parameter_>> 関数で取得した link:API_gd_cubism_parameter.ja.adoc[GDCubismParameter] を使用して、Live2Dモデルを操作する場合に指定します。 +
+<<id-method-start_motion,_get_parameter_>> 関数で取得した link:API_gd_cubism_parameter.ja.adoc[_GDCubismParameter_] を使用して、Live2Dモデルを操作する場合に指定します。 +
 この指定がされているときは <<id-method-start_motion,_start_motion_>> 関数でモーション再生は行えません。
 
 
@@ -186,7 +183,7 @@ moc3FileFormatVersion csm_get_latest_moc_version()::
 
 
 [[id-method-csm_get_moc_version]]
-Dictionary csm_get_version()::
+Dictionary csm_get_moc_version()::
 
 
 [[id-method-csm_get_version]]
@@ -224,7 +221,7 @@ Array get_cubism_motion_queue_entries()::
 Array get_expressions()::
 現在保持しているLive2Dモデルから _Expression_ 一覧を戻します。
 +
-取得した情報は _set_expression_ 関数の引数として使用できます。
+取得した情報は _start_expression_ 関数の引数として使用できます。
 
 
 [[id-method-get_hit_areas]]
@@ -248,7 +245,7 @@ Array get_part_opacity()::
 
 
 [[id-method-start_expression]]
-void set_expression(expression_id: String)::
+void start_expression(expression_id: String)::
 指定した _expression_id_ を再生します。
 
 
@@ -263,5 +260,5 @@ void stop_expression()::
 
 
 [[id-method-stop_motion]]
-void stop_motions()::
+void stop_motion()::
 現在再生中の _Motion_ を停止します。
