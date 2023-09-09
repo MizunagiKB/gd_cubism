@@ -34,28 +34,28 @@ public:
     InternalCubismRendererResource(GDCubismUserModel *owner_viewport, Node *parent_node);
     ~InternalCubismRendererResource();
 
+    SubViewport* request_viewport();
+    MeshInstance2D* request_mesh_instance();
+
     void pro_proc(const Csm::csmInt32 viewport_count, const Csm::csmInt32 mesh_instance_count);
     void epi_proc();
 
-    void dispose_node();
+    void dispose_node(const bool node_release);
     void clear();
 
     // Shader
     Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }
 
-    SubViewport* request_viewport() {
-        return memnew(SubViewport);
-    };
-    MeshInstance2D* request_mesh_instance() {
-        return memnew(MeshInstance2D);
-    }
-
 public:
-    GDCubismUserModel *_owner_viewport = nullptr;
-    Node *_parent_node = nullptr;
+    const GDCubismUserModel *_owner_viewport;
+    Node *_parent_node;
 
     Array ary_texture;
     Array ary_shader;
+    Csm::csmInt32 sub_viewport_counter;
+    TypedArray<SubViewport> ary_sub_viewport;
+    Csm::csmInt32 mesh_instance_counter;
+    TypedArray<MeshInstance2D> ary_mesh_instance;
 };
 
 
