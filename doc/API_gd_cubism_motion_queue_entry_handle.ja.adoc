@@ -37,7 +37,6 @@ _GDCubismUserModel_ の _start_motion_ 関数、 _start_random_motion_ 関数の
 ==== Enumerations
 
 enum HandleError::
-
 * OK = 0 +
 成功
 * FAILED = 1 +

@@ -42,10 +42,9 @@ _GDCubismUserModel_ の _get_parameter_ 関数で戻される _Array_ に含ま�
 
 
 ==== Enumerations
-enum  Type:
-
-- NORMAL = 0
-- BLEND_SHAPE = 1
+enum Type::
+* NORMAL = 0
+* BLEND_SHAPE = 1
 
 
 ==== Property Descriptions
