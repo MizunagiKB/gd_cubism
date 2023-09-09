@@ -12,7 +12,7 @@
 
 
 == 使用方法
-GDExtensionのビルドが正常に完了したら、demo/addonsフォルダにある、gd_cubismフォルダを利用したいプロジェクトのaddonsにコピーしてください。a
+GDExtensionのビルドが正常に完了したら、demo/addonsフォルダにある、gd_cubismフォルダを利用したいプロジェクトのaddonsにコピーしてください。
 
 Godot Engine がGDCubism GDExtensionを正常に読み込めていれば、新たに以下のノードが使用できるようになります。
 
