@@ -127,7 +127,7 @@ scons platform=macos target=template_release
 * libgd_cubism.macos.release.framework
 
 
-== Linux
+=== Linux
 
 [NOTE]
 ====
