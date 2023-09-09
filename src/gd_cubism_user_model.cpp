@@ -93,11 +93,12 @@ void GDCubismUserModel::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_motions"), &GDCubismUserModel::get_motions);
 	ClassDB::bind_method(D_METHOD("start_motion", "group", "no", "priority"), &GDCubismUserModel::start_motion);
 	ClassDB::bind_method(D_METHOD("get_cubism_motion_queue_entries"), &GDCubismUserModel::get_cubism_motion_queue_entries);
-	ClassDB::bind_method(D_METHOD("stop_all_motions"), &GDCubismUserModel::stop_all_motions);
+	ClassDB::bind_method(D_METHOD("stop_motion"), &GDCubismUserModel::stop_motion);
 
     // CubismExpression
 	ClassDB::bind_method(D_METHOD("get_expressions"), &GDCubismUserModel::get_expressions);
-	ClassDB::bind_method(D_METHOD("set_expression", "expression_id"), &GDCubismUserModel::set_expression);
+	ClassDB::bind_method(D_METHOD("start_expression", "expression_id"), &GDCubismUserModel::start_expression);
+	ClassDB::bind_method(D_METHOD("stop_expression"), &GDCubismUserModel::stop_expression);
 
     // HitArea
 	ClassDB::bind_method(D_METHOD("get_hit_areas"), &GDCubismUserModel::get_hit_areas);
@@ -340,10 +341,10 @@ Array GDCubismUserModel::get_cubism_motion_queue_entries() const {
 }
 
 
-void GDCubismUserModel::stop_all_motions() {
+void GDCubismUserModel::stop_motion() {
     if(this->is_initialized() == false) return;
 
-    this->internal_model->stop();
+    this->internal_model->motion_stop();
 }
 
 
@@ -363,7 +364,7 @@ Array GDCubismUserModel::get_expressions() const {
 }
 
 
-void GDCubismUserModel::set_expression(const String str_expression_id) {
+void GDCubismUserModel::start_expression(const String str_expression_id) {
     Csm::csmChar expression_id[MAX_EXPRESSION_NAME_LENGTH];
 
     if(this->is_initialized() == false) return;
@@ -373,6 +374,13 @@ void GDCubismUserModel::set_expression(const String str_expression_id) {
     ::memcpy(expression_id, buffer.ptr(), buffer.size());
 
     this->internal_model->expression_set(expression_id);
+}
+
+
+void GDCubismUserModel::stop_expression() {
+    if(this->is_initialized() == false) return;
+
+    this->internal_model->expression_stop();
 }
 
 

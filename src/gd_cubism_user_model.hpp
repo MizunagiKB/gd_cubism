@@ -111,10 +111,11 @@ public:
     Dictionary get_motions() const;
     Ref<GDCubismMotionQueueEntryHandle> start_motion(const String str_group, Csm::csmInt32 no, Priority priority);
     Array get_cubism_motion_queue_entries() const;
-    void stop_all_motions();
+    void stop_motion();
 
     Array get_expressions() const;
-    void set_expression(const String expression_id);
+    void start_expression(const String expression_id);
+    void stop_expression();
 
     Array get_hit_areas() const;
 
