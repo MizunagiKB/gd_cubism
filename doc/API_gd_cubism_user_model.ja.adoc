@@ -62,13 +62,23 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 
 ==== Signals
 
-- motion_event(value: String)
+motion_event(value: String)::
+_Motion_ に埋め込まれたイベントを受け取ります。
+
+.Example
+[source,gdscript]
+----
+func _on_motion_event(value: String):
+    print(value)
+
+func _ready():
+    $GDCubismUserModel.motion_event.connect(_on_motion_event)
+----
 
 
 ==== Enumerations
 
 enum moc3FileFormatVersion::
-
 * CSM_MOC_VERSION_UNKNOWN = 0 +
 不明または読み込み失敗
 * CSM_MOC_VERSION_30 = 1 +
@@ -85,7 +95,6 @@ moc3 file version 5.0.00以上
 
 [[id-enum-priority]]
 enum Priority::
-
 * PRIORITY_NONE = 0
 * PRIORITY_IDLE = 1
 * PRIORITY_NORMAL = 2
@@ -93,7 +102,6 @@ enum Priority::
 
 
 enum ParameterMode::
-
 * FULL_PARAMETER = 0 +
 <<id-method-start_motion,_start_motion_>> 関数で指定した _Motion_ を再生する時に指定します。 +
 この指定がされているときは link:API_gd_cubism_parameter.ja.adoc[_GDCubismParameter_] による操作は行えません。
@@ -103,7 +111,6 @@ enum ParameterMode::
 
 
 enum MotionProcessCallback::
-
 * PHYSICS = 0 +
 アニメーションの更新処理を __physics_process_ 関数内で行います。物理シミュレーションとインタラクションさせたい時に使用します。
 * IDLE = 1 +
@@ -155,9 +162,6 @@ Shader shader_mix::
 [[id-property-speed_scale]]
 floats speed_scale [default: 1.0]::
 現在保持しているLive2Dモデルの再生速度を指定します。
-
-
-<<<
 
 
 [.text-center]
