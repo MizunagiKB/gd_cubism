@@ -48,7 +48,7 @@ character_node.texture = gd_cubism_user_node = usermodel.get_texture()
 **** link:API_gd_cubism_effect_eye_blink.ja.adoc[GDCubismEffectEyeBlink]
 *** Viewport
 **** SubViewport
-***** link:API_gd_cubism_usre_model.ja.adoc[GDCubismUserModel]
+***** link:API_gd_cubism_user_model.ja.adoc[GDCubismUserModel]
 ** RefCounted
 *** Resource
 **** link:API_gd_cubism_motion_entry.ja.adoc[GDCubismMotionEntry]
