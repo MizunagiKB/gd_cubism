@@ -39,10 +39,10 @@ const static bool DEFAULT_PROP_ANIM_LOOP = false;
 const static bool DEFAULT_PROP_ANIM_LOOP_FADE_IN = true;
 
 const static char* PROP_ANIM_GROUP = "Animation";
-const static char* PROP_ANIM_EXPRESSION = "AnimExpression";
-const static char* PROP_ANIM_MOTION = "AnimMotion";
-const static char* PROP_ANIM_LOOP = "AnimLoop";
-const static char* PROP_ANIM_LOOP_FADE_IN = "AnimLoopFadeIn";
+const static char* PROP_ANIM_EXPRESSION = "anim_expression";
+const static char* PROP_ANIM_MOTION = "anim_motion";
+const static char* PROP_ANIM_LOOP = "anim_loop";
+const static char* PROP_ANIM_LOOP_FADE_IN = "anim_loop_fade_in";
 
 
 // ------------------------------------------------------------------ static(s)

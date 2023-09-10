@@ -247,6 +247,8 @@ void GDCubismUserModel::clear() {
         CSM_DELETE(this->internal_model);
         this->internal_model = nullptr;
     }
+
+    this->notify_property_list_changed();
 }
 
 
