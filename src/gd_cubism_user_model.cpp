@@ -687,7 +687,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP_FADE_IN));
 
     // Property - Parameter
-    p_list->push_back(PropertyInfo(Variant::STRING, "Parameter", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
+    p_list->push_back(PropertyInfo(Variant::STRING, PROP_PARAMETER_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
     for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++) {
         Ref<GDCubismParameter> param = this->ary_parameter[index];
@@ -708,7 +708,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     }
 
     // Property - PartOpacity
-    p_list->push_back(PropertyInfo(Variant::STRING, "PartOpacity", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
+    p_list->push_back(PropertyInfo(Variant::STRING, PROP_PART_OPACITY_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++) {
         Ref<GDCubismPartOpacity> param = this->ary_part_opacity[index];

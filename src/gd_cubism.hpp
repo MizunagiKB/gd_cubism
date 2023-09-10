@@ -43,6 +43,8 @@ const static char* PROP_ANIM_EXPRESSION = "anim_expression";
 const static char* PROP_ANIM_MOTION = "anim_motion";
 const static char* PROP_ANIM_LOOP = "anim_loop";
 const static char* PROP_ANIM_LOOP_FADE_IN = "anim_loop_fade_in";
+const static char* PROP_PARAMETER_GROUP = "Parameter";
+const static char* PROP_PART_OPACITY_GROUP = "PartOpacity";
 
 
 // ------------------------------------------------------------------ static(s)
