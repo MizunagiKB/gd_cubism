@@ -2,11 +2,13 @@
 #define INTERNAL_CUBISM_PRINT
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
+
 #ifdef WINDOWS_ENABLED
 #include <stdio.h>
 #include <stdarg.h>
 #endif // WINDOWS_ENABLED
 #include <string>
+
 #include <godot_cpp/core/class_db.hpp>
 
 #include <CubismFramework.hpp>

@@ -43,8 +43,8 @@ private:
     Csm::ICubismModelSetting* _model_setting;
     Csm::csmVector<Csm::CubismIdHandle> _list_eye_blink;
     Csm::csmVector<Csm::CubismIdHandle> _list_lipsync;
-    Csm::csmMap<Csm::csmString,Csm::ACubismMotion*> _map_expression;
-    Csm::csmMap<Csm::csmString,Csm::ACubismMotion*> _map_motion;
+    Csm::csmMap<Csm::csmString,Csm::CubismExpressionMotion*> _map_expression;
+    Csm::csmMap<Csm::csmString,Csm::CubismMotion*> _map_motion;
 
 public:
     bool model_load(const String &model_pathname);
@@ -58,7 +58,7 @@ public:
     void expression_set(const char* expression_id);
     void expression_stop();
 
-    Csm::CubismMotionQueueEntryHandle motion_start(const char* group, const int32_t no, const int32_t priority);
+    Csm::CubismMotionQueueEntryHandle motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in);
     void motion_stop();
 
     virtual void MotionEventFired(const Csm::csmString& eventValue) override;

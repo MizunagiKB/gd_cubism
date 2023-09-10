@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
+
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 
@@ -212,7 +213,7 @@ void InternalCubismUserModel::clear() {
 
     {
         this->expression_stop();
-        for(csmMap<csmString,ACubismMotion*>::const_iterator i = this->_map_expression.Begin(); i != this->_map_expression.End(); i++) {
+        for(csmMap<csmString,CubismExpressionMotion*>::const_iterator i = this->_map_expression.Begin(); i != this->_map_expression.End(); i++) {
             ACubismMotion::Delete(i->Second);
         }
         this->_map_expression.Clear();
@@ -220,7 +221,7 @@ void InternalCubismUserModel::clear() {
 
     {
         this->motion_stop();
-        for(csmMap<csmString,ACubismMotion*>::const_iterator i = this->_map_motion.Begin(); i != this->_map_motion.End(); i++) {
+        for(csmMap<csmString,CubismMotion*>::const_iterator i = this->_map_motion.Begin(); i != this->_map_motion.End(); i++) {
             ACubismMotion::Delete(i->Second);
         }
         this->_map_motion.Clear();
@@ -267,7 +268,7 @@ void InternalCubismUserModel::expression_stop() {
 }
 
 
-CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* group, const int32_t no, const int32_t priority) {
+CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in) {
 
     if (priority == GDCubismUserModel::Priority::PRIORITY_FORCE) {
         this->_motionManager->SetReservePriority(priority);
@@ -277,13 +278,15 @@ CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* g
 
     csmString name = Utils::CubismString::GetFormatedString("%s_%d", group, no);
 
-    ACubismMotion* motion = this->_map_motion[name];
+    CubismMotion* motion = this->_map_motion[name];
 
     if(motion == nullptr ) return InvalidMotionQueueEntryHandleValue;
 
+    motion->IsLoop(loop);
+    motion->IsLoopFadeIn(loop_fade_in);
     motion->SetFinishedMotionHandler(GDCubismUserModel::on_motion_finished);
 
-    return _motionManager->StartMotionPriority(motion, false, priority);
+    return this->_motionManager->StartMotionPriority(motion, false, priority);
 }
 
 
@@ -312,11 +315,11 @@ void InternalCubismUserModel::expression_load() {
         );
 
         PackedByteArray buffer = FileAccess::get_file_as_bytes(expression_pathname);
-        ACubismMotion* motion = this->LoadExpression(
+        CubismExpressionMotion* motion = static_cast<CubismExpressionMotion*>(this->LoadExpression(
             buffer.ptr(),
             buffer.size(),
             this->_model_setting->GetExpressionName(i)
-        );
+        ));
 
         if(this->_map_expression[name] != nullptr) {
             ACubismMotion::Delete(this->_map_expression[name]);
@@ -391,11 +394,11 @@ void InternalCubismUserModel::motion_load() {
             );
 
             PackedByteArray buffer = FileAccess::get_file_as_bytes(motion_pathname);
-            ACubismMotion* motion = this->LoadMotion(
+            CubismMotion* motion = static_cast<CubismMotion*>(this->LoadMotion(
                 buffer.ptr(),
                 buffer.size(),
                 name.GetRawString()
-            );
+            ));
 
             csmFloat32 fade_time_sec = this->_model_setting->GetMotionFadeInTimeValue(group, im);
             if (fade_time_sec >= 0.0f) {

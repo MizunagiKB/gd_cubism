@@ -31,9 +31,18 @@ enum GDCubismShader {
 
 
 // ------------------------------------------------------------------- const(s)
-const int MAX_MOTION_NAME_LENGTH = 256;
-const int MAX_EXPRESSION_NAME_LENGTH = 256;
-const int MAX_PRINTLOG_LENGTH = 256;
+const static int MAX_MOTION_NAME_LENGTH = 256;
+const static int MAX_EXPRESSION_NAME_LENGTH = 256;
+const static int MAX_PRINTLOG_LENGTH = 256;
+
+const static bool DEFAULT_PROP_ANIM_LOOP = false;
+const static bool DEFAULT_PROP_ANIM_LOOP_FADE_IN = true;
+
+const static char* PROP_ANIM_GROUP = "Animation";
+const static char* PROP_ANIM_EXPRESSION = "AnimExpression";
+const static char* PROP_ANIM_MOTION = "AnimMotion";
+const static char* PROP_ANIM_LOOP = "AnimLoop";
+const static char* PROP_ANIM_LOOP_FADE_IN = "AnimLoopFadeIn";
 
 
 // ------------------------------------------------------------------ static(s)
