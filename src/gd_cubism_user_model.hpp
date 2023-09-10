@@ -143,9 +143,6 @@ public:
     void set_process_callback(const MotionProcessCallback value);
     GDCubismUserModel::MotionProcessCallback get_process_callback() const;
 
-    void set_motion_group_idle(const String &speed);
-    String get_motion_group_idle() const;
-
     void set_speed_scale(const float speed);
     float get_speed_scale() const;
 
@@ -187,6 +184,9 @@ public:
 
     bool check_cubism_effect_dirty() const;
     void cubism_effect_dirty_reset();
+
+    // Properties
+    void setup_property();
 
     bool _set(const StringName &p_name, const Variant &p_value);
     bool _get(const StringName &p_name, Variant &r_ret) const;
