@@ -208,6 +208,7 @@ void GDCubismUserModel::set_assets(const String assets) {
         }
     }
 
+    this->setup_property();
     this->notify_property_list_changed();
 }
 
@@ -248,6 +249,7 @@ void GDCubismUserModel::clear() {
         this->internal_model = nullptr;
     }
 
+    this->setup_property();
     this->notify_property_list_changed();
 }
 
@@ -487,6 +489,35 @@ void GDCubismUserModel::cubism_effect_dirty_reset() {
 }
 
 
+void GDCubismUserModel::setup_property() {
+    this->dict_anim_expression.Clear();
+    this->dict_anim_motion.Clear();
+
+    if(this->is_initialized() == false) return;
+    Csm::CubismModel *model = this->internal_model->GetModel();
+    Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
+
+    // Property - Expression
+    this->dict_anim_expression.Clear();
+    for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
+        const Csm::csmChar* expression_id = setting->GetExpressionName(i);
+        anim_expression anim_e(expression_id);
+
+        this->dict_anim_expression[anim_e.to_string()] = anim_e;
+    }
+
+    // Property - Motion
+    for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
+        const Csm::csmChar* group = setting->GetMotionGroupName(i);
+        for(Csm::csmInt32 no = 0; no < setting->GetMotionCount(group); no++) {
+            anim_motion anim_m(group, no);
+
+            this->dict_anim_motion[anim_m.to_string()] = anim_m;
+        }
+    }
+}
+
+
 bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
     if(this->is_initialized() == false) return false;
     Csm::CubismModel *model = this->internal_model->GetModel();
@@ -621,31 +652,23 @@ bool GDCubismUserModel::_property_get_revert(const StringName &p_name, Variant &
 void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     if(this->is_initialized() == false) return;
     Csm::CubismModel *model = this->internal_model->GetModel();
-
-
-    //
-
+    Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
+    PackedStringArray ary_enum;
 
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
-    Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
-
-    PackedStringArray ary_enum;
-
-    this->dict_anim_expression.Clear();
+    // Property - Expression
     ary_enum.clear();
     for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
         const Csm::csmChar* expression_id = setting->GetExpressionName(i);
         anim_expression anim_e(expression_id);
 
         ary_enum.append(anim_e.to_string());
-        this->dict_anim_expression[anim_e.to_string()] = anim_e;
     }
 
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_EXPRESSION, PROPERTY_HINT_ENUM, String(",").join(ary_enum)));
 
-
-    this->dict_anim_motion.Clear();
+    // Property - Motion
     ary_enum.clear();
     for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
         const Csm::csmChar* group = setting->GetMotionGroupName(i);
@@ -653,7 +676,6 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
             anim_motion anim_m(group, no);
 
             ary_enum.append(anim_m.to_string());
-            this->dict_anim_motion[anim_m.to_string()] = anim_m;
         }
     }
 
@@ -662,9 +684,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP));
     p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP_FADE_IN));
 
-    //
-
-
+    // Property - Parameter
     p_list->push_back(PropertyInfo(Variant::STRING, "Parameter", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
     for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++) {
@@ -685,6 +705,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
         p_list->push_back(pinfo);
     }
 
+    // Property - PartOpacity
     p_list->push_back(PropertyInfo(Variant::STRING, "PartOpacity", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++) {
