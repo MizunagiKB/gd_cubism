@@ -70,8 +70,8 @@ GDCubismUserModel::GDCubismUserModel()
     , auto_scale(true)
     , parameter_mode(ParameterMode::FULL_PARAMETER)
     , playback_process_mode(MotionProcessCallback::IDLE)
-    , anim_loop(DEFAULT_ANIM_LOOP)
-    , anim_loop_fade_in(DEFAULT_ANIM_LOOP_FADE_IN)
+    , anim_loop(DEFAULT_PROP_ANIM_LOOP)
+    , anim_loop_fade_in(DEFAULT_PROP_ANIM_LOOP_FADE_IN)
     , cubism_effect_dirty(false) {
 
     this->ary_shader.resize(GD_CUBISM_SHADER_MAX);
@@ -525,7 +525,7 @@ bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
     if(this->is_initialized() == false) return false;
     Csm::CubismModel *model = this->internal_model->GetModel();
 
-    if(p_name == String("AnimExpression")) {
+    if(p_name == String(PROP_ANIM_EXPRESSION)) {
         this->curr_anim_expression_key = p_value;
         if(this->dict_anim_expression.IsExist(this->curr_anim_expression_key) == true) {
             anim_expression anim_e = this->dict_anim_expression[this->curr_anim_expression_key];
@@ -535,7 +535,7 @@ bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
         return true;
     }
 
-    if(p_name == String("AnimMotion")) {
+    if(p_name == String(PROP_ANIM_MOTION)) {
         this->curr_anim_motion_key = p_value;
         if(this->dict_anim_motion.IsExist(this->curr_anim_motion_key) == true) {
             anim_motion anim_m = this->dict_anim_motion[this->curr_anim_motion_key];
@@ -551,8 +551,8 @@ bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
         return true;
     }
 
-    if(p_name == String("AnimLoop")) { this->anim_loop = p_value; return true; }
-    if(p_name == String("AnimLoopFadeIn")) { this->anim_loop_fade_in = p_value; return true; }
+    if(p_name == String(PROP_ANIM_LOOP)) { this->anim_loop = p_value; return true; }
+    if(p_name == String(PROP_ANIM_LOOP_FADE_IN)) { this->anim_loop_fade_in = p_value; return true; }
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
         const String name(model->GetParameterId(index)->GetString().GetRawString());
@@ -580,18 +580,18 @@ bool GDCubismUserModel::_get(const StringName &p_name, Variant &r_ret) const {
     if(this->is_initialized() == false) return false;
     Csm::CubismModel *model = this->internal_model->GetModel();
 
-    if(p_name == String("AnimExpression")) {
+    if(p_name == String(PROP_ANIM_EXPRESSION)) {
         r_ret = this->curr_anim_expression_key;
         return true;
     }
 
-    if(p_name == String("AnimMotion")) {
+    if(p_name == String(PROP_ANIM_MOTION)) {
         r_ret = this->curr_anim_motion_key;
         return true;
     }
 
-    if(p_name == String("AnimLoop")) { r_ret = this->anim_loop; return true; }
-    if(p_name == String("AnimLoopFadeIn")) { r_ret = this->anim_loop_fade_in; return true; }
+    if(p_name == String(PROP_ANIM_LOOP)) { r_ret = this->anim_loop; return true; }
+    if(p_name == String(PROP_ANIM_LOOP_FADE_IN)) { r_ret = this->anim_loop_fade_in; return true; }
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
         const String name(model->GetParameterId(index)->GetString().GetRawString());
@@ -619,8 +619,8 @@ bool GDCubismUserModel::_property_can_revert(const StringName &p_name) const {
     if(this->is_initialized() == false) return false;
     Csm::CubismModel *model = this->internal_model->GetModel();
 
-    if(p_name == String("AnimLoop")) return true;
-    if(p_name == String("AnimLoopFadeIn")) return true;
+    if(p_name == String(PROP_ANIM_LOOP)) return true;
+    if(p_name == String(PROP_ANIM_LOOP_FADE_IN)) return true;
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
         const String name(model->GetParameterId(index)->GetString().GetRawString());
@@ -636,8 +636,8 @@ bool GDCubismUserModel::_property_get_revert(const StringName &p_name, Variant &
     if(this->is_initialized() == false) return false;
     Csm::CubismModel *model = this->internal_model->GetModel();
 
-    if(p_name == String("AnimLoop")) { r_property = DEFAULT_ANIM_LOOP; return true; }
-    if(p_name == String("AnimLoopFadeIn")) { r_property = DEFAULT_ANIM_LOOP_FADE_IN; return true; }
+    if(p_name == String(PROP_ANIM_LOOP)) { r_property = DEFAULT_PROP_ANIM_LOOP; return true; }
+    if(p_name == String(PROP_ANIM_LOOP_FADE_IN)) { r_property = DEFAULT_PROP_ANIM_LOOP_FADE_IN; return true; }
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
         const String name(model->GetParameterId(index)->GetString().GetRawString());
@@ -660,7 +660,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     //
 
 
-    p_list->push_back(PropertyInfo(Variant::STRING, "Anim", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
+    p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
@@ -676,7 +676,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
         this->dict_anim_expression[anim_e.to_string()] = anim_e;
     }
 
-    p_list->push_back(PropertyInfo(Variant::STRING, "AnimExpression", PROPERTY_HINT_ENUM, String(",").join(ary_enum)));
+    p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_EXPRESSION, PROPERTY_HINT_ENUM, String(",").join(ary_enum)));
 
 
     this->dict_anim_motion.Clear();
@@ -691,10 +691,10 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
         }
     }
 
-    p_list->push_back(PropertyInfo(Variant::STRING, "AnimMotion", PROPERTY_HINT_ENUM, String(",").join(ary_enum)));
+    p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_MOTION, PROPERTY_HINT_ENUM, String(",").join(ary_enum)));
 
-    p_list->push_back(PropertyInfo(Variant::BOOL, "AnimLoop"));
-    p_list->push_back(PropertyInfo(Variant::BOOL, "AnimLoopFadeIn"));
+    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP));
+    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP_FADE_IN));
 
     //
 
