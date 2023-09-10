@@ -28,42 +28,6 @@ using namespace godot;
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
-struct anim_expression {
-public:
-    String expression_id;
-
-public:
-    anim_expression() {}
-    anim_expression(const Csm::csmChar* c_expression_id)
-        : expression_id(String(c_expression_id)) {}
-
-    String to_string() const {
-        return String(this->expression_id);
-    }
-};
-
-
-class anim_motion {
-public:
-    String group;
-    int32_t no;
-
-public:
-    anim_motion() {}
-    anim_motion(const Csm::csmChar* c_group, const int32_t c_no)
-        : group(String(c_group))
-        , no(c_no) {}
-
-    String to_string() const {
-        Array ary;
-        ary.append(this->group);
-        ary.append(this->no);
-
-        return String("{0}_{1}").format(ary);
-    }
-};
-
-
 GDCubismUserModel::GDCubismUserModel()
     : internal_model(nullptr)
     , speed_scale(1.0)

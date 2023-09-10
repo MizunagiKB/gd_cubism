@@ -1,8 +1,7 @@
+// ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
 #ifdef GD_CUBISM_USE_RENDERER_2D
 
-
-// ----------------------------------------------------------------- include(s)
 #include <godot_cpp/classes/shader_material.hpp>
 #include <godot_cpp/classes/viewport_texture.hpp>
 
