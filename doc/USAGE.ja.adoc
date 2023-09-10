@@ -22,7 +22,7 @@ GDCubismEffect::
 GDCubismEffectBreath::
 Live2Dモデルに呼吸動作をさせたい時にGDCubismUserModelの子要素にしてください。
 GDCubismEffectEyeBlink::
-Live2Dモデルに目パチをさせたい時にGDCubismUserModelの子要素にしてください。
+Live2Dモデルに目パチ動作をさせたい時にGDCubismUserModelの子要素にしてください。
 GDCubismUserModel::
 Live2Dモデルを読み込んでGodot Engine上で取り扱えるようにするためのクラスです。
 
