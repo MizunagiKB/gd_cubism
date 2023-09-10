@@ -35,6 +35,8 @@ const int MAX_MOTION_NAME_LENGTH = 256;
 const int MAX_EXPRESSION_NAME_LENGTH = 256;
 const int MAX_PRINTLOG_LENGTH = 256;
 
+const bool DEFAULT_ANIM_LOOP = false;
+const bool DEFAULT_ANIM_LOOP_FADE_IN = true;
 
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)

@@ -25,6 +25,8 @@
 // ----------------------------------------------------------- class:forward(s)
 class InternalCubismUserModel;
 class GDCubismEffect;
+class anim_expression;
+class anim_motion;
 
 
 // ------------------------------------------------------------------- class(s)
@@ -74,6 +76,13 @@ public:
     Array ary_parameter;
     Array ary_part_opacity;
 
+    Csm::csmBool anim_loop;
+    Csm::csmBool anim_loop_fade_in;
+    Csm::csmMap<String,anim_expression> dict_anim_expression;
+    String curr_anim_expression_key;
+    Csm::csmMap<String,anim_motion> dict_anim_motion;
+    String curr_anim_motion_key;
+
     Csm::csmVector<GDCubismEffect*> _list_cubism_effect;
     bool cubism_effect_dirty;
 
@@ -109,7 +118,8 @@ public:
     bool get_auto_scale() const;
 
     Dictionary get_motions() const;
-    Ref<GDCubismMotionQueueEntryHandle> start_motion(const String str_group, Csm::csmInt32 no, Priority priority);
+    Ref<GDCubismMotionQueueEntryHandle> start_motion(const String str_group, const int32_t no, const Priority priority);
+    Ref<GDCubismMotionQueueEntryHandle> start_motion_loop(const String str_group, const int32_t no, const Priority priority, const bool loop, const bool loop_fade_in);
     Array get_cubism_motion_queue_entries() const;
     void stop_motion();
 
