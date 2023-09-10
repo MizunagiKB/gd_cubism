@@ -117,8 +117,8 @@ popd
 
 [source,zsh]
 --
-scons platform=macos target=template_debug
-scons platform=macos target=template_release
+scons platform=macos arch=universal target=template_debug
+scons platform=macos arch=universal target=template_release
 --
 
 ビルドが完了すると以下のファイルがdemo/addons/gd_cubism/bin以下に生成されます。
