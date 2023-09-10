@@ -406,14 +406,16 @@ Array GDCubismUserModel::get_hit_areas() const {
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
-    Array ary_hitarea;
+    Array ary_hit_area;
 
     for(Csm::csmInt32 i = 0; i < setting->GetHitAreasCount(); i++) {
-        const Csm::csmChar* name = setting->GetHitAreaName(i);
-        ary_hitarea.append(String(name));
+        Dictionary dict_hit_area;
+        dict_hit_area["id"] = String(setting->GetHitAreaId(i)->GetString().GetRawString());
+        dict_hit_area["name"] = String(setting->GetHitAreaName(i));
+        ary_hit_area.append(dict_hit_area);
     }
 
-    return ary_hitarea;
+    return ary_hit_area;
 }
 
 
