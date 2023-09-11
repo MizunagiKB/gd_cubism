@@ -9,6 +9,7 @@
 #include <CubismDefaultParameterId.hpp>
 #include <Id/CubismIdManager.hpp>
 
+#include <private/internal_cubism_user_model.hpp>
 #include <gd_cubism_effect.hpp>
 
 
@@ -35,7 +36,8 @@ private:
     Csm::CubismBreath* _breath = nullptr;
 
 public:
-    virtual void _cubism_init(Csm::ICubismModelSetting* _model_setting) override {
+    virtual void _cubism_init(InternalCubismUserModel* model) override {
+        Csm::ICubismModelSetting* _model_setting = model->_model_setting;
         this->_breath = Csm::CubismBreath::Create();
 
         Csm::csmVector<Csm::CubismBreath::BreathParameterData> param;
@@ -49,17 +51,17 @@ public:
         this->_breath->SetParameters(param);
     }
 
-    virtual void _cubism_term() override {
+    virtual void _cubism_term(InternalCubismUserModel* model) override {
         if(this->_breath != nullptr) {
             Csm::CubismBreath::Delete(this->_breath);
             this->_breath = nullptr;
         }
     }
 
-    virtual void _cubism_process(Csm::CubismModel* model, const float delta) override {
+    virtual void _cubism_process(InternalCubismUserModel* model, const float delta) override {
         if(this->_breath == nullptr) return;
         if(this->_active == false) return;
-        this->_breath->UpdateParameters(model, delta);
+        this->_breath->UpdateParameters(model->GetModel(), delta);
     }
 };
 

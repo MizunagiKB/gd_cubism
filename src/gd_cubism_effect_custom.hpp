@@ -1,5 +1,5 @@
-#ifndef GD_CUBISM_EFFECT_BLINK
-#define GD_CUBISM_EFFECT_BLINK
+#ifndef GD_CUBISM_EFFECT_CUSTOM
+#define GD_CUBISM_EFFECT_CUSTOM
 
 
 // ----------------------------------------------------------------- include(s)
@@ -19,36 +19,25 @@ using namespace godot;
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
 // ------------------------------------------------------------------ method(s)
-class GDCubismEffectEyeBlink : public GDCubismEffect {
-    GDCLASS(GDCubismEffectEyeBlink, GDCubismEffect);
+class GDCubismEffectCustom : public GDCubismEffect {
+    GDCLASS(GDCubismEffectCustom, GDCubismEffect);
 
 protected:
     static void _bind_methods() {}
 
-private:
-    Csm::CubismEyeBlink* _eye_blink = nullptr;
-
 public:
     virtual void _cubism_init(InternalCubismUserModel* model) override {
-        Csm::ICubismModelSetting* _model_setting = model->_model_setting;
-        if(_model_setting->GetEyeBlinkParameterCount() == 0) return;
-        this->_eye_blink = Csm::CubismEyeBlink::Create(_model_setting);
+        call("_cubism_init", model->_owner_viewport);
     }
 
     virtual void _cubism_term(InternalCubismUserModel* model) override {
-        if(this->_eye_blink != nullptr) {
-            Csm::CubismEyeBlink::Delete(this->_eye_blink);
-            this->_eye_blink = nullptr;
-        }
+        call("_cubism_term", model->_owner_viewport);
     }
 
     virtual void _cubism_process(InternalCubismUserModel* model, const float delta) override {
-        if(this->_eye_blink == nullptr) return;
-        if(this->_active == false) return;
-
-        this->_eye_blink->UpdateParameters(model->GetModel(), delta);
+        call("_cubism_process", model->_owner_viewport, delta);
     }
 };
 
 
-#endif // GD_CUBISM_EFFECT_BLINK
+#endif // GD_CUBISM_EFFECT_CUSTOM

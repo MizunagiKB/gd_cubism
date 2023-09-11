@@ -165,13 +165,7 @@ void InternalCubismUserModel::update(const float delta) {
         this->_owner_viewport->cubism_effect_dirty_reset();
     }
 
-    for(
-        Csm::csmVector<GDCubismEffect*>::iterator i = this->_owner_viewport->_list_cubism_effect.Begin();
-        i != this->_owner_viewport->_list_cubism_effect.End();
-        i++
-    ) {
-        (*i)->_cubism_process(this->_model, delta);
-    }
+    this->effect_process(delta);
 
     if(this->_expressionManager != nullptr) {
         this->_expressionManager->UpdateMotion(this->_model, delta);
@@ -428,7 +422,7 @@ void InternalCubismUserModel::effect_init() {
         i != this->_owner_viewport->_list_cubism_effect.End();
         i++
     ) {
-        (*i)->_cubism_init(this->_model_setting);
+        (*i)->_cubism_init(this);
     }
 }
 
@@ -439,9 +433,20 @@ void InternalCubismUserModel::effect_term() {
         i != this->_owner_viewport->_list_cubism_effect.End();
         i++
     ) {
-        (*i)->_cubism_term();
+        (*i)->_cubism_term(this);
     }
 }
 
+
+
+void InternalCubismUserModel::effect_process(const float delta) {
+    for(
+        Csm::csmVector<GDCubismEffect*>::iterator i = this->_owner_viewport->_list_cubism_effect.Begin();
+        i != this->_owner_viewport->_list_cubism_effect.End();
+        i++
+    ) {
+        (*i)->_cubism_process(this, delta);
+    }
+}
 
 // ------------------------------------------------------------------ method(s)
