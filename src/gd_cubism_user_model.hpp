@@ -161,8 +161,8 @@ public:
 
     Array get_hit_areas() const;
 
-    Array get_parameter() const;
-    Array get_part_opacity() const;
+    Array get_parameters() const;
+    Array get_part_opacities() const;
 
     void set_shader(const GDCubismShader e, Ref<Shader> shader) { this->ary_shader[e] = shader; }
     Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }

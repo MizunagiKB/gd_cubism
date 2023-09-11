@@ -110,10 +110,10 @@ void GDCubismUserModel::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_hit_areas"), &GDCubismUserModel::get_hit_areas);
 
     // Parameter
-	ClassDB::bind_method(D_METHOD("get_parameter"), &GDCubismUserModel::get_parameter);
+	ClassDB::bind_method(D_METHOD("get_parameters"), &GDCubismUserModel::get_parameters);
 
     // PartOpacity
-	ClassDB::bind_method(D_METHOD("get_part_opacity"), &GDCubismUserModel::get_part_opacity);
+	ClassDB::bind_method(D_METHOD("get_part_opacities"), &GDCubismUserModel::get_part_opacities);
 
 	ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
 
@@ -419,14 +419,14 @@ Array GDCubismUserModel::get_hit_areas() const {
 }
 
 
-Array GDCubismUserModel::get_parameter() const {
+Array GDCubismUserModel::get_parameters() const {
     if(this->is_initialized() == false) return Array();
 
     return this->ary_parameter;
 }
 
 
-Array GDCubismUserModel::get_part_opacity() const {
+Array GDCubismUserModel::get_part_opacities() const {
     if(this->is_initialized() == false) return Array();
 
     return this->ary_part_opacity;
