@@ -266,3 +266,4 @@ void stop_expression()::
 [[id-method-stop_motion]]
 void stop_motion()::
 現在再生中の _Motion_ を停止します。
+
