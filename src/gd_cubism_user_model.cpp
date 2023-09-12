@@ -446,11 +446,14 @@ void GDCubismUserModel::on_motion_finished(Csm::ACubismMotion* motion) {
 
 
 void GDCubismUserModel::_update(const float delta) {
-    if(this->parameter_mode == NONE_PARAMETER) {
-        for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++ ) {
-            Ref<GDCubismParameter> param = this->ary_parameter[index];
-            if(param.is_null() != true) param->set_raw_value();
-        }
+
+    this->internal_model->pro_update(delta * this->speed_scale);
+
+    this->internal_model->efx_update(delta * this->speed_scale);
+
+    for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++ ) {
+        Ref<GDCubismParameter> param = this->ary_parameter[index];
+        if(param.is_null() != true) param->set_raw_value();
     }
 
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++ ) {
@@ -458,7 +461,8 @@ void GDCubismUserModel::_update(const float delta) {
         if(param.is_null() != true) param->set_raw_value();
     }
 
-    this->internal_model->update(delta * this->speed_scale);
+    this->internal_model->epi_update(delta * this->speed_scale);
+
     this->internal_model->update_node();
 
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++ ) {

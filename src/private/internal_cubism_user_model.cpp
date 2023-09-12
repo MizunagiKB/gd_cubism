@@ -146,7 +146,7 @@ void InternalCubismUserModel::model_load_resource()
 }
 
 
-void InternalCubismUserModel::update(const float delta) {
+void InternalCubismUserModel::pro_update(const float delta) {
     if(this->IsInitialized() == false) return;
     if(this->_model_setting == nullptr) return;
     if(this->_model == nullptr) return;
@@ -157,7 +157,18 @@ void InternalCubismUserModel::update(const float delta) {
         this->_model->SaveParameters();
     }
 
+    if(this->_expressionManager != nullptr) {
+        this->_expressionManager->UpdateMotion(this->_model, delta);
+    }
+
     this->_model->GetModelOpacity();
+}
+
+
+void InternalCubismUserModel::efx_update(const float delta) {
+    if(this->IsInitialized() == false) return;
+    if(this->_model_setting == nullptr) return;
+    if(this->_model == nullptr) return;
 
     if(this->_owner_viewport->check_cubism_effect_dirty() == true) {
         this->effect_term();
@@ -166,10 +177,13 @@ void InternalCubismUserModel::update(const float delta) {
     }
 
     this->effect_process(delta);
+}
 
-    if(this->_expressionManager != nullptr) {
-        this->_expressionManager->UpdateMotion(this->_model, delta);
-    }
+
+void InternalCubismUserModel::epi_update(const float delta) {
+    if(this->IsInitialized() == false) return;
+    if(this->_model_setting == nullptr) return;
+    if(this->_model == nullptr) return;
 
     if(this->_physics != nullptr) { this->_physics->Evaluate(this->_model, delta); }
     if(this->_pose != nullptr) { this->_pose->UpdateParameters(this->_model, delta); }

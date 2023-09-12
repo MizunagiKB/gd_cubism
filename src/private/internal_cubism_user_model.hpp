@@ -54,7 +54,9 @@ private:
 public:
     bool model_load(const String &model_pathname);
     void model_load_resource();
-    void update(const float delta);
+    void pro_update(const float delta);
+    void efx_update(const float delta);
+    void epi_update(const float delta);
     void update_node();
     void clear();
 
