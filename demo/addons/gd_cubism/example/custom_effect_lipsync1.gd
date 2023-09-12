@@ -37,7 +37,10 @@ func _cubism_init(model: GDCubismUserModel):
             if param.id == map[0]:
                 dict_mouth[map[1]] = param
 
-    lipsync_ready = true
+    if spectrum == null:
+        lipsync_ready = false
+    else:
+        lipsync_ready = true
 
 
 func _cubism_term(model: GDCubismUserModel):

@@ -20,10 +20,10 @@ var dict_mouth: Dictionary
 var ary_formant_history: Array
 var history_pos: int = 0
 
-var f1_hz: float
-var f1_v: float
-var f2_hz: float
-var f2_v: float
+var f1_hz: float = 0.0
+var f1_v: float = 0.0
+var f2_hz: float = 0.0
+var f2_v: float = 0.0
 var result: String
 var lipsync_ready: bool = false
 
@@ -68,7 +68,7 @@ func formant(f1: float, f2: float) -> String:
     return result
 
 
-func formant_calc():
+func calc():
     if lipsync_ready == false:
         return
 
@@ -126,7 +126,10 @@ func _cubism_init(model: GDCubismUserModel):
             ary_history.append(0.0)
         ary_formant_history.append(ary_history)
 
-    lipsync_ready = true
+    if spectrum == null:
+        lipsync_ready = false
+    else:
+        lipsync_ready = true
 
 
 func _cubism_term(model: GDCubismUserModel):
@@ -135,7 +138,7 @@ func _cubism_term(model: GDCubismUserModel):
 
 func _cubism_process(model: GDCubismUserModel, delta: float):
 
-    formant_calc()
+    calc()
 
     for k in dict_mouth.keys():
         dict_mouth[k].value = max(dict_mouth[k].value - 0.2, 0.0)
