@@ -1,28 +1,32 @@
-= Cubism for GDScript
-:lang: ja
-:doctype: book
+= API Reference
 :author: MizunagiKB
-:toc: left
+:doctype: book
+:toc:
 :toclevels: 3
-:stylesdir: res/theme/css
-:stylesheet: adoc-basic.css
+:lang: ja
+:encoding: utf-8
+:stylesdir: ./res/theme/css
+:stylesheet: adoc-golo.css
 :source-highlighter: highlight.js
-:highlightjsdir: res/theme/css
-:highlightjs-theme: github-dark-custom
-:icons: font
 :experimental:
-:stem:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 
 
-== API Reference
-
-
-=== class: GDCubismParameter
+== class: GDCubismParameter
 
 _GDCubismUserModel_ の _get_parameter_ 関数で戻される _Array_ に含まれる要素。
 
 
-==== Properties
+=== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -34,23 +38,23 @@ _GDCubismUserModel_ の _get_parameter_ 関数で戻される _Array_ に含ま�
 |===
 
 
-==== Methods
+=== Methods
 [cols="2",frame=none,grid=none]
 |===
 >|void <|reset()
 |===
 
 
-==== Enumerations
+=== Enumerations
 enum Type::
 * NORMAL = 0
 * BLEND_SHAPE = 1
 
 
-==== Property Descriptions
+=== Property Descriptions
 
 
-==== Method Descriptions
+=== Method Descriptions
 
 [[id-method-reset]]
 void reset()::

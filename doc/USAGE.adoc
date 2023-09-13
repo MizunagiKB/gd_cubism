@@ -1,14 +1,24 @@
 = Cubism for GDScript
-:lang: ja
-:doctype: book
 :author: MizunagiKB
-:toc: left
+:doctype: book
+:toc:
 :toclevels: 3
-:source-highlighter: rouge
-:highlightjs-languages: gdscript
-:icons: font
+:lang: ja
+:encoding: utf-8
+:stylesdir: ./res/theme/css
+:stylesheet: adoc-golo.css
+:source-highlighter: highlight.js
 :experimental:
-:stem:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 
 
 == 使用方法
@@ -87,7 +97,7 @@ image::res/images/usage_simple_06.png[fig06,512]
 === GDScriptから使用する場合
 
 .sample.gd
-[source, python, linenum]
+[source, gdscript, linenum]
 ----
 var character = Sprite2D.new()
 var model = GDCubismUserModel.new()

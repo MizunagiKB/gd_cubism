@@ -1,23 +1,27 @@
-= Cubism for GDScript
-:lang: ja
-:doctype: book
+= API Reference
 :author: MizunagiKB
-:toc: left
+:doctype: book
+:toc:
 :toclevels: 3
-:stylesdir: res/theme/css
-:stylesheet: adoc-basic.css
+:lang: ja
+:encoding: utf-8
+:stylesdir: ./res/theme/css
+:stylesheet: adoc-golo.css
 :source-highlighter: highlight.js
-:highlightjsdir: res/theme/css
-:highlightjs-theme: github-dark-custom
-:icons: font
 :experimental:
-:stem:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 
 
-== API Reference
-
-
-=== class: GDCubismMotionQueueEntryHandle
+== class: GDCubismMotionQueueEntryHandle
 
 
 NOTE: 作成中
@@ -26,7 +30,7 @@ NOTE: 作成中
 _GDCubismUserModel_ の _start_motion_ 関数、 _start_random_motion_ 関数の戻り値。
 
 
-==== Properties
+=== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -34,7 +38,7 @@ _GDCubismUserModel_ の _start_motion_ 関数、 _start_random_motion_ 関数の
 |===
 
 
-==== Enumerations
+=== Enumerations
 
 enum HandleError::
 * OK = 0 +
@@ -43,7 +47,7 @@ enum HandleError::
 失敗
 
 
-==== Property Descriptions
+=== Property Descriptions
 
 * HandleError error [default: 1] +
 get_error() getter +

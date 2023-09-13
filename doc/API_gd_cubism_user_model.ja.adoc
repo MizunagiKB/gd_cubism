@@ -1,28 +1,32 @@
-= Cubism for GDScript
-:lang: ja
-:doctype: book
+= API Reference
 :author: MizunagiKB
-:toc: left
+:doctype: book
+:toc:
 :toclevels: 3
-:stylesdir: res/theme/css
-:stylesheet: adoc-basic.css
+:lang: ja
+:encoding: utf-8
+:stylesdir: ./res/theme/css
+:stylesheet: adoc-golo.css
 :source-highlighter: highlight.js
-:highlightjsdir: res/theme/css
-:highlightjs-theme: github-dark-custom
-:icons: font
 :experimental:
-:stem:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 
 
-== API Reference
-
-
-=== class: GDCubismUserModel
+== class: GDCubismUserModel
 
 Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり操作を行うための _SubVieport_ 継承クラスです。
 
 
-==== Properties
+=== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -37,7 +41,7 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 |===
 
 
-==== Methods
+=== Methods
 
 [cols="2",frame=none,grid=none]
 |===
@@ -60,7 +64,7 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 |===
 
 
-==== Signals
+=== Signals
 
 motion_event(value: String)::
 _Motion_ に埋め込まれたイベントを受け取ります。
@@ -76,7 +80,7 @@ func _ready():
 ----
 
 
-==== Enumerations
+=== Enumerations
 
 enum moc3FileFormatVersion::
 * CSM_MOC_VERSION_UNKNOWN = 0 +
@@ -119,7 +123,7 @@ enum MotionProcessCallback::
 アニメーションの更新処理を行いません。アニメーションを処理するには <<id-method-advance,_advance_>> 関数を使用します。
 
 
-==== Property Descriptions
+=== Property Descriptions
 
 [[id-property-assets]]
 String assets [default: ""]::
