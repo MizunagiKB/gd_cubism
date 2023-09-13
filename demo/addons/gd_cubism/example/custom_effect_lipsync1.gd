@@ -1,41 +1,49 @@
-extends GDCubismEffect
-class_name GDCubismCustomEffectLipSync1
+extends GDCubismEffectCustom
 
 
-const MIN_DB: float = 60
-const MIN_VOICE_HZ: int = 0
-const MAX_VOICE_HZ: int = 3600
-const ary_map: Array = [
-    ["ParamMouthA", "a"]
-]
-const HISTORY_SIZE: int = 10
+@export var param_mouth_name: String = "ParamMouthA"
+@export var min_db: float = 60.0
+@export var min_voice_freq: int = 0
+@export var max_voice_freq: int = 3200
+@export var history_size: int = 6
+
+@export_category("Audio")
+@export var audio_bus_name: String = "Voice"
+@export var audio_efx_index: int = 0
 
 var spectrum: AudioEffectSpectrumAnalyzerInstance
-var dict_mouth: Dictionary
-var ary_formant_history: Array
-var result: String
+var param_mouth: GDCubismParameter
+var ary_volume_history: Array
+var history_position: int = 0
 var lipsync_ready: bool = false
 
 
-class AvgValue:
-    var v: float
-    var hz: float
+func array_rebuild():
+    if history_size != ary_volume_history.size():
+        ary_volume_history.resize(history_size)
+        ary_volume_history.fill(0.0)
 
-    func _init(v: float, hz: float):
-        self.v = v
-        self.hz = hz
+
+func array_avg() -> float:
+    var sum_v: float = 0.0
+    for v in ary_volume_history:
+        sum_v += v
+    return sum_v / ary_volume_history.size()
 
 
 func _cubism_init(model: GDCubismUserModel):
-    dict_mouth.clear()
-    ary_formant_history.clear()
+    param_mouth = null
+    ary_volume_history.clear()
+    history_position = 0
 
     var ary_param = model.get_parameters()
 
     for param in ary_param:
-        for map in ary_map:
-            if param.id == map[0]:
-                dict_mouth[map[1]] = param
+        if param.id == param_mouth_name:
+            param_mouth = param
+
+    var bus_index = AudioServer.get_bus_index(audio_bus_name)
+    spectrum = AudioServer.get_bus_effect_instance(bus_index, audio_efx_index)
 
     if spectrum == null:
         lipsync_ready = false
@@ -45,25 +53,32 @@ func _cubism_init(model: GDCubismUserModel):
 
 func _cubism_term(model: GDCubismUserModel):
     lipsync_ready = false
+    param_mouth = null
+    ary_volume_history.clear()
+    history_position = 0
 
 
 func _cubism_process(model: GDCubismUserModel, delta: float):
-
     if lipsync_ready == false:
         return
 
-    var m: float = spectrum.get_magnitude_for_frequency_range(MIN_VOICE_HZ, MAX_VOICE_HZ).length()
-    var v = clamp((MIN_DB + linear_to_db(m)) / MIN_DB, 0.0, 1.0)
+    array_rebuild()
 
+    var m: float = spectrum.get_magnitude_for_frequency_range(
+        min_voice_freq,
+        max_voice_freq
+    ).length()
+    var v = clamp((min_db + linear_to_db(m)) / min_db, 0.0, 1.0)
 
-    if (v) < 0.1:
-        result = ""
-    else:
-        result = "a"
+    ary_volume_history[history_position] = v
+    history_position += 1
 
-    if dict_mouth.has(result) == true:
-        dict_mouth[result].value = 1.0
+    if history_position >= ary_volume_history.size():
+        history_position = 0
 
-    for k in dict_mouth.keys():
-        dict_mouth[k].value = max(dict_mouth[k].value - 0.2, 0.0)
+    var avg_v: float = array_avg()
 
+    if param_mouth != null:
+        param_mouth.value = max(param_mouth.value - 0.2, 0.0)
+        if avg_v > 0.1:
+            param_mouth.value = 1.0

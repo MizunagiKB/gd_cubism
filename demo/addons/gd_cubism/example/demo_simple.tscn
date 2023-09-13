@@ -7,7 +7,6 @@ position = Vector2(512, 512)
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
 disable_3d = true
-own_world_3d = true
 transparent_bg = true
 gui_disable_input = true
 size = Vector2i(1024, 1024)
