@@ -663,6 +663,9 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
+    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP));
+    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP_FADE_IN));
+
     // Property - Expression
     ary_enum.clear();
     for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
@@ -686,9 +689,6 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     }
 
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_MOTION, PROPERTY_HINT_ENUM, String(",").join(ary_enum)));
-
-    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP));
-    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP_FADE_IN));
 
     // Property - Parameter
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_PARAMETER_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
@@ -741,9 +741,11 @@ void GDCubismUserModel::_ready() {
 
     this->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
     this->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
+    // 無指定の場合はEditorとExport時で動作が異なる。
     this->set_update_mode(SubViewport::UpdateMode::UPDATE_ALWAYS);
     this->set_disable_input(true);
-    this->set_use_own_world_3d(true);
+    // true にするとメモリリークが発生する。
+    this->set_use_own_world_3d(false);
     this->set_transparent_background(true);
 }
 

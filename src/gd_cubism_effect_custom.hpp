@@ -6,6 +6,7 @@
 #include <gd_cubism.hpp>
 
 #include <gd_cubism_effect.hpp>
+#include <private/internal_cubism_user_model.hpp>
 
 
 // ------------------------------------------------------------------ define(s)
