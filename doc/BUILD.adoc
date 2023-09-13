@@ -53,7 +53,7 @@ Live2D Cubism SDK for Nativeを取得してください。
 
 GDCubismが使用しているSDKバージョンは**Cubism 5 SDK for Native R1 beta1**となります。
 
-ダウンロードしたファイルはthirdparty/CubismSdkForNativeに展開してください。
+ダウンロードしたファイルは _thirdparty/CubismSdkForNative_ に展開してください。
 
 展開すると以下のような配置になるはずです。
 
@@ -93,7 +93,7 @@ scons platform=windows arch=x86_64 target=template_debug
 scons platform=windows arch=x86_64 target=template_release
 --
 
-ビルドが完了すると以下のファイルがdemo/addons/gd_cubism/bin以下に生成されます。
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
 
 * libgd_cubism.windows.debug.x86_64.dll
 * libgd_cubism.windows.release.x86_64.dll
@@ -130,7 +130,7 @@ scons platform=macos arch=universal target=template_debug
 scons platform=macos arch=universal target=template_release
 --
 
-ビルドが完了すると以下のファイルがdemo/addons/gd_cubism/bin以下に生成されます。
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
 
 * libgd_cubism.macos.debug.framework
 * libgd_cubism.macos.release.framework
@@ -161,7 +161,7 @@ scons platform=linux target=template_debug
 scons platform=linux target=template_release
 --
 
-ビルドが完了すると以下のファイルがdemo/addons/gd_cubism/bin以下に生成されます。
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
 
 * libgd_cubism.linux.debug.x86_64.so
 * libgd_cubism.linux.release.x86_64.so
