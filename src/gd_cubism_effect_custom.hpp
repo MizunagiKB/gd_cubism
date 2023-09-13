@@ -36,6 +36,7 @@ public:
     }
 
     virtual void _cubism_process(InternalCubismUserModel* model, const float delta) override {
+        if(this->_active == false) return;
         call("_cubism_process", model->_owner_viewport, delta);
     }
 };

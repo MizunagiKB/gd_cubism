@@ -23,5 +23,13 @@ endif::[]
 
 == class: GDCubismEffectBreath
 
+link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の子要素として配置することで、呼吸アニメーションを行います。
 
-NOTE: 作成中
+
+=== Properties
+=== Methods
+=== Signals
+=== Enumerations
+=== Constants
+=== Property Descriptions
+=== Method Descriptions

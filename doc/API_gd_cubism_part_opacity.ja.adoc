@@ -23,5 +23,14 @@ endif::[]
 
 == class: GDCubismPartOpacity
 
+link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _get_part_opacities_ 関数で戻される _Array_ に含まれる要素。
 
-NOTE: 作成中
+このクラスの _value_ に値を書き込むことで、Live2Dモデルのパーツ透明度を書き換えることができます。
+
+
+=== Methods
+=== Signals
+=== Enumerations
+=== Constants
+=== Property Descriptions
+=== Method Descriptions

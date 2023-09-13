@@ -24,4 +24,23 @@ endif::[]
 == class: GDCubismEffect
 
 
-NOTE: 作成中
+=== Properties
+
+[cols="3",frame=none,grid=none]
+|===
+>|bool <|active |[default: true]
+|===
+
+
+=== Methods
+=== Signals
+=== Enumerations
+=== Constants
+=== Property Descriptions
+
+bool active::
+この値が _true_ の時、 __cubism_process_ 関数が呼び出されます。
+
+
+=== Method Descriptions
+

@@ -24,4 +24,10 @@ endif::[]
 == class: GDCubismMotionQueueEntry
 
 
-NOTE: 作成中
+=== Properties
+=== Methods
+=== Signals
+=== Enumerations
+=== Constants
+=== Property Descriptions
+=== Method Descriptions

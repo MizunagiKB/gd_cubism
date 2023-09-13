@@ -24,4 +24,13 @@ endif::[]
 == class: GDCubismEffectEyeBlink
 
 
-NOTE: 作成中
+link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の子要素として配置することで、瞬きアニメーションを行います。
+
+
+=== Properties
+=== Methods
+=== Signals
+=== Enumerations
+=== Constants
+=== Property Descriptions
+=== Method Descriptions
