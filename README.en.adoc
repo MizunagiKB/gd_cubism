@@ -26,34 +26,29 @@ link:README.adoc[Japanese] / link:README.en.adoc[English]
 
 == About GDCubism
 
-このソフトウェア（以下GDCubism）はlink:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]をGDScript（Godot Engine 4.1）から呼び出せるようにするための**非公式**なGDExtensionです。
+This software (GDCubism) is an **unofficial** GDExtension that allows link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK] to be called from GDScript (Godot Engine 4.1).
 
-GDCubism内部ではLive2D社が公開しているlink:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework]を併用しています。
+GDCubism uses Live2D's link:https://github.com/Live2D/CubismNativeFramework [Cubism Native Framework].
 
-このソフトウェアについて開発元のLive2D社に問い合わせない様お願い致します。
-
-
-=== ライセンスについて
-
-* link:LICENSE.adoc[]を参照してください。
+Please do not contact the developer Live2D about this software.
 
 
-=== ビルド方法
+=== About LICENSE
 
-* link:doc/BUILD.adoc[]を参照してください。
-
-
-=== 使用方法
-
-* link:doc/USAGE.adoc[]を参照してください。
+* link:LICENSE.adoc[]
 
 
-=== 既知の不具合
+=== How to build
 
-* link:doc/PROBLEM.adoc[]を参照してください。
+* link:doc/BUILD.adoc[]
 
 
-=== 関連情報
+=== Usage
+
+* link:doc/USAGE.adoc[]
+
+
+=== Ralated link
 
 * link:https://www.live2d.com/[Live2D Cubism]
 * link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]
