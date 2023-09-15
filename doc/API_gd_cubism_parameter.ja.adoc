@@ -1,56 +1,74 @@
-= Cubism for GDScript
-:lang: ja
-:doctype: book
+= API Reference
 :author: MizunagiKB
-:toc: left
+:doctype: book
+:toc:
 :toclevels: 3
-:stylesdir: res/theme/css
-:stylesheet: adoc-basic.css
+:lang: ja
+:encoding: utf-8
+:stylesdir: ./res/theme/css
+:stylesheet: adoc-golo.css
 :source-highlighter: highlight.js
-:highlightjsdir: res/theme/css
-:highlightjs-theme: github-dark-custom
-:icons: font
 :experimental:
-:stem:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 
 
-== API Reference
+== class: GDCubismParameter
+
+link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _get_parameters_ 関数で戻される _Array_ に含まれる要素。
+
+このクラスの _value_ に値を書き込むことで、Live2Dモデルの parameter を書き換えることができます。
 
 
-=== class: GDCubismParameter
-
-_GDCubismUserModel_ の _get_parameter_ 関数で戻される _Array_ に含まれる要素。
-
-
-==== Properties
+=== Properties
 
 [cols="3",frame=none,grid=none]
 |===
 >|float <|default_value |[default: 0.0]
->|String <|id |[default: ""]
 >|float <|maximum_value |[default: 0.0]
 >|float <|minimum_value |[default: 0.0]
->|float <|value |[default: 0.0]
 |===
 
 
-==== Methods
+=== Methods
 [cols="2",frame=none,grid=none]
 |===
 >|void <|reset()
 |===
 
 
-==== Enumerations
+=== Enumerations
 enum Type::
 * NORMAL = 0
 * BLEND_SHAPE = 1
 
 
-==== Property Descriptions
+=== Property Descriptions
+
+[[id-property-default_value]]
+float default_value [default: 0.0]::
+このクラスが保持する parameter の初期値。
 
 
-==== Method Descriptions
+[[id-property-maximum_value]]
+float maximum_value [default: 0.0]::
+このクラスが保持する parameter に設定可能な最大値。
+
+
+[[id-property-minimum_value]]
+float minimum_value [default: 0.0]::
+このクラスが保持する parameter に設定可能な最小値。
+
+
+=== Method Descriptions
 
 [[id-method-reset]]
 void reset()::

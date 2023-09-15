@@ -1,0 +1,109 @@
+= Cubism for GDScript
+:author: MizunagiKB
+:doctype: book
+:toc:
+:toclevels: 3
+:lang: ja
+:encoding: utf-8
+:stylesdir: ./res/theme/css
+:stylesheet: adoc-golo.css
+:source-highlighter: highlight.js
+:experimental:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+
+
+link:USAGE.adoc[日本語] / link:USAGE.en.adoc[English]
+
+
+== How to use
+
+After the GDExtension build completes successfully, copy it to the addons of the project you want to use gd_cubism folder in the demo/addons folder.
+
+
+=== Easy to use (from Editor)
+
+Describes how to import a Live2D model and view it in _Sprite2D_.
+
+
+==== Layout
+
+Please arrange the nodes in the same way while referring to the figure below.
+
+image::res/images/usage_simple_01.png[fig01,256]
+
+
+==== Loading Live2D Models
+
+Select _GDCubismUserModel_ from the node list and press the file selection button to the right of the Assets item.
+ +
+ +
+A file selection dialog will appear, from which you can select any *.model3.json file.
+
+image::res/images/usage_simple_02.png[fig02,256]
+
+
+==== Are you seeing a Live2D model?
+
+Once the Live2D model is loaded correctly, the preview screen displays the Live2D model.
+
+image::res/images/usage_simple_03.png[fig03,256]
+
+
+==== Assign to Sprite2D texture
+
+Then select the _Sprite2D_ node to open the Texture item. +
+When you select ''New ViewportTexture'' from the list, a dialog to select _Viewport_ will appear, select _GDCubismUserModel_.
+
+image::res/images/usage_simple_04.png[fig04,256]
+
+The Live2D model is displayed in the Texture field.
+
+image::res/images/usage_simple_05.png[fig05,256]
+
+The Live2D model is also displayed at the _Sprite2D_ position.
+
+image::res/images/usage_simple_06.png[fig06,512]
+
+
+=== Easy to use (from GDScript)
+
+.sample.gd
+[source, gdscript, linenum]
+----
+var character = Sprite2D.new()
+var model = GDCubismUserModel.new()
+model.assets = "res://character.model3.json"
+character.texture = model.get_texture()
+character.add_child(model)
+add_child(character)
+----
+
+
+== API Reference
+
+GDCubism provides a variety of classes. Please refer to the document linked below for how to use it.
+
+* Object
+** Node
+*** GDCubismEffect
+**** link:API_gd_cubism_effect_breath.ja.adoc[GDCubismEffectBreath]
+**** link:API_gd_cubism_effect_eye_blink.ja.adoc[GDCubismEffectEyeBlink]
+*** Viewport
+**** SubViewport
+***** link:API_gd_cubism_user_model.ja.adoc[GDCubismUserModel]
+** RefCounted
+*** Resource
+**** link:API_gd_cubism_motion_entry.ja.adoc[GDCubismMotionEntry]
+**** link:API_gd_cubism_motion_queue_entry_handle.ja.adoc[GDCubismMotionQueueEntryHandle]
+**** GDCubismValueAds
+***** link:API_gd_cubism_parameter.ja.adoc[GDCubismParameter]
+***** link:API_gd_cubism_part_opaciry.ja.adoc[GDCubismPartOpacity]

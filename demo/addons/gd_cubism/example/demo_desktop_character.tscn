@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://7hglgm6o0ou4"]
+
+[ext_resource type="Script" path="res://addons/gd_cubism/example/demo_desktop_character.gd" id="1_ajpg6"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_dr0ef"]
+viewport_path = NodePath("Sprite2D/GDCubismUserModel")
+
+[node name="demo_desktop_character" type="Node2D"]
+script = ExtResource("1_ajpg6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(656, 328)
+texture = SubResource("ViewportTexture_dr0ef")
+
+[node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
+disable_3d = true
+transparent_bg = true
+gui_disable_input = true
+render_target_update_mode = 4
+
+[node name="GDCubismEffectBreath" type="GDCubismEffectBreath" parent="Sprite2D/GDCubismUserModel"]
+active = false
+
+[node name="GDCubismEffectEyeBlink" type="GDCubismEffectEyeBlink" parent="Sprite2D/GDCubismUserModel"]
+
+[node name="lbl_usage" type="Label" parent="."]
+offset_left = 960.0
+offset_top = 16.0
+offset_right = 1262.0
+offset_bottom = 128.0
+text = "TAB Key: Window transparent.
+SPACE Key: Change motion.
+0 - 9 Key: Change expression.
+
+Mouse buttn drag: Window move."
+horizontal_alignment = 2

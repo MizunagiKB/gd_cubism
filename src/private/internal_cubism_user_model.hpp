@@ -21,12 +21,17 @@
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
-class GDCubismEffect;
+class GDCubismEffectBreath;
+class GDCubismEffectEyeBlink;
+class GDCubismEffectCustom;
 
 
 // ------------------------------------------------------------------- class(s)
 class InternalCubismUserModel : public Csm::CubismUserModel {
     friend GDCubismUserModel;
+    friend GDCubismEffectBreath;
+    friend GDCubismEffectEyeBlink;
+    friend GDCubismEffectCustom;
 
 public:
     InternalCubismUserModel(GDCubismUserModel *owner_viewport, Node *parent_node);
@@ -49,7 +54,9 @@ private:
 public:
     bool model_load(const String &model_pathname);
     void model_load_resource();
-    void update(const float delta);
+    void pro_update(const float delta);
+    void efx_update(const float delta);
+    void epi_update(const float delta);
     void update_node();
     void clear();
 
@@ -72,6 +79,7 @@ private:
 
     void effect_init();
     void effect_term();
+    void effect_process(const float delta);
 };
 
 

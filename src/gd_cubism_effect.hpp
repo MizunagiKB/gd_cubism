@@ -34,9 +34,9 @@ public:
     void set_active(const bool active) { this->_active = active; }
     bool get_active() const { return this->_active; }
 
-    virtual void _cubism_init(Csm::ICubismModelSetting* _model_setting);
-    virtual void _cubism_term();
-    virtual void _cubism_process(Csm::CubismModel* model, const float delta);
+    virtual void _cubism_init(InternalCubismUserModel* model);
+    virtual void _cubism_term(InternalCubismUserModel* model);
+    virtual void _cubism_process(InternalCubismUserModel* model, const float delta);
 
     void _enter_tree() override;
     void _exit_tree() override;

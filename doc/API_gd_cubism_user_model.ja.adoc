@@ -1,35 +1,40 @@
-= Cubism for GDScript
-:lang: ja
-:doctype: book
+= API Reference
 :author: MizunagiKB
-:toc: left
+:doctype: book
+:toc:
 :toclevels: 3
-:stylesdir: res/theme/css
-:stylesheet: adoc-basic.css
+:lang: ja
+:encoding: utf-8
+:stylesdir: ./res/theme/css
+:stylesheet: adoc-golo.css
 :source-highlighter: highlight.js
-:highlightjsdir: res/theme/css
-:highlightjs-theme: github-dark-custom
-:icons: font
 :experimental:
-:stem:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 
 
-== API Reference
-
-
-=== class: GDCubismUserModel
+== class: GDCubismUserModel
 
 Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり操作を行うための _SubVieport_ 継承クラスです。
 
 
-==== Properties
+=== Properties
 
 [cols="3",frame=none,grid=none]
 |===
 >|String <|<<id-property-assets,assets>> |[default: ""]
->|bool <|<<id-property-autoscale,autoscale>> |[default: true]
+>|bool <|<<id-property-auto_scale,auto_scale>> |[default: true]
 >|ParameterMode <|<<id-property-<parameter_mode,parameter_mode>> |[default: 0]
 >|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
+>|Shader <|<<id-property-shader_mask,shader_mask>> |
 >|Shader <|<<id-property-shader_mask_mix,shader_mask_mix>> |
 >|Shader <|<<id-property-shader_mask_mix_inv,shader_mask_mix_inv>> |
 >|Shader <|<<id-property-shader_mix,shader_mix>> |
@@ -37,7 +42,7 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 |===
 
 
-==== Methods
+=== Methods
 
 [cols="2",frame=none,grid=none]
 |===
@@ -45,25 +50,26 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 >|void <|clear()
 >|moc3FileFormatVersion <|csm_get_latest_moc_version()
 >|moc3FileFormatVersion <|csm_get_moc_version()
->|Dictionary <|csm_get_version
+>|Dictionary <|csm_get_version()
 >|Dictionary <|get_canvas_info()
 >|Array <|get_cubism_motion_queue_entries()
 >|Array <|get_expressions()
 >|Array <|get_hit_areas()
 >|Dictionary <|get_motions()
->|Array <|get_parameter()
->|Array <|get_part_opacity()
+>|Array <|get_parameters()
+>|Array <|get_part_opacities()
 >|void <|start_expression(expression_id: String)
 >|GDCubismMotionQueueEntryHandle <|start_motion(group: String, no: int, priority: Priority)
+>|GDCubismMotionQueueEntryHandle <|start_motion_loop(group: String, no: int, priority: Priority, loop: bool, loop_fade_in: bool)
 >|void <|stop_expression()
 >|void <|stop_motion()
 |===
 
 
-==== Signals
+=== Signals
 
 motion_event(value: String)::
-_Motion_ に埋め込まれたイベントを受け取ります。
+_Motion_ に埋め込まれたイベント時刻のタイミングで呼び出されます。
 
 .Example
 [source,gdscript]
@@ -76,8 +82,9 @@ func _ready():
 ----
 
 
-==== Enumerations
+=== Enumerations
 
+[[id-enum-moc3_file_format_version]]
 enum moc3FileFormatVersion::
 * CSM_MOC_VERSION_UNKNOWN = 0 +
 不明または読み込み失敗
@@ -98,7 +105,8 @@ enum Priority::
 * PRIORITY_NONE = 0
 * PRIORITY_IDLE = 1
 * PRIORITY_NORMAL = 2
-* PRIORITY_FORCE = 3
+* PRIORITY_FORCE = 3 +
+強制的に切り替わります。
 
 
 enum ParameterMode::
@@ -119,7 +127,7 @@ enum MotionProcessCallback::
 アニメーションの更新処理を行いません。アニメーションを処理するには <<id-method-advance,_advance_>> 関数を使用します。
 
 
-==== Property Descriptions
+=== Property Descriptions
 
 [[id-property-assets]]
 String assets [default: ""]::
@@ -131,7 +139,8 @@ String assets [default: ""]::
 [[id-property-auto_scale]]
 bool auto_scale [default: true]::
 _GDCubismUserModel_ は、自分自身に指定された _SubViewport_ サイズ内に収まる様にLive2Dモデルを描画しようとします。そのためLive2Dモデルの製作者が意図しない結果になってしまう場合があります。 +
-そういう時はこのチェックを外すことで、スケーリングなしで表示を行います。
+ +
+このチェックを外すことで、スケーリングなしで表示を行います。
 
 
 [[id-property-parameter_mode]]
@@ -144,28 +153,53 @@ MotionProcessCallback playback_process_mode [default: 1]::
 現在保持しているLive2Dモデルの再生方法を指定します。
 
 
+[[id-property-shader_mask]]
+Shader shader_mask_mix::
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source, numlines]
+----
+include::../demo/addons/gd_cubism/res/shader/2d_cubism_mask.gdshader[]
+----
+
+
 [[id-property-shader_mask_mix]]
 Shader shader_mask_mix::
-開発中
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source, numlines]
+----
+include::../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader[]
+----
 
 
 [[id-property-shader_mask_mix_inv]]
 Shader shader_mask_mix_inv::
-開発中
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source, numlines]
+----
+include::../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader[]
+----
 
 
 [[id-property-shader_mix]]
 Shader shader_mix::
-開発中
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source, numlines]
+----
+include::../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader[]
+----
 
 
 [[id-property-speed_scale]]
 floats speed_scale [default: 1.0]::
 現在保持しているLive2Dモデルの再生速度を指定します。
-
-
-[.text-center]
-.
 
 
 ==== Method Descriptions
@@ -183,11 +217,13 @@ void clear()::
 
 
 [[id-method-csm_get_latest_moc_version]]
-moc3FileFormatVersion csm_get_latest_moc_version()::
+<<id-property-moc3_file_format_version,moc3FileFormatVersion>> csm_get_latest_moc_version()::
+GDCubismUserModelが読み込める最新のファイルバージョンを戻します。
 
 
 [[id-method-csm_get_moc_version]]
-Dictionary csm_get_moc_version()::
+<<id-property-moc3_file_format_version,moc3FileFormatVersion>> csm_get_moc_version()::
+読み込まれたmoc3ファイルのバージョンを戻します。
 
 
 [[id-method-csm_get_version]]
@@ -230,12 +266,25 @@ Array get_expressions()::
 
 [[id-method-get_hit_areas]]
 Array get_hit_areas()::
-機能が不明のため未調査です。
+未実装。
 
 
 [[id-method-get_motions]]
 Dictionary get_motions()::
-現在保持しているLive2Dモデルから _Motion_ 一覧を戻します。
+現在保持しているLive2Dモデルから _Motion_ 一覧を戻します。 +
+ +
+戻される _Dictionary_ は _group_ とその中に含まれるモーション数です。
+ +
+ +
+全てのモーションを列挙する場合は、以下の様に記述します。
+
+[source, gdscript]
+----
+var dict_motion = $GDCubismUserModel.get_motions()
+for group in dict_motion.keys():
+    for no in dict_motion[group]:
+        print("group: %s, no: %d" % [group, no])
+----
 
 
 [[id-method-get_parameter]]
@@ -258,6 +307,12 @@ link:API_gd_cubism_motion_queue_entry_handle[GDCubismMotionQueueEntryHandle] sta
 指定した _group_ と _no_ の _Motion_ を再生します。
 
 
+[[id-method-start_motion_loop]]
+link:API_gd_cubism_motion_queue_entry_handle[GDCubismMotionQueueEntryHandle] start_motion_loop(group: String, no: int, priority: <<id-enum-priority,Priority>>)::
+指定した _group_ と _no_ の _Motion_ を再生します。 +
+ +
+繰り返し再生を行いたい場合に指定します。 _loop_ 引数が _false_ の場合は、 _start_motion_ 関数と同じ動作となります。
+
 [[id-method-stop_expression]]
 void stop_expression()::
 現在再生中の _Expression_ を停止します。
@@ -266,3 +321,4 @@ void stop_expression()::
 [[id-method-stop_motion]]
 void stop_motion()::
 現在再生中の _Motion_ を停止します。
+

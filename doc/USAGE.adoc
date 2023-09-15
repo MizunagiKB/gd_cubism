@@ -1,47 +1,34 @@
 = Cubism for GDScript
-:lang: ja
-:doctype: book
 :author: MizunagiKB
-:toc: left
+:doctype: book
+:toc:
 :toclevels: 3
-:source-highlighter: rouge
-:highlightjs-languages: gdscript
-:icons: font
+:lang: ja
+:encoding: utf-8
+:stylesdir: ./res/theme/css
+:stylesheet: adoc-golo.css
+:source-highlighter: highlight.js
 :experimental:
-:stem:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+
+
+link:USAGE.adoc[日本語] / link:USAGE.en.adoc[English]
 
 
 == 使用方法
 GDExtensionのビルドが正常に完了したら、demo/addonsフォルダにある、gd_cubismフォルダを利用したいプロジェクトのaddonsにコピーしてください。
 
-Godot Engine がGDCubism GDExtensionを正常に読み込めていれば、新たに以下のノードが使用できるようになります。
 
-GDCubismEffect::
-基底クラスです。 +
-※このクラスは直接使用しません。
-GDCubismEffectBreath::
-Live2Dモデルに呼吸動作をさせたい時にGDCubismUserModelの子要素にしてください。
-GDCubismEffectEyeBlink::
-Live2Dモデルに目パチをさせたい時にGDCubismUserModelの子要素にしてください。
-GDCubismUserModel::
-Live2Dモデルを読み込んでGodot Engine上で取り扱えるようにするためのクラスです。
-
-さらに関連クラスととして以下のものが追加されます。
-
-GDCubismMotionEntry::
-（作成中）
-GDCubismMotionQueueEntryHandle::
-（作成中）
-GDCubismValueAbs::
-基底クラスです。 +
-※このクラスは直接使用しません。
-GDCubismParameter::
-Live2Dモデルを操作するためのクラスです。
-GDCubismPartOpacity::
-Live2Dモデルのパーツ透明度を操作するためのクラスです。
-
-
-=== 簡単な使い方
+=== 簡単な使い方（Editorから使う場合）
 
 Live2Dモデルを読み込んで _Sprite2D_ で表示を行う方法について説明します。
 
@@ -84,10 +71,10 @@ _Sprite2D_ の位置にもLive2Dモデルが表示されます。
 image::res/images/usage_simple_06.png[fig06,512]
 
 
-=== GDScriptから使用する場合
+=== 簡単な使い方（GDScriptから使う場合）
 
 .sample.gd
-[source, python, linenum]
+[source, gdscript, linenum]
 ----
 var character = Sprite2D.new()
 var model = GDCubismUserModel.new()
@@ -100,7 +87,7 @@ add_child(character)
 
 == API Reference
 
-それぞれのクラスの詳細な使用方法は以下のリンク先のドキュメントを参照してください。
+GDCubismにはさまざまなクラスが用意されています。使用方法は以下のリンク先のドキュメントを参照してください。
 
 * Object
 ** Node

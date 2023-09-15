@@ -16,13 +16,13 @@ void GDCubismEffect::_bind_methods() {
 }
 
 
-void GDCubismEffect::_cubism_init(Csm::ICubismModelSetting* _model_setting) {}
+void GDCubismEffect::_cubism_init(InternalCubismUserModel* model) {}
 
 
-void GDCubismEffect::_cubism_term() {}
+void GDCubismEffect::_cubism_term(InternalCubismUserModel* model) {}
 
 
-void GDCubismEffect::_cubism_process(Csm::CubismModel* model, const float delta) {}
+void GDCubismEffect::_cubism_process(InternalCubismUserModel* model, const float delta) {}
 
 
 void GDCubismEffect::_enter_tree() {

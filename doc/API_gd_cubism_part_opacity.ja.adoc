@@ -1,23 +1,36 @@
-= Cubism for GDScript
-:lang: ja
-:doctype: book
+= API Reference
 :author: MizunagiKB
-:toc: left
+:doctype: book
+:toc:
 :toclevels: 3
-:stylesdir: res/theme/css
-:stylesheet: adoc-basic.css
+:lang: ja
+:encoding: utf-8
+:stylesdir: ./res/theme/css
+:stylesheet: adoc-golo.css
 :source-highlighter: highlight.js
-:highlightjsdir: res/theme/css
-:highlightjs-theme: github-dark-custom
-:icons: font
 :experimental:
-:stem:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 
 
-== API Reference
+== class: GDCubismPartOpacity
+
+link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _get_part_opacities_ 関数で戻される _Array_ に含まれる要素。
+
+このクラスの _value_ に値を書き込むことで、Live2Dモデルのパーツ透明度を書き換えることができます。
 
 
-=== class: GDCubismPartOpacity
-
-
-NOTE: 作成中
+=== Methods
+=== Signals
+=== Enumerations
+=== Constants
+=== Property Descriptions
+=== Method Descriptions

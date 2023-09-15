@@ -110,10 +110,10 @@ void GDCubismUserModel::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_hit_areas"), &GDCubismUserModel::get_hit_areas);
 
     // Parameter
-	ClassDB::bind_method(D_METHOD("get_parameter"), &GDCubismUserModel::get_parameter);
+	ClassDB::bind_method(D_METHOD("get_parameters"), &GDCubismUserModel::get_parameters);
 
     // PartOpacity
-	ClassDB::bind_method(D_METHOD("get_part_opacity"), &GDCubismUserModel::get_part_opacity);
+	ClassDB::bind_method(D_METHOD("get_part_opacities"), &GDCubismUserModel::get_part_opacities);
 
 	ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
 
@@ -419,14 +419,14 @@ Array GDCubismUserModel::get_hit_areas() const {
 }
 
 
-Array GDCubismUserModel::get_parameter() const {
+Array GDCubismUserModel::get_parameters() const {
     if(this->is_initialized() == false) return Array();
 
     return this->ary_parameter;
 }
 
 
-Array GDCubismUserModel::get_part_opacity() const {
+Array GDCubismUserModel::get_part_opacities() const {
     if(this->is_initialized() == false) return Array();
 
     return this->ary_part_opacity;
@@ -446,11 +446,14 @@ void GDCubismUserModel::on_motion_finished(Csm::ACubismMotion* motion) {
 
 
 void GDCubismUserModel::_update(const float delta) {
-    if(this->parameter_mode == NONE_PARAMETER) {
-        for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++ ) {
-            Ref<GDCubismParameter> param = this->ary_parameter[index];
-            if(param.is_null() != true) param->set_raw_value();
-        }
+
+    this->internal_model->pro_update(delta * this->speed_scale);
+
+    this->internal_model->efx_update(delta * this->speed_scale);
+
+    for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++ ) {
+        Ref<GDCubismParameter> param = this->ary_parameter[index];
+        if(param.is_null() != true) param->set_raw_value();
     }
 
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++ ) {
@@ -458,7 +461,8 @@ void GDCubismUserModel::_update(const float delta) {
         if(param.is_null() != true) param->set_raw_value();
     }
 
-    this->internal_model->update(delta * this->speed_scale);
+    this->internal_model->epi_update(delta * this->speed_scale);
+
     this->internal_model->update_node();
 
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++ ) {
@@ -659,6 +663,9 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
+    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP));
+    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP_FADE_IN));
+
     // Property - Expression
     ary_enum.clear();
     for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
@@ -683,11 +690,8 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_MOTION, PROPERTY_HINT_ENUM, String(",").join(ary_enum)));
 
-    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP));
-    p_list->push_back(PropertyInfo(Variant::BOOL, PROP_ANIM_LOOP_FADE_IN));
-
     // Property - Parameter
-    p_list->push_back(PropertyInfo(Variant::STRING, "Parameter", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
+    p_list->push_back(PropertyInfo(Variant::STRING, PROP_PARAMETER_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
     for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++) {
         Ref<GDCubismParameter> param = this->ary_parameter[index];
@@ -708,7 +712,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     }
 
     // Property - PartOpacity
-    p_list->push_back(PropertyInfo(Variant::STRING, "PartOpacity", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
+    p_list->push_back(PropertyInfo(Variant::STRING, PROP_PART_OPACITY_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++) {
         Ref<GDCubismPartOpacity> param = this->ary_part_opacity[index];
@@ -737,9 +741,11 @@ void GDCubismUserModel::_ready() {
 
     this->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
     this->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
+    // 無指定の場合はEditorとExport時で動作が異なる。
     this->set_update_mode(SubViewport::UpdateMode::UPDATE_ALWAYS);
     this->set_disable_input(true);
-    this->set_use_own_world_3d(true);
+    // true にするとメモリリークが発生する。
+    this->set_use_own_world_3d(false);
     this->set_transparent_background(true);
 }
 
