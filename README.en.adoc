@@ -35,17 +35,22 @@ Please do not contact the developer Live2D about this software.
 
 === About LICENSE
 
-* link:LICENSE.adoc[]
+* link:LICENSE.en.adoc[]
 
 
 === How to build
 
-* link:doc/BUILD.adoc[]
+* link:doc/BUILD.en.adoc[]
 
 
 === Usage
 
-* link:doc/USAGE.adoc[]
+* link:doc/USAGE.en.adoc[]
+
+
+=== Problem
+
+* link:doc/PROBLEM.adoc[]
 
 
 === Ralated link

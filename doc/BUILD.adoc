@@ -21,13 +21,12 @@ ifdef::env-github[]
 endif::[]
 
 
-== ビルド方法について
+link:BUILD.adoc[Japanese] / link:BUILD.en.adoc[English]
 
 
+== ビルド方法
 === ビルド前の準備
-
-
-==== ビルドに必要なソースコードの取得
+==== ソースコードの取得
 
 GDCubismのリポジトリからソースコードを取得してください。
 
@@ -70,10 +69,7 @@ GDCubismが使用しているSDKバージョンは**Cubism 5 SDK for Native R1 b
 ----
 
 
-== ビルド方法
-
-
-=== Windows
+=== Windows版のビルド
 
 [NOTE]
 ====
@@ -99,7 +95,7 @@ scons platform=windows arch=x86_64 target=template_release
 * libgd_cubism.windows.release.x86_64.dll
 
 
-=== macOS
+=== macOS版のビルド
 
 [NOTE]
 ====
@@ -136,7 +132,7 @@ scons platform=macos arch=universal target=template_release
 * libgd_cubism.macos.release.framework
 
 
-=== Linux
+=== Linux版のビルド
 
 [NOTE]
 ====
@@ -145,12 +141,11 @@ scons platform=macos arch=universal target=template_release
 * GCC 7+, Clang 6+.
 * link:https://www.python.org/downloads/windows/[Python 3.6+].
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
-====
-
 
 Linuxの場合、ディストリビューション毎に必要なパッケージが追加で必要となる場合があります。どのディストリビューションで何が必要になるかは Godot Engine のドキュメントを参考にしてください。
 
 * link:https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_linuxbsd.html[Compiling for Linux, *BSD]
+====
 
 
 環境が準備できたら以下の手順でビルドを行ってください。
@@ -165,33 +160,3 @@ scons platform=linux target=template_release
 
 * libgd_cubism.linux.debug.x86_64.so
 * libgd_cubism.linux.release.x86_64.so
-
-
-== デバッグ方法
-
-
-=== macOS
-
-GDCubismのデバッグを行うにはVisualStudio Codeを使用して以下の方法で行えます。
-
-1. SConsのビルド時にdebug_symbols=true optimize=noneを追加します。
-2. launch.jsonに以下を追加します。
-3. Godotでdemoプロジェクトを開きExportを行います。
-4. デバッグ実行を行います。
-
-[source.json]
---
-{
-    "name": "Debug (macOS)",
-    "type":"cppdbg",
-    "request": "launch",
-    "program": "${workspaceRoot}/demo.export/demo.app/Contents/MacOS/demo",
-    "stopAtEntry": false,
-    "launchCompleteCommand": "exec-run",
-    "osx": {
-        "MIMode": "lldb"
-    },
-    "cwd": "${workspaceRoot}/demo.export",
-}
---
-

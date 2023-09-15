@@ -21,7 +21,7 @@ ifdef::env-github[]
 endif::[]
 
 
-link:USAGE.adoc[日本語] / link:USAGE.en.adoc[English]
+link:USAGE.adoc[Japanese] / link:USAGE.en.adoc[English]
 
 
 == How to use
