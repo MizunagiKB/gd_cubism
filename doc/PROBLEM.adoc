@@ -21,6 +21,9 @@ ifdef::env-github[]
 endif::[]
 
 
+link:PROBLEM.adoc[Japanese] / English
+
+
 == 未解決の不具合について
 
 GDCubism は GodotEngine 上でLive2Dモデルを簡単に扱う GDExtension として開発しています。

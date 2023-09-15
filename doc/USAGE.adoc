@@ -21,10 +21,11 @@ ifdef::env-github[]
 endif::[]
 
 
-link:USAGE.adoc[日本語] / link:USAGE.en.adoc[English]
+link:USAGE.adoc[Japanese] / link:USAGE.en.adoc[English]
 
 
 == 使用方法
+
 GDExtensionのビルドが正常に完了したら、demo/addonsフォルダにある、gd_cubismフォルダを利用したいプロジェクトのaddonsにコピーしてください。
 
 
