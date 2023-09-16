@@ -65,7 +65,7 @@ public:
     void expression_set(const char* expression_id);
     void expression_stop();
 
-    Csm::CubismMotionQueueEntryHandle motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in);
+    Csm::CubismMotionQueueEntryHandle motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in, void* custom_data);
     void motion_stop();
 
     virtual void MotionEventFired(const Csm::csmString& eventValue) override;

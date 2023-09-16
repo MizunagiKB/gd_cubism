@@ -69,6 +69,29 @@ GDCubismが使用しているSDKバージョンは**Cubism 5 SDK for Native R1 b
 ----
 
 
+==== カスタムビルド
+
+通常GDCubismはCubismSdkForNativeに同梱されているCubismNativeFrameworkを使用します。このFrameworkはGitHubで公開されており、バグ修正や機能追加が随時行われています。
+
+この機能を取り込みたい場合は以下の様にGitHubからcloneを行ってください。
+
+[source, zsh]
+----
+pushd thirdparty
+git clone https://github.com/Live2D/CubismNativeFramework.git
+popd
+----
+
+ビルドはCubismSdkForNativeにあるFrameworkよりもこちらが優先されますので、不要になりましたら削除を行ってください。
+
+.カスタムビルドによる変更箇所
+[cols="2",frame=none,grid=none]
+|====
+|機能追加
+|_Motion_ 再生完了時に _motion_finished_ シグナルを受け取れます。
+|====
+
+
 === Windows版のビルド
 
 [NOTE]
