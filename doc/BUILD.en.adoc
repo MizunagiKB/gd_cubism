@@ -72,6 +72,29 @@ When expanded, it should look like the following.
 ----
 
 
+==== Custom build
+
+Normally GDCubism uses CubismNativeFramework included in CubismSdkForNative. This Framework is published on GitHub, and bug fixes and feature additions are being added from time to time.
+
+If you want to incorporate those functions, please clone from GitHub as follows.
+
+[source, zsh]
+----
+pushd thirdparty
+git clone https://github.com/Live2D/CubismNativeFramework.git
+popd
+----
+
+This build has priority over the Framework in CubismSdkForNative, so please delete it when it is no longer needed.
+
+.Changes due to custom build
+[cols="2",frame=none,grid=none]
+|====
+|Function addition
+|After the _Motion_ playback is complete, the _motion_finished_ signal is fired.
+|====
+
+
 === Build for Windows
 
 [NOTE]

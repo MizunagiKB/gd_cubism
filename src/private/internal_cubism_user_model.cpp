@@ -276,7 +276,7 @@ void InternalCubismUserModel::expression_stop() {
 }
 
 
-CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in) {
+CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in, void* custom_data) {
 
     if (priority == GDCubismUserModel::Priority::PRIORITY_FORCE) {
         this->_motionManager->SetReservePriority(priority);
@@ -293,6 +293,9 @@ CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* g
     motion->IsLoop(loop);
     motion->IsLoopFadeIn(loop_fade_in);
     motion->SetFinishedMotionHandler(GDCubismUserModel::on_motion_finished);
+    #ifdef CUBISM_MOTION_CUSTOMDATA
+    motion->SetFinishedMotionCustomData(custom_data);
+    #endif // CUBISM_MOTION_CUSTOMDATA
 
     return this->_motionManager->StartMotionPriority(motion, false, priority);
 }

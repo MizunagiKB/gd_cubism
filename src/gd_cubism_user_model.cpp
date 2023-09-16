@@ -117,8 +117,10 @@ void GDCubismUserModel::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
 
-	//ADD_SIGNAL(MethodInfo("motion_finished", PropertyInfo(Variant::STRING, "group"), PropertyInfo(Variant::INT, "no")));
 	ADD_SIGNAL(MethodInfo("motion_event", PropertyInfo(Variant::STRING, "value")));
+    #ifdef CUBISM_MOTION_CUSTOMDATA
+	ADD_SIGNAL(MethodInfo(SIGNAL_MOTION_FINISHED));
+    #endif // #ifdef CUBISM_MOTION_CUSTOMDATA
 
     // moc3FileFormatVersion
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_UNKNOWN);
@@ -332,7 +334,8 @@ Ref<GDCubismMotionQueueEntryHandle> GDCubismUserModel::start_motion_loop(const S
         no,
         priority,
         loop,
-        loop_fade_in
+        loop_fade_in,
+        this
     );
 
 
@@ -434,14 +437,12 @@ Array GDCubismUserModel::get_part_opacities() const {
 
 
 void GDCubismUserModel::on_motion_finished(Csm::ACubismMotion* motion) {
-    #if 0
-    Csm::CubismMotion* m = static_cast<Csm::CubismMotion*>(motion);
-    InternalCubismUserModel* model = static_cast<InternalCubismUserModel*>(m->_userData);
-
-    if(model != nullptr && model->_owner_viewport != nullptr) {
-        model->_owner_viewport->emit_signal("motion_finished", String(), 0);
+    #ifdef CUBISM_MOTION_CUSTOMDATA
+    GDCubismUserModel* m = static_cast<GDCubismUserModel*>(motion->GetFinishedMotionCustomData());
+    if(m != nullptr) {
+        m->emit_signal(SIGNAL_MOTION_FINISHED);
     }
-    #endif
+    #endif // CUBISM_MOTION_CUSTOMDATA
 }
 
 

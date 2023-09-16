@@ -1,28 +1,52 @@
+import os
 from glob import glob
 from pathlib import Path
 
+
 env = SConscript("godot-cpp/SConstruct")
+
+
+CUBISM_NATIVE_CORE_DIR = "thirdparty/CubismSdkForNative/Core"
+CUBISM_NATIVE_FRAMEWORK_DIR = "thirdparty/CubismSdkForNative/Framework"
+
+
+# check for experimenal
+CHECK_PATH = "thirdparty/CubismNativeFramework"
+if os.path.isdir(CHECK_PATH) is True:
+    CHECK_FILE = os.path.join(CHECK_PATH, "src", "Motion", "ACubismMotion.hpp")
+    if os.path.isfile(CHECK_FILE) is True:
+        env.Append(CPPDEFINES={"CUBISM_MOTION_CUSTOMDATA": 1})
+        CUBISM_NATIVE_FRAMEWORK_DIR = CHECK_PATH
+
 
 # Add source files.
 env.Append(CPPPATH=["src/"])
-env.Append(CPPPATH=["thirdparty/CubismSdkForNative/Core/include"])
+env.Append(CPPPATH=[os.path.join(CUBISM_NATIVE_CORE_DIR, "include")])
 
 if env["platform"] == "windows":
     env.Append(
         LIBPATH=[
-            "thirdparty/CubismSdkForNative/Core/lib/windows/{:s}/{:s}".format(
-                env["arch"], env["MSVC_VERSION"].replace(".", "")
+            os.path.join(
+                CUBISM_NATIVE_CORE_DIR,
+                "lib",
+                "windows/{:s}/{:s}".format(
+                    env["arch"], env["MSVC_VERSION"].replace(".", "")
+                ),
             )
         ]
     )
     env.Append(LIBS=["Live2DCubismCore_MT"])
+
 elif env["platform"] == "macos":
-    env.Append(LIBPATH=["thirdparty/CubismSdkForNative/Core/lib/macos"])
+    env.Append(LIBPATH=[os.path.join(CUBISM_NATIVE_CORE_DIR, "lib", "macos")])
     env.Append(LIBS=["Live2DCubismCore.universal"])
+
 elif env["platform"] == "linux":
     env.Append(
         LIBPATH=[
-            "thirdparty/CubismSdkForNative/Core/lib/linux/{:s}".format(env["arch"])
+            os.path.join(
+                CUBISM_NATIVE_CORE_DIR, "lib", "linux/{:s}".format(env["arch"])
+            )
         ]
     )
     env.Append(LIBS=["Live2DCubismCore"])
@@ -32,9 +56,9 @@ else:
 sources = glob("src/*.cpp")
 sources += glob("src/private/*.cpp")
 
-env.Append(CPPPATH=["thirdparty/CubismSdkForNative/Framework/src"])
+env.Append(CPPPATH=[os.path.join(CUBISM_NATIVE_FRAMEWORK_DIR, "src")])
 
-sources_cubism = glob("thirdparty/CubismSdkForNative/Framework/src/*.cpp")
+sources_cubism = glob(os.path.join(CUBISM_NATIVE_FRAMEWORK_DIR, "src", "*.cpp"))
 
 for dirname in (
     "Effect",
@@ -48,7 +72,7 @@ for dirname in (
     "Utils",
 ):
     sources_cubism += glob(
-        "thirdparty/CubismSdkForNative/Framework/src/{:s}/*.cpp".format(dirname)
+        os.path.join(CUBISM_NATIVE_FRAMEWORK_DIR, "src", dirname, "*.cpp")
     )
 
 sources += sources_cubism
