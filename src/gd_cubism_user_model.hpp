@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 #ifndef GD_CUBISM_USER_MODEL_H
 #define GD_CUBISM_USER_MODEL_H
 

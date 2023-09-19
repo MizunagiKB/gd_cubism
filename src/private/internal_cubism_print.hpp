@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 #ifndef INTERNAL_CUBISM_PRINT
 #define INTERNAL_CUBISM_PRINT
 // ----------------------------------------------------------------- include(s)

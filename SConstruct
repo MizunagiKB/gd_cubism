@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 import os
 from glob import glob
 from pathlib import Path

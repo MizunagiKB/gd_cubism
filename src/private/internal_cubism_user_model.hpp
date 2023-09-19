@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 #ifndef INTERNAL_CUBISM_USER_MODEL
 #define INTERNAL_CUBISM_USER_MODEL
 
