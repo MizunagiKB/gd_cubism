@@ -168,14 +168,32 @@ public:
 
     void set_shader(const GDCubismShader e, Ref<Shader> shader) { this->ary_shader[e] = shader; }
     Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }
+
+    void set_shader_add(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_ADD, shader); }
+    Ref<Shader> get_shader_add() const { return this->get_shader(GD_CUBISM_SHADER_NORM_ADD); }
     void set_shader_mix(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_MIX, shader); }
     Ref<Shader> get_shader_mix() const { return this->get_shader(GD_CUBISM_SHADER_NORM_MIX); }
+    void set_shader_mul(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_MUL, shader); }
+    Ref<Shader> get_shader_mul() const { return this->get_shader(GD_CUBISM_SHADER_NORM_MUL); }
+
     void set_shader_mask(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK, shader); }
     Ref<Shader> get_shader_mask() const { return this->get_shader(GD_CUBISM_SHADER_MASK); }
+
+    // MaskAdd
+    void set_shader_mask_add(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_ADD, shader); }
+    Ref<Shader> get_shader_mask_add() const { return this->get_shader(GD_CUBISM_SHADER_MASK_ADD); }
+    void set_shader_mask_add_inv(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_ADD_INV, shader); }
+    Ref<Shader> get_shader_mask_add_inv() const { return this->get_shader(GD_CUBISM_SHADER_MASK_ADD_INV); }    
+    // MaskMix
     void set_shader_mask_mix(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MIX, shader); }
     Ref<Shader> get_shader_mask_mix() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MIX); }
-    void set_shader_mask_mix_inv(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MUL_INV, shader); }
-    Ref<Shader> get_shader_mask_mix_inv() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MUL_INV); }    
+    void set_shader_mask_mix_inv(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MIX_INV, shader); }
+    Ref<Shader> get_shader_mask_mix_inv() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MIX_INV); }    
+    // MaskMul
+    void set_shader_mask_mul(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MUL, shader); }
+    Ref<Shader> get_shader_mask_mul() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MUL); }
+    void set_shader_mask_mul_inv(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MUL_INV, shader); }
+    Ref<Shader> get_shader_mask_mul_inv() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MUL_INV); }    
 
     // for Signal
     static void on_motion_finished(Csm::ACubismMotion* motion);

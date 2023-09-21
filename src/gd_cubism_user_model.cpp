@@ -82,19 +82,42 @@ void GDCubismUserModel::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_auto_scale"), &GDCubismUserModel::get_auto_scale);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "auto_scale"), "set_auto_scale", "get_auto_scale");
 
+	ClassDB::bind_method(D_METHOD("set_shader_add"), &GDCubismUserModel::set_shader_add);
+	ClassDB::bind_method(D_METHOD("get_shader_add"), &GDCubismUserModel::get_shader_add);
 	ClassDB::bind_method(D_METHOD("set_shader_mix"), &GDCubismUserModel::set_shader_mix);
 	ClassDB::bind_method(D_METHOD("get_shader_mix"), &GDCubismUserModel::get_shader_mix);
+	ClassDB::bind_method(D_METHOD("set_shader_mul"), &GDCubismUserModel::set_shader_mul);
+	ClassDB::bind_method(D_METHOD("get_shader_mul"), &GDCubismUserModel::get_shader_mul);
+
 	ClassDB::bind_method(D_METHOD("set_shader_mask"), &GDCubismUserModel::set_shader_mask);
 	ClassDB::bind_method(D_METHOD("get_shader_mask"), &GDCubismUserModel::get_shader_mask);
+    // MaskAdd
+	ClassDB::bind_method(D_METHOD("set_shader_mask_add"), &GDCubismUserModel::set_shader_mask_add);
+	ClassDB::bind_method(D_METHOD("get_shader_mask_add"), &GDCubismUserModel::get_shader_mask_add);
+	ClassDB::bind_method(D_METHOD("set_shader_mask_add_inv"), &GDCubismUserModel::set_shader_mask_add_inv);
+	ClassDB::bind_method(D_METHOD("get_shader_mask_add_inv"), &GDCubismUserModel::get_shader_mask_add_inv);
+    // MaskMix
 	ClassDB::bind_method(D_METHOD("set_shader_mask_mix"), &GDCubismUserModel::set_shader_mask_mix);
 	ClassDB::bind_method(D_METHOD("get_shader_mask_mix"), &GDCubismUserModel::get_shader_mask_mix);
 	ClassDB::bind_method(D_METHOD("set_shader_mask_mix_inv"), &GDCubismUserModel::set_shader_mask_mix_inv);
 	ClassDB::bind_method(D_METHOD("get_shader_mask_mix_inv"), &GDCubismUserModel::get_shader_mask_mix_inv);
+    // MaskMul
+	ClassDB::bind_method(D_METHOD("set_shader_mask_mul"), &GDCubismUserModel::set_shader_mask_mul);
+	ClassDB::bind_method(D_METHOD("get_shader_mask_mul"), &GDCubismUserModel::get_shader_mask_mul);
+	ClassDB::bind_method(D_METHOD("set_shader_mask_mul_inv"), &GDCubismUserModel::set_shader_mask_mul_inv);
+	ClassDB::bind_method(D_METHOD("get_shader_mask_mul_inv"), &GDCubismUserModel::get_shader_mask_mul_inv);
+
     ADD_GROUP("Shader", "");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_add", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_add", "get_shader_add");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mix", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mix", "get_shader_mix");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mul", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mul", "get_shader_mul");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask", "get_shader_mask");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_add", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_add", "get_shader_mask_add");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_add_inv", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_add_inv", "get_shader_mask_add_inv");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mix", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mix", "get_shader_mask_mix");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mix_inv", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mix_inv", "get_shader_mask_mix_inv");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mul", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mul", "get_shader_mask_mul");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mul_inv", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mul_inv", "get_shader_mask_mul_inv");
 
     // CubismMotion
 	ClassDB::bind_method(D_METHOD("get_motions"), &GDCubismUserModel::get_motions);

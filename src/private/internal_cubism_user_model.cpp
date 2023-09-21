@@ -207,7 +207,7 @@ void InternalCubismUserModel::update_node() {
         renderer->calc_mesh_instance_count()
     );
 
-    renderer->IsPremultipliedAlpha(false);
+    renderer->IsPremultipliedAlpha(true);
     renderer->DrawModel();
     renderer->update(this->_renderer_resource);
 
