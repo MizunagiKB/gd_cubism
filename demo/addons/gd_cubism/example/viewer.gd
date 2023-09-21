@@ -32,6 +32,10 @@ func setup(pathname: String):
 
     cubism_model.playback_process_mode = GDCubismUserModel.IDLE
     $Sprite2D.texture = cubism_model.get_texture()
+    var mat = CanvasItemMaterial.new()
+    mat.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+    mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+    $Sprite2D.material = mat
 
 
 func model3_search(dirname: String):

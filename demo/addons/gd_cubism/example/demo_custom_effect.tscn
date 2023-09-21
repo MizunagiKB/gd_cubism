@@ -2,14 +2,15 @@
 
 [ext_resource type="Script" path="res://addons/gd_cubism/example/custom_effect_lipsync1.gd" id="1_rpl7q"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_rvrwk"]
-viewport_path = NodePath("Sprite2D/GDCubismUserModel")
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_w6cby"]
+blend_mode = 4
+light_mode = 1
 
 [node name="demo_custom_effect" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_w6cby")
 position = Vector2(256, 256)
-texture = SubResource("ViewportTexture_rvrwk")
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
 disable_3d = true
