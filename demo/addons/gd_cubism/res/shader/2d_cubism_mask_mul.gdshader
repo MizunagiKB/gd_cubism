@@ -1,4 +1,4 @@
-// GDCubism shader: Mask + Mix
+// GDCubism shader: Mask + Mul
 // author: MizunagiKB
 shader_type canvas_item;
 render_mode blend_premul_alpha, unshaded;
