@@ -56,6 +56,7 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 >|Array <|get_cubism_motion_queue_entries()
 >|Array <|get_expressions()
 >|Array <|get_hit_areas()
+>|Dictionary <|get_meshes()
 >|Dictionary <|get_motions()
 >|Array <|get_parameters()
 >|Array <|get_part_opacities()
@@ -286,10 +287,32 @@ Array get_hit_areas()::
 未実装。
 
 
+[[id-method-get_meshes]]
+Dictionary get_meshes()::
+現在の Motion 状態で使用されている _MeshInstance_ の _ArrayMesh_ 情報を取得します。 +
+ +
+この _Dictionary_ が持つキーは _GDCubismUserModel_ が生成する _MeshInstance_ の名前と同一です。取得できる情報は内部で使用されている _ArrayMesh_ です。
+ +
+以下の様な形で使用することができます。
+
+
+[source, gdscript]
+----
+var dict_mesh: Dictionary = model.get_meshes()
+var ary_mesh: ArrayMesh = dict_mesh[art_mesh_name]
+var ary_surface: Array = ary_mesh.surface_get_arrays(0)
+
+var mesh_vertex: PackedVector2Array = ary_surface[ArrayMesh.ARRAY_VERTEX]
+var mesh_tex_uv: PackedVector2Array = ary_surface[ArrayMesh.ARRAY_TEX_UV]
+var mesh_index: PackedInt32Array = ary_surface[ArrayMesh.ARRAY_INDEX]
+----
+
+NOTE: get_meshesはv0.1で追加された実験的な関数です。今後仕様が変更されたり削除される可能性がある事に注意してください。
+
+
 [[id-method-get_motions]]
 Dictionary get_motions()::
 現在保持しているLive2Dモデルから _Motion_ 一覧を戻します。 +
- +
 戻される _Dictionary_ は _group_ とその中に含まれるモーション数です。
  +
  +
