@@ -166,19 +166,23 @@ public:
     Array get_parameters() const;
     Array get_part_opacities() const;
 
+    Dictionary get_meshes() const;
+
     void set_shader(const GDCubismShader e, Ref<Shader> shader) { this->ary_shader[e] = shader; }
     Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }
 
+    // NormAdd
     void set_shader_add(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_ADD, shader); }
     Ref<Shader> get_shader_add() const { return this->get_shader(GD_CUBISM_SHADER_NORM_ADD); }
+    // NormMix
     void set_shader_mix(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_MIX, shader); }
     Ref<Shader> get_shader_mix() const { return this->get_shader(GD_CUBISM_SHADER_NORM_MIX); }
+    // NormMul
     void set_shader_mul(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_MUL, shader); }
     Ref<Shader> get_shader_mul() const { return this->get_shader(GD_CUBISM_SHADER_NORM_MUL); }
-
+    // Mask
     void set_shader_mask(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK, shader); }
     Ref<Shader> get_shader_mask() const { return this->get_shader(GD_CUBISM_SHADER_MASK); }
-
     // MaskAdd
     void set_shader_mask_add(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_ADD, shader); }
     Ref<Shader> get_shader_mask_add() const { return this->get_shader(GD_CUBISM_SHADER_MASK_ADD); }

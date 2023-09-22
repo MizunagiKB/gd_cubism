@@ -140,6 +140,9 @@ void GDCubismUserModel::_bind_methods() {
     // PartOpacity
 	ClassDB::bind_method(D_METHOD("get_part_opacities"), &GDCubismUserModel::get_part_opacities);
 
+    // Meshs
+	ClassDB::bind_method(D_METHOD("get_meshes"), &GDCubismUserModel::get_meshes);
+
 	ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
 
 	ADD_SIGNAL(MethodInfo("motion_event", PropertyInfo(Variant::STRING, "value")));
@@ -461,6 +464,13 @@ Array GDCubismUserModel::get_part_opacities() const {
 }
 
 
+Dictionary GDCubismUserModel::get_meshes() const {
+    if(this->is_initialized() == false) return Dictionary();
+
+    return this->internal_model->_renderer_resource.dict_mesh;
+}
+
+
 void GDCubismUserModel::on_motion_finished(Csm::ACubismMotion* motion) {
     #ifdef CUBISM_MOTION_CUSTOMDATA
     GDCubismUserModel* m = static_cast<GDCubismUserModel*>(motion->GetFinishedMotionCustomData());
@@ -761,16 +771,14 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
 
 void GDCubismUserModel::_ready() {
-
     // Setup SubViewport
-    this->set_clear_mode(SubViewport::CLEAR_MODE_ALWAYS);
-
     this->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
     this->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
-    // 無指定の場合はEditorとExport時で動作が異なる。
+    // set_update_mode must be specified
     this->set_update_mode(SubViewport::UpdateMode::UPDATE_ALWAYS);
     this->set_disable_input(true);
-    // true にするとメモリリークが発生する。
+    // Memory leak when set_use_own_world_3d is true
+    // https://github.com/godotengine/godot/issues/81476
     this->set_use_own_world_3d(false);
     this->set_transparent_background(true);
 }

@@ -58,6 +58,14 @@ InternalCubismRendererResource::~InternalCubismRendererResource() {
 }
 
 
+void InternalCubismRendererResource::clear() {
+    this->dispose_node(true);
+    this->ary_texture.clear();
+    this->ary_sub_viewport.clear();
+    this->ary_mesh_instance.clear();
+}
+
+
 SubViewport* InternalCubismRendererResource::request_viewport() {
     const Csm::csmInt32 counter = this->sub_viewport_counter++;
 
@@ -86,6 +94,7 @@ MeshInstance2D* InternalCubismRendererResource::request_mesh_instance() {
 
 void InternalCubismRendererResource::pro_proc(const Csm::csmInt32 viewport_count, const Csm::csmInt32 mesh_instance_count) {
     this->dispose_node(false);
+    this->dict_mesh.clear();
     this->sub_viewport_counter = 0;
     this->mesh_instance_counter = 0;
 }
@@ -96,16 +105,6 @@ void InternalCubismRendererResource::epi_proc() {}
 
 void InternalCubismRendererResource::dispose_node(const bool node_release) {
     _recurisive_dispose_node(this->_parent_node, node_release);
-}
-
-
-void InternalCubismRendererResource::clear() {
-
-    this->dispose_node(true);
-
-    this->ary_texture.clear();
-    this->ary_sub_viewport.clear();
-    this->ary_mesh_instance.clear();
 }
 
 
