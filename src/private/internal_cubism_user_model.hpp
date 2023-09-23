@@ -35,6 +35,12 @@ class InternalCubismUserModel : public Csm::CubismUserModel {
     friend GDCubismEffectEyeBlink;
     friend GDCubismEffectCustom;
 
+    enum EFFECT_CALL {
+        EFFECT_CALL_PROLOGUE,
+        EFFECT_CALL_PROCESS,
+        EFFECT_CALL_EPILOGUE
+    };
+
 public:
     InternalCubismUserModel(GDCubismUserModel *owner_viewport, Node *parent_node);
     virtual ~InternalCubismUserModel();
@@ -81,7 +87,7 @@ private:
 
     void effect_init();
     void effect_term();
-    void effect_process(const float delta);
+    void effect_batch(const float delta, const EFFECT_CALL efx_call);
 };
 
 

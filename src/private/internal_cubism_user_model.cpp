@@ -153,6 +153,8 @@ void InternalCubismUserModel::pro_update(const float delta) {
     if(this->_model_setting == nullptr) return;
     if(this->_model == nullptr) return;
 
+    this->effect_batch(delta, EFFECT_CALL_PROLOGUE);
+
     if(this->_owner_viewport->parameter_mode == GDCubismUserModel::ParameterMode::FULL_PARAMETER) {
         this->_model->LoadParameters();
         this->_motionManager->UpdateMotion(this->_model, delta);
@@ -178,7 +180,7 @@ void InternalCubismUserModel::efx_update(const float delta) {
         this->_owner_viewport->cubism_effect_dirty_reset();
     }
 
-    this->effect_process(delta);
+    this->effect_batch(delta, EFFECT_CALL_PROCESS);
 }
 
 
@@ -191,6 +193,7 @@ void InternalCubismUserModel::epi_update(const float delta) {
     if(this->_pose != nullptr) { this->_pose->UpdateParameters(this->_model, delta); }
 
     this->_model->Update();
+    this->effect_batch(delta, EFFECT_CALL_EPILOGUE);
 }
 
 
@@ -457,15 +460,19 @@ void InternalCubismUserModel::effect_term() {
 }
 
 
-
-void InternalCubismUserModel::effect_process(const float delta) {
+void InternalCubismUserModel::effect_batch(const float delta, const EFFECT_CALL efx_call) {
     for(
         Csm::csmVector<GDCubismEffect*>::iterator i = this->_owner_viewport->_list_cubism_effect.Begin();
         i != this->_owner_viewport->_list_cubism_effect.End();
         i++
     ) {
-        (*i)->_cubism_process(this, delta);
+        switch(efx_call) {
+            case EFFECT_CALL_PROLOGUE:  (*i)->_cubism_prologue(this, delta);    break;
+            case EFFECT_CALL_PROCESS:   (*i)->_cubism_process(this, delta);     break;
+            case EFFECT_CALL_EPILOGUE:  (*i)->_cubism_epilogue(this, delta);    break;
+        }
     }
 }
+
 
 // ------------------------------------------------------------------ method(s)
