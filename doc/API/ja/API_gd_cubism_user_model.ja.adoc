@@ -35,10 +35,16 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 >|bool <|<<id-property-auto_scale,auto_scale>> |[default: true]
 >|ParameterMode <|<<id-property-<parameter_mode,parameter_mode>> |[default: 0]
 >|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
+>|Shader <|<<id-property-shader_add,shader_add>> |
 >|Shader <|<<id-property-shader_mask,shader_mask>> |
+>|Shader <|<<id-property-shader_mask_add,shader_mask_add>> |
+>|Shader <|<<id-property-shader_mask_add_inv,shader_mask_add_inv>> |
 >|Shader <|<<id-property-shader_mask_mix,shader_mask_mix>> |
 >|Shader <|<<id-property-shader_mask_mix_inv,shader_mask_mix_inv>> |
+>|Shader <|<<id-property-shader_mask_mul,shader_mask_mul>> |
+>|Shader <|<<id-property-shader_mask_mul_inv,shader_mask_mul_inv>> |
 >|Shader <|<<id-property-shader_mix,shader_mix>> |
+>|Shader <|<<id-property-shader_mul,shader_mul>> |
 >|float <|<<id-property-speed_scale,speed_scale>> |[default: 1.0]
 |===
 
@@ -178,7 +184,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source, numlines]
 ----
-include::../demo/addons/gd_cubism/res/shader/2d_cubism_mask.gdshader[]
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask.gdshader[]
 ----
 
 
@@ -189,7 +195,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source, numlines]
 ----
-include::../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader[]
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader[]
 ----
 
 
@@ -200,7 +206,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source, numlines]
 ----
-include::../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader[]
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader[]
 ----
 
 
@@ -211,7 +217,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source, numlines]
 ----
-include::../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader[]
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader[]
 ----
 
 
@@ -307,7 +313,7 @@ var mesh_tex_uv: PackedVector2Array = ary_surface[ArrayMesh.ARRAY_TEX_UV]
 var mesh_index: PackedInt32Array = ary_surface[ArrayMesh.ARRAY_INDEX]
 ----
 
-NOTE: get_meshesはv0.1で追加された実験的な関数です。今後仕様が変更されたり削除される可能性がある事に注意してください。
+CAUTION: get_meshesはv0.1で追加された実験的な関数です。今後仕様が変更されたり削除される可能性がある事に注意してください。
 
 
 [[id-method-get_motions]]
