@@ -51,16 +51,17 @@ env.Append(CPPPATH=[os.path.join(CUBISM_NATIVE_CORE_DIR, "include")])
 
 print("                   platform = {:s}".format(env["platform"]))
 print("                       arch = {:s}".format(env["arch"]))
-o_cubism_lib = (
-    Path(CUBISM_NATIVE_CORE_DIR)
-    .joinpath("lib")
-    .joinpath("macos")
-    .joinpath(env["arch"])
-    .joinpath("libLive2DCubismCore.a")
-)
 
 if env["platform"] == "windows":
     print("               MSVC_VERSION = {:s}".format(env.get("MSVC_VERSION", "(undefined)")))
+    o_cubism_lib = (
+        Path(CUBISM_NATIVE_CORE_DIR)
+        .joinpath("lib")
+        .joinpath(env["platform"])
+        .joinpath(env["arch"])
+        .joinpath(env["MSVC_VERSION"].replace(".", ""))
+        .joinpath("Live2DCubismCore_MT.lib")
+    )
     env.Append(
         LIBPATH=[
             os.path.join(
@@ -72,9 +73,18 @@ if env["platform"] == "windows":
             ),
         ]
     )
+    
+    print("                       libs = {:s}".format(str(o_cubism_lib)))
     env.Append(LIBS=["Live2DCubismCore_MT"])
 
 elif env["platform"] == "macos":
+    o_cubism_lib = (
+        Path(CUBISM_NATIVE_CORE_DIR)
+        .joinpath("lib")
+        .joinpath(env["platform"])
+        .joinpath(env["arch"])
+        .joinpath("libLive2DCubismCore.a")
+    )
     if env["arch"] == "universal":
         if o_cubism_lib.is_file() is False:
             print("*** File not found, {:s} ***".format(str(o_cubism_lib)))
@@ -96,6 +106,13 @@ elif env["platform"] == "macos":
     env.Append(LIBS=["Live2DCubismCore"])
 
 elif env["platform"] == "linux":
+    o_cubism_lib = (
+        Path(CUBISM_NATIVE_CORE_DIR)
+        .joinpath("lib")
+        .joinpath(env["platform"])
+        .joinpath(env["arch"])
+        .joinpath("libLive2DCubismCore.a")
+    )
     env.Append(
         LIBPATH=[
             os.path.join(
@@ -103,6 +120,7 @@ elif env["platform"] == "linux":
             )
         ]
     )
+    print("                       libs = {:s}".format(str(o_cubism_lib)))
     env.Append(LIBS=["Live2DCubismCore"])
 else:
     pass
