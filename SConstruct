@@ -60,6 +60,7 @@ o_cubism_lib = (
 )
 
 if env["platform"] == "windows":
+    print("               MSVC_VERSION = {:s}".format(env.get("MSVC_VERSION", "(undefined)")))
     env.Append(
         LIBPATH=[
             os.path.join(
