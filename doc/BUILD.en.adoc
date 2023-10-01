@@ -48,7 +48,7 @@ git submodule update --init
 
 When expanded, it should look like the following.
 
-[source]
+[source, console]
 ----
 ./thirdparty
     /CubismSdkForNative-5-r.1-beta.2
@@ -67,7 +67,7 @@ This is a possible translation of the text in English:
 
 GDCubism uses CubismNativeFramework, which is included in CubismSdkForNative. If you want to use the latest Framework or customize it for your own needs, you can do so by following these steps:
 
-[source, zsh]
+[source, bash]
 ----
 pushd thirdparty
 git clone https://github.com/Live2D/CubismNativeFramework.git
@@ -168,7 +168,7 @@ For Linux, additional packages may be required for each distribution. Please ref
 
 When ready, run the build with the following command.
 
-[source,zsh]
+[source, bash]
 --
 scons platform=linux target=template_debug
 scons platform=linux target=template_release
