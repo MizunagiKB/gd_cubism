@@ -26,3 +26,4 @@ mono_crash.*.json
 
 # for Experimental
 thirdparty/CubismNativeFramework
+thirdparty/CubismSdkForNative*

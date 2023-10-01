@@ -27,40 +27,30 @@ link:BUILD.adoc[Japanese] / link:BUILD.en.adoc[English]
 
 == ビルド方法
 === ビルド前の準備
-==== ソースコードの取得
+==== ソースコードの取得と準備
 
-GDCubismのリポジトリからソースコードを取得してください。
-
-submoduleを使用していますので、git cloneした場合は ```git submodule update --init``` を行ってください。
-
-zipファイルでダウンロードした場合は、git submoduleがうまく動作しない可能性があります。
-
-その場合は手動でgit submoduleで追加を行ってください。
-
-[source,zsh]
---
-# GDExtensionを作成するためのヘッダファイル
-git submodule add -b 4.1 https://github.com/godotengine/godot-cpp
-pushd godot-cpp
+[source, zsh]
+----
+git clone https://github.com/MizunagiKB/gd_cubism.git
+cd gd_cubism
 git submodule update --init
-popd
---
+----
 
 
 ==== CubismSdkForNativeの入手と配置
 
 Live2D Cubism SDK for Nativeを取得してください。
 
-GDCubismが使用しているSDKバージョンは**Cubism 5 SDK for Native R1 beta1**となります。
+GDCubismが利用しているSDKバージョンは **Cubism 5 SDK for Native R2 beta2** です。
 
-ダウンロードしたファイルは _thirdparty/CubismSdkForNative_ に展開してください。
+thirdpartyフォルダに展開した内容をそのまま配置してください。
 
-展開すると以下のような配置になるはずです。
+展開すると以下のような配置となります。
 
 [source]
 ----
 ./thirdparty
-    /CubismSdkForNative
+    /CubismSdkForNative-5-r.1-beta.2
         /Core
             /dll
             ...
@@ -70,11 +60,9 @@ GDCubismが使用しているSDKバージョンは**Cubism 5 SDK for Native R1 b
 ----
 
 
-==== カスタムビルド
+==== CubismNativeFrameworkのカスタマイズ
 
-通常GDCubismはCubismSdkForNativeに同梱されているCubismNativeFrameworkを使用します。このFrameworkはGitHubで公開されており、バグ修正や機能追加が随時行われています。
-
-この機能を取り込みたい場合は以下の様にGitHubからcloneを行ってください。
+GDCubismはCubismSdkForNativeに同梱されているCubismNativeFrameworkを使用していますが、最新のFrameworkや独自に拡張したい場合は、以下の方法で変更可能です。
 
 [source, zsh]
 ----
@@ -83,14 +71,8 @@ git clone https://github.com/Live2D/CubismNativeFramework.git
 popd
 ----
 
-ビルドはCubismSdkForNativeにあるFrameworkよりもこちらが優先されますので、不要になりましたら削除を行ってください。
-
-.カスタムビルドによる変更箇所
-[cols="2",frame=none,grid=none]
-|====
-|機能追加
-|_Motion_ 再生完了時に _motion_finished_ シグナルを受け取れます。
-|====
+CAUTION: ビルドはCubismSdkForNativeにあるFrameworkよりカスタムビルドの方が優先されます。
+不要になりましたら削除を行ってください。
 
 
 === Windows版のビルド
@@ -121,39 +103,48 @@ scons platform=windows arch=x86_64 target=template_release
 
 === macOS版のビルド
 
-[NOTE]
-====
 ビルドには以下のものが必要となります。
 
+[NOTE]
+====
 * link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
 * link:https://www.python.org/downloads/windows/[Python 3.6+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
 
-Live2D Cubism SDK for Nativeはx86_64とarm64向けにライブラリが用意されているのですが、アーキテクチャ別にファイルが配置されているためmacOS向けのuniversalバイナリが作成しづらいです。
+準備できたら以下の手順でビルドを行ってください。
 
-ビルドしやすい様に、それら二つのファイルを結合してしまいます。
-
-[source,zsh]
+[source, bash]
 --
-pushd thirdparty/CubismSdkForNative/Core/lib/macos
-# for Universal Binary
-lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output libLive2DCubismCore.universal.a
-popd
---
-
-環境が準備できたら以下の手順でビルドを行ってください。
-
-[source,zsh]
---
-scons platform=macos arch=universal target=template_debug
-scons platform=macos arch=universal target=template_release
+# for x86_64(intel mac)
+scons platform=macos arch=x86_64 target=template_debug
+scons platform=macos arch=x86_64 target=template_release
+# for arm64(Apple Silicon mac)
+scons platform=macos arch=arm64 target=template_debug
+scons platform=macos arch=arm64 target=template_release
 --
 
 ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
 
 * libgd_cubism.macos.debug.framework
 * libgd_cubism.macos.release.framework
+
+
+==== universalバイナリとしてビルドする場合
+
+universalバイナリとしてビルドする場合は、sconsを実行する前に以下の様にリンクファイルを生成してください。
+
+[source, bash]
+----
+pushd thirdparty/CubismSdkForNative-5-r.1-beta.2/Core/lib/macos
+mkdir universal
+lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output universal/libLive2DCubismCore.a
+popd
+
+# for universal
+scons platform=macos arch=universal target=template_debug
+scons platform=macos arch=universal target=template_release
+----
 
 
 === Linux版のビルド
@@ -174,7 +165,7 @@ Linuxの場合、ディストリビューション毎に必要なパッケージ
 
 環境が準備できたら以下の手順でビルドを行ってください。
 
-[source,zsh]
+[source, bash]
 --
 scons platform=linux target=template_debug
 scons platform=linux target=template_release
