@@ -31,7 +31,7 @@ link:BUILD.adoc[Japanese] / link:BUILD.en.adoc[English]
 
 Get the source code from the GDCubism repository.
 
-[source, zsh]
+[source, bash]
 ----
 git clone https://github.com/MizunagiKB/gd_cubism.git
 cd gd_cubism

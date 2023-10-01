@@ -29,7 +29,7 @@ link:BUILD.adoc[Japanese] / link:BUILD.en.adoc[English]
 === ビルド前の準備
 ==== ソースコードの取得と準備
 
-[source, zsh]
+[source, bash]
 ----
 git clone https://github.com/MizunagiKB/gd_cubism.git
 cd gd_cubism
@@ -64,7 +64,7 @@ thirdpartyフォルダに展開した内容をそのまま配置してくださ�
 
 GDCubismはCubismSdkForNativeに同梱されているCubismNativeFrameworkを使用していますが、最新のFrameworkや独自に拡張したい場合は、以下の方法で変更可能です。
 
-[source, zsh]
+[source, bash]
 ----
 pushd thirdparty
 git clone https://github.com/Live2D/CubismNativeFramework.git
@@ -89,7 +89,7 @@ CAUTION: ビルドはCubismSdkForNativeにあるFrameworkよりカスタムビ�
 
 環境が準備できたら以下の手順でビルドを行ってください。
 
-[source]
+[source, console]
 --
 scons platform=windows arch=x86_64 target=template_debug
 scons platform=windows arch=x86_64 target=template_release
