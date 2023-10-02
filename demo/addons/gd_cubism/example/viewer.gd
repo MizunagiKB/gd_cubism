@@ -5,7 +5,7 @@ extends Control
 const MIX_RENDER_SIZE := 32
 const MAX_RENDER_SIZE := 2048
 const RENDER_SIZE_STEP := 256
-const ENABLE_MOTION_FINISHED := false
+const ENABLE_MOTION_FINISHED := true
 
 var cubism_model: GDCubismUserModel
 var ary_param: Array
@@ -17,7 +17,7 @@ func setup(pathname: String):
     
     var canvas_info = cubism_model.get_canvas_info()
 
-    var idx = 0
+    var idx: int = 0
     var dict_motion = cubism_model.get_motions()
     $UI/ItemListMotion.clear()
     for k in dict_motion:
@@ -40,10 +40,10 @@ func setup(pathname: String):
 
 func model3_search(dirname: String):
 
-    var dir = DirAccess.open(dirname)
+    var dir: DirAccess = DirAccess.open(dirname)
     if dir == null:
         return
-    
+
     dir.list_dir_begin()
     var name = dir.get_next()
     while name != "":

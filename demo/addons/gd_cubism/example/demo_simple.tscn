@@ -1,21 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://dab25molfpkce"]
+[gd_scene load_steps=3 format=3 uid="uid://dab25molfpkce"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uj6qt"]
 blend_mode = 4
 light_mode = 1
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_dbyqq"]
+viewport_path = NodePath("Sprite2D/GDCubismUserModel")
+
 [node name="simple" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_uj6qt")
-position = Vector2(640, 360)
+position = Vector2(640, 512)
+scale = Vector2(2, 2)
+texture = SubResource("ViewportTexture_dbyqq")
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
 disable_3d = true
 transparent_bg = true
+msaa_2d = 1
+msaa_3d = 1
+screen_space_aa = 1
 gui_disable_input = true
 render_target_update_mode = 4
 
-[node name="GDCubismEffectBreath" type="GDCubismEffectBreath" parent="Sprite2D/GDCubismUserModel"]
-
 [node name="GDCubismEffectEyeBlink" type="GDCubismEffectEyeBlink" parent="Sprite2D/GDCubismUserModel"]
+
+[node name="GDCubismEffectBreath" type="GDCubismEffectBreath" parent="Sprite2D/GDCubismUserModel"]

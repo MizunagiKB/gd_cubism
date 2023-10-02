@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://xk7rqvf532rj"]
 
-[ext_resource type="Script" path="res://addons/gd_cubism/example/custom_effect_lipsync1.gd" id="1_rpl7q"]
+[ext_resource type="Script" path="res://addons/gd_cubism/example/custom_efx_02.gd" id="1_ittjg"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_w6cby"]
 blend_mode = 4
@@ -19,7 +19,7 @@ gui_disable_input = true
 render_target_update_mode = 4
 
 [node name="GDCubismEffectCustom" type="GDCubismEffectCustom" parent="Sprite2D/GDCubismUserModel"]
-script = ExtResource("1_rpl7q")
+script = ExtResource("1_ittjg")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 autoplay = true
