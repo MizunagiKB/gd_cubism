@@ -1,11 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dab25molfpkce"]
+[gd_scene load_steps=2 format=3 uid="uid://dab25molfpkce"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uj6qt"]
 blend_mode = 4
 light_mode = 1
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_dbyqq"]
-viewport_path = NodePath("Sprite2D/GDCubismUserModel")
 
 [node name="simple" type="Node2D"]
 
@@ -13,7 +10,6 @@ viewport_path = NodePath("Sprite2D/GDCubismUserModel")
 material = SubResource("CanvasItemMaterial_uj6qt")
 position = Vector2(640, 512)
 scale = Vector2(2, 2)
-texture = SubResource("ViewportTexture_dbyqq")
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
 disable_3d = true
