@@ -1,5 +1,6 @@
 = API Reference
 :author: MizunagiKB
+:copyright: 2023 MizunagiKB <mizukb@live.jp>
 :doctype: book
 :toc:
 :toclevels: 3
@@ -21,15 +22,26 @@ ifdef::env-github[]
 endif::[]
 
 
-== class: GDCubismEffectBreath
-
-link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の子要素として配置することで、呼吸アニメーションを行います。
+== class: GDCubismEffect
 
 
 === Properties
+
+[cols="3",frame=none,grid=none]
+|===
+>|bool <|active |[default: true]
+|===
+
+
 === Methods
 === Signals
 === Enumerations
 === Constants
 === Property Descriptions
+
+bool active::
+この値が _true_ の時、 __cubism_process_ 関数が呼び出されます。
+
+
 === Method Descriptions
+

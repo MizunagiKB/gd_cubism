@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 // ----------------------------------------------------------------- include(s)
 #include <godot_cpp/core/class_db.hpp>
 #include <gdextension_interface.h>

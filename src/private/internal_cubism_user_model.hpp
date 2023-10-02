@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 #ifndef INTERNAL_CUBISM_USER_MODEL
 #define INTERNAL_CUBISM_USER_MODEL
 
@@ -33,6 +35,12 @@ class InternalCubismUserModel : public Csm::CubismUserModel {
     friend GDCubismEffectEyeBlink;
     friend GDCubismEffectCustom;
 
+    enum EFFECT_CALL {
+        EFFECT_CALL_PROLOGUE,
+        EFFECT_CALL_PROCESS,
+        EFFECT_CALL_EPILOGUE
+    };
+
 public:
     InternalCubismUserModel(GDCubismUserModel *owner_viewport, Node *parent_node);
     virtual ~InternalCubismUserModel();
@@ -65,7 +73,7 @@ public:
     void expression_set(const char* expression_id);
     void expression_stop();
 
-    Csm::CubismMotionQueueEntryHandle motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in);
+    Csm::CubismMotionQueueEntryHandle motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in, void* custom_data);
     void motion_stop();
 
     virtual void MotionEventFired(const Csm::csmString& eventValue) override;
@@ -79,7 +87,7 @@ private:
 
     void effect_init();
     void effect_term();
-    void effect_process(const float delta);
+    void effect_batch(const float delta, const EFFECT_CALL efx_call);
 };
 
 

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 // ----------------------------------------------------------------- include(s)
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/object.hpp>
@@ -80,19 +82,42 @@ void GDCubismUserModel::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_auto_scale"), &GDCubismUserModel::get_auto_scale);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "auto_scale"), "set_auto_scale", "get_auto_scale");
 
+	ClassDB::bind_method(D_METHOD("set_shader_add"), &GDCubismUserModel::set_shader_add);
+	ClassDB::bind_method(D_METHOD("get_shader_add"), &GDCubismUserModel::get_shader_add);
 	ClassDB::bind_method(D_METHOD("set_shader_mix"), &GDCubismUserModel::set_shader_mix);
 	ClassDB::bind_method(D_METHOD("get_shader_mix"), &GDCubismUserModel::get_shader_mix);
+	ClassDB::bind_method(D_METHOD("set_shader_mul"), &GDCubismUserModel::set_shader_mul);
+	ClassDB::bind_method(D_METHOD("get_shader_mul"), &GDCubismUserModel::get_shader_mul);
+
 	ClassDB::bind_method(D_METHOD("set_shader_mask"), &GDCubismUserModel::set_shader_mask);
 	ClassDB::bind_method(D_METHOD("get_shader_mask"), &GDCubismUserModel::get_shader_mask);
+    // MaskAdd
+	ClassDB::bind_method(D_METHOD("set_shader_mask_add"), &GDCubismUserModel::set_shader_mask_add);
+	ClassDB::bind_method(D_METHOD("get_shader_mask_add"), &GDCubismUserModel::get_shader_mask_add);
+	ClassDB::bind_method(D_METHOD("set_shader_mask_add_inv"), &GDCubismUserModel::set_shader_mask_add_inv);
+	ClassDB::bind_method(D_METHOD("get_shader_mask_add_inv"), &GDCubismUserModel::get_shader_mask_add_inv);
+    // MaskMix
 	ClassDB::bind_method(D_METHOD("set_shader_mask_mix"), &GDCubismUserModel::set_shader_mask_mix);
 	ClassDB::bind_method(D_METHOD("get_shader_mask_mix"), &GDCubismUserModel::get_shader_mask_mix);
 	ClassDB::bind_method(D_METHOD("set_shader_mask_mix_inv"), &GDCubismUserModel::set_shader_mask_mix_inv);
 	ClassDB::bind_method(D_METHOD("get_shader_mask_mix_inv"), &GDCubismUserModel::get_shader_mask_mix_inv);
+    // MaskMul
+	ClassDB::bind_method(D_METHOD("set_shader_mask_mul"), &GDCubismUserModel::set_shader_mask_mul);
+	ClassDB::bind_method(D_METHOD("get_shader_mask_mul"), &GDCubismUserModel::get_shader_mask_mul);
+	ClassDB::bind_method(D_METHOD("set_shader_mask_mul_inv"), &GDCubismUserModel::set_shader_mask_mul_inv);
+	ClassDB::bind_method(D_METHOD("get_shader_mask_mul_inv"), &GDCubismUserModel::get_shader_mask_mul_inv);
+
     ADD_GROUP("Shader", "");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_add", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_add", "get_shader_add");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mix", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mix", "get_shader_mix");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mul", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mul", "get_shader_mul");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask", "get_shader_mask");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_add", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_add", "get_shader_mask_add");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_add_inv", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_add_inv", "get_shader_mask_add_inv");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mix", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mix", "get_shader_mask_mix");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mix_inv", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mix_inv", "get_shader_mask_mix_inv");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mul", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mul", "get_shader_mask_mul");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mul_inv", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mul_inv", "get_shader_mask_mul_inv");
 
     // CubismMotion
 	ClassDB::bind_method(D_METHOD("get_motions"), &GDCubismUserModel::get_motions);
@@ -115,10 +140,15 @@ void GDCubismUserModel::_bind_methods() {
     // PartOpacity
 	ClassDB::bind_method(D_METHOD("get_part_opacities"), &GDCubismUserModel::get_part_opacities);
 
+    // Meshs
+	ClassDB::bind_method(D_METHOD("get_meshes"), &GDCubismUserModel::get_meshes);
+
 	ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
 
-	//ADD_SIGNAL(MethodInfo("motion_finished", PropertyInfo(Variant::STRING, "group"), PropertyInfo(Variant::INT, "no")));
 	ADD_SIGNAL(MethodInfo("motion_event", PropertyInfo(Variant::STRING, "value")));
+    #ifdef CUBISM_MOTION_CUSTOMDATA
+	ADD_SIGNAL(MethodInfo(SIGNAL_MOTION_FINISHED));
+    #endif // #ifdef CUBISM_MOTION_CUSTOMDATA
 
     // moc3FileFormatVersion
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_UNKNOWN);
@@ -332,7 +362,8 @@ Ref<GDCubismMotionQueueEntryHandle> GDCubismUserModel::start_motion_loop(const S
         no,
         priority,
         loop,
-        loop_fade_in
+        loop_fade_in,
+        this
     );
 
 
@@ -433,15 +464,20 @@ Array GDCubismUserModel::get_part_opacities() const {
 }
 
 
-void GDCubismUserModel::on_motion_finished(Csm::ACubismMotion* motion) {
-    #if 0
-    Csm::CubismMotion* m = static_cast<Csm::CubismMotion*>(motion);
-    InternalCubismUserModel* model = static_cast<InternalCubismUserModel*>(m->_userData);
+Dictionary GDCubismUserModel::get_meshes() const {
+    if(this->is_initialized() == false) return Dictionary();
 
-    if(model != nullptr && model->_owner_viewport != nullptr) {
-        model->_owner_viewport->emit_signal("motion_finished", String(), 0);
+    return this->internal_model->_renderer_resource.dict_mesh;
+}
+
+
+void GDCubismUserModel::on_motion_finished(Csm::ACubismMotion* motion) {
+    #ifdef CUBISM_MOTION_CUSTOMDATA
+    GDCubismUserModel* m = static_cast<GDCubismUserModel*>(motion->GetFinishedMotionCustomData());
+    if(m != nullptr) {
+        m->emit_signal(SIGNAL_MOTION_FINISHED);
     }
-    #endif
+    #endif // CUBISM_MOTION_CUSTOMDATA
 }
 
 
@@ -735,16 +771,14 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
 
 void GDCubismUserModel::_ready() {
-
     // Setup SubViewport
-    this->set_clear_mode(SubViewport::CLEAR_MODE_ALWAYS);
-
     this->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
     this->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
-    // 無指定の場合はEditorとExport時で動作が異なる。
+    // set_update_mode must be specified
     this->set_update_mode(SubViewport::UpdateMode::UPDATE_ALWAYS);
     this->set_disable_input(true);
-    // true にするとメモリリークが発生する。
+    // Memory leak when set_use_own_world_3d is true
+    // https://github.com/godotengine/godot/issues/81476
     this->set_use_own_world_3d(false);
     this->set_transparent_background(true);
 }

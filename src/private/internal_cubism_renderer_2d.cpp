@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
 #ifdef GD_CUBISM_USE_RENDERER_2D
@@ -241,15 +243,16 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++) {
 
         // Drawableが表示状態でなければ処理をパスする
-        if(model->GetDrawableDynamicFlagIsVisible(index) == false) {
-            continue;
-        }
-
+        if(model->GetDrawableDynamicFlagIsVisible(index) == false) continue;
         if(model->GetDrawableVertexCount(index) == 0) continue;
         if(model->GetDrawableVertexIndexCount(index) == 0) continue;
 
         MeshInstance2D *node = res.request_mesh_instance();
-    
+        Ref<ShaderMaterial> mat = this->make_ShaderMaterial(model, index, res);
+
+        CubismIdHandle handle = model->GetDrawableId(index);
+        String node_name(handle->GetString().GetRawString());
+
         if(model->GetDrawableMaskCounts()[index] > 0) {
 
             SubViewport *viewport = res.request_viewport();
@@ -257,11 +260,12 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
             viewport->set_size(res._owner_viewport->get_size());
 
             viewport->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
-            viewport->set_clear_mode(SubViewport::CLEAR_MODE_ALWAYS);
-            // 無指定の場合はEditorとExport時で動作が異なる。
+            viewport->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
+            // set_update_mode must be specified
             viewport->set_update_mode(SubViewport::UpdateMode::UPDATE_ALWAYS);
             viewport->set_disable_input(true);
-            // true にするとメモリリークが発生する。
+            // Memory leak when set_use_own_world_3d is true
+            // https://github.com/godotengine/godot/issues/81476
             viewport->set_use_own_world_3d(false);
             viewport->set_transparent_background(true);
 
@@ -270,22 +274,16 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
             //res._parent_node->add_child(viewport);
             res._parent_node->call_deferred("add_child", viewport);
 
-            Ref<ShaderMaterial> mat = this->make_ShaderMaterial(model, index, res);
-
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
-
-            node->set_mesh(this->make_ArrayMesh(model, index, res));
-            node->set_material(mat);
-            node->set_z_index(renderOrder[index]);
-            node->set_visible(true);
-
-        } else {
-
-            node->set_mesh(this->make_ArrayMesh(model, index, res));
-            node->set_material(this->make_ShaderMaterial(model, index, res));
-            node->set_z_index(renderOrder[index]);
-            node->set_visible(true);
         }
+
+        res.dict_mesh[node_name] = this->make_ArrayMesh(model, index, res);
+        
+        node->set_name(node_name);
+        node->set_mesh(this->make_ArrayMesh(model, index, res));
+        node->set_material(mat);
+        node->set_z_index(renderOrder[index]);
+        node->set_visible(true);
 
         //res._parent_node->add_child(node);
         res._parent_node->call_deferred("add_child", node);

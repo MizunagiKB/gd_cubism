@@ -1,8 +1,11 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 extends Control
 
 const MIX_RENDER_SIZE := 32
 const MAX_RENDER_SIZE := 2048
 const RENDER_SIZE_STEP := 256
+const ENABLE_MOTION_FINISHED := true
 
 var cubism_model: GDCubismUserModel
 var ary_param: Array
@@ -14,7 +17,7 @@ func setup(pathname: String):
     
     var canvas_info = cubism_model.get_canvas_info()
 
-    var idx = 0
+    var idx: int = 0
     var dict_motion = cubism_model.get_motions()
     $UI/ItemListMotion.clear()
     for k in dict_motion:
@@ -29,14 +32,18 @@ func setup(pathname: String):
 
     cubism_model.playback_process_mode = GDCubismUserModel.IDLE
     $Sprite2D.texture = cubism_model.get_texture()
+    var mat = CanvasItemMaterial.new()
+    mat.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+    mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+    $Sprite2D.material = mat
 
 
 func model3_search(dirname: String):
 
-    var dir = DirAccess.open(dirname)
+    var dir: DirAccess = DirAccess.open(dirname)
     if dir == null:
         return
-    
+
     dir.list_dir_begin()
     var name = dir.get_next()
     while name != "":
@@ -51,7 +58,10 @@ func model3_search(dirname: String):
 
 func _ready():
     cubism_model = GDCubismUserModel.new()
+    if ENABLE_MOTION_FINISHED == true:
+        cubism_model.motion_finished.connect(_on_motion_finished)
     add_child(cubism_model)
+
     $UI/OptModel.clear()
     $UI/OptModel.add_item("")
     model3_search("res://addons/gd_cubism/example/res/live2d")
@@ -69,10 +79,13 @@ func _process(delta):
     $Sprite2D.scale.x = vct_viewport_size.y / cubism_model.size.y
     $Sprite2D.scale.y = $Sprite2D.scale.x
 
-    var ary_queue = cubism_model.get_cubism_motion_queue_entries()
-    if ary_queue.size() == 0:
-        if last_motion != null:
-            var m = cubism_model.start_motion(last_motion.group, last_motion.no, GDCubismUserModel.PRIORITY_FORCE)
+
+func _on_motion_finished():
+    cubism_model.start_motion(
+        last_motion.group,
+        last_motion.no,
+        GDCubismUserModel.PRIORITY_FORCE
+    )
 
 
 func _on_opt_model_item_selected(index):

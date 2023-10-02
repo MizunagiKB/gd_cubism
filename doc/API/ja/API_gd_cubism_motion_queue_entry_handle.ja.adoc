@@ -1,5 +1,6 @@
 = API Reference
 :author: MizunagiKB
+:copyright: 2023 MizunagiKB <mizukb@live.jp>
 :doctype: book
 :toc:
 :toclevels: 3

@@ -1,9 +1,10 @@
 = Cubism for GDScript
 :author: MizunagiKB
+:copyright: 2023 MizunagiKB <mizukb@live.jp>
 :doctype: book
 :toc:
 :toclevels: 3
-:lang: ja
+:lang: en
 :encoding: utf-8
 :stylesdir: ./res/theme/css
 :stylesheet: adoc-golo.css
@@ -30,39 +31,27 @@ link:BUILD.adoc[Japanese] / link:BUILD.en.adoc[English]
 
 Get the source code from the GDCubism repository.
 
-[source, zsh]
+[source, bash]
 ----
 git clone https://github.com/MizunagiKB/gd_cubism.git
+cd gd_cubism
 git submodule update --init
 ----
-
-[NOTE]
-====
-If you get it as a zip file, the git submodule may not work properly. In that case, please add it manually using git submodule.
-
-[source, zsh]
---
-git submodule add -b 4.1 https://github.com/godotengine/godot-cpp
-pushd godot-cpp
-git submodule update --init
-popd
---
-====
 
 
 ==== Preparation of CubismSdkForNative
 
 . Get Live2D Cubism SDK for Native.
-.. The SDK version used by GDCubism is *Cubism 5 SDK for Native R1 beta1*.
+.. The SDK version used by GDCubism is **Cubism 5 SDK for Native R1 beta2**.
 .. Get Cubism 5 SDK for Native from Live2D's official website.
-. Extract the downloaded file to _thirdparty/CubismSdkForNative_.
+. Extract the downloaded file to _thirdparty_.
 
 When expanded, it should look like the following.
 
-[source]
+[source, console]
 ----
 ./thirdparty
-    /CubismSdkForNative
+    /CubismSdkForNative-5-r.1-beta.2
         /Core
             /dll
             ...
@@ -70,6 +59,22 @@ When expanded, it should look like the following.
             /build
             ...
 ----
+
+
+This is a possible translation of the text in English:
+
+==== Customizing CubismNativeFramework
+
+GDCubism uses CubismNativeFramework, which is included in CubismSdkForNative. If you want to use the latest Framework or customize it for your own needs, you can do so by following these steps:
+
+[source, bash]
+----
+pushd thirdparty
+git clone https://github.com/Live2D/CubismNativeFramework.git
+popd
+----
+
+CAUTION: This build has priority over the Framework in CubismSdkForNative, so please delete it when it is no longer needed.
 
 
 === Build for Windows
@@ -109,30 +114,40 @@ The following items are required for building:
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
 
-Live2D Cubism SDK for Native has libraries for x86_64 and arm64, but since the files are arranged by architecture, it is difficult to create a universal binary for macOS.
-
-Before building, combine the two files.
-
-[source, zsh]
---
-pushd thirdparty/CubismSdkForNative/Core/lib/macos
-# for Universal Binary
-lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output libLive2DCubismCore.universal.a
-popd
---
-
 When ready, run the build with the following command.
 
-[source, zsh]
+[source, bash]
 --
-scons platform=macos arch=universal target=template_debug
-scons platform=macos arch=universal target=template_release
+# for x86_64(intel mac)
+scons platform=macos arch=x86_64 target=template_debug
+scons platform=macos arch=x86_64 target=template_release
+# for arm64(Apple Silicon mac)
+scons platform=macos arch=arm64 target=template_debug
+scons platform=macos arch=arm64 target=template_release
 --
 
 When the build is completed, the following files will be generated under _demo/addons/gd_cubism/bin_.
 
 * libgd_cubism.macos.debug.framework
 * libgd_cubism.macos.release.framework
+
+
+==== Building as a universal binary
+
+If you want to build as a universal binary, you need to create link files as follows before running scons.
+
+
+[source, bash]
+----
+pushd thirdparty/CubismSdkForNative-5-r.1-beta.2/Core/lib/macos
+mkdir universal
+lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output universal/libLive2DCubismCore.a
+popd
+
+# for universal
+scons platform=macos arch=universal target=template_debug
+scons platform=macos arch=universal target=template_release
+----
 
 
 === Build for Linux
@@ -153,10 +168,10 @@ For Linux, additional packages may be required for each distribution. Please ref
 
 When ready, run the build with the following command.
 
-[source,zsh]
+[source, bash]
 --
-scons platform=linux target=template_debug
-scons platform=linux target=template_release
+scons platform=linux arch=x86_64 target=template_debug
+scons platform=linux arch=x86_64 target=template_release
 --
 
 When the build is completed, the following files will be generated under _demo/addons/gd_cubism/bin_.

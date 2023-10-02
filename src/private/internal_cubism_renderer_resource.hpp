@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 #ifndef INTERNAL_CUBISM_RENDERER_RESOURCE
 #define INTERNAL_CUBISM_RENDERER_RESOURCE
 
@@ -34,6 +36,8 @@ public:
     InternalCubismRendererResource(GDCubismUserModel *owner_viewport, Node *parent_node);
     ~InternalCubismRendererResource();
 
+    void clear();
+
     SubViewport* request_viewport();
     MeshInstance2D* request_mesh_instance();
 
@@ -41,7 +45,6 @@ public:
     void epi_proc();
 
     void dispose_node(const bool node_release);
-    void clear();
 
     // Shader
     Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }
@@ -52,6 +55,7 @@ public:
 
     Array ary_texture;
     Array ary_shader;
+    Dictionary dict_mesh;
     Csm::csmInt32 sub_viewport_counter;
     TypedArray<SubViewport> ary_sub_viewport;
     Csm::csmInt32 mesh_instance_counter;

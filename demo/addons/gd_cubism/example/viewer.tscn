@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dy5erb1lkxh7t"]
+[gd_scene load_steps=2 format=3 uid="uid://dy5erb1lkxh7t"]
 
 [ext_resource type="Script" path="res://addons/gd_cubism/example/viewer.gd" id="1_rjwgb"]
-[ext_resource type="Texture2D" uid="uid://c8o4yd28cp3jy" path="res://icon.svg" id="2_v866x"]
 
 [node name="Viewer" type="Control"]
 layout_mode = 3
@@ -61,7 +60,6 @@ grow_vertical = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(256, 256)
-texture = ExtResource("2_v866x")
 
 [connection signal="item_selected" from="UI/OptModel" to="." method="_on_opt_model_item_selected"]
 [connection signal="item_selected" from="UI/ItemListMotion" to="." method="_on_item_list_motion_item_selected"]

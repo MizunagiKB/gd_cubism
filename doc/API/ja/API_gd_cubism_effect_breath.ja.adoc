@@ -1,5 +1,6 @@
 = API Reference
 :author: MizunagiKB
+:copyright: 2023 MizunagiKB <mizukb@live.jp>
 :doctype: book
 :toc:
 :toclevels: 3
@@ -21,13 +22,12 @@ ifdef::env-github[]
 endif::[]
 
 
-== class: GDCubismPartOpacity
+== class: GDCubismEffectBreath
 
-link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _get_part_opacities_ 関数で戻される _Array_ に含まれる要素。
-
-このクラスの _value_ に値を書き込むことで、Live2Dモデルのパーツ透明度を書き換えることができます。
+link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の子要素として配置することで、呼吸アニメーションを行います。
 
 
+=== Properties
 === Methods
 === Signals
 === Enumerations

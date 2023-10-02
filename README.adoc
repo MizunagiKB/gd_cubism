@@ -1,5 +1,6 @@
 = Cubism for GDScript
 :author: MizunagiKB
+:copyright: 2023 MizunagiKB <mizukb@live.jp>
 :doctype: book
 :toc:
 :toclevels: 3
@@ -35,22 +36,22 @@ GDCubism内部ではLive2D社が公開しているlink:https://github.com/Live2D
 
 === ライセンスについて
 
-* link:LICENSE.adoc[]を参照してください。
+* link:LICENSE.adoc[]
 
 
 === ビルド方法
 
-* link:doc/BUILD.adoc[]を参照してください。
+* link:doc/BUILD.adoc[]
 
 
 === 使用方法
 
-* link:doc/USAGE.adoc[]を参照してください。
+* link:doc/USAGE.adoc[]
 
 
 === 既知の不具合
 
-* link:doc/PROBLEM.adoc[]を参照してください。
+* link:doc/PROBLEM.adoc[]
 
 
 === 関連情報

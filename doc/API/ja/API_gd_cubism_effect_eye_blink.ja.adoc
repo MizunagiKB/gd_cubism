@@ -1,5 +1,6 @@
-= PI Reference
+= API Reference
 :author: MizunagiKB
+:copyright: 2023 MizunagiKB <mizukb@live.jp>
 :doctype: book
 :toc:
 :toclevels: 3
@@ -21,7 +22,10 @@ ifdef::env-github[]
 endif::[]
 
 
-== class: GDCubismMotionQueueEntry
+== class: GDCubismEffectEyeBlink
+
+
+link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の子要素として配置することで、瞬きアニメーションを行います。
 
 
 === Properties

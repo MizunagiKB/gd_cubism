@@ -1,5 +1,6 @@
 = API Reference
 :author: MizunagiKB
+:copyright: 2023 MizunagiKB <mizukb@live.jp>
 :doctype: book
 :toc:
 :toclevels: 3
@@ -21,15 +22,11 @@ ifdef::env-github[]
 endif::[]
 
 
-== class: GDCubismEffect
+== class: GDCubismPartOpacity
 
+link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _get_part_opacities_ 関数で戻される _Array_ に含まれる要素。
 
-=== Properties
-
-[cols="3",frame=none,grid=none]
-|===
->|bool <|active |[default: true]
-|===
+このクラスの _value_ に値を書き込むことで、Live2Dモデルのパーツ透明度を書き換えることができます。
 
 
 === Methods
@@ -37,10 +34,4 @@ endif::[]
 === Enumerations
 === Constants
 === Property Descriptions
-
-bool active::
-この値が _true_ の時、 __cubism_process_ 関数が呼び出されます。
-
-
 === Method Descriptions
-

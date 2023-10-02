@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 #ifndef GD_CUBISM_EFFECT
 #define GD_CUBISM_EFFECT
 
@@ -36,7 +38,9 @@ public:
 
     virtual void _cubism_init(InternalCubismUserModel* model);
     virtual void _cubism_term(InternalCubismUserModel* model);
+    virtual void _cubism_prologue(InternalCubismUserModel* model, const float delta);
     virtual void _cubism_process(InternalCubismUserModel* model, const float delta);
+    virtual void _cubism_epilogue(InternalCubismUserModel* model, const float delta);
 
     void _enter_tree() override;
     void _exit_tree() override;

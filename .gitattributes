@@ -1,0 +1,12 @@
+*       text=auto eol=lf
+*.c     text eol=lf
+*.h     text eol=lf
+*.py    text eol=lf
+*.cpp   text eol=lf
+*.hpp   text eol=lf
+*.bat   text eol=crlf
+*.sh    text eol=lf
+
+# for Godot Engine
+*.gd    text eol=lf
+*.tscn  text eol=lf

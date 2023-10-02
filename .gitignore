@@ -14,7 +14,9 @@ export_presets.cfg
 data_*/
 mono_crash.*.json
 
-# GD NNabla C Runtime
+.vscode
+
+# for GDCubism
 .DS_Store
 .sconsign.dblite
 *.os
@@ -22,4 +24,6 @@ mono_crash.*.json
 *.exp
 *.lib
 
-.vscode
+# for Experimental
+thirdparty/CubismNativeFramework
+thirdparty/CubismSdkForNative*

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
 
@@ -151,6 +153,8 @@ void InternalCubismUserModel::pro_update(const float delta) {
     if(this->_model_setting == nullptr) return;
     if(this->_model == nullptr) return;
 
+    this->effect_batch(delta, EFFECT_CALL_PROLOGUE);
+
     if(this->_owner_viewport->parameter_mode == GDCubismUserModel::ParameterMode::FULL_PARAMETER) {
         this->_model->LoadParameters();
         this->_motionManager->UpdateMotion(this->_model, delta);
@@ -176,7 +180,7 @@ void InternalCubismUserModel::efx_update(const float delta) {
         this->_owner_viewport->cubism_effect_dirty_reset();
     }
 
-    this->effect_process(delta);
+    this->effect_batch(delta, EFFECT_CALL_PROCESS);
 }
 
 
@@ -189,6 +193,7 @@ void InternalCubismUserModel::epi_update(const float delta) {
     if(this->_pose != nullptr) { this->_pose->UpdateParameters(this->_model, delta); }
 
     this->_model->Update();
+    this->effect_batch(delta, EFFECT_CALL_EPILOGUE);
 }
 
 
@@ -205,7 +210,7 @@ void InternalCubismUserModel::update_node() {
         renderer->calc_mesh_instance_count()
     );
 
-    renderer->IsPremultipliedAlpha(false);
+    renderer->IsPremultipliedAlpha(true);
     renderer->DrawModel();
     renderer->update(this->_renderer_resource);
 
@@ -276,7 +281,7 @@ void InternalCubismUserModel::expression_stop() {
 }
 
 
-CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in) {
+CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in, void* custom_data) {
 
     if (priority == GDCubismUserModel::Priority::PRIORITY_FORCE) {
         this->_motionManager->SetReservePriority(priority);
@@ -293,6 +298,9 @@ CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* g
     motion->IsLoop(loop);
     motion->IsLoopFadeIn(loop_fade_in);
     motion->SetFinishedMotionHandler(GDCubismUserModel::on_motion_finished);
+    #ifdef CUBISM_MOTION_CUSTOMDATA
+    motion->SetFinishedMotionCustomData(custom_data);
+    #endif // CUBISM_MOTION_CUSTOMDATA
 
     return this->_motionManager->StartMotionPriority(motion, false, priority);
 }
@@ -452,15 +460,19 @@ void InternalCubismUserModel::effect_term() {
 }
 
 
-
-void InternalCubismUserModel::effect_process(const float delta) {
+void InternalCubismUserModel::effect_batch(const float delta, const EFFECT_CALL efx_call) {
     for(
         Csm::csmVector<GDCubismEffect*>::iterator i = this->_owner_viewport->_list_cubism_effect.Begin();
         i != this->_owner_viewport->_list_cubism_effect.End();
         i++
     ) {
-        (*i)->_cubism_process(this, delta);
+        switch(efx_call) {
+            case EFFECT_CALL_PROLOGUE:  (*i)->_cubism_prologue(this, delta);    break;
+            case EFFECT_CALL_PROCESS:   (*i)->_cubism_process(this, delta);     break;
+            case EFFECT_CALL_EPILOGUE:  (*i)->_cubism_epilogue(this, delta);    break;
+        }
     }
 }
+
 
 // ------------------------------------------------------------------ method(s)

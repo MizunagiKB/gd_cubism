@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
 
@@ -31,18 +33,18 @@ InternalCubismRendererResource::InternalCubismRendererResource(GDCubismUserModel
 
     this->ary_shader.resize(GD_CUBISM_SHADER_MAX);
 
-    this->ary_shader[GD_CUBISM_SHADER_NORM_ADD] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader");
+    this->ary_shader[GD_CUBISM_SHADER_NORM_ADD] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader");
     this->ary_shader[GD_CUBISM_SHADER_NORM_MIX] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader");
-    this->ary_shader[GD_CUBISM_SHADER_NORM_MUL] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader");
+    this->ary_shader[GD_CUBISM_SHADER_NORM_MUL] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader");
 
     this->ary_shader[GD_CUBISM_SHADER_MASK] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask.gdshader");
 
-    this->ary_shader[GD_CUBISM_SHADER_MASK_ADD] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader");
-    this->ary_shader[GD_CUBISM_SHADER_MASK_ADD_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader");
+    this->ary_shader[GD_CUBISM_SHADER_MASK_ADD] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_add.gdshader");
+    this->ary_shader[GD_CUBISM_SHADER_MASK_ADD_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_add_inv.gdshader");
     this->ary_shader[GD_CUBISM_SHADER_MASK_MIX] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader");
     this->ary_shader[GD_CUBISM_SHADER_MASK_MIX_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader");
-    this->ary_shader[GD_CUBISM_SHADER_MASK_MUL] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader");
-    this->ary_shader[GD_CUBISM_SHADER_MASK_MUL_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader");
+    this->ary_shader[GD_CUBISM_SHADER_MASK_MUL] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader");
+    this->ary_shader[GD_CUBISM_SHADER_MASK_MUL_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader");
 
     memdelete(res_loader);
 }
@@ -53,6 +55,14 @@ InternalCubismRendererResource::~InternalCubismRendererResource() {
     this->ary_shader.clear();
     this->_owner_viewport = nullptr;
     this->_parent_node = nullptr;
+}
+
+
+void InternalCubismRendererResource::clear() {
+    this->dispose_node(true);
+    this->ary_texture.clear();
+    this->ary_sub_viewport.clear();
+    this->ary_mesh_instance.clear();
 }
 
 
@@ -84,6 +94,7 @@ MeshInstance2D* InternalCubismRendererResource::request_mesh_instance() {
 
 void InternalCubismRendererResource::pro_proc(const Csm::csmInt32 viewport_count, const Csm::csmInt32 mesh_instance_count) {
     this->dispose_node(false);
+    this->dict_mesh.clear();
     this->sub_viewport_counter = 0;
     this->mesh_instance_counter = 0;
 }
@@ -94,16 +105,6 @@ void InternalCubismRendererResource::epi_proc() {}
 
 void InternalCubismRendererResource::dispose_node(const bool node_release) {
     _recurisive_dispose_node(this->_parent_node, node_release);
-}
-
-
-void InternalCubismRendererResource::clear() {
-
-    this->dispose_node(true);
-
-    this->ary_texture.clear();
-    this->ary_sub_viewport.clear();
-    this->ary_mesh_instance.clear();
 }
 
 

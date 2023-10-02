@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 #ifndef GD_CUBISM_EFFECT_CUSTOM
 #define GD_CUBISM_EFFECT_CUSTOM
 
@@ -35,9 +37,19 @@ public:
         call("_cubism_term", model->_owner_viewport);
     }
 
+    virtual void _cubism_prologue(InternalCubismUserModel* model, const float delta) override {
+        if(this->_active == false) return;
+        call("_cubism_prologue", model->_owner_viewport, delta);
+    }
+
     virtual void _cubism_process(InternalCubismUserModel* model, const float delta) override {
         if(this->_active == false) return;
         call("_cubism_process", model->_owner_viewport, delta);
+    }
+
+    virtual void _cubism_epilogue(InternalCubismUserModel* model, const float delta) override {
+        if(this->_active == false) return;
+        call("_cubism_epilogue", model->_owner_viewport, delta);
     }
 };
 

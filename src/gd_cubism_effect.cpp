@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism_effect.hpp>
 
@@ -22,7 +24,9 @@ void GDCubismEffect::_cubism_init(InternalCubismUserModel* model) {}
 void GDCubismEffect::_cubism_term(InternalCubismUserModel* model) {}
 
 
+void GDCubismEffect::_cubism_prologue(InternalCubismUserModel* model, const float delta) {}
 void GDCubismEffect::_cubism_process(InternalCubismUserModel* model, const float delta) {}
+void GDCubismEffect::_cubism_epilogue(InternalCubismUserModel* model, const float delta) {}
 
 
 void GDCubismEffect::_enter_tree() {

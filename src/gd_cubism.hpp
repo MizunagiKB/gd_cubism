@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 #ifndef GD_CUBISM
 #define GD_CUBISM
 
@@ -45,7 +47,9 @@ const static char* PROP_ANIM_LOOP = "anim_loop";
 const static char* PROP_ANIM_LOOP_FADE_IN = "anim_loop_fade_in";
 const static char* PROP_PARAMETER_GROUP = "Parameter";
 const static char* PROP_PART_OPACITY_GROUP = "PartOpacity";
-
+#ifdef CUBISM_MOTION_CUSTOMDATA
+const static char* SIGNAL_MOTION_FINISHED = "motion_finished";
+#endif //CUBISM_MOTION_CUSTOMDATA
 
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
