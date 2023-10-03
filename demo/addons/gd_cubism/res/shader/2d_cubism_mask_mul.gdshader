@@ -1,7 +1,7 @@
 // GDCubism shader: Mask + Mul
 // author: MizunagiKB
 shader_type canvas_item;
-render_mode blend_premul_alpha, unshaded;
+render_mode blend_mul, unshaded;
 
 uniform vec4 color_base;
 uniform vec4 color_screen;
@@ -18,11 +18,18 @@ void fragment() {
     vec4 color_tex = texture(tex_main, UV);
     color_tex.rgb = color_tex.rgb * color_multiply.rgb;
 
+    // premul alpha
     color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
     vec4 color_for_mask = color_tex * color_base;
     color_for_mask.rgb = color_for_mask.rgb * color_for_mask.a;
+
     vec4 clip_mask = texture(tex_mask, SCREEN_UV) * channel;
     float mask_val = clip_mask.r + clip_mask.g + clip_mask.b + clip_mask.a;
     color_for_mask = color_for_mask * mask_val;
-    COLOR = color_for_mask;
+    COLOR = vec4(
+        color_for_mask.r + (1.0 - color_for_mask.a),
+        color_for_mask.g + (1.0 - color_for_mask.a),
+        color_for_mask.b + (1.0 - color_for_mask.a),
+        1.0
+    );
 }
