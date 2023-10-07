@@ -1,5 +1,6 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 // GDCubism shader: Mask + MulInv
-// author: MizunagiKB
 shader_type canvas_item;
 render_mode blend_mul, unshaded;
 
