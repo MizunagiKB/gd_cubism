@@ -102,9 +102,6 @@ func _ready():
     $GDCubismUserModel.motion_event.connect(_on_motion_event)
 ----
 
-CAUTION: _motion_finished_ シグナルは、現在カスタムビルドを行った時のみ使用可能です。
- +
-カスタムビルドの方法については、 link:BUILD.adoc[] を参照してください。
 
 === Enumerations
 
