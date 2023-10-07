@@ -21,9 +21,14 @@ func _input(event):
 
     if event as InputEventMouseMotion:
         if pressed == true:
+            # Convert to local position.
             var local_pos = $Sprite2D.to_local(event.position)
-            local_pos.x /= float($Sprite2D/GDCubismUserModel.size.x) * $Sprite2D.scale.x
-            local_pos.y /= float($Sprite2D/GDCubismUserModel.size.y) * $Sprite2D.scale.y
-            $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_position(local_pos)
+            # Adjust position.
+            var render_size: Vector2 = Vector2(
+                float($Sprite2D/GDCubismUserModel.size.x) * $Sprite2D.scale.x,
+                float($Sprite2D/GDCubismUserModel.size.y) * $Sprite2D.scale.y * -1.0
+            ) * 0.5
+            local_pos /= render_size
+            $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_target(local_pos)
         else:
-            $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_position(Vector2.ZERO)
+            $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_target(Vector2.ZERO)
