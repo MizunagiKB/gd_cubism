@@ -54,11 +54,15 @@ print("                       arch = {:s}".format(env["arch"]))
 
 if env["platform"] == "windows":
     print("               MSVC_VERSION = {:s}".format(env.get("MSVC_VERSION", "(undefined)")))
+    arch = env["arch"]
+    if arch == "x86_32":
+        arch = "x86"
+
     o_cubism_lib = (
         Path(CUBISM_NATIVE_CORE_DIR)
         .joinpath("lib")
         .joinpath(env["platform"])
-        .joinpath(env["arch"])
+        .joinpath(arch)
         .joinpath(env["MSVC_VERSION"].replace(".", ""))
         .joinpath("Live2DCubismCore_MT.lib")
     )
@@ -68,7 +72,7 @@ if env["platform"] == "windows":
                 CUBISM_NATIVE_CORE_DIR,
                 "lib",
                 "windows",
-                env["arch"],
+                arch,
                 env["MSVC_VERSION"].replace(".", ""),
             ),
         ]
