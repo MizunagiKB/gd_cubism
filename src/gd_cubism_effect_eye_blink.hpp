@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
-#ifndef GD_CUBISM_EFFECT_BLINK
-#define GD_CUBISM_EFFECT_BLINK
+#ifndef GD_CUBISM_EFFECT_EYE_BLINK
+#define GD_CUBISM_EFFECT_EYE_BLINK
 
 
 // ----------------------------------------------------------------- include(s)
@@ -53,4 +53,4 @@ public:
 };
 
 
-#endif // GD_CUBISM_EFFECT_BLINK
+#endif // GD_CUBISM_EFFECT_EYE_BLINK

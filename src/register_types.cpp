@@ -11,6 +11,7 @@
 #include <gd_cubism_effect_breath.hpp>
 #include <gd_cubism_effect_custom.hpp>
 #include <gd_cubism_effect_eye_blink.hpp>
+#include <gd_cubism_effect_target_point.hpp>
 #include <gd_cubism_motion_entry.hpp>
 #include <gd_cubism_value_abs.hpp>
 #include <gd_cubism_value_parameter.hpp>
@@ -52,6 +53,7 @@ void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     GDREGISTER_CLASS(GDCubismEffectBreath);
     GDREGISTER_CLASS(GDCubismEffectCustom);
     GDREGISTER_CLASS(GDCubismEffectEyeBlink);
+    GDREGISTER_CLASS(GDCubismEffectTargetPoint);
 
     GDREGISTER_VIRTUAL_CLASS(GDCubismValueAbs);
     GDREGISTER_CLASS(GDCubismParameter);

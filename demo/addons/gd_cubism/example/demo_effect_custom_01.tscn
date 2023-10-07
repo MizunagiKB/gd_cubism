@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/gd_cubism/example/custom_efx_01.gd" id="1_lkrys"]
 [ext_resource type="Texture2D" uid="uid://c8o4yd28cp3jy" path="res://icon.svg" id="2_ur0ha"]
 
-[node name="demo_attach" type="Node2D"]
+[node name="demo_effect_custom_01" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(640, 512)

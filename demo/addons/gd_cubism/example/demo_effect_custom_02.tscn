@@ -6,7 +6,7 @@
 blend_mode = 4
 light_mode = 1
 
-[node name="demo_custom_effect" type="Node2D"]
+[node name="demo_effect_custom_02" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_w6cby")
