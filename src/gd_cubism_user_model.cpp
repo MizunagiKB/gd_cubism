@@ -58,54 +58,54 @@ void GDCubismUserModel::_bind_methods() {
     ClassDB::bind_method(D_METHOD("csm_get_moc_version"), &GDCubismUserModel::csm_get_moc_version);
 
     // ModelData
-	ClassDB::bind_method(D_METHOD("set_assets", "assets"), &GDCubismUserModel::set_assets);
-	ClassDB::bind_method(D_METHOD("get_assets"), &GDCubismUserModel::get_assets);
+    ClassDB::bind_method(D_METHOD("set_assets", "assets"), &GDCubismUserModel::set_assets);
+    ClassDB::bind_method(D_METHOD("get_assets"), &GDCubismUserModel::get_assets);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "assets", PROPERTY_HINT_FILE, "*.model3.json"), "set_assets", "get_assets");
 
-	ClassDB::bind_method(D_METHOD("get_canvas_info"), &GDCubismUserModel::get_canvas_info);
+    ClassDB::bind_method(D_METHOD("get_canvas_info"), &GDCubismUserModel::get_canvas_info);
 
-	ClassDB::bind_method(D_METHOD("clear"), &GDCubismUserModel::clear);
+    ClassDB::bind_method(D_METHOD("clear"), &GDCubismUserModel::clear);
 
-	ClassDB::bind_method(D_METHOD("set_parameter_mode", "value"), &GDCubismUserModel::set_parameter_mode);
-	ClassDB::bind_method(D_METHOD("get_parameter_mode"), &GDCubismUserModel::get_parameter_mode);
+    ClassDB::bind_method(D_METHOD("set_parameter_mode", "value"), &GDCubismUserModel::set_parameter_mode);
+    ClassDB::bind_method(D_METHOD("get_parameter_mode"), &GDCubismUserModel::get_parameter_mode);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "parameter_mode", PROPERTY_HINT_ENUM, "FullParameter,NoneParameter"), "set_parameter_mode", "get_parameter_mode");
 
-	ClassDB::bind_method(D_METHOD("set_process_callback", "value"), &GDCubismUserModel::set_process_callback);
-	ClassDB::bind_method(D_METHOD("get_process_callback"), &GDCubismUserModel::get_process_callback);
+    ClassDB::bind_method(D_METHOD("set_process_callback", "value"), &GDCubismUserModel::set_process_callback);
+    ClassDB::bind_method(D_METHOD("get_process_callback"), &GDCubismUserModel::get_process_callback);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "playback_process_mode", PROPERTY_HINT_ENUM, "Physics,Idle,Manual"), "set_process_callback", "get_process_callback");
 
-	ClassDB::bind_method(D_METHOD("set_speed_scale", "value"), &GDCubismUserModel::set_speed_scale);
-	ClassDB::bind_method(D_METHOD("get_speed_scale"), &GDCubismUserModel::get_speed_scale);
+    ClassDB::bind_method(D_METHOD("set_speed_scale", "value"), &GDCubismUserModel::set_speed_scale);
+    ClassDB::bind_method(D_METHOD("get_speed_scale"), &GDCubismUserModel::get_speed_scale);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed_scale", PROPERTY_HINT_RANGE, "0.0,256.0,0.1"), "set_speed_scale", "get_speed_scale");
 
-	ClassDB::bind_method(D_METHOD("set_auto_scale", "value"), &GDCubismUserModel::set_auto_scale);
-	ClassDB::bind_method(D_METHOD("get_auto_scale"), &GDCubismUserModel::get_auto_scale);
+    ClassDB::bind_method(D_METHOD("set_auto_scale", "value"), &GDCubismUserModel::set_auto_scale);
+    ClassDB::bind_method(D_METHOD("get_auto_scale"), &GDCubismUserModel::get_auto_scale);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "auto_scale"), "set_auto_scale", "get_auto_scale");
 
-	ClassDB::bind_method(D_METHOD("set_shader_add"), &GDCubismUserModel::set_shader_add);
-	ClassDB::bind_method(D_METHOD("get_shader_add"), &GDCubismUserModel::get_shader_add);
-	ClassDB::bind_method(D_METHOD("set_shader_mix"), &GDCubismUserModel::set_shader_mix);
-	ClassDB::bind_method(D_METHOD("get_shader_mix"), &GDCubismUserModel::get_shader_mix);
-	ClassDB::bind_method(D_METHOD("set_shader_mul"), &GDCubismUserModel::set_shader_mul);
-	ClassDB::bind_method(D_METHOD("get_shader_mul"), &GDCubismUserModel::get_shader_mul);
+    ClassDB::bind_method(D_METHOD("set_shader_add"), &GDCubismUserModel::set_shader_add);
+    ClassDB::bind_method(D_METHOD("get_shader_add"), &GDCubismUserModel::get_shader_add);
+    ClassDB::bind_method(D_METHOD("set_shader_mix"), &GDCubismUserModel::set_shader_mix);
+    ClassDB::bind_method(D_METHOD("get_shader_mix"), &GDCubismUserModel::get_shader_mix);
+    ClassDB::bind_method(D_METHOD("set_shader_mul"), &GDCubismUserModel::set_shader_mul);
+    ClassDB::bind_method(D_METHOD("get_shader_mul"), &GDCubismUserModel::get_shader_mul);
 
-	ClassDB::bind_method(D_METHOD("set_shader_mask"), &GDCubismUserModel::set_shader_mask);
-	ClassDB::bind_method(D_METHOD("get_shader_mask"), &GDCubismUserModel::get_shader_mask);
+    ClassDB::bind_method(D_METHOD("set_shader_mask"), &GDCubismUserModel::set_shader_mask);
+    ClassDB::bind_method(D_METHOD("get_shader_mask"), &GDCubismUserModel::get_shader_mask);
     // MaskAdd
-	ClassDB::bind_method(D_METHOD("set_shader_mask_add"), &GDCubismUserModel::set_shader_mask_add);
-	ClassDB::bind_method(D_METHOD("get_shader_mask_add"), &GDCubismUserModel::get_shader_mask_add);
-	ClassDB::bind_method(D_METHOD("set_shader_mask_add_inv"), &GDCubismUserModel::set_shader_mask_add_inv);
-	ClassDB::bind_method(D_METHOD("get_shader_mask_add_inv"), &GDCubismUserModel::get_shader_mask_add_inv);
+    ClassDB::bind_method(D_METHOD("set_shader_mask_add"), &GDCubismUserModel::set_shader_mask_add);
+    ClassDB::bind_method(D_METHOD("get_shader_mask_add"), &GDCubismUserModel::get_shader_mask_add);
+    ClassDB::bind_method(D_METHOD("set_shader_mask_add_inv"), &GDCubismUserModel::set_shader_mask_add_inv);
+    ClassDB::bind_method(D_METHOD("get_shader_mask_add_inv"), &GDCubismUserModel::get_shader_mask_add_inv);
     // MaskMix
-	ClassDB::bind_method(D_METHOD("set_shader_mask_mix"), &GDCubismUserModel::set_shader_mask_mix);
-	ClassDB::bind_method(D_METHOD("get_shader_mask_mix"), &GDCubismUserModel::get_shader_mask_mix);
-	ClassDB::bind_method(D_METHOD("set_shader_mask_mix_inv"), &GDCubismUserModel::set_shader_mask_mix_inv);
-	ClassDB::bind_method(D_METHOD("get_shader_mask_mix_inv"), &GDCubismUserModel::get_shader_mask_mix_inv);
+    ClassDB::bind_method(D_METHOD("set_shader_mask_mix"), &GDCubismUserModel::set_shader_mask_mix);
+    ClassDB::bind_method(D_METHOD("get_shader_mask_mix"), &GDCubismUserModel::get_shader_mask_mix);
+    ClassDB::bind_method(D_METHOD("set_shader_mask_mix_inv"), &GDCubismUserModel::set_shader_mask_mix_inv);
+    ClassDB::bind_method(D_METHOD("get_shader_mask_mix_inv"), &GDCubismUserModel::get_shader_mask_mix_inv);
     // MaskMul
-	ClassDB::bind_method(D_METHOD("set_shader_mask_mul"), &GDCubismUserModel::set_shader_mask_mul);
-	ClassDB::bind_method(D_METHOD("get_shader_mask_mul"), &GDCubismUserModel::get_shader_mask_mul);
-	ClassDB::bind_method(D_METHOD("set_shader_mask_mul_inv"), &GDCubismUserModel::set_shader_mask_mul_inv);
-	ClassDB::bind_method(D_METHOD("get_shader_mask_mul_inv"), &GDCubismUserModel::get_shader_mask_mul_inv);
+    ClassDB::bind_method(D_METHOD("set_shader_mask_mul"), &GDCubismUserModel::set_shader_mask_mul);
+    ClassDB::bind_method(D_METHOD("get_shader_mask_mul"), &GDCubismUserModel::get_shader_mask_mul);
+    ClassDB::bind_method(D_METHOD("set_shader_mask_mul_inv"), &GDCubismUserModel::set_shader_mask_mul_inv);
+    ClassDB::bind_method(D_METHOD("get_shader_mask_mul_inv"), &GDCubismUserModel::get_shader_mask_mul_inv);
 
     ADD_GROUP("Shader", "");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_add", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_add", "get_shader_add");
@@ -120,34 +120,34 @@ void GDCubismUserModel::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shader_mask_mul_inv", PROPERTY_HINT_RESOURCE_TYPE, "Shader"), "set_shader_mask_mul_inv", "get_shader_mask_mul_inv");
 
     // CubismMotion
-	ClassDB::bind_method(D_METHOD("get_motions"), &GDCubismUserModel::get_motions);
-	ClassDB::bind_method(D_METHOD("start_motion", "group", "no", "priority"), &GDCubismUserModel::start_motion);
-	ClassDB::bind_method(D_METHOD("start_motion_loop", "group", "no", "priority", "loop", "loop_fade_in"), &GDCubismUserModel::start_motion_loop);
-	ClassDB::bind_method(D_METHOD("get_cubism_motion_queue_entries"), &GDCubismUserModel::get_cubism_motion_queue_entries);
-	ClassDB::bind_method(D_METHOD("stop_motion"), &GDCubismUserModel::stop_motion);
+    ClassDB::bind_method(D_METHOD("get_motions"), &GDCubismUserModel::get_motions);
+    ClassDB::bind_method(D_METHOD("start_motion", "group", "no", "priority"), &GDCubismUserModel::start_motion);
+    ClassDB::bind_method(D_METHOD("start_motion_loop", "group", "no", "priority", "loop", "loop_fade_in"), &GDCubismUserModel::start_motion_loop);
+    ClassDB::bind_method(D_METHOD("get_cubism_motion_queue_entries"), &GDCubismUserModel::get_cubism_motion_queue_entries);
+    ClassDB::bind_method(D_METHOD("stop_motion"), &GDCubismUserModel::stop_motion);
 
     // CubismExpression
-	ClassDB::bind_method(D_METHOD("get_expressions"), &GDCubismUserModel::get_expressions);
-	ClassDB::bind_method(D_METHOD("start_expression", "expression_id"), &GDCubismUserModel::start_expression);
-	ClassDB::bind_method(D_METHOD("stop_expression"), &GDCubismUserModel::stop_expression);
+    ClassDB::bind_method(D_METHOD("get_expressions"), &GDCubismUserModel::get_expressions);
+    ClassDB::bind_method(D_METHOD("start_expression", "expression_id"), &GDCubismUserModel::start_expression);
+    ClassDB::bind_method(D_METHOD("stop_expression"), &GDCubismUserModel::stop_expression);
 
     // HitArea
-	ClassDB::bind_method(D_METHOD("get_hit_areas"), &GDCubismUserModel::get_hit_areas);
+    ClassDB::bind_method(D_METHOD("get_hit_areas"), &GDCubismUserModel::get_hit_areas);
 
     // Parameter
-	ClassDB::bind_method(D_METHOD("get_parameters"), &GDCubismUserModel::get_parameters);
+    ClassDB::bind_method(D_METHOD("get_parameters"), &GDCubismUserModel::get_parameters);
 
     // PartOpacity
-	ClassDB::bind_method(D_METHOD("get_part_opacities"), &GDCubismUserModel::get_part_opacities);
+    ClassDB::bind_method(D_METHOD("get_part_opacities"), &GDCubismUserModel::get_part_opacities);
 
     // Meshs
-	ClassDB::bind_method(D_METHOD("get_meshes"), &GDCubismUserModel::get_meshes);
+    ClassDB::bind_method(D_METHOD("get_meshes"), &GDCubismUserModel::get_meshes);
 
-	ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
+    ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
 
-	ADD_SIGNAL(MethodInfo("motion_event", PropertyInfo(Variant::STRING, "value")));
+    ADD_SIGNAL(MethodInfo("motion_event", PropertyInfo(Variant::STRING, "value")));
     #ifdef CUBISM_MOTION_CUSTOMDATA
-	ADD_SIGNAL(MethodInfo(SIGNAL_MOTION_FINISHED));
+    ADD_SIGNAL(MethodInfo(SIGNAL_MOTION_FINISHED));
     #endif // #ifdef CUBISM_MOTION_CUSTOMDATA
 
     // moc3FileFormatVersion
@@ -158,11 +158,11 @@ void GDCubismUserModel::_bind_methods() {
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_42);
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_50);
 
-	// Priority
-	BIND_ENUM_CONSTANT(PRIORITY_NONE);
-	BIND_ENUM_CONSTANT(PRIORITY_IDLE);
-	BIND_ENUM_CONSTANT(PRIORITY_NORMAL);
-	BIND_ENUM_CONSTANT(PRIORITY_FORCE);
+    // Priority
+    BIND_ENUM_CONSTANT(PRIORITY_NONE);
+    BIND_ENUM_CONSTANT(PRIORITY_IDLE);
+    BIND_ENUM_CONSTANT(PRIORITY_NORMAL);
+    BIND_ENUM_CONSTANT(PRIORITY_FORCE);
 
     // ParameterMode
     BIND_ENUM_CONSTANT(FULL_PARAMETER);
