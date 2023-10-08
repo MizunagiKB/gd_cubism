@@ -243,17 +243,16 @@ Android Studio を起動して、 SDKManager を起動します。 SDKManager �
 SDKManagerが起動したら、以下のものにチェックを入れてダウンロードします。
 
 * SDK Platforms
-  * Android API 34
-  * Android 10("Q")
+** Android API 34
+** Android 10("Q")
 * SDK Tools
-  * Android SDK Build-Tools 34
-  * NDK (Side by side)
-  * Android SDK Command-line Tools (latest)
-  * CMake
-  * Android Emulator
-  * Android SDK Platform-Tools
-  * Android SDK Tools (Obsolete)
-
+** Android SDK Build-Tools 34
+** NDK (Side by side)
+** Android SDK Command-line Tools (latest)
+** CMake
+** Android Emulator
+** Android SDK Platform-Tools
+** Android SDK Tools (Obsolete)
 
 環境が準備できたら以下の手順でビルドを行ってください。
 

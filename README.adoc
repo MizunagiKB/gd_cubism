@@ -34,6 +34,37 @@ GDCubism内部ではLive2D社が公開しているlink:https://github.com/Live2D
 このソフトウェアについて開発元のLive2D社に問い合わせない様お願い致します。
 
 
+=== ビルド可能なプラットフォーム
+
+[cols="2",frame=none,grid=none]
+|===
+>|Windows
+a|
+* x86_32
+* x86_64
+
+>|macOS
+a|
+* x86_64
+* arm64
+* universal
+
+>|Linux
+a|
+* x86_64
+
+>|iOS
+a|
+* arm64 (experimental)
+* universal (experimental)
+
+>|Android
+a|
+* armv7 (experimental)
+* arm64v8 (experimental)
+|===
+
+
 === ライセンスについて
 
 * link:LICENSE.adoc[]

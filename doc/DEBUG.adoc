@@ -26,7 +26,6 @@ link:DEBUG.adoc[Japanese] / English
 
 
 == デバッグ方法
-=== macOS
 
 GDCubismのデバッグを行うにはVisualStudio Codeを使用して以下の方法で行えます。
 
@@ -35,6 +34,28 @@ GDCubismのデバッグを行うにはVisualStudio Codeを使用して以下の�
 . Godotでdemoプロジェクトを開きExportを行います。
 .. 作業がしやすい様に、demo.exportというフォルダが事前に用意されています。
 . デバッグ実行を行います。
+
+
+=== Windows
+
+[source, json]
+----
+{
+    "name": "Debug (Windows)",
+    "type": "cppvsdbg",
+    "request": "launch",
+    "program": "${workspaceFolder}\\demo.export\\demo.exe",
+    "externalConsole": true,
+    "logging": {
+        "moduleLoad": false,
+        "trace": true
+    },
+    "cwd": "${workspaceFolder}\\demo.export",
+}
+----
+
+
+=== macOS
 
 [source, json]
 ----

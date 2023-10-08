@@ -34,6 +34,37 @@ GDCubism uses Live2D's link:https://github.com/Live2D/CubismNativeFramework [Cub
 Please do not contact the developer Live2D about this software.
 
 
+=== Buildable platform
+
+[cols="2",frame=none,grid=none]
+|===
+>|Windows
+a|
+* x86_32
+* x86_64
+
+>|macOS
+a|
+* x86_64
+* arm64
+* universal
+
+>|Linux
+a|
+* x86_64
+
+>|iOS
+a|
+* arm64 (experimental)
+* universal (experimental)
+
+>|Android
+a|
+* armv7 (experimental)
+* arm64v8 (experimental)
+|===
+
+
 === About LICENSE
 
 * link:LICENSE.en.adoc[]

@@ -246,16 +246,16 @@ Launch Android Studio and open the SDK Manager. You can access the SDK Manager f
 Once the SDK Manager is open, check the following items and download them.
 
 * SDK Platforms
-  * Android API 34
-  * Android 10("Q")
+** Android API 34
+** Android 10("Q")
 * SDK Tools
-  * Android SDK Build-Tools 34
-  * NDK (Side by side)
-  * Android SDK Command-line Tools (latest)
-  * CMake
-  * Android Emulator
-  * Android SDK Platform-Tools
-  * Android SDK Tools (Obsolete)
+** Android SDK Build-Tools 34
+** NDK (Side by side)
+** Android SDK Command-line Tools (latest)
+** CMake
+** Android Emulator
+** Android SDK Platform-Tools
+** Android SDK Tools (Obsolete)
 
 When ready, run the build with the following command.
 
