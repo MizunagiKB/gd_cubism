@@ -148,8 +148,35 @@ elif env["platform"] == "linux":
     )
     print("                       libs = {:s}".format(str(o_cubism_lib)))
     env.Append(LIBS=["Live2DCubismCore"])
+
+elif env["platform"] == "android":
+    dict_arch = {
+        "arm64": "arm64-v8a",
+        "arm32": "armeabi-v7a",
+        "x86_32": "x86",
+        "x86_64": "x86_64"
+    }
+    o_cubism_lib = (
+        Path(CUBISM_NATIVE_CORE_DIR)
+        .joinpath("lib")
+        .joinpath(env["platform"])
+        .joinpath(dict_arch[env["arch"]])
+        .joinpath("libLive2DCubismCore.a")
+    )
+
+    env.Append(
+        LIBPATH=[
+            os.path.join(
+                CUBISM_NATIVE_CORE_DIR, "lib", "android", dict_arch[env["arch"]]
+            )
+        ]
+    )
+    print("                       libs = {:s}".format(str(o_cubism_lib)))
+    env.Append(LIBS=["Live2DCubismCore"])
+
 else:
-    pass
+    print("!!! Unsupported platform !!!")
+    sys.exit()
 
 print("")
 
