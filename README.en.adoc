@@ -29,7 +29,7 @@ link:README.adoc[Japanese] / link:README.en.adoc[English]
 
 This software (GDCubism) is an **unofficial** GDExtension that allows link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK] to be called from GDScript (Godot Engine 4.1).
 
-GDCubism uses Live2D's link:https://github.com/Live2D/CubismNativeFramework [Cubism Native Framework].
+GDCubism uses Live2D's link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework].
 
 Please do not contact the developer Live2D about this software.
 
