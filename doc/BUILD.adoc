@@ -226,3 +226,65 @@ scons platform=ios arch=universal target=template_release
 
 ==== Android版のビルド
 
+[NOTE]
+====
+ビルドには以下のものが必要となります。
+
+* link:https://www.python.org/downloads/windows/[Python 3.6+].
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+* link:https://developer.android.com/studio[Android Studio]
+* link:https://www.azul.com/downloads/?package=jdk#zulu[Azul Zulu: 21.28.85]
+====
+
+ここでは Windows10 環境に Android Studio を導入しているという前提で話をします。
+
+Android Studio を起動して、 SDKManager を起動します。 SDKManager は Android Studio 起動時の Welcome to Android Studio と表示されている画面にある More Actions から選択できます。
+
+SDKManagerが起動したら、以下のものにチェックを入れてダウンロードします。
+
+* SDK Platforms
+  * Android API 34
+  * Android 10("Q")
+* SDK Tools
+  * Android SDK Build-Tools 34
+  * NDK (Side by side)
+  * Android SDK Command-line Tools (latest)
+  * CMake
+  * Android Emulator
+  * Android SDK Platform-Tools
+  * Android SDK Tools (Obsolete)
+
+
+環境が準備できたら以下の手順でビルドを行ってください。
+
+[source, bash]
+--
+scons platform=android target=template_debug arch=armv7
+scons platform=android target=template_release arch=armv7
+scons platform=android target=template_debug arch=arm64v8
+scons platform=android target=template_release arch=arm64v8
+--
+
+ビルドが開始されていない場合は、以下の環境変数を設定してみてください。
+
+* ANDROID_SDK_ROOT ... SDKManager で選択したものがインストールされている場所
+* ANDROID_HOME ... SDKManager で選択したものがインストールされている場所
+* ANDROID_NDK_HOME ... SDKManager でインストールした NDK の場所
+* ANDROID_NDK_ROOT ... SDKManager でインストールした NDK の場所
+
+.example
+[source, bash]
+--
+set ANDROID_SDK_ROOT=D:\Android\sdk
+set ANDROID_HOME=D:\Android\sdk
+set ANDROID_NDK_HOME=%ANDROID_SDK_ROOT%\ndk\26.0.10792818
+set ANDROID_NDK_ROOT=%ANDROID_SDK_ROOT%\ndk\26.0.10792818
+--
+
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
+
+* libgd_cubism.android.debug.arm32.so
+* libgd_cubism.android.release.arm32.so
+* libgd_cubism.android.debug.arm64.so
+* libgd_cubism.android.release.arm64.so
+
