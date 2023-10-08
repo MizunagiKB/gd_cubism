@@ -53,7 +53,11 @@ print("                   platform = {:s}".format(env["platform"]))
 print("                       arch = {:s}".format(env["arch"]))
 
 if env["platform"] == "windows":
-    print("               MSVC_VERSION = {:s}".format(env.get("MSVC_VERSION", "(undefined)")))
+    print(
+        "               MSVC_VERSION = {:s}".format(
+            env.get("MSVC_VERSION", "(undefined)")
+        )
+    )
     arch = env["arch"]
     if arch == "x86_32":
         arch = "x86"
@@ -77,7 +81,7 @@ if env["platform"] == "windows":
             ),
         ]
     )
-    
+
     print("                       libs = {:s}".format(str(o_cubism_lib)))
     env.Append(LIBS=["Live2DCubismCore_MT"])
 
@@ -106,6 +110,24 @@ elif env["platform"] == "macos":
     print("                       libs = {:s}".format(str(o_cubism_lib)))
     env.Append(
         LIBPATH=[os.path.join(CUBISM_NATIVE_CORE_DIR, "lib", "macos", env["arch"])]
+    )
+    env.Append(LIBS=["Live2DCubismCore"])
+
+elif env["platform"] == "ios":
+    o_cubism_lib = (
+        Path(CUBISM_NATIVE_CORE_DIR)
+        .joinpath("lib")
+        .joinpath(env["platform"])
+        .joinpath("Release-iphoneos")
+        .joinpath("libLive2DCubismCore.a")
+    )
+    print("                       libs = {:s}".format(str(o_cubism_lib)))
+    env.Append(
+        LIBPATH=[
+            os.path.join(
+                CUBISM_NATIVE_CORE_DIR, "lib", env["platform"], "Release-iphoneos"
+            )
+        ]
     )
     env.Append(LIBS=["Live2DCubismCore"])
 

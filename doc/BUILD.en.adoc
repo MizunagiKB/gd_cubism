@@ -178,3 +178,53 @@ When the build is completed, the following files will be generated under _demo/a
 
 * libgd_cubism.linux.debug.x86_64.so
 * libgd_cubism.linux.release.x86_64.so
+
+
+=== Build for Others
+
+The following two have only been verified to be buildable, and have not been tested for operation.
+
+Please use them as a reference when trying to run them in each environment.
+
+
+==== Build for iOS
+
+[NOTE]
+====
+The following items are required for building:
+
+* link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
+* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+In cases where Xcode is used only from the command line, there may be instances where the build for iphoneos does not start.
+
+In such cases, you can get the build to proceed by re-specifying the path to Xcode as follows:
+
+[source, bash]
+----
+sudo xcode-select --switch /Applications/Xcode.app 
+----
+
+When ready, run the build with the following command.
+
+[source, bash]
+--
+# for arm64
+scons platform=ios arch=arm64 target=template_debug
+scons platform=ios arch=arm64 target=template_release
+# for universol
+scons platform=ios arch=universal target=template_debug
+scons platform=ios arch=universal target=template_release
+--
+
+When the build is completed, the following files will be generated under _demo/addons/gd_cubism/bin_.
+
+* libgd_cubism.ios.debug.arm64.dylib
+* libgd_cubism.ios.release.arm64.dylib
+* libgd_cubism.ios.debug.universal.dylib
+* libgd_cubism.ios.release.universal.dylib
+
+
+==== Build for Android

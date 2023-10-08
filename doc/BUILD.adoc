@@ -175,3 +175,54 @@ scons platform=linux arch=x86_64 target=template_release
 
 * libgd_cubism.linux.debug.x86_64.so
 * libgd_cubism.linux.release.x86_64.so
+
+
+=== その他のビルドについて
+
+以下の二つはビルドが行えることのみを確認しており、動作確認まではしていません。
+
+それぞれの環境で動かしてみる場合の参考にご利用ください。
+
+
+==== iOS版のビルド
+
+ビルドには以下のものが必要となります。
+
+[NOTE]
+====
+* link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
+* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+Xcodeはコマンドラインのみで使用している場合、iphoneos向けのビルドが開始されない場合があります。
+
+この場合はXcodeのパスを以下の様に指定し直すことでビルドが行われる様になります。
+
+[source, bash]
+----
+sudo xcode-select --switch /Applications/Xcode.app 
+----
+
+準備できたら以下の手順でビルドを行ってください。
+
+[source, bash]
+--
+# for arm64
+scons platform=ios arch=arm64 target=template_debug
+scons platform=ios arch=arm64 target=template_release
+# for universol
+scons platform=ios arch=universal target=template_debug
+scons platform=ios arch=universal target=template_release
+--
+
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
+
+* libgd_cubism.ios.debug.arm64.dylib
+* libgd_cubism.ios.release.arm64.dylib
+* libgd_cubism.ios.debug.universal.dylib
+* libgd_cubism.ios.release.universal.dylib
+
+
+==== Android版のビルド
+
