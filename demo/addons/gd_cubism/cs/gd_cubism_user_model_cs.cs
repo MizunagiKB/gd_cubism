@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
-using Godot;
+namespace Godot;
+using Godot.NativeInterop;
 using System;
-
+using System.Diagnostics;
 
 #pragma warning disable CA1050
 
 
 public partial class GDCubismUserModelCS : GodotObject
 {
-    private enum GDCubismShaderEnum
+    private enum GDCubismShaderEnum : long
     {
         GD_CUBISM_SHADER_NORM_ADD,
         GD_CUBISM_SHADER_NORM_MIX,
@@ -24,7 +25,7 @@ public partial class GDCubismUserModelCS : GodotObject
         GD_CUBISM_SHADER_MAX
     }
 
-    public enum Moc3FileFormatVersionEnum
+    public enum Moc3FileFormatVersionEnum : long
     {
         CSM_MOC_VERSION_UNKNOWN = 0,
         CSM_MOC_VERSION_30 = 1,
@@ -34,7 +35,7 @@ public partial class GDCubismUserModelCS : GodotObject
         CSM_MOC_VERSION_50 = 5
     }
 
-    public enum PriorityEnum
+    public enum PriorityEnum : long
     {
         PriorityNone = 0,
         PriorityIdle = 1,
@@ -42,18 +43,21 @@ public partial class GDCubismUserModelCS : GodotObject
         PriorityForce = 3
     }
 
-    public enum ParameterModeEnum
+    public enum ParameterModeEnum : long
     {
         FullParameter = 0,
         NoneParameter = 1
     }
 
-    public enum MotionProcessCallbackEnum
+    public enum MotionProcessCallbackEnum : long
     {
         Physics = 0,
         Idle = 1,
         Manual = 2
     }
+
+    public static readonly StringName MotionEventName = "motion_event";
+    public static readonly StringName MotionFinishedName = "motion_finished";
 
     GDScript _glue;
     SubViewport _GDCubismUserModel;
@@ -274,5 +278,27 @@ public partial class GDCubismUserModelCS : GodotObject
     public ViewportTexture GetTexture()
     {
         return (ViewportTexture)this._glue.Call("get_texture", this._GDCubismUserModel);
+    }
+
+    // Signal
+
+    public delegate void MotionEventEventHandler(string value);
+
+    private static void MotionEventTrampoline(object delegateObj, NativeVariantPtrArgs args, out godot_variant ret)
+    {
+        ((MotionEventEventHandler)delegateObj)(VariantUtils.ConvertTo<string>(args[0]));
+        ret = default;
+    }
+
+    public unsafe event MotionEventEventHandler MotionEvent
+    {
+        add => this._GDCubismUserModel.Connect(MotionEventName, Callable.CreateWithUnsafeTrampoline(value, &MotionEventTrampoline));
+        remove => this._GDCubismUserModel.Disconnect(MotionEventName, Callable.CreateWithUnsafeTrampoline(value, &MotionEventTrampoline));
+    }
+
+    public event Action MotionFinished
+    {
+        add => this._GDCubismUserModel.Connect(MotionFinishedName, Callable.From(value));
+        remove => this._GDCubismUserModel.Disconnect(MotionFinishedName, Callable.From(value));
     }
 }

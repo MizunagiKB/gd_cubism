@@ -1,17 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://dab25molfpkce"]
-
-[ext_resource type="Script" path="res://addons/gd_cubism/example/demo_effect_custom_03.gd" id="1_bkff2"]
+[gd_scene load_steps=2 format=3 uid="uid://dab25molfpkce"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uj6qt"]
 blend_mode = 4
 light_mode = 1
 
 [node name="simple" type="Node2D"]
-script = ExtResource("1_bkff2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_uj6qt")
-position = Vector2(640, 512)
+position = Vector2(640, 360)
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
 disable_3d = true
