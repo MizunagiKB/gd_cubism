@@ -7,7 +7,7 @@ using System;
 #pragma warning disable CA1050
 
 
-public partial class Viewer : Control
+public partial class viewer : Control
 {
     const int MIX_RENDER_SIZE = 32;
     const int MAX_RENDER_SIZE = 2048;
@@ -64,6 +64,7 @@ public partial class Viewer : Control
 
         dir.ListDirBegin();
         var name = dir.GetNext();
+
         while (name != "")
         {
             if (dir.CurrentIsDir())
@@ -88,8 +89,7 @@ public partial class Viewer : Control
 
         if (ENABLE_MOTION_FINISHED == true)
         {
-            // this.cubism_model.AttachMotionFinished(new Callable(this, nameof(_on_motion_finished)), true);
-            // cubism_model.motion_finished.connect(_on_motion_finished)
+            this.cubism_model.MotionFinished += this._on_motion_finished;
         }
         this.AddChild(this.cubism_model.Get());
 
