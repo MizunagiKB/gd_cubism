@@ -4,6 +4,9 @@ using Godot;
 using System;
 
 
+#pragma warning disable CA1050
+
+
 public partial class GDCubismUserModelCS : GodotObject
 {
     private enum GDCubismShaderEnum
@@ -21,7 +24,7 @@ public partial class GDCubismUserModelCS : GodotObject
         GD_CUBISM_SHADER_MAX
     }
 
-    public enum moc3FileFormatVersionEnum
+    public enum Moc3FileFormatVersionEnum
     {
         CSM_MOC_VERSION_UNKNOWN = 0,
         CSM_MOC_VERSION_30 = 1,
@@ -176,16 +179,16 @@ public partial class GDCubismUserModelCS : GodotObject
         this._glue.Call("clear", this._GDCubismUserModel);
     }
 
-    public moc3FileFormatVersionEnum CsmGetLatestMocVersion()
+    public Moc3FileFormatVersionEnum CsmGetLatestMocVersion()
     {
         int value = (int)this._glue.Call("csm_get_latest_moc_version", this._GDCubismUserModel);
-        return (moc3FileFormatVersionEnum)Enum.ToObject(typeof(moc3FileFormatVersionEnum), value);
+        return (Moc3FileFormatVersionEnum)Enum.ToObject(typeof(Moc3FileFormatVersionEnum), value);
     }
 
-    public moc3FileFormatVersionEnum CsmGetMocVersion()
+    public Moc3FileFormatVersionEnum CsmGetMocVersion()
     {
         int value = (int)this._glue.Call("csm_get_moc_version", this._GDCubismUserModel);
-        return (moc3FileFormatVersionEnum)Enum.ToObject(typeof(moc3FileFormatVersionEnum), value);
+        return (Moc3FileFormatVersionEnum)Enum.ToObject(typeof(Moc3FileFormatVersionEnum), value);
     }
 
     public Godot.Collections.Dictionary CsmGetVersion()
