@@ -12,24 +12,7 @@ var base_scale: Vector2
 @export var vector_index_1: int = 1
 
 
-func _cubism_init(model: GDCubismUserModel):
-    counter = 0.0
-    first_time = true
-
-
-func _cubism_term(model: GDCubismUserModel):
-    pass
-
-
-func _cubism_prologue(model: GDCubismUserModel, delta: float):
-    pass
-
-
-func _cubism_process(model: GDCubismUserModel, delta: float):
-    pass
-
-
-func _cubism_epilogue(model: GDCubismUserModel, delta: float):
+func _on_cubism_process(model: GDCubismUserModel, delta: float):
     var dict_mesh: Dictionary = model.get_meshes()
 
     if dict_mesh.has(art_mesh_name) == false:

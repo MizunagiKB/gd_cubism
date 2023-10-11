@@ -22,3 +22,5 @@ script = ExtResource("1_lkrys")
 z_index = 1024
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_ur0ha")
+
+[connection signal="cubism_process" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_process"]
