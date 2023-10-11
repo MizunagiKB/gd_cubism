@@ -33,7 +33,7 @@ func array_avg() -> float:
     return sum_v / ary_volume_history.size()
 
 
-func _cubism_init(model: GDCubismUserModel):
+func _on_cubism_init(model: GDCubismUserModel):
     param_mouth = null
     ary_volume_history.clear()
     history_position = 0
@@ -53,14 +53,14 @@ func _cubism_init(model: GDCubismUserModel):
         lipsync_ready = true
 
 
-func _cubism_term(model: GDCubismUserModel):
+func _on_cubism_term(model: GDCubismUserModel):
     lipsync_ready = false
     param_mouth = null
     ary_volume_history.clear()
     history_position = 0
 
 
-func _cubism_process(model: GDCubismUserModel, delta: float):
+func _on_cubism_process(model: GDCubismUserModel, delta: float):
     if lipsync_ready == false:
         return
 
