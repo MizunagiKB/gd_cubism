@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://dhfu0rwvwpprc"]
 
-[ext_resource type="Script" path="res://addons/gd_cubism/example/demo_effect_custom_03.gd" id="1_m228c"]
+[ext_resource type="Script" path="res://addons/gd_cubism/example/demo_effect_custom_03.gd" id="1_j4tk3"]
 
 [node name="demo_effect_custom_03" type="Node2D"]
-script = ExtResource("1_m228c")
+script = ExtResource("1_j4tk3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(640, 360)

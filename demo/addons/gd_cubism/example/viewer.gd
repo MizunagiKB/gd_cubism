@@ -87,6 +87,7 @@ func _on_motion_finished():
         GDCubismUserModel.PRIORITY_FORCE
     )
 
+
 func _on_opt_model_item_selected(index):
     setup($UI/OptModel.get_item_text(index))
 
