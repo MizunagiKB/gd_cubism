@@ -79,6 +79,3 @@ func _input(event):
             order_window_position = true
             window_position += Vector2i(event.relative)
 
-
-func _on_button_pressed():
-    $AudioStreamPlayer2D.play()

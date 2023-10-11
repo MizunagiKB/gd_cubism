@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
-using Godot;
 using System;
+using Godot;
 
 
 #pragma warning disable CA1050
+#pragma warning disable IDE1006
 
 
 public partial class viewer : Control
@@ -91,7 +92,7 @@ public partial class viewer : Control
         {
             this.cubism_model.MotionFinished += this._on_motion_finished;
         }
-        this.AddChild(this.cubism_model.Get());
+        this.AddChild(this.cubism_model.GetInternalObject());
 
         GetNode<OptionButton>("UI/OptModel").Clear();
         GetNode<OptionButton>("UI/OptModel").AddItem("");
@@ -115,8 +116,6 @@ public partial class viewer : Control
             vct_viewport_size.Y / vct_size.Y
         );
     }
-
-#pragma warning disable IDE1006
 
     private void _on_motion_finished()
     {
@@ -149,8 +148,4 @@ public partial class viewer : Control
         var _expression_id = GetNode<ItemList>("UI/ItemListExpression").GetItemText((int)index);
         this.cubism_model.StartExpression((String)_expression_id);
     }
-
-#pragma warning restore CA1050
-
 }
-
