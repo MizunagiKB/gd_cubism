@@ -2,6 +2,7 @@
 :author: MizunagiKB
 :copyright: 2023 MizunagiKB <mizukb@live.jp>
 :doctype: book
+:nofooter:
 :toc:
 :toclevels: 3
 :lang: ja
@@ -67,22 +68,26 @@ a|
 
 === ライセンスについて
 
-* link:LICENSE.adoc[]
+ifdef::env-github,env-vscode[* link:LICENSE.adoc[]]
+ifndef::env-github,env-vscode[* link:LICENSE{outfilesuffix}[]]
 
 
 === ビルド方法
 
-* link:doc/BUILD.adoc[]
+ifdef::env-github,env-vscode[* link:doc/BUILD.adoc[]]
+ifndef::env-github,env-vscode[* link:doc/BUILD{outfilesuffix}[]]
 
 
 === 使用方法
 
-* link:doc/USAGE.adoc[]
+ifdef::env-github,env-vscode[* link:doc/USAGE.adoc[]]
+ifndef::env-github,env-vscode[* link:doc/USAGE{outfilesuffix}[]]
 
 
 === 既知の不具合
 
-* link:doc/PROBLEM.adoc[]
+ifdef::env-github,env-vscode[* link:doc/PROBLEM.adoc[]]
+ifndef::env-github,env-vscode[* link:doc/PROBLEM{outfilesuffix}[]]
 
 
 === 関連情報

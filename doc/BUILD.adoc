@@ -87,6 +87,16 @@ CAUTION: ビルドはCubismSdkForNativeにあるFrameworkよりカスタムビ�
 ====
 
 
+.Visual Studioのインストールに関する注意事項
+****
+Visual Studio をインストールする場合は、ワークロードのリストから C{plus}{plus} を有効化しなければなりません。
+
+もし間違って C{plus}{plus} サポート無しで Visual Studio をインストールしてしまったなら、再度インストーラーを実行してください。変更 (Modify)ボタンが表示されるはずです。プログラムの追加と削除からインストーラーを起動しても、修復オプションしか表示されず、 C{plus}{plus} ツールはインストールできません。
+
+link:https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_windows.html#development-in-visual-studio[Godot Engine 4.1 documentation]
+****
+
+
 環境が準備できたら以下の手順でビルドを行ってください。
 
 [source, console]
