@@ -88,6 +88,15 @@ character.add_child(model)
 add_child(character)
 ----
 
+=== Troubleshooting
+
+* Model does not load properly
+
+If the model file name is in Japanese, it will not load properly, so overwriting the file name output by the Cubism Editor and the reference in *.model3.json will work properly.
+
+* Blink does not occur normally
+
+It is possible that the Ids for EyeBlink in *.model3.json is not specified. Please set it and re-export, or add ParamEyeLOpen and ParamEyeROpen to Ids.
 
 == API Reference
 
@@ -107,4 +116,4 @@ GDCubism provides a variety of classes. Please refer to the document linked belo
 **** link:API_gd_cubism_motion_queue_entry_handle.ja.adoc[GDCubismMotionQueueEntryHandle]
 **** GDCubismValueAds
 ***** link:API_gd_cubism_parameter.ja.adoc[GDCubismParameter]
-***** link:API_gd_cubism_part_opaciry.ja.adoc[GDCubismPartOpacity]
+***** link:API_gd_cubism_part_opacity.ja.adoc[GDCubismPartOpacity]
