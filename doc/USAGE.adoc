@@ -27,7 +27,7 @@ link:USAGE.adoc[Japanese] / link:USAGE.en.adoc[English]
 
 == 使用方法
 
-GDExtensionのビルドが正常に完了したら、demo/addonsフォルダにある、gd_cubismフォルダを利用したいプロジェクトのaddonsにコピーしてください。
+GDExtensionのビルドが正常に完了したら、demo/addonsフォルダにあるgd_cubismフォルダを、利用したいプロジェクトのaddonsにコピーしてください。
 
 
 === 簡単な使い方（Editorから使う場合）
