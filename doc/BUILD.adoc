@@ -41,7 +41,7 @@ git submodule update --init
 
 Live2D Cubism SDK for Nativeを取得してください。
 
-GDCubismが利用しているSDKバージョンは **Cubism 5 SDK for Native R2 beta2** です。
+GDCubismが利用しているSDKバージョンは **Cubism 5 SDK for Native R1 beta2** です。
 
 thirdpartyフォルダに展開した内容をそのまま配置してください。
 

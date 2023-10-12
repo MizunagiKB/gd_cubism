@@ -86,6 +86,15 @@ character.add_child(model)
 add_child(character)
 ----
 
+=== トラブルシューティング
+
+* モデルが正常に読み込まれない
+
+モデルのファイル名が日本語になっている場合は正常に読み込まれないため、Cubism Editorで出力したファイルの名前と、*.model3.json内の参照を上書きすることで正常に動作します。
+
+* まばたきが正常に行われない
+
+*.model3.json内のEyeBlinkのIdsが指定されていない可能性があります。設定して再出力するか、IdsにParamEyeLOpenとParamEyeROpenを追記してください。
 
 == API Reference
 
@@ -105,4 +114,4 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 **** link:API/ja/API_gd_cubism_motion_queue_entry_handle.ja.adoc[GDCubismMotionQueueEntryHandle]
 **** GDCubismValueAds
 ***** link:API/ja/API_gd_cubism_parameter.ja.adoc[GDCubismParameter]
-***** link:API/ja/API_gd_cubism_part_opaciry.ja.adoc[GDCubismPartOpacity]
+***** link:API/ja/API_gd_cubism_part_opacity.ja.adoc[GDCubismPartOpacity]
