@@ -89,6 +89,16 @@ The following items are required for building:
 ====
 
 
+.Installing Visual Studio caveats
+****
+If installing Visual Studio, make sure to enable C{plus}{plus} in the list of workflows to install.
+
+If you've already made the mistake of installing Visual Studio without C{plus}{plus} support, run the installer again; it should present you a Modify button. Running the installer from Add/Remove Programs will only give you a Repair option, which won't let you install C{plus}{plus} tools.
+
+link:https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_windows.html#development-in-visual-studio[Godot Engine 4.1 documentation]
+****
+
+
 When ready, run the build with the following command.
 
 [source]
