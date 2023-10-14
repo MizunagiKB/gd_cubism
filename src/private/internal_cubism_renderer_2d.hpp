@@ -53,6 +53,7 @@ public:
     float get_ppunit(const Csm::CubismModel* model) const;
 
     void update(InternalCubismRendererResource &res);
+    void update(InternalCubismRendererResource &res, const bool update_node, const bool update_mesh);
 
     virtual void Initialize(Csm::CubismModel* model, Csm::csmInt32 maskBufferCount);
     void DoDrawModel();

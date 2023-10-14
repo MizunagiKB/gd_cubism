@@ -120,6 +120,27 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
     this->_updating = false;
     this->_initialized = true;
 
+    // ------------------------------------------------------------------------
+    // The process to make the mesh available immediately after initialization.
+    // The process is almost the same as the InternalCubismUserModel::update_node() function.
+    {
+        #ifdef GD_CUBISM_USE_RENDERER_2D
+        InternalCubismRenderer2D* renderer = this->GetRenderer<InternalCubismRenderer2D>();
+        #else
+        #endif // GD_CUBISM_USE_RENDERER_2D
+
+        this->_renderer_resource.pro_proc(
+            renderer->calc_viewport_count(),
+            renderer->calc_mesh_instance_count()
+        );
+
+        renderer->IsPremultipliedAlpha(true);
+        renderer->DrawModel();
+        renderer->update(this->_renderer_resource, false, true);
+
+        this->_renderer_resource.epi_proc();
+    }
+    // ------------------------------------------------------------------------
 
     return true;
 }
