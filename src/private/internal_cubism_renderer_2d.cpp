@@ -290,6 +290,26 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
     }
 }
 
+void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const bool update_node, const bool update_mesh) {
+    const CubismModel *model = this->GetModel();
+    const Csm::csmInt32* renderOrder = model->GetDrawableRenderOrders();
+    const Csm::csmInt32* maskCount = model->GetDrawableMaskCounts();
+
+    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++) {
+
+        if(model->GetDrawableVertexCount(index) == 0) continue;
+        if(model->GetDrawableVertexIndexCount(index) == 0) continue;
+
+        CubismIdHandle handle = model->GetDrawableId(index);
+        String node_name(handle->GetString().GetRawString());
+        Ref<ArrayMesh> ary_mesh;
+
+        ary_mesh.instantiate();
+
+        res.dict_mesh[node_name] = ary_mesh;
+    }
+}
+
 
 void InternalCubismRenderer2D::Initialize(Csm::CubismModel* model, Csm::csmInt32 maskBufferCount) {
     CubismRenderer::Initialize(model, maskBufferCount);
