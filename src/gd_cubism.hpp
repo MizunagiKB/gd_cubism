@@ -47,6 +47,9 @@ const static char* PROP_ANIM_LOOP = "anim_loop";
 const static char* PROP_ANIM_LOOP_FADE_IN = "anim_loop_fade_in";
 const static char* PROP_PARAMETER_GROUP = "Parameter";
 const static char* PROP_PART_OPACITY_GROUP = "PartOpacity";
+
+const static char* SIGNAL_EFFECT_HIT_AREA_ENTERED = "hit_area_entered";
+const static char* SIGNAL_EFFECT_HIT_AREA_EXITED = "hit_area_exited";
 #ifdef CUBISM_MOTION_CUSTOMDATA
 const static char* SIGNAL_MOTION_FINISHED = "motion_finished";
 #endif //CUBISM_MOTION_CUSTOMDATA
