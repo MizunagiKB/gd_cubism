@@ -60,9 +60,8 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
     if (strcmp(this->_model_setting->GetModelFileName(), "") == 0) {
         return false;
     } else {
-        String moc3_pathname = this->_model_pathname.get_base_dir().path_join(
-            String(this->_model_setting->GetModelFileName())
-        );
+        String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetModelFileName());
+        String moc3_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
 
         buffer = FileAccess::get_file_as_bytes(moc3_pathname);
         this->LoadModel(buffer.ptr(), buffer.size());
@@ -156,9 +155,8 @@ void InternalCubismUserModel::model_load_resource()
     {
         if (strcmp(this->_model_setting->GetTextureFileName(index), "") == 0) continue;
 
-        String texture_pathname = this->_model_pathname.get_base_dir().path_join(
-            String(this->_model_setting->GetTextureFileName(index))
-        );
+        String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetTextureFileName(index));
+        String texture_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
 
         Ref<Texture2D> tex = res_loader->load(texture_pathname);
 
@@ -335,7 +333,8 @@ void InternalCubismUserModel::motion_stop() {
 
 void InternalCubismUserModel::MotionEventFired(const csmString& eventValue) {
     if(this->_owner_viewport != nullptr) {
-        this->_owner_viewport->emit_signal("motion_event", String(eventValue.GetRawString()));
+        String value; value.parse_utf8(eventValue.GetRawString());
+        this->_owner_viewport->emit_signal("motion_event", value);
     }
 }
 
@@ -347,9 +346,9 @@ void InternalCubismUserModel::expression_load() {
     for (csmInt32 i = 0; i < this->_model_setting->GetExpressionCount(); i++)
     {
         csmString name = this->_model_setting->GetExpressionName(i);
-        String expression_pathname = this->_model_pathname.get_base_dir().path_join(
-            String(this->_model_setting->GetExpressionFileName(i))
-        );
+
+        String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetExpressionFileName(i));
+        String expression_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
 
         PackedByteArray buffer = FileAccess::get_file_as_bytes(expression_pathname);
         CubismExpressionMotion* motion = static_cast<CubismExpressionMotion*>(this->LoadExpression(
@@ -371,9 +370,8 @@ void InternalCubismUserModel::expression_load() {
 void InternalCubismUserModel::physics_load() {
     if(strcmp(this->_model_setting->GetPhysicsFileName(), "") == 0) return;
 
-    String physics_pathname = this->_model_pathname.get_base_dir().path_join(
-        String(this->_model_setting->GetPhysicsFileName())
-    );
+    String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetPhysicsFileName());
+    String physics_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
 
     PackedByteArray buffer = FileAccess::get_file_as_bytes(physics_pathname);
     if(buffer.size() > 0) {
@@ -385,9 +383,8 @@ void InternalCubismUserModel::physics_load() {
 void InternalCubismUserModel::pose_load() {
     if(strcmp(this->_model_setting->GetPoseFileName(), "") == 0) return;
 
-    String pose_pathname = this->_model_pathname.get_base_dir().path_join(
-        String(this->_model_setting->GetPoseFileName())
-    );
+    String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetPoseFileName());
+    String pose_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
 
     PackedByteArray buffer = FileAccess::get_file_as_bytes(pose_pathname);
     if(buffer.size() > 0) {
@@ -399,9 +396,8 @@ void InternalCubismUserModel::pose_load() {
 void InternalCubismUserModel::userdata_load() {
     if(strcmp(this->_model_setting->GetUserDataFile(), "") == 0) return;
 
-    String userdata_pathname = this->_model_pathname.get_base_dir().path_join(
-        String(this->_model_setting->GetUserDataFile())
-    );
+    String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetUserDataFile());
+    String userdata_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
 
     PackedByteArray buffer = FileAccess::get_file_as_bytes(userdata_pathname);
     if(buffer.size() > 0) {
@@ -426,9 +422,8 @@ void InternalCubismUserModel::motion_load() {
         {
             csmString name = Utils::CubismString::GetFormatedString("%s_%d", group, im);
 
-            String motion_pathname = this->_model_pathname.get_base_dir().path_join(
-                String(this->_model_setting->GetMotionFileName(group, im))
-            );
+            String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetMotionFileName(group, im));
+            String motion_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
 
             PackedByteArray buffer = FileAccess::get_file_as_bytes(motion_pathname);
             CubismMotion* motion = static_cast<CubismMotion*>(this->LoadMotion(

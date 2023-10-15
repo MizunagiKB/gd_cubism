@@ -171,29 +171,29 @@ public:
         if(this->initialized == false) {
             Csm::csmInt32 v;
             // ANGLE_X
-            v = this->find_idx(_model, Csm::csmString(this->head_angle_x.ascii().ptr()));
+            v = this->find_idx(_model, Csm::csmString(this->head_angle_x.utf8().ptr()));
             if(v == -1 && this->head_angle_x.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->head_angle_x);
             this->_map_param_idx[HEAD_ANGLE_X] = v;
             // ANGLE_Y
-            v = this->find_idx(_model, Csm::csmString(this->head_angle_y.ascii().ptr()));
+            v = this->find_idx(_model, Csm::csmString(this->head_angle_y.utf8().ptr()));
             if(v == -1 && this->head_angle_y.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->head_angle_y);
             this->_map_param_idx[HEAD_ANGLE_Y] = v;
             // ANGLE_Z
-            v = this->find_idx(_model, Csm::csmString(this->head_angle_z.ascii().ptr()));
+            v = this->find_idx(_model, Csm::csmString(this->head_angle_z.utf8().ptr()));
             if(v == -1 && this->head_angle_z.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->head_angle_z);
             this->_map_param_idx[HEAD_ANGLE_Z] = v;
 
             // BODY_ANGLE_X
-            v = this->find_idx(_model, Csm::csmString(this->body_angle_x.ascii().ptr()));
+            v = this->find_idx(_model, Csm::csmString(this->body_angle_x.utf8().ptr()));
             if(v == -1 && this->body_angle_x.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->body_angle_x);
             this->_map_param_idx[BODY_ANGLE_X] = v;
 
             // EYE_BALL_X
-            v = this->find_idx(_model, Csm::csmString(this->eyes_ball_x.ascii().ptr()));
+            v = this->find_idx(_model, Csm::csmString(this->eyes_ball_x.utf8().ptr()));
             if(v == -1 && this->eyes_ball_x.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->eyes_ball_x);
             this->_map_param_idx[EYES_BALL_X] = v;
             // EYE_BALL_Y
-            v = this->find_idx(_model, Csm::csmString(this->eyes_ball_y.ascii().ptr()));
+            v = this->find_idx(_model, Csm::csmString(this->eyes_ball_y.utf8().ptr()));
             if(v == -1 && this->eyes_ball_y.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->eyes_ball_y);
             this->_map_param_idx[EYES_BALL_Y] = v;
 
