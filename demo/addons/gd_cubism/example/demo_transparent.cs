@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 using System;
-using System.Linq;
 using Godot;
 
 
@@ -11,6 +10,8 @@ using Godot;
 
 public partial class demo_transparent : Node2D
 {
+    private const String DEFAULT_ASSET = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro_t02.model3.json";
+
     private bool order_window_position = false;
     private bool mouse_button_pressed = false;
     private Vector2I window_position;
@@ -24,6 +25,9 @@ public partial class demo_transparent : Node2D
 
     public override void _Ready()
     {
+        GDCubismUserModelCS model = new(GetNode<SubViewport>("Sprite2D/GDCubismUserModel"));
+        if (model.Assets == "") model.Assets = DEFAULT_ASSET;
+
         this.model = new GDCubismUserModelCS(GetNode<SubViewport>("Sprite2D/GDCubismUserModel"));
 
         GetNode<Sprite2D>("Sprite2D").Position = new(GetViewportRect().Size.X / 2, GetViewportRect().Size.Y / 2);

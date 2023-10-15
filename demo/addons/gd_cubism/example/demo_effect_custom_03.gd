@@ -3,11 +3,15 @@
 extends Node2D
 
 
+const DEFAULT_ASSET: String = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro_t02.model3.json"
+
 var pressed: bool = false
 
 
 func _ready():
-    pass
+    
+    if $Sprite2D/GDCubismUserModel.assets == "":
+        $Sprite2D/GDCubismUserModel.assets = DEFAULT_ASSET
 
 
 func _process(delta):
@@ -27,8 +31,8 @@ func _input(event):
             var render_size: Vector2 = Vector2(
                 float($Sprite2D/GDCubismUserModel.size.x) * $Sprite2D.scale.x,
                 float($Sprite2D/GDCubismUserModel.size.y) * $Sprite2D.scale.y * -1.0
-            ) * 0.5
-            local_pos /= render_size
+            )
+            local_pos /= (render_size * 0.5)
             $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_target(local_pos)
         else:
             $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_target(Vector2.ZERO)

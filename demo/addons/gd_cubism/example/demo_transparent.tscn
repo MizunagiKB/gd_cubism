@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://7hglgm6o0ou4"]
+[gd_scene load_steps=4 format=3 uid="uid://7hglgm6o0ou4"]
 
 [ext_resource type="Script" path="res://addons/gd_cubism/example/demo_transparent.gd" id="1_v7gdn"]
 
@@ -6,12 +6,16 @@
 blend_mode = 4
 light_mode = 1
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_0ckra"]
+viewport_path = NodePath("Sprite2D/GDCubismUserModel")
+
 [node name="demo_desktop_character" type="Node2D"]
 script = ExtResource("1_v7gdn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_wfgje")
 position = Vector2(656, 328)
+texture = SubResource("ViewportTexture_0ckra")
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
 disable_3d = true
@@ -20,7 +24,6 @@ gui_disable_input = true
 render_target_update_mode = 4
 
 [node name="GDCubismEffectBreath" type="GDCubismEffectBreath" parent="Sprite2D/GDCubismUserModel"]
-active = false
 
 [node name="GDCubismEffectEyeBlink" type="GDCubismEffectEyeBlink" parent="Sprite2D/GDCubismUserModel"]
 

@@ -19,4 +19,3 @@ gui_disable_input = true
 render_target_update_mode = 4
 
 [node name="GDCubismEffectTargetPoint" type="GDCubismEffectTargetPoint" parent="Sprite2D/GDCubismUserModel"]
-head_range = -30.0

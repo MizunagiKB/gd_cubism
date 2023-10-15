@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
+using System;
 using Godot;
 
 
@@ -9,6 +10,8 @@ using Godot;
 
 public partial class demo_effect_custom_03 : Node2D
 {
+    private const String DEFAULT_ASSET = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro_t02.model3.json";
+
     private bool pressed = false;
     private GDCubismUserModelCS model = null;
     private GDCubismEffectTargetPointCS target = null;
@@ -18,6 +21,8 @@ public partial class demo_effect_custom_03 : Node2D
     {
         this.model = new GDCubismUserModelCS(GetNode<SubViewport>("Sprite2D/GDCubismUserModel"));
         this.target = new GDCubismEffectTargetPointCS(GetNode<Node>("Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint"));
+
+        if(this.model.Assets == "") this.model.Assets = DEFAULT_ASSET;
     }
 
 
