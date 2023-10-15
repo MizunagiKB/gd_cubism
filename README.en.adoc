@@ -80,11 +80,6 @@ a|
 * link:doc/USAGE.en.adoc[]
 
 
-=== Problem
-
-* link:doc/PROBLEM.adoc[]
-
-
 === Ralated link
 
 * link:https://www.live2d.com/[Live2D Cubism]

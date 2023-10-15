@@ -84,12 +84,6 @@ ifdef::env-github,env-vscode[* link:doc/USAGE.adoc[]]
 ifndef::env-github,env-vscode[* link:doc/USAGE{outfilesuffix}[]]
 
 
-=== 既知の不具合
-
-ifdef::env-github,env-vscode[* link:doc/PROBLEM.adoc[]]
-ifndef::env-github,env-vscode[* link:doc/PROBLEM{outfilesuffix}[]]
-
-
 === 関連情報
 
 * link:https://www.live2d.com/[Live2D Cubism]
