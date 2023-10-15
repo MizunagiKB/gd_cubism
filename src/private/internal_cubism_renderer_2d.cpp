@@ -297,16 +297,14 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const
 
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++) {
 
+        if(model->GetDrawableDynamicFlagIsVisible(index) == false) continue;
         if(model->GetDrawableVertexCount(index) == 0) continue;
         if(model->GetDrawableVertexIndexCount(index) == 0) continue;
 
         CubismIdHandle handle = model->GetDrawableId(index);
         String node_name(handle->GetString().GetRawString());
-        Ref<ArrayMesh> ary_mesh;
 
-        ary_mesh.instantiate();
-
-        res.dict_mesh[node_name] = ary_mesh;
+        res.dict_mesh[node_name]= this->make_ArrayMesh(model, index, res);;
     }
 }
 
