@@ -11,6 +11,7 @@ using System;
 public partial class demo_effect_hit_area : Node2D
 {
     const String DEFAULT_ASSET = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro_t02.model3.json";
+
     bool pressed = false;
     Vector2 local_pos = new(0.0f, 0.0f);
     Vector2 adjust_pos = new(0.0f, 0.0f);
@@ -22,7 +23,6 @@ public partial class demo_effect_hit_area : Node2D
     public override void _Ready()
     {
         GDCubismUserModelCS model = new(GetNode<SubViewport>("Sprite2D/GDCubismUserModel"));
-
         if (model.Assets == "") model.Assets = DEFAULT_ASSET;
 
         GetNode<ItemList>("Control/ItemList").Clear();
