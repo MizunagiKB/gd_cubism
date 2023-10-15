@@ -17,7 +17,13 @@ link:USAGE.adoc[Japanese] / link:USAGE.en.adoc[English]
 
 == 使用方法
 
-GDExtensionのビルドが正常に完了したら、demo/addonsフォルダにあるgd_cubismフォルダを、利用したいプロジェクトのaddonsにコピーしてください。
+すぐに動かしてみたい場合は、 _demo_ フォルダにある _project.godot_ を Godot Engine のエディタから開いてください。（デモの動かし方はこのドキュメントの下に記載）
+
+独自のプロジェクトで使用する場合は _demo_ フォルダにある _addons_ フォルダ以下の内容を利用したいプロジェクトにコピーしてください。
+
+既に _addons_ フォルダがある場合は、 _gd_cubism_ フォルダ以下の内容をコピーしてください。
+
+NOTE: _addons_ フォルダは GDCubism の様に Godot Engine を拡張するためのプログラムを収めるために用意されたフォルダです。
 
 
 === 簡単な使い方（Editorから使う場合）
@@ -74,6 +80,69 @@ image::res/images/usage_simple_06.png[fig06,512]
 *.model3.json内のEyeBlinkのIdsが指定されていない可能性があります。設定して再出力するか、IdsにParamEyeLOpenとParamEyeROpenを追記してください。
 
 
+== デモについて
+
+_demo_ フォルダには、サンプルとして以下のものが収められています。どのサンプルも動かすにはLive2Dモデルの虹色まおが必要となります。
+
+このLive2Dモデルは、link:https://www.live2d.com[] からダウンロードする事が出来ます。
+
+ダウンロードしたファイルの中身を以下の様に配置してください。
+
+* (_demo/addons/gd_cubism/example/res/live2d_)
+** mao_pro_jp
+*** runtime
+**** expressions
+***** ...
+**** map_pro_t02.4096
+***** ...
+**** motions
+***** ...
+**** mao_pro_t02.cdi3.json
+**** mao_pro_t02.moc3
+**** mao_pro_t02.model3.json
+**** mao_pro_t02.physics3.json
+**** mao_pro_t02.pose3.json
+*** mao_pro_t02.can3
+*** mao_pro_t02.cmo3
+
+手持ちのモデルで試したい場合は、上を参考にして出力したものを _demo/addons/gd_cubism/example/res/live2d_ 以下に配置してください。
+
+=== デモの説明
+
+[cols="1,1",frame=none,grid=none]
+|===
+^|Name ^|Desc
+
+|demo_effect_custom_01.tscn
+|_GDCubismEffectCustom_ を使用したサンプルとなります。
+
+|demo_effect_custom_02.tscn
+|_GDCubismEffectCustom_ を使用したサンプルとなります。
+簡易的なリップシンクを行なって、音量にあわせて口を動かしています。
+
+|demo_effect_custom_03.tscn
+|_GDCubismEffectTargetPoint_ を使用したサンプルとなります。
+マウスの位置にあわせてLive2Dモデルが視線を向ける動作をします。
+
+|demo_effect_hit_area.tscn
+|_GDCubismEffectHitArea_ を使用したサンプルとなります。
+Live2Dモデルに設定された _HitArea_ の使い方サンプルでもあります。
+
+|demo_simple.tscn
+|Nodeの組み合わせのみでLive2Dモデルの表示を行うサンプルとなります。
+
+|demo_transparent.tscn
+|Live2Dモデルの周囲を透明にしてキャラクターのみを表示するサンプルとなります。
+
+|viewer.tscn
+|簡易的なビューアを兼ねたサンプルとなります。
+_Expression_ や _Motion_ を再生できます。
+
+|===
+
+NOTE: プログラムは GDScript 版と C# 版が用意されています。 tscnファイルに割り当てられているスクリプトを入れ替える事で動作確認が可能です。
+
+
 == API Reference / C# Support status
 
 GDCubismにはさまざまなクラスが用意されています。使用方法は以下のリンク先のドキュメントを参照してください。
@@ -82,12 +151,15 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 |===
 |GDScript Class |C# Class |Features
 
-|GDCubismEffect |GDCubismEffectCS |-
+|link:API/ja/API_gd_cubism_effect.ja.adoc[GDCubismEffect]
+|GDCubismEffectCS
+|-
+
 |link:API/ja/API_gd_cubism_effect_breath.ja.adoc[GDCubismEffectBreath]
 |GDCubismEffectBreathCS
 |△
 
-|GDCubismEffectCustom
+|link:API/ja/API_gd_cubism_effect_custom.ja.adoc[GDCubismEffectCustom]
 |GDCubismEffectCustomCS
 |△
 
@@ -95,8 +167,13 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 |GDCubismEffectEyeBlinkCS
 |△
 
-|GDCubismEffectHitArea |GDCubismEffectHitAreaCS |△
-|GDCubismEffectTargetPoint |GDCubismEffectTargetPointCS |△
+|link:API/ja/API_gd_cubism_effect_hit_area.ja.adoc[GDCubismEffectHitArea]
+|GDCubismEffectHitAreaCS
+|△
+
+|link:API/ja/API_gd_cubism_effect_target_point.ja.adoc[GDCubismEffectTargetPoint]
+|GDCubismEffectTargetPointCS
+|△
 
 |link:API/ja/API_gd_cubism_motion_entry.ja.adoc[GDCubismMotionEntry]
 |GDCubismMotionEntryCS
@@ -106,7 +183,9 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 |GDCubismMotionQueueEntryHadleCS
 |x
 
-|GDCubismValueAbs |GDCubismValueAbsCS |-
+|link:API/ja/API_gd_cubism_value_abs.ja.adoc[GDCubismValueAbs]
+|GDCubismValueAbsCS
+|-
 
 |link:API/ja/API_gd_cubism_parameter.ja.adoc[GDCubismParameter]
 |GDCubismParameterCS

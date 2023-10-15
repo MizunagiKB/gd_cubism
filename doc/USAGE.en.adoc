@@ -1,6 +1,6 @@
 = Usage
 :encoding: utf-8
-:lang: ja
+:lang: en
 :author: MizunagiKB <mizukb@live.jp>
 :copyright: 2023 MizunagiKB
 :doctype: book
@@ -17,7 +17,13 @@ link:USAGE.adoc[Japanese] / link:USAGE.en.adoc[English]
 
 == How to use
 
-After the GDExtension build completes successfully, copy it to the addons of the project you want to use gd_cubism folder in the demo/addons folder.
+If you want to get started right away, please open _project.godot_ located in the _demo_ folder from the Godot Engine editor. (Instructions on how to run the demo are provided below in this document)
+
+If you want to use it in your own project, please copy the contents of the _addons_ folder located in the _demo_ folder to the project you wish to use.
+
+If an _addons_ folder already exists, please copy the contents of the _gd_cubism_ folder.
+
+NOTE: The _addons_ folder is a designated folder for storing programs that extend the Godot Engine, such as GDCubism.
 
 
 === Easy to use (from Editor)
@@ -76,6 +82,66 @@ If the model file name is in Japanese, it will not load properly, so overwriting
 It is possible that the Ids for EyeBlink in *.model3.json is not specified. Please set it and re-export, or add ParamEyeLOpen and ParamEyeROpen to Ids.
 
 
+== About the Demo
+
+The _demo_ folder contains the following items as samples. To run any of the samples, you will need the Live2D model of Nijiiro Mao.
+
+This Live2D model can be downloaded from link:https://www.live2d.com[].
+
+Please arrange the contents of the downloaded file as follows:
+
+* (_demo/addons/gd_cubism/example/res/live2d_)
+** mao_pro_jp
+*** runtime
+**** expressions
+***** ...
+**** map_pro_t02.4096
+***** ...
+**** motions
+***** ...
+**** mao_pro_t02.cdi3.json
+**** mao_pro_t02.moc3
+**** mao_pro_t02.model3.json
+**** mao_pro_t02.physics3.json
+**** mao_pro_t02.pose3.json
+*** mao_pro_t02.can3
+*** mao_pro_t02.cmo3
+
+If you want to try with your own model, please place the output referring to the above in _demo/addons/gd_cubism/example/res/live2d_.
+
+
+=== Description of the Demo
+
+[cols="1,1",frame=none,grid=none]
+|===
+^|Name ^|Desc
+
+|demo_effect_custom_01.tscn
+|This is a sample using _GDCubismEffectCustom_.
+
+|demo_effect_custom_02.tscn
+|This is a sample using _GDCubismEffectCustom_. It performs a simple lip sync, moving the mouth according to the volume.
+
+|demo_effect_custom_03.tscn
+|This is a sample using _GDCubismEffectTargetPoint_. The Live2D model will look in the direction of the mouse position.
+
+|demo_effect_hit_area.tscn
+|This is a sample using _GDCubismEffectHitArea_. It also serves as a usage sample for the _HitArea_ set in the Live2D model.
+
+|demo_simple.tscn
+|This is a sample that displays the Live2D model only with a combination of Nodes.
+
+|demo_transparent.tscn
+|This is a sample that displays only the character by making the surroundings of the Live2D model transparent.
+
+|viewer.tscn
+|This is a sample that also serves as a simple viewer. You can play _Expression_ and _Motion_.
+
+|===
+
+NOTE: The program is available in both GDScript and C# versions. You can check the operation by replacing the script assigned to the tscn file.
+
+
 == API Reference / C# Support status
 
 GDCubism provides a variety of classes. Please refer to the document linked below for how to use it.
@@ -84,12 +150,15 @@ GDCubism provides a variety of classes. Please refer to the document linked belo
 |===
 |GDScript Class |C# Class |Features
 
-|GDCubismEffect |GDCubismEffectCS |-
+|link:API/ja/API_gd_cubism_effect.ja.adoc[GDCubismEffect]
+|GDCubismEffectCS
+|-
+
 |link:API/ja/API_gd_cubism_effect_breath.ja.adoc[GDCubismEffectBreath]
 |GDCubismEffectBreathCS
 |△
 
-|GDCubismEffectCustom
+|link:API/ja/API_gd_cubism_effect_custom.ja.adoc[GDCubismEffectCustom]
 |GDCubismEffectCustomCS
 |△
 
@@ -97,8 +166,13 @@ GDCubism provides a variety of classes. Please refer to the document linked belo
 |GDCubismEffectEyeBlinkCS
 |△
 
-|GDCubismEffectHitArea |GDCubismEffectHitAreaCS |△
-|GDCubismEffectTargetPoint |GDCubismEffectTargetPointCS |△
+|link:API/ja/API_gd_cubism_effect_hit_area.ja.adoc[GDCubismEffectHitArea]
+|GDCubismEffectHitAreaCS
+|△
+
+|link:API/ja/API_gd_cubism_effect_target_point.ja.adoc[GDCubismEffectTargetPoint]
+|GDCubismEffectTargetPointCS
+|△
 
 |link:API/ja/API_gd_cubism_motion_entry.ja.adoc[GDCubismMotionEntry]
 |GDCubismMotionEntryCS
@@ -108,7 +182,9 @@ GDCubism provides a variety of classes. Please refer to the document linked belo
 |GDCubismMotionQueueEntryHadleCS
 |x
 
-|GDCubismValueAbs |GDCubismValueAbsCS |-
+|link:API/ja/API_gd_cubism_value_abs.ja.adoc[GDCubismValueAbs]
+|GDCubismValueAbsCS
+|-
 
 |link:API/ja/API_gd_cubism_parameter.ja.adoc[GDCubismParameter]
 |GDCubismParameterCS
@@ -122,3 +198,4 @@ GDCubism provides a variety of classes. Please refer to the document linked belo
 |GDCubismUserModelCS
 |○
 |===
+
