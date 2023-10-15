@@ -333,7 +333,8 @@ Dictionary GDCubismUserModel::get_motions() const {
 
     for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
         const Csm::csmChar* group = setting->GetMotionGroupName(i);
-        dict_motion[String(group)] = setting->GetMotionCount(group);
+        String gd_group; gd_group.parse_utf8(group);
+        dict_motion[gd_group] = setting->GetMotionCount(group);
     }
 
     return dict_motion;
@@ -346,19 +347,13 @@ Ref<GDCubismMotionQueueEntryHandle> GDCubismUserModel::start_motion(const String
 
 
 Ref<GDCubismMotionQueueEntryHandle> GDCubismUserModel::start_motion_loop(const String str_group, const int32_t no, const Priority priority, const bool loop, const bool loop_fade_in) {
-    Csm::csmChar group[MAX_MOTION_NAME_LENGTH];
     Ref<GDCubismMotionQueueEntryHandle> queue_handle;
     queue_handle.instantiate();
 
     if(this->is_initialized() == false) return queue_handle;
-    if(str_group.length() > MAX_MOTION_NAME_LENGTH) return queue_handle;
-
-    ::memset(group, 0, sizeof(group));
-    PackedByteArray buffer = str_group.to_ascii_buffer();
-    ::memcpy(group, buffer.ptr(), buffer.size());
 
     queue_handle->_handle = this->internal_model->motion_start(
-        group,
+        str_group.utf8().ptr(),
         no,
         priority,
         loop,
@@ -405,7 +400,8 @@ Array GDCubismUserModel::get_expressions() const {
 
     for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
         const Csm::csmChar* name = setting->GetExpressionName(i);
-        ary_expression.append(String(name));
+        String gd_name; gd_name.parse_utf8(name);
+        ary_expression.append(gd_name);
     }
 
     return ary_expression;
@@ -413,15 +409,9 @@ Array GDCubismUserModel::get_expressions() const {
 
 
 void GDCubismUserModel::start_expression(const String str_expression_id) {
-    Csm::csmChar expression_id[MAX_EXPRESSION_NAME_LENGTH];
-
     if(this->is_initialized() == false) return;
 
-    ::memset(expression_id, 0, sizeof(expression_id));
-    PackedByteArray buffer = str_expression_id.to_ascii_buffer();
-    ::memcpy(expression_id, buffer.ptr(), buffer.size());
-
-    this->internal_model->expression_set(expression_id);
+    this->internal_model->expression_set(str_expression_id.utf8().ptr());
 }
 
 
@@ -441,8 +431,11 @@ Array GDCubismUserModel::get_hit_areas() const {
 
     for(Csm::csmInt32 i = 0; i < setting->GetHitAreasCount(); i++) {
         Dictionary dict_hit_area;
-        dict_hit_area["id"] = String(setting->GetHitAreaId(i)->GetString().GetRawString());
-        dict_hit_area["name"] = String(setting->GetHitAreaName(i));
+        String id; id.parse_utf8(setting->GetHitAreaId(i)->GetString().GetRawString());
+        String name; name.parse_utf8(setting->GetHitAreaName(i));
+
+        dict_hit_area["id"] = id;
+        dict_hit_area["name"] = name;
         ary_hit_area.append(dict_hit_area);
     }
 
@@ -594,7 +587,7 @@ bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
     if(p_name == String(PROP_ANIM_LOOP_FADE_IN)) { this->anim_loop_fade_in = p_value; return true; }
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
-        const String name(model->GetParameterId(index)->GetString().GetRawString());
+        String name; name.parse_utf8(model->GetParameterId(index)->GetString().GetRawString());
 
         if(p_name == name) {
             model->SetParameterValue(index, p_value);
@@ -603,7 +596,7 @@ bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
     }
 
     for(Csm::csmInt32 index = 0; index < model->GetPartCount(); index++) {
-        const String name(model->GetPartId(index)->GetString().GetRawString());
+        String name; name.parse_utf8(model->GetPartId(index)->GetString().GetRawString());
 
         if(p_name == name) {
             model->SetPartOpacity(index, p_value);
@@ -633,7 +626,7 @@ bool GDCubismUserModel::_get(const StringName &p_name, Variant &r_ret) const {
     if(p_name == String(PROP_ANIM_LOOP_FADE_IN)) { r_ret = this->anim_loop_fade_in; return true; }
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
-        const String name(model->GetParameterId(index)->GetString().GetRawString());
+        String name; name.parse_utf8(model->GetParameterId(index)->GetString().GetRawString());
 
         if(p_name == name) {
             r_ret = model->GetParameterValue(index);
@@ -642,7 +635,7 @@ bool GDCubismUserModel::_get(const StringName &p_name, Variant &r_ret) const {
     }
 
     for(Csm::csmInt32 index = 0; index < model->GetPartCount(); index++) {
-        const String name(model->GetPartId(index)->GetString().GetRawString());
+        String name; name.parse_utf8(model->GetPartId(index)->GetString().GetRawString());
 
         if(p_name == name) {
             r_ret = model->GetPartOpacity(index);
@@ -662,7 +655,7 @@ bool GDCubismUserModel::_property_can_revert(const StringName &p_name) const {
     if(p_name == String(PROP_ANIM_LOOP_FADE_IN)) return true;
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
-        const String name(model->GetParameterId(index)->GetString().GetRawString());
+        String name; name.parse_utf8(model->GetParameterId(index)->GetString().GetRawString());
 
         if(p_name == name) return true;
     }
@@ -679,7 +672,7 @@ bool GDCubismUserModel::_property_get_revert(const StringName &p_name, Variant &
     if(p_name == String(PROP_ANIM_LOOP_FADE_IN)) { r_property = DEFAULT_PROP_ANIM_LOOP_FADE_IN; return true; }
 
     for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
-        const String name(model->GetParameterId(index)->GetString().GetRawString());
+        String name; name.parse_utf8(model->GetParameterId(index)->GetString().GetRawString());
 
         if(p_name == name) {
             r_property = model->GetParameterDefaultValue(index);
