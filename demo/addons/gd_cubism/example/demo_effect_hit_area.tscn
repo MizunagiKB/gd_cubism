@@ -75,6 +75,20 @@ grow_horizontal = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ItemList" type="ItemList" parent="Control"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -208.0
+offset_top = 64.0
+offset_right = -16.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 2
+
 [connection signal="hit_area_entered" from="Sprite2D/GDCubismUserModel/GDCubismEffectHitArea" to="." method="_on_gd_cubism_effect_hit_area_hit_area_entered"]
 [connection signal="hit_area_exited" from="Sprite2D/GDCubismUserModel/GDCubismEffectHitArea" to="." method="_on_gd_cubism_effect_hit_area_hit_area_exited"]
 [connection signal="draw" from="Sprite2D/Canvas" to="." method="_on_canvas_draw"]
+[connection signal="item_selected" from="Control/ItemList" to="." method="_on_item_list_item_selected"]
