@@ -33,9 +33,9 @@ public partial class GDCubismEffectHitAreaCS : GDCubismEffectCS
         return (Vector2)this.InternalObject.Call("get_target");
     }
 
-    public Godot.Collections.Dictionary GetDetail(GDCubismUserModelCS model, String id_mesh)
+    public Godot.Collections.Dictionary GetDetail(GDCubismUserModelCS model, String id)
     {
-        return (Godot.Collections.Dictionary)this.InternalObject.Call("get_detail", model.GetInternalObject(), id_mesh);
+        return (Godot.Collections.Dictionary)this.InternalObject.Call("get_detail", model.GetInternalObject(), id);
     }
 
     // -------------------------------------------------------------- Signal(s)
