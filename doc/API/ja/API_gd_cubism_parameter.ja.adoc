@@ -1,28 +1,18 @@
-= API Reference
-:author: MizunagiKB
-:copyright: 2023 MizunagiKB <mizukb@live.jp>
+= GDCubismParameter
+:encoding: utf-8
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
 :doctype: book
+:nofooter:
 :toc:
 :toclevels: 3
-:lang: ja
-:encoding: utf-8
-:stylesdir: ./res/theme/css
-:stylesheet: adoc-golo.css
 :source-highlighter: highlight.js
 :experimental:
-ifndef::env-github[:icons: font]
-ifdef::env-github,env-browser[]
-endif::[]
-ifdef::env-github[]
-:caution-caption: :fire:
-:important-caption: :exclamation:
-:note-caption: :paperclip:
-:tip-caption: :bulb:
-:warning-caption: :warning:
-endif::[]
+:icons: font
 
 
-== class: GDCubismParameter
+== Desc
 
 link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _get_parameters_ 関数で戻される _Array_ に含まれる要素。
 
