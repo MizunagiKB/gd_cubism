@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -13,7 +13,7 @@
 
 
 == Desc
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -21,15 +21,15 @@
 |===
 
 
-=== Methods
-=== Signals
-=== Enumerations
-=== Constants
-=== Property Descriptions
+== Methods
+== Signals
+== Enumerations
+== Constants
+== Property Descriptions
 
 bool active [default: true]::
 When this value is _true_, the __cubism_prologue_, __cubism_process_, __cubism_epilogue_ functions are called.
 
 
-=== Method Descriptions
+== Method Descriptions
 

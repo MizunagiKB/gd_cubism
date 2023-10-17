@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -17,7 +17,7 @@
 The return values of the _start_motion_ function and the _start_random_motion_ function of link:API_gd_cubism_user_model.en.adoc[_GDCubismUserModel_].
 
 
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -25,7 +25,7 @@ The return values of the _start_motion_ function and the _start_random_motion_ f
 |===
 
 
-=== Enumerations
+== Enumerations
 
 enum HandleError::
 * OK = 0 +
@@ -34,7 +34,7 @@ Success
 Failure
 
 
-=== Property Descriptions
+== Property Descriptions
 
 HandleError error [default: 1]::
 Checks whether the call to the _start_motion_ function and the _start_random_motion_ function of link:API_gd_cubism_user_model.en.adoc[_GDCubismUserModel_] was successful.

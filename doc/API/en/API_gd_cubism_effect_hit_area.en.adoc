@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -21,7 +21,7 @@ _HitArea_ is composed of any _Triangle_. This allows you to express complex shap
 If you want to determine on a _Triangle_ basis, you can do so by using the _get_detail_ function after receiving the _hit_area_entered_ signal.
 
 
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -29,7 +29,7 @@ If you want to determine on a _Triangle_ basis, you can do so by using the _get_
 |===
 
 
-=== Methods
+== Methods
 
 [cols="2",frame=none,grid=none]
 |===
@@ -39,7 +39,7 @@ If you want to determine on a _Triangle_ basis, you can do so by using the _get_
 |===
 
 
-=== Signals
+== Signals
 
 hit_area_entered(model: GDCubismUserModel, id: String)::
 Called when the _HitArea_ of the Live2D model is set at the point specified by _set_target_. +
@@ -52,15 +52,15 @@ Called when _set_target_ becomes outside the range of _HitArea_ after _hit_area_
 This signal has a chance to be called after _hit_area_enterd_ is called, regardless of the state of _minitoring_, and it is only called once.
 
 
-=== Enumerations
-=== Constants
-=== Property Descriptions
+== Enumerations
+== Constants
+== Property Descriptions
 
 bool monitoring [default: true]::
 Switches the behavior of the _hit_area_enterd_ signal.
 
 
-=== Method Descriptions
+== Method Descriptions
 
 Dictionary get_detail(model: GDCubismUserModel, id: String)::
 You can get more detailed information at the time of _hit_area_entered_. +

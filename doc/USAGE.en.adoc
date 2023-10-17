@@ -150,51 +150,51 @@ GDCubism provides a variety of classes. Please refer to the document linked belo
 |===
 |GDScript Class |C# Class |Features
 
-|link:API/ja/API_gd_cubism_effect.ja.adoc[GDCubismEffect]
+|link:API/en/API_gd_cubism_effect.en.adoc[GDCubismEffect]
 |GDCubismEffectCS
 |-
 
-|link:API/ja/API_gd_cubism_effect_breath.ja.adoc[GDCubismEffectBreath]
+|link:API/en/API_gd_cubism_effect_breath.en.adoc[GDCubismEffectBreath]
 |GDCubismEffectBreathCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_custom.ja.adoc[GDCubismEffectCustom]
+|link:API/en/API_gd_cubism_effect_custom.en.adoc[GDCubismEffectCustom]
 |GDCubismEffectCustomCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_eye_blink.ja.adoc[GDCubismEffectEyeBlink]
+|link:API/en/API_gd_cubism_effect_eye_blink.en.adoc[GDCubismEffectEyeBlink]
 |GDCubismEffectEyeBlinkCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_hit_area.ja.adoc[GDCubismEffectHitArea]
+|link:API/en/API_gd_cubism_effect_hit_area.en.adoc[GDCubismEffectHitArea]
 |GDCubismEffectHitAreaCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_target_point.ja.adoc[GDCubismEffectTargetPoint]
+|link:API/en/API_gd_cubism_effect_target_point.en.adoc[GDCubismEffectTargetPoint]
 |GDCubismEffectTargetPointCS
 |△
 
-|link:API/ja/API_gd_cubism_motion_entry.ja.adoc[GDCubismMotionEntry]
+|link:API/en/API_gd_cubism_motion_entry.en.adoc[GDCubismMotionEntry]
 |GDCubismMotionEntryCS
 |x
 
-|link:API/ja/API_gd_cubism_motion_queue_entry_handle.ja.adoc[GDCubismMotionQueueEntryHandle]
+|link:API/en/API_gd_cubism_motion_queue_entry_handle.en.adoc[GDCubismMotionQueueEntryHandle]
 |GDCubismMotionQueueEntryHadleCS
 |x
 
-|link:API/ja/API_gd_cubism_value_abs.ja.adoc[GDCubismValueAbs]
+|link:API/en/API_gd_cubism_value_abs.en.adoc[GDCubismValueAbs]
 |GDCubismValueAbsCS
 |-
 
-|link:API/ja/API_gd_cubism_parameter.ja.adoc[GDCubismParameter]
+|link:API/en/API_gd_cubism_parameter.en.adoc[GDCubismParameter]
 |GDCubismParameterCS
 |○
 
-|link:API/ja/API_gd_cubism_part_opacity.ja.adoc[GDCubismPartOpacity]
+|link:API/en/API_gd_cubism_part_opacity.en.adoc[GDCubismPartOpacity]
 |GDCubismPartOpacityCS
 |○
 
-|link:API/ja/API_gd_cubism_user_model.ja.adoc[GDCubismUserModel]
+|link:API/en/API_gd_cubism_user_model.en.adoc[GDCubismUserModel]
 |GDCubismUserModelCS
 |○
 |===

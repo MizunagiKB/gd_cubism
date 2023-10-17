@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -43,7 +43,7 @@ func _input(event):
 ----
 
 
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -61,7 +61,7 @@ func _input(event):
 |===
 
 
-=== Methods
+== Methods
 
 [cols="2",frame=none,grid=none]
 |===
@@ -70,10 +70,10 @@ func _input(event):
 |===
 
 
-=== Signals
-=== Enumerations
-=== Constants
-=== Property Descriptions
+== Signals
+== Enumerations
+== Constants
+== Property Descriptions
 
 [[id-property-body_angle_x]]
 String body_angle_x [default: "ParamBodyAngleX"]::
@@ -117,7 +117,7 @@ _head_angle_x_, _head_angle_y_, _head_angle_z_ で指定した _ID_ をどの程
 値が大きいほど敏感に反応し、 0.0 を指定すると反応しなくなります。
 
 
-=== Method Descriptions
+== Method Descriptions
 
 [[id-method-get_target]]
 Vector2 get_target()::

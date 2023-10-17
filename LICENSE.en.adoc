@@ -1,6 +1,6 @@
 = Cubism for GDScript
 :encoding: utf-8
-:lang: ja
+:lang: en
 :author: MizunagiKB <mizukb@live.jp>
 :copyright: 2023 MizunagiKB
 :doctype: book

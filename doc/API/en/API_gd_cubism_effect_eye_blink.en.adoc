@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -17,10 +17,10 @@
 By placing it as a child element of link:API_gd_cubism_user_model.en.adoc[_GDCubismUserModel_], it performs blinking animation.
 
 
-=== Properties
-=== Methods
-=== Signals
-=== Enumerations
-=== Constants
-=== Property Descriptions
-=== Method Descriptions
+== Properties
+== Methods
+== Signals
+== Enumerations
+== Constants
+== Property Descriptions
+== Method Descriptions

@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -13,10 +13,10 @@
 
 
 == Desc
-=== Properties
-=== Methods
-=== Signals
-=== Enumerations
-=== Constants
-=== Property Descriptions
-=== Method Descriptions
+== Properties
+== Methods
+== Signals
+== Enumerations
+== Constants
+== Property Descriptions
+== Method Descriptions

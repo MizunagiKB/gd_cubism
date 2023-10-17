@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -21,7 +21,7 @@ _HitArea_ は任意の _Triangle_ で構成されます。そのため複雑な�
 _Triangle_ 単位での判定を行いたい場合は、 _hit_area_entered_ シグナルの受信後に _get_detail_ 関数を利用する事で行えます。
 
 
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -29,7 +29,7 @@ _Triangle_ 単位での判定を行いたい場合は、 _hit_area_entered_ シ�
 |===
 
 
-=== Methods
+== Methods
 
 [cols="2",frame=none,grid=none]
 |===
@@ -39,7 +39,7 @@ _Triangle_ 単位での判定を行いたい場合は、 _hit_area_entered_ シ�
 |===
 
 
-=== Signals
+== Signals
 
 hit_area_entered(model: GDCubismUserModel, id: String)::
 _set_target_ で指定されたポイントにLive2Dモデルの _HitArea_ が設定されている場合に呼び出されます。 +
@@ -52,15 +52,15 @@ _hit_area_enterd_ が呼び出された後、 _set_target_ が _HitArea_ の範�
 このシグナルは、 _minitoring_ の状態に関わらず _hit_area_enterd_ が呼び出された後に呼び出される機会が生じ、一度しか呼び出されません。
 
 
-=== Enumerations
-=== Constants
-=== Property Descriptions
+== Enumerations
+== Constants
+== Property Descriptions
 
 bool monitoring [default: true]::
 _hit_area_enterd シグナルの振る舞いを切り替えます。
 
 
-=== Method Descriptions
+== Method Descriptions
 
 Dictionary get_detail(model: GDCubismUserModel, id: String)::
 _hit_area_entered_ 時により詳細な情報を得る事ができます。 +

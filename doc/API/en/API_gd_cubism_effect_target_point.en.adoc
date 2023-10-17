@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -44,7 +44,7 @@ func _input(event):
 ----
 
 
-=== Properties
+== Properties
 
 [cols="3", frame=none, grid=none]
 |===
@@ -62,7 +62,7 @@ func _input(event):
 |===
 
 
-=== Methods
+== Methods
 
 [cols="2",frame=none,grid=none]
 |===
@@ -71,10 +71,10 @@ func _input(event):
 |===
 
 
-=== Signals
-=== Enumerations
-=== Constants
-=== Property Descriptions
+== Signals
+== Enumerations
+== Constants
+== Property Descriptions
 
 [[id-property-body_angle_x]]
 String body_angle_x [default: "ParamBodyAngleX"]::
@@ -116,7 +116,7 @@ Specifies how much to move the _ID_ specified with _head_angle_x_, _head_angle_y
 The larger the value, the more sensitive it responds, and if you specify 0.0, it will not respond.
 
 
-=== Method Descriptions
+== Method Descriptions
 
 [[id-method-get_target]]
 Vector2 get_target()::
@@ -135,3 +135,4 @@ The coordinates to specify are not the coordinates of the screen, but the range 
 * x: 1.0, y: 0.0 Screen right
 * x: 0.0, y: -1.0 Screen bottom
 * x: 0.0, y: 1.0 Screen top
+

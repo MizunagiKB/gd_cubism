@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -17,9 +17,9 @@
 link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の子要素として配置することで、独自の機能を拡張可能です。
 
 
-=== Properties
-=== Methods
-=== Signals
+== Properties
+== Methods
+== Signals
 
 cubism_epilogue(model: GDCubismUserModel, delta: float)::
 Live2Dモデルが描画される時に呼び出されます。
@@ -43,8 +43,8 @@ Live2Dモデルの使用終了時に呼び出されます。
 * Live2Dモデルの子要素として _GDCubismEffect*_ が追加・削除された時。
 
 
-=== Enumerations
-=== Constants
-=== Property Descriptions
-=== Method Descriptions
+== Enumerations
+== Constants
+== Property Descriptions
+== Method Descriptions
 

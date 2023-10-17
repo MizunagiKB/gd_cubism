@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -19,9 +19,9 @@ link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _get_part_opaciti
 このクラスの _value_ に値を書き込むことで、Live2Dモデルのパーツ透明度を書き換えることができます。
 
 
-=== Methods
-=== Signals
-=== Enumerations
-=== Constants
-=== Property Descriptions
-=== Method Descriptions
+== Methods
+== Signals
+== Enumerations
+== Constants
+== Property Descriptions
+== Method Descriptions

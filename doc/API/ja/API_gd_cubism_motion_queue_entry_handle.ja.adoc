@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -17,7 +17,7 @@
 link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _start_motion_ 関数、 _start_random_motion_ 関数の戻り値。
 
 
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -25,7 +25,7 @@ link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _start_motion_ �
 |===
 
 
-=== Enumerations
+== Enumerations
 
 enum HandleError::
 * OK = 0 +
@@ -34,7 +34,7 @@ enum HandleError::
 失敗
 
 
-=== Property Descriptions
+== Property Descriptions
 
 HandleError error [default: 1]::
 link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _start_motion_ 関数、 _start_random_motion_ 関数を呼び出しが成功したかどうかを確認します。

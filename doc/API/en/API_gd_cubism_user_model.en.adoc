@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -18,7 +18,7 @@ This is a _SubViewport_ subclass for loading the Live2D model, generating the _T
 
 
 
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -40,7 +40,7 @@ This is a _SubViewport_ subclass for loading the Live2D model, generating the _T
 |===
 
 
-=== Methods
+== Methods
 
 [cols="2",frame=none,grid=none]
 |===
@@ -65,7 +65,7 @@ This is a _SubViewport_ subclass for loading the Live2D model, generating the _T
 |===
 
 
-=== Signals
+== Signals
 
 motion_event(value: String)::
 Called at the timing of the event time embedded in _Motion_.
@@ -95,7 +95,7 @@ func _ready():
 
 
 
-=== Enumerations
+== Enumerations
 
 [[id-enum-moc3_file_format_version]]
 enum moc3FileFormatVersion::
@@ -142,7 +142,7 @@ No animation update process is performed. To process the animation, use the <<id
 I hope this helps! If you have any other requests, feel free to ask.
 
 
-=== Property Descriptions
+== Property Descriptions
 
 [[id-property-assets]]
 String assets [default: ""]::
@@ -212,7 +212,7 @@ floats speed_scale [default: 1.0]::
 Specifies the playback speed of the currently held Live2D model.
 
 
-=== Method Descriptions
+== Method Descriptions
 
 [[id-method-advance]]
 void advance(delta: float)::

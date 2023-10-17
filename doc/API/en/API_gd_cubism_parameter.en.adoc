@@ -5,7 +5,7 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
@@ -20,7 +20,7 @@ By writing a value to this class's _value_, you can modify the parameter of the 
 
 
 
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -30,20 +30,20 @@ By writing a value to this class's _value_, you can modify the parameter of the 
 |===
 
 
-=== Methods
+== Methods
 [cols="2",frame=none,grid=none]
 |===
 >|void <|reset()
 |===
 
 
-=== Enumerations
+== Enumerations
 enum Type::
 * NORMAL = 0
 * BLEND_SHAPE = 1
 
 
-=== Property Descriptions
+== Property Descriptions
 
 [[id-property-default_value]]
 float default_value [default: 0.0]::
@@ -57,7 +57,7 @@ The maximum value that can be set for the parameter held by this class.
 float minimum_value [default: 0.0]::
 The minimum value that can be set for the parameter held by this class.
 
-=== Method Descriptions
+== Method Descriptions
 
 [[id-method-reset]]
 void reset()::
