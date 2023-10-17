@@ -1,0 +1,28 @@
+= GDCubismPartOpacity
+:encoding: utf-8
+:lang: en
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:nofooter:
+:toc:
+:toclevels: 3
+:source-highlighter: highlight.js
+:experimental:
+:icons: font
+
+
+== Desc
+
+Elements contained in the _Array_ returned by the _get_part_opacities_ function of link:API_gd_cubism_user_model.en.adoc[_GDCubismUserModel_].
+
+By writing a value to this class's _value_, you can modify the opacity of the parts of the Live2D model.
+
+
+
+=== Methods
+=== Signals
+=== Enumerations
+=== Constants
+=== Property Descriptions
+=== Method Descriptions

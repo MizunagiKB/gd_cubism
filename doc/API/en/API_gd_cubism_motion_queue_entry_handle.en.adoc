@@ -1,6 +1,6 @@
 = GDCubismMotionQueueEntryHandle
 :encoding: utf-8
-:lang: ja
+:lang: en
 :author: MizunagiKB <mizukb@live.jp>
 :copyright: 2023 MizunagiKB
 :doctype: book
@@ -14,7 +14,7 @@
 
 == Desc
 
-link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _start_motion_ 関数、 _start_random_motion_ 関数の戻り値。
+The return values of the _start_motion_ function and the _start_random_motion_ function of link:API_gd_cubism_user_model.en.adoc[_GDCubismUserModel_].
 
 
 === Properties
@@ -29,12 +29,12 @@ link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _start_motion_ �
 
 enum HandleError::
 * OK = 0 +
-成功
+Success
 * FAILED = 1 +
-失敗
+Failure
 
 
 === Property Descriptions
 
 HandleError error [default: 1]::
-link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _start_motion_ 関数、 _start_random_motion_ 関数を呼び出しが成功したかどうかを確認します。
+Checks whether the call to the _start_motion_ function and the _start_random_motion_ function of link:API_gd_cubism_user_model.en.adoc[_GDCubismUserModel_] was successful.
