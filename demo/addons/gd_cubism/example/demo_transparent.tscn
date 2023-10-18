@@ -9,12 +9,11 @@ light_mode = 1
 [sub_resource type="ViewportTexture" id="ViewportTexture_0ckra"]
 viewport_path = NodePath("Sprite2D/GDCubismUserModel")
 
-[node name="demo_desktop_character" type="Node2D"]
+[node name="demo_transparent" type="Node2D"]
 script = ExtResource("1_v7gdn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_wfgje")
-position = Vector2(656, 328)
 texture = SubResource("ViewportTexture_0ckra")
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
@@ -27,11 +26,14 @@ render_target_update_mode = 4
 
 [node name="GDCubismEffectEyeBlink" type="GDCubismEffectEyeBlink" parent="Sprite2D/GDCubismUserModel"]
 
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(1, 0, 0, 0.498039)
+
 [node name="lbl_usage" type="Label" parent="."]
 offset_left = 960.0
 offset_top = 16.0
 offset_right = 1262.0
-offset_bottom = 128.0
+offset_bottom = 146.0
 text = "TAB Key: Window transparent.
 SPACE Key: Change motion.
 0 - 9 Key: Change expression.
