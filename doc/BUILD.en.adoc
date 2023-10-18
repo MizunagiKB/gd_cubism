@@ -32,7 +32,7 @@ git submodule update --init
 ==== Preparation of CubismSdkForNative
 
 . Get Live2D Cubism SDK for Native.
-.. The SDK version used by GDCubism is **Cubism 5 SDK for Native R1 beta2**.
+.. The SDK version used by GDCubism is **Cubism 5 SDK for Native R1 beta3**.
 .. Get Cubism 5 SDK for Native from Live2D's official website.
 . Extract the downloaded file to _thirdparty_.
 
@@ -41,7 +41,7 @@ When expanded, it should look like the following.
 [source, console]
 ----
 ./thirdparty
-    /CubismSdkForNative-5-r.1-beta.2
+    /CubismSdkForNative-5-r.1-beta.3
         /Core
             /dll
             ...
