@@ -194,8 +194,7 @@ GDCubismUserModel::moc3FileFormatVersion GDCubismUserModel::csm_get_latest_moc_v
 
 
 GDCubismUserModel::moc3FileFormatVersion GDCubismUserModel::csm_get_moc_version() {
-    if(this->is_initialized() == false) return moc3FileFormatVersion::CSM_MOC_VERSION_UNKNOWN;
-
+    ERR_FAIL_COND_V(this->is_initialized() == false, moc3FileFormatVersion::CSM_MOC_VERSION_UNKNOWN);
     return this->internal_model->_moc3_file_format_version;
 }
 
@@ -249,7 +248,7 @@ String GDCubismUserModel::get_assets() const {
 
 
 Dictionary GDCubismUserModel::get_canvas_info() const {
-    if(this->is_initialized() == false) return Dictionary();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Dictionary());
 
     Dictionary result;
     Live2D::Cubism::Core::csmVector2 vct_pixel_size;
@@ -325,7 +324,7 @@ bool GDCubismUserModel::get_auto_scale() const {
 
 
 Dictionary GDCubismUserModel::get_motions() const {
-    if(this->is_initialized() == false) return Dictionary();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Dictionary());
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
@@ -367,7 +366,7 @@ Ref<GDCubismMotionQueueEntryHandle> GDCubismUserModel::start_motion_loop(const S
 
 
 Array GDCubismUserModel::get_cubism_motion_queue_entries() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
 
     Array ary_motion_entry;
 
@@ -392,7 +391,7 @@ void GDCubismUserModel::stop_motion() {
 
 
 Array GDCubismUserModel::get_expressions() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
@@ -423,7 +422,7 @@ void GDCubismUserModel::stop_expression() {
 
 
 Array GDCubismUserModel::get_hit_areas() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
@@ -444,21 +443,21 @@ Array GDCubismUserModel::get_hit_areas() const {
 
 
 Array GDCubismUserModel::get_parameters() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
 
     return this->ary_parameter;
 }
 
 
 Array GDCubismUserModel::get_part_opacities() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
 
     return this->ary_part_opacity;
 }
 
 
 Dictionary GDCubismUserModel::get_meshes() const {
-    if(this->is_initialized() == false) return Dictionary();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Dictionary());
 
     return this->internal_model->_renderer_resource.dict_mesh;
 }
@@ -507,7 +506,7 @@ void GDCubismUserModel::_update(const float delta) {
 
 
 void GDCubismUserModel::advance(const float delta) {
-    if(this->is_initialized() == false) return;
+    ERR_FAIL_COND(this->is_initialized() == false);
     if(this->playback_process_mode != MANUAL) return;
 
     this->_update(delta);
