@@ -17,12 +17,12 @@ link:DEBUG.adoc[Japanese] / English
 
 == デバッグ方法
 
-GDCubismのデバッグを行うにはVisualStudio Codeを使用して以下の方法で行えます。
+GDCubism のデバッグを行うには VisualStudio Code を使用して以下の方法で行えます。
 
-. SConsのビルド時にdebug_symbols=true optimize=noneを追加します。
-. launch.jsonに以下を追加します。
-. Godotでdemoプロジェクトを開きExportを行います。
-.. 作業がしやすい様に、demo.exportというフォルダが事前に用意されています。
+. SCons のビルド時に `debug_symbols=true optimize=none` を追加します。
+. launch.json に以下を追加します。
+. Godot で demo プロジェクトを開き Export を行います。
+.. 作業がしやすい様に、 demo.export というフォルダが事前に用意されています。
 . デバッグ実行を行います。
 
 
