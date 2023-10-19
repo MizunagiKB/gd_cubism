@@ -1,28 +1,23 @@
 = Cubism for GDScript
-:author: MizunagiKB
-:copyright: 2023 MizunagiKB <mizukb@live.jp>
+:encoding: utf-8
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
 :doctype: book
+:nofooter:
 :toc:
 :toclevels: 3
-:lang: ja
-:encoding: utf-8
-:stylesdir: ./doc/res/theme/css
-:stylesheet: adoc-golo.css
 :source-highlighter: highlight.js
 :experimental:
-ifndef::env-github[:icons: font]
-ifdef::env-github,env-browser[]
-endif::[]
-ifdef::env-github[]
-:caution-caption: :fire:
-:important-caption: :exclamation:
-:note-caption: :paperclip:
-:tip-caption: :bulb:
-:warning-caption: :warning:
-endif::[]
+:icons: font
 
 
+ifdef::env-github,env-vscode[]
 link:README.adoc[Japanese] / link:README.en.adoc[English]
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+link:README{outfilesuffix}[Japanese] / link:README.en{outfilesuffix}[English]
+endif::env-github,env-vscode[]
 
 
 == About GDCubism
@@ -34,27 +29,56 @@ GDCubism内部ではLive2D社が公開しているlink:https://github.com/Live2D
 このソフトウェアについて開発元のLive2D社に問い合わせない様お願い致します。
 
 
-=== ライセンスについて
+== ビルド可能なプラットフォーム
 
-* link:LICENSE.adoc[]
+[cols="2",frame=none,grid=none]
+|===
+>|Windows
+a|
+* x86_32
+* x86_64
+
+>|macOS
+a|
+* x86_64
+* arm64
+* universal
+
+>|Linux
+a|
+* x86_64
+
+>|iOS
+a|
+* arm64 (experimental)
+* universal (experimental)
+
+>|Android
+a|
+* armv7 (experimental)
+* arm64v8 (experimental)
+|===
 
 
-=== ビルド方法
+== ライセンスについて
 
-* link:doc/BUILD.adoc[]
-
-
-=== 使用方法
-
-* link:doc/USAGE.adoc[]
+ifdef::env-github,env-vscode[* link:LICENSE.adoc[]]
+ifndef::env-github,env-vscode[* link:LICENSE{outfilesuffix}[]]
 
 
-=== 既知の不具合
+== ビルド方法
 
-* link:doc/PROBLEM.adoc[]
+ifdef::env-github,env-vscode[* link:doc/BUILD.adoc[]]
+ifndef::env-github,env-vscode[* link:doc/BUILD{outfilesuffix}[]]
 
 
-=== 関連情報
+== 使用方法
+
+ifdef::env-github,env-vscode[* link:doc/USAGE.adoc[]]
+ifndef::env-github,env-vscode[* link:doc/USAGE{outfilesuffix}[]]
+
+
+== 関連情報
 
 * link:https://www.live2d.com/[Live2D Cubism]
 * link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]

@@ -1,25 +1,15 @@
 = Cubism for GDScript
-:author: MizunagiKB
-:copyright: 2023 MizunagiKB <mizukb@live.jp>
+:encoding: utf-8
+:lang: en
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
 :doctype: book
+:nofooter:
 :toc:
 :toclevels: 3
-:lang: en
-:encoding: utf-8
-:stylesdir: ./res/theme/css
-:stylesheet: adoc-golo.css
 :source-highlighter: highlight.js
 :experimental:
-ifndef::env-github[:icons: font]
-ifdef::env-github,env-browser[]
-endif::[]
-ifdef::env-github[]
-:caution-caption: :fire:
-:important-caption: :exclamation:
-:note-caption: :paperclip:
-:tip-caption: :bulb:
-:warning-caption: :warning:
-endif::[]
+:icons: font
 
 
 link:BUILD.adoc[Japanese] / link:BUILD.en.adoc[English]
@@ -42,7 +32,7 @@ git submodule update --init
 ==== Preparation of CubismSdkForNative
 
 . Get Live2D Cubism SDK for Native.
-.. The SDK version used by GDCubism is **Cubism 5 SDK for Native R1 beta2**.
+.. The SDK version used by GDCubism is **Cubism 5 SDK for Native R1 beta3**.
 .. Get Cubism 5 SDK for Native from Live2D's official website.
 . Extract the downloaded file to _thirdparty_.
 
@@ -51,7 +41,7 @@ When expanded, it should look like the following.
 [source, console]
 ----
 ./thirdparty
-    /CubismSdkForNative-5-r.1-beta.2
+    /CubismSdkForNative-5-r.1-beta.3
         /Core
             /dll
             ...
@@ -87,6 +77,16 @@ The following items are required for building:
 * link:https://www.python.org/downloads/windows/[Python 3.6+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
+
+
+.Installing Visual Studio caveats
+****
+If installing Visual Studio, make sure to enable C{plus}{plus} in the list of workflows to install.
+
+If you've already made the mistake of installing Visual Studio without C{plus}{plus} support, run the installer again; it should present you a Modify button. Running the installer from Add/Remove Programs will only give you a Repair option, which won't let you install C{plus}{plus} tools.
+
+link:https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_windows.html#development-in-visual-studio[Godot Engine 4.1 documentation]
+****
 
 
 When ready, run the build with the following command.
@@ -178,3 +178,114 @@ When the build is completed, the following files will be generated under _demo/a
 
 * libgd_cubism.linux.debug.x86_64.so
 * libgd_cubism.linux.release.x86_64.so
+
+
+=== Build for Others
+
+The following two have only been verified to be buildable, and have not been tested for operation.
+
+Please use them as a reference when trying to run them in each environment.
+
+
+==== Build for iOS
+
+[NOTE]
+====
+The following items are required for building:
+
+* link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
+* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+In cases where Xcode is used only from the command line, there may be instances where the build for iphoneos does not start.
+
+In such cases, you can get the build to proceed by re-specifying the path to Xcode as follows:
+
+[source, bash]
+----
+sudo xcode-select --switch /Applications/Xcode.app 
+----
+
+When ready, run the build with the following command.
+
+[source, bash]
+--
+# for arm64
+scons platform=ios arch=arm64 target=template_debug
+scons platform=ios arch=arm64 target=template_release
+# for universol
+scons platform=ios arch=universal target=template_debug
+scons platform=ios arch=universal target=template_release
+--
+
+When the build is completed, the following files will be generated under _demo/addons/gd_cubism/bin_.
+
+* libgd_cubism.ios.debug.arm64.dylib
+* libgd_cubism.ios.release.arm64.dylib
+* libgd_cubism.ios.debug.universal.dylib
+* libgd_cubism.ios.release.universal.dylib
+
+
+==== Build for Android
+
+[NOTE]
+====
+The following items are required for building:
+
+* link:https://www.python.org/downloads/windows/[Python 3.6+].
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+* link:https://developer.android.com/studio[Android Studio]
+* link:https://www.azul.com/downloads/?package=jdk#zulu[Azul Zulu: 21.28.85]
+====
+
+Assuming that you have installed Android Studio on a Windows 10 environment, follow these steps:
+
+Launch Android Studio and open the SDK Manager. You can access the SDK Manager from the More Actions menu on the Welcome to Android Studio screen that appears when you start Android Studio.
+
+Once the SDK Manager is open, check the following items and download them.
+
+* SDK Platforms
+** Android API 34
+** Android 10("Q")
+* SDK Tools
+** Android SDK Build-Tools 34
+** NDK (Side by side)
+** Android SDK Command-line Tools (latest)
+** CMake
+** Android Emulator
+** Android SDK Platform-Tools
+** Android SDK Tools (Obsolete)
+
+When ready, run the build with the following command.
+
+[source, bash]
+--
+scons platform=android target=template_debug arch=armv7
+scons platform=android target=template_release arch=armv7
+scons platform=android target=template_debug arch=arm64v8
+scons platform=android target=template_release arch=arm64v8
+--
+
+If the build does not start, try setting the following environment variables:
+
+* ANDROID_SDK_ROOT ... The location where the items selected by the SDK Manager are installed
+* ANDROID_HOME ... The location where the items selected by the SDK Manager are installed
+* ANDROID_NDK_HOME ... The location where the NDK installed by the SDK Manager is located
+* ANDROID_NDK_ROOT ... The location where the NDK installed by the SDK Manager is located
+
+.example
+[source, bash]
+--
+set ANDROID_SDK_ROOT=D:\Android\sdk
+set ANDROID_HOME=D:\Android\sdk
+set ANDROID_NDK_HOME=%ANDROID_SDK_ROOT%\ndk\26.0.10792818
+set ANDROID_NDK_ROOT=%ANDROID_SDK_ROOT%\ndk\26.0.10792818
+--
+
+When the build is completed, the following files will be generated under _demo/addons/gd_cubism/bin_.
+
+* libgd_cubism.android.debug.arm32.so
+* libgd_cubism.android.release.arm32.so
+* libgd_cubism.android.debug.arm64.so
+* libgd_cubism.android.release.arm64.so

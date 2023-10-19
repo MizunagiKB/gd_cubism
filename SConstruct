@@ -13,17 +13,21 @@ print("--- GDCubism ---")
 print("")
 
 
-# get CubismSdkForNative
+# ------------------------------------------------------ get CubismSdkForNative
 def get_cubism_sdk(dirname: str) -> tuple[Path]:
-    for o_path in Path("thirdparty").glob(dirname):
-        tpl_path = (o_path.joinpath("Core"), o_path.joinpath("Framework"))
-        if all(map(lambda o: o.is_dir(), tpl_path)) is True:
-            print("     CUBISM_NATIVE_CORE_DIR = {:s}".format(str(tpl_path[0])))
-            print("CUBISM_NATIVE_FRAMEWORK_DIR = {:s}".format(str(tpl_path[1])))
-            if o_path.name == "CubismSdkForNative-5-r.1-beta.2":
-                print("   CUBISM_MOTION_CUSTOMDATA = 1")
-                env.Append(CPPDEFINES={"CUBISM_MOTION_CUSTOMDATA": 1})
-            return str(tpl_path[0]), str(tpl_path[1])
+    list_path: list[Path] = [
+        o_path for o_path in Path("thirdparty").glob(dirname) if o_path.is_dir()
+    ]
+
+    o_path = max(list_path)
+
+    tpl_path = (o_path.joinpath("Core"), o_path.joinpath("Framework"))
+    if all(map(lambda o: o.is_dir(), tpl_path)) is True:
+        print("     CUBISM_NATIVE_CORE_DIR = {:s}".format(str(tpl_path[0])))
+        print("CUBISM_NATIVE_FRAMEWORK_DIR = {:s}".format(str(tpl_path[1])))
+        print("   CUBISM_MOTION_CUSTOMDATA = 1")
+        env.Append(CPPDEFINES={"CUBISM_MOTION_CUSTOMDATA": 1})
+        return str(tpl_path[0]), str(tpl_path[1])
 
     print("*** Directory not found, 'CubismSdkForNative' ***")
     sys.exit(1)
@@ -33,8 +37,7 @@ CUBISM_NATIVE_CORE_DIR, CUBISM_NATIVE_FRAMEWORK_DIR = get_cubism_sdk(
     "CubismSdkForNative*"
 )
 
-# check for experimenal
-
+# ------------------------------------------------------- check for experimenal
 CHECK_PATH = "thirdparty/CubismNativeFramework"
 if os.path.isdir(CHECK_PATH) is True:
     print("*** You are using a custom native framework that you prepared yourself. ***")
@@ -52,8 +55,13 @@ env.Append(CPPPATH=[os.path.join(CUBISM_NATIVE_CORE_DIR, "include")])
 print("                   platform = {:s}".format(env["platform"]))
 print("                       arch = {:s}".format(env["arch"]))
 
+
 if env["platform"] == "windows":
-    print("               MSVC_VERSION = {:s}".format(env.get("MSVC_VERSION", "(undefined)")))
+    print(
+        "               MSVC_VERSION = {:s}".format(
+            env.get("MSVC_VERSION", "(undefined)")
+        )
+    )
     arch = env["arch"]
     if arch == "x86_32":
         arch = "x86"
@@ -77,7 +85,7 @@ if env["platform"] == "windows":
             ),
         ]
     )
-    
+
     print("                       libs = {:s}".format(str(o_cubism_lib)))
     env.Append(LIBS=["Live2DCubismCore_MT"])
 
@@ -109,6 +117,24 @@ elif env["platform"] == "macos":
     )
     env.Append(LIBS=["Live2DCubismCore"])
 
+elif env["platform"] == "ios":
+    o_cubism_lib = (
+        Path(CUBISM_NATIVE_CORE_DIR)
+        .joinpath("lib")
+        .joinpath(env["platform"])
+        .joinpath("Release-iphoneos")
+        .joinpath("libLive2DCubismCore.a")
+    )
+    print("                       libs = {:s}".format(str(o_cubism_lib)))
+    env.Append(
+        LIBPATH=[
+            os.path.join(
+                CUBISM_NATIVE_CORE_DIR, "lib", env["platform"], "Release-iphoneos"
+            )
+        ]
+    )
+    env.Append(LIBS=["Live2DCubismCore"])
+
 elif env["platform"] == "linux":
     o_cubism_lib = (
         Path(CUBISM_NATIVE_CORE_DIR)
@@ -126,8 +152,35 @@ elif env["platform"] == "linux":
     )
     print("                       libs = {:s}".format(str(o_cubism_lib)))
     env.Append(LIBS=["Live2DCubismCore"])
+
+elif env["platform"] == "android":
+    dict_arch = {
+        "arm64": "arm64-v8a",
+        "arm32": "armeabi-v7a",
+        "x86_32": "x86",
+        "x86_64": "x86_64",
+    }
+    o_cubism_lib = (
+        Path(CUBISM_NATIVE_CORE_DIR)
+        .joinpath("lib")
+        .joinpath(env["platform"])
+        .joinpath(dict_arch[env["arch"]])
+        .joinpath("libLive2DCubismCore.a")
+    )
+
+    env.Append(
+        LIBPATH=[
+            os.path.join(
+                CUBISM_NATIVE_CORE_DIR, "lib", "android", dict_arch[env["arch"]]
+            )
+        ]
+    )
+    print("                       libs = {:s}".format(str(o_cubism_lib)))
+    env.Append(LIBS=["Live2DCubismCore"])
+
 else:
-    pass
+    print("!!! Unsupported platform !!!")
+    sys.exit()
 
 print("")
 

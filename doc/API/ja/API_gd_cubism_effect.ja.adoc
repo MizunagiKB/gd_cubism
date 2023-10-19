@@ -1,31 +1,19 @@
-= API Reference
-:author: MizunagiKB
-:copyright: 2023 MizunagiKB <mizukb@live.jp>
-:doctype: book
-:toc:
-:toclevels: 3
-:lang: ja
+= GDCubismEffect
 :encoding: utf-8
-:stylesdir: ./res/theme/css
-:stylesheet: adoc-golo.css
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:nofooter:
+:toc: left
+:toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
-ifndef::env-github[:icons: font]
-ifdef::env-github,env-browser[]
-endif::[]
-ifdef::env-github[]
-:caution-caption: :fire:
-:important-caption: :exclamation:
-:note-caption: :paperclip:
-:tip-caption: :bulb:
-:warning-caption: :warning:
-endif::[]
+:icons: font
 
 
-== class: GDCubismEffect
-
-
-=== Properties
+== Desc
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -33,15 +21,15 @@ endif::[]
 |===
 
 
-=== Methods
-=== Signals
-=== Enumerations
-=== Constants
-=== Property Descriptions
+== Methods
+== Signals
+== Enumerations
+== Constants
+== Property Descriptions
 
-bool active::
-この値が _true_ の時、 __cubism_process_ 関数が呼び出されます。
+bool active [default: true]::
+この値が _true_ の時、 __cubism_prologue_, __cubism_process_, __cubism_epilogue_ 関数が呼び出されます。
 
 
-=== Method Descriptions
+== Method Descriptions
 

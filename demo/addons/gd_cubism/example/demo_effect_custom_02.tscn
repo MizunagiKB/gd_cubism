@@ -6,7 +6,7 @@
 blend_mode = 4
 light_mode = 1
 
-[node name="demo_custom_effect" type="Node2D"]
+[node name="demo_effect_custom_02" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_w6cby")
@@ -24,3 +24,7 @@ script = ExtResource("1_ittjg")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 autoplay = true
 bus = &"Voice"
+
+[connection signal="cubism_init" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_init"]
+[connection signal="cubism_process" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_process"]
+[connection signal="cubism_term" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_term"]

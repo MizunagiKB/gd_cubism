@@ -21,7 +21,7 @@ func setup(pathname: String):
     var dict_motion = cubism_model.get_motions()
     $UI/ItemListMotion.clear()
     for k in dict_motion:
-        for v in dict_motion[k]:
+        for v in range(dict_motion[k]):
             $UI/ItemListMotion.add_item("{0}_{1}".format([k, v]))
             $UI/ItemListMotion.set_item_metadata(idx, {"group": k, "no": v})
             idx += 1
@@ -60,7 +60,7 @@ func _ready():
     cubism_model = GDCubismUserModel.new()
     if ENABLE_MOTION_FINISHED == true:
         cubism_model.motion_finished.connect(_on_motion_finished)
-    add_child(cubism_model)
+    $Sprite2D.add_child(cubism_model)
 
     $UI/OptModel.clear()
     $UI/OptModel.add_item("")

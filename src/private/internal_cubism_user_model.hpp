@@ -24,16 +24,18 @@
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
 class GDCubismEffectBreath;
-class GDCubismEffectEyeBlink;
 class GDCubismEffectCustom;
+class GDCubismEffectEyeBlink;
+class GDCubismEffectHitArea;
 
 
 // ------------------------------------------------------------------- class(s)
 class InternalCubismUserModel : public Csm::CubismUserModel {
     friend GDCubismUserModel;
     friend GDCubismEffectBreath;
-    friend GDCubismEffectEyeBlink;
     friend GDCubismEffectCustom;
+    friend GDCubismEffectEyeBlink;
+    friend GDCubismEffectHitArea;
 
     enum EFFECT_CALL {
         EFFECT_CALL_PROLOGUE,

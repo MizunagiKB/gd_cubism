@@ -8,8 +8,7 @@ light_mode = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_uj6qt")
-position = Vector2(640, 512)
-scale = Vector2(2, 2)
+position = Vector2(640, 360)
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
 disable_3d = true

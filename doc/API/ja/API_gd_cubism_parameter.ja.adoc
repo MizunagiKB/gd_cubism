@@ -1,35 +1,25 @@
-= API Reference
-:author: MizunagiKB
-:copyright: 2023 MizunagiKB <mizukb@live.jp>
-:doctype: book
-:toc:
-:toclevels: 3
-:lang: ja
+= GDCubismParameter
 :encoding: utf-8
-:stylesdir: ./res/theme/css
-:stylesheet: adoc-golo.css
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:nofooter:
+:toc: left
+:toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
-ifndef::env-github[:icons: font]
-ifdef::env-github,env-browser[]
-endif::[]
-ifdef::env-github[]
-:caution-caption: :fire:
-:important-caption: :exclamation:
-:note-caption: :paperclip:
-:tip-caption: :bulb:
-:warning-caption: :warning:
-endif::[]
+:icons: font
 
 
-== class: GDCubismParameter
+== Desc
 
 link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _get_parameters_ 関数で戻される _Array_ に含まれる要素。
 
 このクラスの _value_ に値を書き込むことで、Live2Dモデルの parameter を書き換えることができます。
 
 
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -39,20 +29,20 @@ link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の _get_parameters_ 
 |===
 
 
-=== Methods
+== Methods
 [cols="2",frame=none,grid=none]
 |===
 >|void <|reset()
 |===
 
 
-=== Enumerations
+== Enumerations
 enum Type::
 * NORMAL = 0
 * BLEND_SHAPE = 1
 
 
-=== Property Descriptions
+== Property Descriptions
 
 [[id-property-default_value]]
 float default_value [default: 0.0]::
@@ -69,10 +59,11 @@ float minimum_value [default: 0.0]::
 このクラスが保持する parameter に設定可能な最小値。
 
 
-=== Method Descriptions
+== Method Descriptions
 
 [[id-method-reset]]
 void reset()::
 現在設定されている値を _default_value_ にします。
 +
 機能と動作は ```value = default_value``` と同じです。
+

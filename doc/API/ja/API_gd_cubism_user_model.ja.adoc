@@ -1,33 +1,23 @@
-= API Reference
-:author: MizunagiKB
-:copyright: 2023 MizunagiKB <mizukb@live.jp>
-:doctype: book
-:toc:
-:toclevels: 3
-:lang: ja
+= GDCubismUserModel
 :encoding: utf-8
-:stylesdir: ./res/theme/css
-:stylesheet: adoc-golo.css
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:nofooter:
+:toc: left
+:toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
-ifndef::env-github[:icons: font]
-ifdef::env-github,env-browser[]
-endif::[]
-ifdef::env-github[]
-:caution-caption: :fire:
-:important-caption: :exclamation:
-:note-caption: :paperclip:
-:tip-caption: :bulb:
-:warning-caption: :warning:
-endif::[]
+:icons: font
 
 
-== class: GDCubismUserModel
+== Desc
 
 Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり操作を行うための _SubVieport_ 継承クラスです。
 
 
-=== Properties
+== Properties
 
 [cols="3",frame=none,grid=none]
 |===
@@ -49,7 +39,7 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 |===
 
 
-=== Methods
+== Methods
 
 [cols="2",frame=none,grid=none]
 |===
@@ -74,7 +64,7 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 |===
 
 
-=== Signals
+== Signals
 
 motion_event(value: String)::
 _Motion_ に埋め込まれたイベント時刻のタイミングで呼び出されます。
@@ -103,7 +93,7 @@ func _ready():
 ----
 
 
-=== Enumerations
+== Enumerations
 
 [[id-enum-moc3_file_format_version]]
 enum moc3FileFormatVersion::
@@ -148,7 +138,7 @@ enum MotionProcessCallback::
 アニメーションの更新処理を行いません。アニメーションを処理するには <<id-method-advance,_advance_>> 関数を使用します。
 
 
-=== Property Descriptions
+== Property Descriptions
 
 [[id-property-assets]]
 String assets [default: ""]::
@@ -179,7 +169,7 @@ Shader shader_mask_mix::
 Live2Dモデルの描画に使用する _shader_ を指定します。 +
 既定では以下の内容の _shader_ が使用されます。
 
-[source, numlines]
+[source,,numlines]
 ----
 include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask.gdshader[]
 ----
@@ -190,7 +180,7 @@ Shader shader_mask_mix::
 Live2Dモデルの描画に使用する _shader_ を指定します。 +
 既定では以下の内容の _shader_ が使用されます。
 
-[source, numlines]
+[source,,numlines]
 ----
 include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader[]
 ----
@@ -201,7 +191,7 @@ Shader shader_mask_mix_inv::
 Live2Dモデルの描画に使用する _shader_ を指定します。 +
 既定では以下の内容の _shader_ が使用されます。
 
-[source, numlines]
+[source,,numlines]
 ----
 include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader[]
 ----
@@ -212,7 +202,7 @@ Shader shader_mix::
 Live2Dモデルの描画に使用する _shader_ を指定します。 +
 既定では以下の内容の _shader_ が使用されます。
 
-[source, numlines]
+[source,,numlines]
 ----
 include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader[]
 ----
@@ -223,7 +213,7 @@ floats speed_scale [default: 1.0]::
 現在保持しているLive2Dモデルの再生速度を指定します。
 
 
-==== Method Descriptions
+== Method Descriptions
 
 [[id-method-advance]]
 void advance(delta: float)::
@@ -287,7 +277,14 @@ Array get_expressions()::
 
 [[id-method-get_hit_areas]]
 Array get_hit_areas()::
-未実装。
+Live2Dモデルに設定されている _HitArea_ 情報を取得します。 +
+配列の要素は _Dictionary_ になっており、要素として _id_ と _name_ を持ちます。 +
+ +
+_id_ は mesh 要素を指す為、 _get_meshes_ のキーとして利用可能です。 +
+ +
+ +
+この関数と _get_meshes_ で得られる情報を使用する事で、 Live2Dモデルとのインタラクションを実装できます。 +
+高度な処理を必要としない場合は、 _GDCubismEffectHitArea_ クラスを使用する事で、簡単に利用する事が可能です。
 
 
 [[id-method-get_meshes]]

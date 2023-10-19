@@ -1,0 +1,67 @@
+= GDCubismParameter
+:encoding: utf-8
+:lang: en
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:nofooter:
+:toc: left
+:toclevels: 3
+:source-highlighter: highlight.js
+:experimental:
+:icons: font
+
+
+== Desc
+
+Elements contained in the _Array_ returned by the _get_parameters_ function of link:API_gd_cubism_user_model.en.adoc[_GDCubismUserModel_].
+
+By writing a value to this class's _value_, you can modify the parameter of the Live2D model.
+
+
+
+== Properties
+
+[cols="3",frame=none,grid=none]
+|===
+>|float <|default_value |[default: 0.0]
+>|float <|maximum_value |[default: 0.0]
+>|float <|minimum_value |[default: 0.0]
+|===
+
+
+== Methods
+[cols="2",frame=none,grid=none]
+|===
+>|void <|reset()
+|===
+
+
+== Enumerations
+enum Type::
+* NORMAL = 0
+* BLEND_SHAPE = 1
+
+
+== Property Descriptions
+
+[[id-property-default_value]]
+float default_value [default: 0.0]::
+The initial value of the parameter held by this class.
+
+[[id-property-maximum_value]]
+float maximum_value [default: 0.0]::
+The maximum value that can be set for the parameter held by this class.
+
+[[id-property-minimum_value]]
+float minimum_value [default: 0.0]::
+The minimum value that can be set for the parameter held by this class.
+
+== Method Descriptions
+
+[[id-method-reset]]
+void reset()::
+Resets the currently set value to _default_value_.
++
+Its function and operation are the same as ```value = default_value```.
+

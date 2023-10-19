@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgus7rihdnj0q"]
+
+[ext_resource type="Script" path="res://addons/gd_cubism/example/demo_effect_hit_area.gd" id="1_v15iy"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x3u78"]
+viewport_path = NodePath("Sprite2D/GDCubismUserModel")
+
+[node name="demo_effect_hit_area" type="Node2D"]
+script = ExtResource("1_v15iy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+texture = SubResource("ViewportTexture_x3u78")
+
+[node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
+disable_3d = true
+transparent_bg = true
+gui_disable_input = true
+render_target_update_mode = 4
+
+[node name="GDCubismEffectHitArea" type="GDCubismEffectHitArea" parent="Sprite2D/GDCubismUserModel"]
+monitoring = false
+
+[node name="Canvas" type="Control" parent="Sprite2D"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="lbl_mouse_x" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_top = 16.0
+offset_right = -128.0
+offset_bottom = 48.0
+grow_horizontal = 0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="lbl_mouse_y" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_top = 16.0
+offset_bottom = 48.0
+grow_horizontal = 0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="lbl_id" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_right = 64.0
+offset_bottom = 32.0
+grow_horizontal = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="Control"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -208.0
+offset_top = 64.0
+offset_right = -16.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[connection signal="hit_area_entered" from="Sprite2D/GDCubismUserModel/GDCubismEffectHitArea" to="." method="_on_gd_cubism_effect_hit_area_hit_area_entered"]
+[connection signal="hit_area_exited" from="Sprite2D/GDCubismUserModel/GDCubismEffectHitArea" to="." method="_on_gd_cubism_effect_hit_area_hit_area_exited"]
+[connection signal="draw" from="Sprite2D/Canvas" to="." method="_on_canvas_draw"]
+[connection signal="item_selected" from="Control/ItemList" to="." method="_on_item_list_item_selected"]

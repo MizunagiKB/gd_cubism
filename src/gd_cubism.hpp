@@ -33,8 +33,6 @@ enum GDCubismShader {
 
 
 // ------------------------------------------------------------------- const(s)
-const static int MAX_MOTION_NAME_LENGTH = 256;
-const static int MAX_EXPRESSION_NAME_LENGTH = 256;
 const static int MAX_PRINTLOG_LENGTH = 256;
 
 const static bool DEFAULT_PROP_ANIM_LOOP = false;
@@ -47,6 +45,9 @@ const static char* PROP_ANIM_LOOP = "anim_loop";
 const static char* PROP_ANIM_LOOP_FADE_IN = "anim_loop_fade_in";
 const static char* PROP_PARAMETER_GROUP = "Parameter";
 const static char* PROP_PART_OPACITY_GROUP = "PartOpacity";
+
+const static char* SIGNAL_EFFECT_HIT_AREA_ENTERED = "hit_area_entered";
+const static char* SIGNAL_EFFECT_HIT_AREA_EXITED = "hit_area_exited";
 #ifdef CUBISM_MOTION_CUSTOMDATA
 const static char* SIGNAL_MOTION_FINISHED = "motion_finished";
 #endif //CUBISM_MOTION_CUSTOMDATA

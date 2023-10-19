@@ -1,37 +1,26 @@
-= API Reference
-:author: MizunagiKB
-:copyright: 2023 MizunagiKB <mizukb@live.jp>
-:doctype: book
-:toc:
-:toclevels: 3
-:lang: ja
+= GDCubismEffectEyeBlink
 :encoding: utf-8
-:stylesdir: ./res/theme/css
-:stylesheet: adoc-golo.css
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:nofooter:
+:toc: left
+:toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
-ifndef::env-github[:icons: font]
-ifdef::env-github,env-browser[]
-endif::[]
-ifdef::env-github[]
-:caution-caption: :fire:
-:important-caption: :exclamation:
-:note-caption: :paperclip:
-:tip-caption: :bulb:
-:warning-caption: :warning:
-endif::[]
+:icons: font
 
 
-== class: GDCubismEffectEyeBlink
-
+== Desc
 
 link:API_gd_cubism_user_model.ja.adoc[_GDCubismUserModel_] の子要素として配置することで、瞬きアニメーションを行います。
 
 
-=== Properties
-=== Methods
-=== Signals
-=== Enumerations
-=== Constants
-=== Property Descriptions
-=== Method Descriptions
+== Properties
+== Methods
+== Signals
+== Enumerations
+== Constants
+== Property Descriptions
+== Method Descriptions
