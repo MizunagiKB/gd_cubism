@@ -15,7 +15,9 @@ print("")
 
 # ------------------------------------------------------ get CubismSdkForNative
 def get_cubism_sdk(dirname: str) -> tuple[Path]:
-    list_path: list[Path] = [o_path for o_path in Path("thirdparty").glob(dirname)]
+    list_path: list[Path] = [
+        o_path for o_path in Path("thirdparty").glob(dirname) if o_path.is_dir()
+    ]
 
     o_path = max(list_path)
 
