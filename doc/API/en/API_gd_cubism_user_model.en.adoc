@@ -163,14 +163,48 @@ Specifies the control method for the currently held Live2D model.
 MotionProcessCallback playback_process_mode [default: 1]::
 Specifies the playback method for the currently held Live2D model.
 
+
+[[id-property-shader_add]]
+Shader shader_add::
+Specifies the _shader_ used to render the Live2D model. +
+By default, the following _shader_ is used.
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader[]
+----
+
+
 [[id-property-shader_mask]]
-Shader shader_mask_mix::
+Shader shader_mask::
 Specifies the _shader_ used to render the Live2D model. +
 By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
 include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask.gdshader[]
+----
+
+
+[[id-property-shader_mask_add]]
+Shader shader_mask_add::
+Specifies the _shader_ used to render the Live2D model. +
+By default, the following _shader_ is used.
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_add.gdshader[]
+----
+
+
+[[id-property-shader_mask_add_inv]]
+Shader shader_mask_add_inv::
+Specifies the _shader_ used to render the Live2D model. +
+By default, the following _shader_ is used.
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_add_inv.gdshader[]
 ----
 
 
@@ -196,6 +230,28 @@ include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshad
 ----
 
 
+[[id-property-shader_mask_mul]]
+Shader shader_mask_mul::
+Specifies the _shader_ used to render the Live2D model. +
+By default, the following _shader_ is used.
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader[]
+----
+
+
+[[id-property-shader_mask_mul_inv]]
+Shader shader_mask_mul_inv::
+Specifies the _shader_ used to render the Live2D model. +
+By default, the following _shader_ is used.
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader[]
+----
+
+
 [[id-property-shader_mix]]
 Shader shader_mix::
 Specifies the _shader_ used to render the Live2D model. +
@@ -204,6 +260,17 @@ By default, the following _shader_ is used.
 [source,,numlines]
 ----
 include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader[]
+----
+
+
+[[id-property-shader_mul]]
+Shader shader_mul::
+Specifies the _shader_ used to render the Live2D model. +
+By default, the following _shader_ is used.
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader[]
 ----
 
 
@@ -240,13 +307,13 @@ Returns the version of the loaded moc3 file.
 Dictionary csm_get_version()::
 Returns the version number of Cubism Native SDK Core used by GDCubism in _Dictionary_ format. +
 +
-* version: int +
+version: int:::
 The value returned by the _csmVersion_ function is stored as is.
-* major: int +
+major: int:::
 Only the major version is extracted from version and stored.
-* minor: int +
+minor: int:::
 Only the minor version is extracted from version and stored.
-* patch: int +
+patch: int:::
 Only the patch number is extracted from version and stored.
 
 
@@ -254,11 +321,11 @@ Only the patch number is extracted from version and stored.
 Dictionary get_canvas_info()::
 Returns the following information in _Dictionary_ format. +
 + 
-* size_in_pixels: Vector2 +
+size_in_pixels: Vector2:::
 Returns the width and height of the canvas of the loaded Live2D model in pixels.
-* origin_in_pixels: Vector2 +
+origin_in_pixels: Vector2:::
 Returns the center position of the loaded Live2D model in pixels.
-* pixels_per_unit: float +
+pixels_per_unit: float:::
 Returns the _pixelsPerUnit_ of the loaded Live2D model.
 
 

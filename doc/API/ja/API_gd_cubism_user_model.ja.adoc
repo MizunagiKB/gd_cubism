@@ -164,14 +164,47 @@ MotionProcessCallback playback_process_mode [default: 1]::
 現在保持しているLive2Dモデルの再生方法を指定します。
 
 
+[[id-property-shader_add]]
+Shader shader_mask_add::
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader[]
+----
+
+
 [[id-property-shader_mask]]
-Shader shader_mask_mix::
+Shader shader_mask::
 Live2Dモデルの描画に使用する _shader_ を指定します。 +
 既定では以下の内容の _shader_ が使用されます。
 
 [source,,numlines]
 ----
 include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask.gdshader[]
+----
+
+
+[[id-property-shader_mask_add]]
+Shader shader_mask_add::
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_add.gdshader[]
+----
+
+
+[[id-property-shader_mask_add_inv]]
+Shader shader_mask_add_inv::
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_add_inv.gdshader[]
 ----
 
 
@@ -197,6 +230,28 @@ include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshad
 ----
 
 
+[[id-property-shader_mask_mul]]
+Shader shader_mask_mul::
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader[]
+----
+
+
+[[id-property-shader_mask_mul_inv]]
+Shader shader_mask_mul_inv::
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader[]
+----
+
+
 [[id-property-shader_mix]]
 Shader shader_mix::
 Live2Dモデルの描画に使用する _shader_ を指定します。 +
@@ -205,6 +260,17 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 [source,,numlines]
 ----
 include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader[]
+----
+
+
+[[id-property-shader_mul]]
+Shader shader_mul::
+Live2Dモデルの描画に使用する _shader_ を指定します。 +
+既定では以下の内容の _shader_ が使用されます。
+
+[source,,numlines]
+----
+include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader[]
 ----
 
 
@@ -239,15 +305,15 @@ GDCubismUserModelが読み込める最新のファイルバージョンを戻し
 
 [[id-method-csm_get_version]]
 Dictionary csm_get_version()::
-GDCubismが使用しているCubism Native SDK Coreのバージョン番号を _Dictionary_ 形式で戻します。 +
+GDCubism が使用している Cubism Native SDK Core のバージョン番号を _Dictionary_ 形式で戻します。 +
 +
-* version: int +
+version: int:::
 _csmVersion_ 関数が戻す値がそのまま格納されています。
-* major: int +
+major: int:::
 versionからメジャーバージョンのみを抜き出した値が格納されています。
-* minor: int +
+minor: int:::
 versionからマイナーバージョンのみを抜き出した値が格納されています。
-* patch: int +
+patch: int:::
 versionからパッチ番号のみを抜き出した値が格納されています。
 
 
@@ -255,11 +321,11 @@ versionからパッチ番号のみを抜き出した値が格納されていま�
 Dictionary get_canvas_info()::
 _Dictionary_ 形式で以下の情報を戻します。 +
 + 
-* size_in_pixels: Vector2 +
+size_in_pixels: Vector2:::
 読み込んだLive2Dモデルのキャンバスの幅と高さをピクセル数で戻します。
-* origin_in_pixels: Vector2 +
+origin_in_pixels: Vector2:::
 読み込んだLive2Dモデルの中心位置をピクセル数で戻します。
-* pixels_per_unit: float +
+pixels_per_unit: float:::
 読み込んだLive2Dモデルの _pixelsPerUnit_ を戻します。
 
 
@@ -280,8 +346,7 @@ Array get_hit_areas()::
 Live2Dモデルに設定されている _HitArea_ 情報を取得します。 +
 配列の要素は _Dictionary_ になっており、要素として _id_ と _name_ を持ちます。 +
  +
-_id_ は mesh 要素を指す為、 _get_meshes_ のキーとして利用可能です。 +
- +
+_id_ は _mesh_ 要素を指す為、 _get_meshes_ のキーとして利用可能です。 +
  +
 この関数と _get_meshes_ で得られる情報を使用する事で、 Live2Dモデルとのインタラクションを実装できます。 +
 高度な処理を必要としない場合は、 _GDCubismEffectHitArea_ クラスを使用する事で、簡単に利用する事が可能です。
@@ -307,7 +372,7 @@ var mesh_tex_uv: PackedVector2Array = ary_surface[ArrayMesh.ARRAY_TEX_UV]
 var mesh_index: PackedInt32Array = ary_surface[ArrayMesh.ARRAY_INDEX]
 ----
 
-CAUTION: get_meshesはv0.1で追加された実験的な関数です。今後仕様が変更されたり削除される可能性がある事に注意してください。
+CAUTION: _get_meshes_ は v0.1 で追加された実験的な関数です。今後仕様が変更されたり削除される可能性がある事に注意してください。
 
 
 [[id-method-get_motions]]
