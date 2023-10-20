@@ -22,11 +22,13 @@ endif::env-github,env-vscode[]
 
 == About GDCubism
 
-このソフトウェア（以下GDCubism）はlink:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]をGDScript（Godot Engine 4.1）から呼び出せるようにするための**非公式**なGDExtensionです。
+このソフトウェア（以下GDCubism）は link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]を GDScript や C# から利用可能にするための**非公式**な GDExtension です。
 
-GDCubism内部ではLive2D社が公開しているlink:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework]を併用しています。
+この GDExtension は Godot Engine 4.1.1 以降で使用可能です。
 
-このソフトウェアについて開発元のLive2D社に問い合わせない様お願い致します。
+GDCubism 内部ではLive2D社が公開している link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework] を併用しています。
+
+GDCubism については開発元のLive2D社に問い合わせない様お願い致します。
 
 
 == ビルド可能なプラットフォーム
@@ -60,7 +62,13 @@ a|
 |===
 
 
-== ライセンスについて
+== ライセンス
+
+[NOTE]
+====
+GDCubism は依存する外部ライブラリとリンクすることで、異なる利用条件のライセンスになります。 +
+GDCubism を組み込んでの配布や販売を考えている場合は以下のページに記載されているライセンスを確認してください。
+====
 
 ifdef::env-github,env-vscode[* link:LICENSE.adoc[]]
 ifndef::env-github,env-vscode[* link:LICENSE{outfilesuffix}[]]
