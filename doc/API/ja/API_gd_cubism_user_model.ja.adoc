@@ -10,6 +10,8 @@
 :source-highlighter: highlight.js
 :experimental:
 :icons: font
+:stylesdir: ../../res/theme/css
+:stylesheet: mizunagi-works.css
 
 
 == Desc

@@ -10,7 +10,8 @@
 :source-highlighter: highlight.js
 :experimental:
 :icons: font
-
+:stylesdir: res/theme/css
+:stylesheet: mizunagi-works.css
 
 link:USAGE.adoc[Japanese] / link:USAGE.en.adoc[English]
 

@@ -5,12 +5,13 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: top
 :toclevels: 3
 :source-highlighter: highlight.js
 :experimental:
 :icons: font
-
+:stylesdir: res/theme/css
+:stylesheet: mizunagi-works.css
 
 link:BUILD.adoc[Japanese] / link:BUILD.en.adoc[English]
 
