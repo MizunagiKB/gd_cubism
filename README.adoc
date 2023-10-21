@@ -5,18 +5,26 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
-:experimental:
 :icons: font
+:experimental:
+:stylesdir: ./docs/res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
 
 
 ifdef::env-github,env-vscode[]
 link:README.adoc[Japanese] / link:README.en.adoc[English]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-link:README{outfilesuffix}[Japanese] / link:README.en{outfilesuffix}[English]
+link:index{adocsuffix}[Japanese] / link:index.en{adocsuffix}[English]
 endif::env-github,env-vscode[]
 
 
@@ -31,7 +39,7 @@ GDCubism 内部ではLive2D社が公開している link:https://github.com/Live
 GDCubism については開発元のLive2D社に問い合わせない様お願い致します。
 
 
-== ビルド可能なプラットフォーム
+== 対応プラットフォーム
 
 [cols="2",frame=none,grid=none]
 |===
@@ -70,20 +78,17 @@ GDCubism は依存する外部ライブラリとリンクすることで、異�
 GDCubism を組み込んでの配布や販売を考えている場合は以下のページに記載されているライセンスを確認してください。
 ====
 
-ifdef::env-github,env-vscode[* link:LICENSE.adoc[]]
-ifndef::env-github,env-vscode[* link:LICENSE{outfilesuffix}[]]
+* link:LICENSE{adocsuffix}[]
 
 
 == ビルド方法
 
-ifdef::env-github,env-vscode[* link:doc/BUILD.adoc[]]
-ifndef::env-github,env-vscode[* link:doc/BUILD{outfilesuffix}[]]
+* link:docs/BUILD{adocsuffix}[]
 
 
 == 使用方法
 
-ifdef::env-github,env-vscode[* link:doc/USAGE.adoc[]]
-ifndef::env-github,env-vscode[* link:doc/USAGE{outfilesuffix}[]]
+* link:./USAGE{adocsuffix}[]
 
 
 == 関連情報

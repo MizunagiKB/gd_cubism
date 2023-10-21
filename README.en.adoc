@@ -5,31 +5,41 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
-:experimental:
 :icons: font
+:experimental:
+:stylesdir: ./docs/res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
 
 
 ifdef::env-github,env-vscode[]
 link:README.adoc[Japanese] / link:README.en.adoc[English]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-link:README{outfilesuffix}[Japanese] / link:README.en{outfilesuffix}[English]
+link:index{adocsuffix}[Japanese] / link:index.en{adocsuffix}[English]
 endif::env-github,env-vscode[]
 
 
 == About GDCubism
 
-This software (GDCubism) is an **unofficial** GDExtension that allows link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK] to be called from GDScript (Godot Engine 4.1).
+This software (GDCubism) is an **unofficial** GDExtension that makes the link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK] accessible from GDScript or C#.
 
-GDCubism uses Live2D's link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework].
+This GDExtension can be used with Godot Engine 4.1.1 and later.
 
-Please do not contact the developer Live2D about this software.
+Internally, GDCubism uses the link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework] published by Live2D Inc.
+
+Please do not contact the developer, Live2D Inc., regarding GDCubism.
 
 
-== Buildable platform
+== Support platform
 
 [cols="2",frame=none,grid=none]
 |===
@@ -62,20 +72,17 @@ a|
 
 == About LICENSE
 
-ifdef::env-github,env-vscode[* link:LICENSE.en.adoc[]]
-ifndef::env-github,env-vscode[* link:LICENSE.en{outfilesuffix}[]]
+* link:LICENSE.en.{adocsuffix}[]
 
 
 == How to build
 
-ifdef::env-github,env-vscode[* link:BUILD.en.adoc[]]
-ifndef::env-github,env-vscode[* link:BUILD.en{outfilesuffix}[]]
+* link:BUILD.en.{adocsuffix}[]
 
 
 == Usage
 
-ifdef::env-github,env-vscode[* link:USAGE.en.adoc[]]
-ifndef::env-github,env-vscode[* link:USAGE.en{outfilesuffix}[]]
+* link:USAGE.en.{adocsuffix}[]
 
 
 == Ralated link

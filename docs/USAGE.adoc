@@ -5,15 +5,22 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
-:experimental:
 :icons: font
-:stylesdir: res/theme/css
+:experimental:
+:stylesdir: ./res/theme/css
 :stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
 
-link:USAGE.adoc[Japanese] / link:USAGE.en.adoc[English]
+
+link:USAGE{adocsuffix}[Japanese] / link:USAGE.en{adocsuffix}[English]
 
 
 == 使用方法
@@ -152,51 +159,51 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 |===
 |GDScript Class |C# Class |Features
 
-|link:API/ja/API_gd_cubism_effect.ja.adoc[GDCubismEffect]
+|link:API/ja/API_gd_cubism_effect.ja{adocsuffix}[GDCubismEffect]
 |GDCubismEffectCS
 |-
 
-|link:API/ja/API_gd_cubism_effect_breath.ja.adoc[GDCubismEffectBreath]
+|link:API/ja/API_gd_cubism_effect_breath.ja{adocsuffix}[GDCubismEffectBreath]
 |GDCubismEffectBreathCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_custom.ja.adoc[GDCubismEffectCustom]
+|link:API/ja/API_gd_cubism_effect_custom.ja{adocsuffix}[GDCubismEffectCustom]
 |GDCubismEffectCustomCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_eye_blink.ja.adoc[GDCubismEffectEyeBlink]
+|link:API/ja/API_gd_cubism_effect_eye_blink.ja{adocsuffix}[GDCubismEffectEyeBlink]
 |GDCubismEffectEyeBlinkCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_hit_area.ja.adoc[GDCubismEffectHitArea]
+|link:API/ja/API_gd_cubism_effect_hit_area.ja{adocsuffix}[GDCubismEffectHitArea]
 |GDCubismEffectHitAreaCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_target_point.ja.adoc[GDCubismEffectTargetPoint]
+|link:API/ja/API_gd_cubism_effect_target_point.ja{adocsuffix}[GDCubismEffectTargetPoint]
 |GDCubismEffectTargetPointCS
 |△
 
-|link:API/ja/API_gd_cubism_motion_entry.ja.adoc[GDCubismMotionEntry]
+|link:API/ja/API_gd_cubism_motion_entry.ja{adocsuffix}[GDCubismMotionEntry]
 |GDCubismMotionEntryCS
 |x
 
-|link:API/ja/API_gd_cubism_motion_queue_entry_handle.ja.adoc[GDCubismMotionQueueEntryHandle]
+|link:API/ja/API_gd_cubism_motion_queue_entry_handle.ja{adocsuffix}[GDCubismMotionQueueEntryHandle]
 |GDCubismMotionQueueEntryHadleCS
 |x
 
-|link:API/ja/API_gd_cubism_value_abs.ja.adoc[GDCubismValueAbs]
+|link:API/ja/API_gd_cubism_value_abs.ja{adocsuffix}[GDCubismValueAbs]
 |GDCubismValueAbsCS
 |-
 
-|link:API/ja/API_gd_cubism_parameter.ja.adoc[GDCubismParameter]
+|link:API/ja/API_gd_cubism_parameter.ja{adocsuffix}[GDCubismParameter]
 |GDCubismParameterCS
 |○
 
-|link:API/ja/API_gd_cubism_part_opacity.ja.adoc[GDCubismPartOpacity]
+|link:API/ja/API_gd_cubism_part_opacity.ja{adocsuffix}[GDCubismPartOpacity]
 |GDCubismPartOpacityCS
 |○
 
-|link:API/ja/API_gd_cubism_user_model.ja.adoc[GDCubismUserModel]
+|link:API/ja/API_gd_cubism_user_model.ja{adocsuffix}[GDCubismUserModel]
 |GDCubismUserModelCS
 |○
 |===
