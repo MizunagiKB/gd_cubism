@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="author" content="MizunagiKB &lt;mizukb@live.jp&gt;">
+<meta name="copyright" content="2023 MizunagiKB">
+<title>Cubism for GDScript</title>
+<style>
+/*
+    @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+*/
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+
+* {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+@media screen and (min-width: 1280px) {
+    #toc.toc2 {
+        width: 16em;
+    }
+
+    body.toc2 {
+        padding-left: 16em;
+        padding-right: 0;
+    }
+}
+
+h1, h2, h3, h4, h5, h6, #toctitle,
+.sidebarblock > .content > .title {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+code {
+    font-size: 9pt;
+}
+
+dl {
+    margin-top: 3em;
+}
+
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Cubism for GDScript</h1>
+<div class="details">
+<span id="author" class="author">MizunagiKB &lt;mizukb@live.jp&gt;</span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_about_gdcubism">About GDCubism</a></li>
+<li><a href="#_対応プラットフォーム">対応プラットフォーム</a></li>
+<li><a href="#_ライセンス">ライセンス</a></li>
+<li><a href="#_ビルド方法">ビルド方法</a></li>
+<li><a href="#_使用方法">使用方法</a></li>
+<li><a href="#_関連情報">関連情報</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="index.html">Japanese</a> / <a href="index.en.html">English</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_about_gdcubism">About GDCubism</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このソフトウェア（以下GDCubism）は <a href="https://www.live2d.com/download/cubism-sdk/">Live2D Cubism SDK</a>を GDScript や C# から利用可能にするための<strong>非公式</strong>な GDExtension です。</p>
+</div>
+<div class="paragraph">
+<p>この GDExtension は Godot Engine 4.1.1 以降で使用可能です。</p>
+</div>
+<div class="paragraph">
+<p>GDCubism 内部ではLive2D社が公開している <a href="https://github.com/Live2D/CubismNativeFramework">Cubism Native Framework</a> を併用しています。</p>
+</div>
+<div class="paragraph">
+<p>GDCubism については開発元のLive2D社に問い合わせない様お願い致します。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_対応プラットフォーム">対応プラットフォーム</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Windows</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>x86_32</p>
+</li>
+<li>
+<p>x86_64</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">macOS</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>x86_64</p>
+</li>
+<li>
+<p>arm64</p>
+</li>
+<li>
+<p>universal</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Linux</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>x86_64</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">iOS</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>arm64 (experimental)</p>
+</li>
+<li>
+<p>universal (experimental)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Android</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>armv7 (experimental)</p>
+</li>
+<li>
+<p>arm64v8 (experimental)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ライセンス">ライセンス</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>GDCubism は依存する外部ライブラリとリンクすることで、異なる利用条件のライセンスになります。<br>
+GDCubism を組み込んでの配布や販売を考えている場合は以下のページに記載されているライセンスを確認してください。</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="LICENSE.html" class="bare">LICENSE.html</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ビルド方法">ビルド方法</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="docs/BUILD.html" class="bare">docs/BUILD.html</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_使用方法">使用方法</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./USAGE.html" class="bare">./USAGE.html</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_関連情報">関連情報</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.live2d.com/">Live2D Cubism</a></p>
+</li>
+<li>
+<p><a href="https://www.live2d.com/download/cubism-sdk/">Live2D Cubism SDK</a></p>
+</li>
+<li>
+<p><a href="https://github.com/Live2D">Live2D (GitHub)</a></p>
+</li>
+<li>
+<p><a href="https://github.com/Live2D/CubismNativeFramework">CubismNativeFramework (GitHub)</a></p>
+</li>
+<li>
+<p><a href="https://github.com/MizunagiKB/gd_cubism">MizunagiKB / gd_cubism (GitHub)</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

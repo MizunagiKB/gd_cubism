@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="author" content="MizunagiKB &lt;mizukb@live.jp&gt;">
+<meta name="copyright" content="2023 MizunagiKB">
+<title>Cubism for GDScript</title>
+<style>
+/*
+    @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+*/
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+
+* {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+@media screen and (min-width: 1280px) {
+    #toc.toc2 {
+        width: 16em;
+    }
+
+    body.toc2 {
+        padding-left: 16em;
+        padding-right: 0;
+    }
+}
+
+h1, h2, h3, h4, h5, h6, #toctitle,
+.sidebarblock > .content > .title {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+code {
+    font-size: 9pt;
+}
+
+dl {
+    margin-top: 3em;
+}
+
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Cubism for GDScript</h1>
+<div class="details">
+<span id="author" class="author">MizunagiKB &lt;mizukb@live.jp&gt;</span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_デバッグ方法">デバッグ方法</a>
+<ul class="sectlevel2">
+<li><a href="#_windows">Windows</a></li>
+<li><a href="#_macos">macOS</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="DEBUG.html">Japanese</a> / English</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_デバッグ方法">デバッグ方法</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>GDCubism のデバッグを行うには VisualStudio Code を使用して以下の方法で行えます。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>SCons のビルド時に <code>debug_symbols=true optimize=none</code> を追加します。</p>
+</li>
+<li>
+<p>launch.json に以下を追加します。</p>
+</li>
+<li>
+<p>Godot で demo プロジェクトを開き Export を行います。</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>作業がしやすい様に、 demo.export というフォルダが事前に用意されています。</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>デバッグ実行を行います。</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_windows">Windows</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Debug (Windows)",
+    "type": "cppvsdbg",
+    "request": "launch",
+    "program": "${workspaceFolder}\\demo.export\\demo.exe",
+    "externalConsole": true,
+    "logging": {
+        "moduleLoad": false,
+        "trace": true
+    },
+    "cwd": "${workspaceFolder}\\demo.export",
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_macos">macOS</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Debug (macOS)",
+    "type":"cppdbg",
+    "request": "launch",
+    "program": "${workspaceRoot}/demo.export/demo.app/Contents/MacOS/demo",
+    "stopAtEntry": false,
+    "launchCompleteCommand": "exec-run",
+    "osx": {
+        "MIMode": "lldb"
+    },
+    "cwd": "${workspaceRoot}/demo.export",
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

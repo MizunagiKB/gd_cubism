@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="author" content="MizunagiKB &lt;mizukb@live.jp&gt;">
+<meta name="copyright" content="2023 MizunagiKB">
+<title>GDCubismEffectHitArea</title>
+<style>
+/*
+    @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+*/
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+
+* {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+@media screen and (min-width: 1280px) {
+    #toc.toc2 {
+        width: 16em;
+    }
+
+    body.toc2 {
+        padding-left: 16em;
+        padding-right: 0;
+    }
+}
+
+h1, h2, h3, h4, h5, h6, #toctitle,
+.sidebarblock > .content > .title {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+code {
+    font-size: 9pt;
+}
+
+dl {
+    margin-top: 3em;
+}
+
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>GDCubismEffectHitArea</h1>
+<div class="details">
+<span id="author" class="author">MizunagiKB &lt;mizukb@live.jp&gt;</span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_desc">Desc</a></li>
+<li><a href="#_properties">Properties</a></li>
+<li><a href="#_methods">Methods</a></li>
+<li><a href="#_signals">Signals</a></li>
+<li><a href="#_enumerations">Enumerations</a></li>
+<li><a href="#_constants">Constants</a></li>
+<li><a href="#_property_descriptions">Property Descriptions</a></li>
+<li><a href="#_method_descriptions">Method Descriptions</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_desc">Desc</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="API_gd_cubism_user_model.ja.adoc"><em>GDCubismUserModel</em></a> の子要素として配置することで、 Live2Dモデルに設定された <em>HitArea</em> を扱える様になります。</p>
+</div>
+<div class="paragraph">
+<p><em>HitArea</em> は任意の <em>Triangle</em> で構成されます。そのため複雑な形状を表現する事ができますが、 <em>GDCubismEffectHitArea</em> クラスでは、 <em>Triagle</em> を構成する頂点が含まれるボックス( <em>Rect2</em> )として扱われます。</p>
+</div>
+<div class="paragraph">
+<p><em>Triangle</em> 単位での判定を行いたい場合は、 <em>hit_area_entered</em> シグナルの受信後に <em>get_detail</em> 関数を利用する事で行えます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_properties">Properties</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">monitoring</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_methods">Methods</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Dictionary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_detail(model: GDCubismUserModel, id: String)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Vector2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_target()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set_target(target: Vector2)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_signals">Signals</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">hit_area_entered(model: GDCubismUserModel, id: String)</dt>
+<dd>
+<p><em>set_target</em> で指定されたポイントにLive2Dモデルの <em>HitArea</em> が設定されている場合に呼び出されます。<br>
+<em>monitoring</em> の状態で以下の様に振る舞いが変化します。</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>ture</em> の場合 &#8230;&#8203; 呼び出された後に <em>set_target</em> が <em>HitArea</em> から外れるまで呼び出されません。</p>
+</li>
+<li>
+<p><em>false</em> の場合 &#8230;&#8203; <em>set_target</em> が <em>HitArea</em> 内にいる間、何度でも呼び出されます。</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">hit_area_exited(model: GDCubismUserModel, id: String)</dt>
+<dd>
+<p><em>hit_area_enterd</em> が呼び出された後、 <em>set_target</em> が <em>HitArea</em> の範囲外になった場合に呼び出されます。<br>
+このシグナルは、 <em>minitoring</em> の状態に関わらず <em>hit_area_enterd</em> が呼び出された後に呼び出される機会が生じ、一度しか呼び出されません。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enumerations">Enumerations</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_constants">Constants</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_property_descriptions">Property Descriptions</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">bool monitoring [default: true]</dt>
+<dd>
+<p>_hit_area_enterd シグナルの振る舞いを切り替えます。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_method_descriptions">Method Descriptions</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Dictionary get_detail(model: GDCubismUserModel, id: String)</dt>
+<dd>
+<p><em>hit_area_entered</em> 時により詳細な情報を得る事ができます。<br>
+得られる情報は、 <em>set_target</em> で指定したポイントと <em>id</em> で指定された <em>mesh</em> との判定結果により三種類の状態を持ちます。</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>Dictopnary</em> に何も含まれていない</dt>
+<dd>
+<p><em>set_target</em> で指定された場所には何もありません。</p>
+</dd>
+<dt class="hdlist1"><em>Dictopnary</em> に <em>rect: Rect2</em> が含まれる</dt>
+<dd>
+<p><em>set_target</em> で指定された場所は <em>rect</em> 内ではありますが、 <em>Triangle</em> 内ではありません。</p>
+</dd>
+<dt class="hdlist1"><em>Dictopnary</em> に <em>rect: Rect2</em> と <em>vertices: Array</em> が含まれる</dt>
+<dd>
+<p><em>set_target</em> で指定された場所は <em>rect</em> 内であり、 <em>Triangle</em> 内です。</p>
+</dd>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1">Vector2 get_target()</dt>
+<dd>
+<p><em>set_target</em> で指定したポイントを取得します。</p>
+</dd>
+<dt class="hdlist1">void set_target(target: Vector2)</dt>
+<dd>
+<p>指定した座標とHitAreaとの接触判定を行う事ができます。<br>
+<em>set_target</em> を一度呼び出すとクリックとみなされます。<br>
+連続して呼び出すとドラッグ操作とみなされます。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>
