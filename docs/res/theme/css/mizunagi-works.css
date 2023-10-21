@@ -1,23 +1,37 @@
-@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+/*
+    @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+*/
 @import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
 
 * {
     font-family: 'Noto Sans JP', sans-serif;
 }
 
-#toc.toc2 {
-    width: 16em;
-}
+@media screen and (min-width: 1280px) {
+    #toc.toc2 {
+        width: 16em;
+    }
 
-body.toc2 {
-    padding-left: 16em;
-    padding-right: 0;
+    body.toc2 {
+        padding-left: 16em;
+        padding-right: 0;
+    }
 }
 
 h1, h2, h3, h4, h5, h6, #toctitle,
 .sidebarblock > .content > .title {
   color: rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    font-size: 1.25em;
 }
 
 code {

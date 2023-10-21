@@ -5,15 +5,22 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc: top
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
-:experimental:
 :icons: font
-:stylesdir: res/theme/css
+:experimental:
+:stylesdir: ./res/theme/css
 :stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
 
-link:BUILD.adoc[Japanese] / link:BUILD.en.adoc[English]
+
+link:BUILD{adocsuffix}[Japanese] / link:BUILD.en{adocsuffix}[English]
 
 
 == How to build
