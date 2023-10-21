@@ -72,17 +72,31 @@ a|
 
 == About LICENSE
 
-* link:LICENSE.en.{adocsuffix}[]
-
+ifdef::env-github,env-vscode[]
+* link:./docs/LICENSE.en{adocsuffix}[]
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+* link:./LICENSE.en{adocsuffix}[]
+endif::env-github,env-vscode[]
 
 == How to build
 
-* link:BUILD.en.{adocsuffix}[]
+ifdef::env-github,env-vscode[]
+* link:./docs/BUILD.en{adocsuffix}[]
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+* link:./BUILD.en{adocsuffix}[]
+endif::env-github,env-vscode[]
 
 
 == Usage
 
-* link:USAGE.en.{adocsuffix}[]
+ifdef::env-github,env-vscode[]
+* link:./docs/USAGE.en{adocsuffix}[]
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+* link:./USAGE.en{adocsuffix}[]
+endif::env-github,env-vscode[]
 
 
 == Ralated link
