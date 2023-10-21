@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
+import os
+import glob
+
+
+env = Environment(ENV={"PATH": os.environ["PATH"]})
+
+
+# root
+def build_root():
+    list_source = [
+        {"source": "./README.adoc", "target": "./docs/index.html"},
+        {"source": "./README.en.adoc", "target": "./docs/index.en.html"},
+        {"source": "./LICENSE.adoc", "target": "./docs/LICENSE.html"},
+        {"source": "./LICENSE.en.adoc", "target": "./docs/LICENSE.en.html"},
+    ]
+    for adoc in list_source:
+        env.Command(
+            source=adoc["source"],
+            target=adoc["target"],
+            action="asciidoctor $SOURCE -o $TARGET",
+        )
+
+
+# docs
+def build_docs(pathname):
+    list_source = glob.glob(pathname)
+    for source in list_source:
+        target = source.replace(".adoc", ".html")
+        env.Command(
+            source=source,
+            target=target,
+            action="asciidoctor $SOURCE",
+        )
+
+    list_source = glob.glob("./docs/*.adoc")
+
+
+build_root()
+build_docs("./docs/*.adoc")
+build_docs("./docs/API/ja/*.adoc")
+build_docs("./docs/API/en/*.adoc")
