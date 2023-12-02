@@ -797,7 +797,6 @@ void GDCubismUserModel::_process(double delta) {
 void GDCubismUserModel::_physics_process(double delta) {
     if(this->is_initialized() == false) return;
     if(this->playback_process_mode != PHYSICS) return;
-    Csm::CubismModel *model = this->internal_model->GetModel();
 
     this->_update(delta);
 }
