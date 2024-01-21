@@ -343,6 +343,7 @@ bool GDCubismUserModel::get_auto_scale() const {
 
 Dictionary GDCubismUserModel::get_motions() const {
     ERR_FAIL_COND_V(this->is_initialized() == false, Dictionary());
+    if(this->enable_load_motions == false) return Dictionary();
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
@@ -410,6 +411,7 @@ void GDCubismUserModel::stop_motion() {
 
 Array GDCubismUserModel::get_expressions() const {
     ERR_FAIL_COND_V(this->is_initialized() == false, Array());
+    if(this->enable_load_expressions == false) return Array();
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
@@ -550,21 +552,24 @@ void GDCubismUserModel::setup_property() {
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
     // Property - Expression
-    this->dict_anim_expression.Clear();
-    for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
-        const Csm::csmChar* expression_id = setting->GetExpressionName(i);
-        anim_expression anim_e(expression_id);
+    if(this->enable_load_expressions == true) {
+        for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
+            const Csm::csmChar* expression_id = setting->GetExpressionName(i);
+            anim_expression anim_e(expression_id);
 
-        this->dict_anim_expression[anim_e.to_string()] = anim_e;
+            this->dict_anim_expression[anim_e.to_string()] = anim_e;
+        }
     }
 
     // Property - Motion
-    for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
-        const Csm::csmChar* group = setting->GetMotionGroupName(i);
-        for(Csm::csmInt32 no = 0; no < setting->GetMotionCount(group); no++) {
-            anim_motion anim_m(group, no);
+    if(this->enable_load_motions == true) {
+        for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
+            const Csm::csmChar* group = setting->GetMotionGroupName(i);
+            for(Csm::csmInt32 no = 0; no < setting->GetMotionCount(group); no++) {
+                anim_motion anim_m(group, no);
 
-            this->dict_anim_motion[anim_m.to_string()] = anim_m;
+                this->dict_anim_motion[anim_m.to_string()] = anim_m;
+            }
         }
     }
 }
@@ -714,23 +719,27 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
     // Property - Expression
     ary_enum.clear();
-    for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
-        const Csm::csmChar* expression_id = setting->GetExpressionName(i);
-        anim_expression anim_e(expression_id);
+    if(this->enable_load_expressions == true) {
+        for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
+            const Csm::csmChar* expression_id = setting->GetExpressionName(i);
+            anim_expression anim_e(expression_id);
 
-        ary_enum.append(anim_e.to_string());
+            ary_enum.append(anim_e.to_string());
+        }
     }
 
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_EXPRESSION, PROPERTY_HINT_ENUM, String(",").join(ary_enum)));
 
     // Property - Motion
     ary_enum.clear();
-    for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
-        const Csm::csmChar* group = setting->GetMotionGroupName(i);
-        for(Csm::csmInt32 no = 0; no < setting->GetMotionCount(group); no++) {
-            anim_motion anim_m(group, no);
+    if(this->enable_load_motions == true) {
+        for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
+            const Csm::csmChar* group = setting->GetMotionGroupName(i);
+            for(Csm::csmInt32 no = 0; no < setting->GetMotionCount(group); no++) {
+                anim_motion anim_m(group, no);
 
-            ary_enum.append(anim_m.to_string());
+                ary_enum.append(anim_m.to_string());
+            }
         }
     }
 
