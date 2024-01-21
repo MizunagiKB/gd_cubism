@@ -71,7 +71,10 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
     }
 
     // Expression
-    this->expression_load();
+    if(this->_owner_viewport->enable_load_expressions == true) {
+        this->expression_load();
+    }
+
     // Physics
     this->physics_load();
     // Pose
@@ -105,7 +108,10 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
     this->_model->SaveParameters();
 
     // Motion
-    this->motion_load();
+    if(this->_owner_viewport->enable_load_motions== true) {
+        this->motion_load();
+    }
+
     // GDCubismEffect
     this->effect_init();
 

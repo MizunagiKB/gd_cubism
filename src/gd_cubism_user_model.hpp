@@ -104,6 +104,9 @@ public:
 
     String assets;
     InternalCubismUserModel *internal_model;
+    bool enable_load_expressions;
+    bool enable_load_motions;
+
     float speed_scale;
     bool auto_scale;
     ParameterMode parameter_mode;
@@ -133,6 +136,11 @@ public:
 
     void set_assets(const String assets);
     String get_assets() const;
+
+    void set_load_expressions(const bool enable);
+    bool get_load_expressions() const;
+    void set_load_motions(const bool enable);
+    bool get_load_motions() const;
 
     Dictionary get_canvas_info() const;
 

@@ -32,6 +32,8 @@ using namespace godot;
 // ------------------------------------------------------------------- class(s)
 GDCubismUserModel::GDCubismUserModel()
     : internal_model(nullptr)
+    , enable_load_expressions(true)
+    , enable_load_motions(true)
     , speed_scale(1.0)
     , auto_scale(true)
     , parameter_mode(ParameterMode::FULL_PARAMETER)
@@ -61,6 +63,16 @@ void GDCubismUserModel::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_assets", "assets"), &GDCubismUserModel::set_assets);
     ClassDB::bind_method(D_METHOD("get_assets"), &GDCubismUserModel::get_assets);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "assets", PROPERTY_HINT_FILE, "*.model3.json"), "set_assets", "get_assets");
+
+    // Enable Load Expressions
+    ClassDB::bind_method(D_METHOD("set_load_expressions", "enable"), &GDCubismUserModel::set_load_expressions);
+    ClassDB::bind_method(D_METHOD("get_load_expressions"), &GDCubismUserModel::get_load_expressions);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "load_expressions"), "set_load_expressions", "get_load_expressions");
+
+    // Enable Load Motions
+    ClassDB::bind_method(D_METHOD("set_load_motions", "enable"), &GDCubismUserModel::set_load_motions);
+    ClassDB::bind_method(D_METHOD("get_load_motions"), &GDCubismUserModel::get_load_motions);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "load_motions"), "set_load_motions", "get_load_motions");
 
     ClassDB::bind_method(D_METHOD("get_canvas_info"), &GDCubismUserModel::get_canvas_info);
 
@@ -245,6 +257,12 @@ void GDCubismUserModel::set_assets(const String assets) {
 String GDCubismUserModel::get_assets() const {
     return this->assets;
 }
+
+
+void GDCubismUserModel::set_load_expressions(const bool enable) { this->enable_load_expressions = enable; }
+bool GDCubismUserModel::get_load_expressions() const { return this->enable_load_expressions; }
+void GDCubismUserModel::set_load_motions(const bool enable) { this->enable_load_motions = enable; }
+bool GDCubismUserModel::get_load_motions() const { return this->enable_load_motions; }
 
 
 Dictionary GDCubismUserModel::get_canvas_info() const {
