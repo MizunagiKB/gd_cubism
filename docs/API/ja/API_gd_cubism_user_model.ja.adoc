@@ -29,8 +29,12 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 
 [cols="3",frame=none,grid=none]
 |===
+>|Vector2 <|<<id-property-adjust_position,adjust_position>> |[default: Vector2(0, 0)]
+>|float <|<<id-property-adjust_scale,adjust_scale>> |[default: 1.0]
 >|String <|<<id-property-assets,assets>> |[default: ""]
 >|bool <|<<id-property-auto_scale,auto_scale>> |[default: true]
+>|bool <|<<id-property-load_expressions,load_expressions>> |[default: true]
+>|bool <|<<id-property-load_motins,load_motins>> |[default: true]
 >|ParameterMode <|<<id-property-<parameter_mode,parameter_mode>> |[default: 0]
 >|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
 >|Shader <|<<id-property-shader_add,shader_add>> |
@@ -148,6 +152,20 @@ enum MotionProcessCallback::
 
 == Property Descriptions
 
+[[id-property-adjust_position]]
+Vector2 adjust_position [default: Vector2(0, 0)]::
+Live2Dモデルの描画位置を変更します。 +
+GDCubismは自身が持つSubViewport内にLive2Dモデルの描画を行います。 +
+このパラメータを調整する事でLive2Dモデルの一部をクローズアップしたり auto_scale された描画結果がうまく描画されない場合に利用してください。
+
+
+[[id-property-adjust_scale]]
+float adjust_scale [default: 1.0]::
+Live2Dモデルの描画サイズを変更します。 +
+GDCubismは自身が持つSubViewport内にLive2Dモデルの描画を行います。 +
+このパラメータを調整する事でLive2Dモデルの描画サイズを自由に変更できます。
+
+
 [[id-property-assets]]
 String assets [default: ""]::
 *.model3.json 拡張子のファイルを指定することでLive2Dモデルを読み込みます。
@@ -160,6 +178,16 @@ bool auto_scale [default: true]::
 _GDCubismUserModel_ は、自分自身に指定された _SubViewport_ サイズ内に収まる様にLive2Dモデルを描画しようとします。そのためLive2Dモデルの製作者が意図しない結果になってしまう場合があります。 +
  +
 このチェックを外すことで、スケーリングなしで表示を行います。
+
+
+[[id-property-load_expressions]]
+bool load_expressions [default: true]::
+_false_ にすると、 Live2D Modelの読み込み時に _Expression_ の読み込みを行いません。
+
+
+[[id-property-load_motions]]
+bool load_motions [default: true]::
+_false_ にすると、 Live2D Modelの読み込み時に _Motion_ の読み込みを行いません。
 
 
 [[id-property-parameter_mode]]
