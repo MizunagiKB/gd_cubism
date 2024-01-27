@@ -97,6 +97,16 @@ dl {
 </colgroup>
 <tbody>
 <tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Vector2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-adjust_position">adjust_position</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: Vector2(0, 0)]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">float</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-adjust_scale">adjust_scale</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: 1.0]</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-right valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-assets">assets</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[default: ""]</p></td>
@@ -104,6 +114,16 @@ dl {
 <tr>
 <td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-auto_scale">auto_scale</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-load_expressions">load_expressions</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-load_motins">load_motins</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
 </tr>
 <tr>
@@ -415,6 +435,26 @@ No animation update process is performed. To process the animation, use the <a h
 <div class="sect1">
 <h2 id="_property_descriptions">Property Descriptions</h2>
 <div class="sectionbody">
+<div id="id-property-adjust_position" class="dlist">
+<dl>
+<dt class="hdlist1">Vector2 adjust_position [default: Vector2(0, 0)]</dt>
+<dd>
+<p>Changes the rendering position of the Live2D model.<br>
+GDCubism performs the rendering of the Live2D model within its own SubViewport.<br>
+By adjusting this parameter, you can close-up a part of the Live2D model or use it when the auto_scale rendered result is not drawn well.</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-adjust_scale" class="dlist">
+<dl>
+<dt class="hdlist1">float adjust_scale [default: 1.0]</dt>
+<dd>
+<p>Changes the rendering size of the Live2D model.<br>
+GDCubism performs the rendering of the Live2D model within its own SubViewport.<br>
+By adjusting this parameter, you can freely change the rendering size of the Live2D model.</p>
+</dd>
+</dl>
+</div>
 <div id="id-property-assets" class="dlist">
 <dl>
 <dt class="hdlist1">String assets [default: ""]</dt>
@@ -432,6 +472,22 @@ Since the <em>clear</em> function is called internally, if you want to switch th
 <div class="paragraph">
 <p>By unchecking this, you can display without scaling.</p>
 </div>
+</dd>
+</dl>
+</div>
+<div id="id-property-load_expressions" class="dlist">
+<dl>
+<dt class="hdlist1">bool load_expressions [default: true]</dt>
+<dd>
+<p>If set to <em>false</em>, it will not load <em>Expressions</em> when loading the Live2D Model.</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-load_motions" class="dlist">
+<dl>
+<dt class="hdlist1">bool load_motions [default: true]</dt>
+<dd>
+<p>If set to <em>false</em>, it will not load <em>Motions</em> when loading the Live2D Model.</p>
 </dd>
 </dl>
 </div>

@@ -97,6 +97,16 @@ dl {
 </colgroup>
 <tbody>
 <tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Vector2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-adjust_position">adjust_position</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: Vector2(0, 0)]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">float</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-adjust_scale">adjust_scale</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: 1.0]</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-right valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-assets">assets</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[default: ""]</p></td>
@@ -104,6 +114,16 @@ dl {
 <tr>
 <td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-auto_scale">auto_scale</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-load_expressions">load_expressions</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-load_motins">load_motins</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
 </tr>
 <tr>
@@ -404,6 +424,26 @@ moc3 file version 5.0.00以上</p>
 <div class="sect1">
 <h2 id="_property_descriptions">Property Descriptions</h2>
 <div class="sectionbody">
+<div id="id-property-adjust_position" class="dlist">
+<dl>
+<dt class="hdlist1">Vector2 adjust_position [default: Vector2(0, 0)]</dt>
+<dd>
+<p>Live2Dモデルの描画位置を変更します。<br>
+GDCubismは自身が持つSubViewport内にLive2Dモデルの描画を行います。<br>
+このパラメータを調整する事でLive2Dモデルの一部をクローズアップしたり auto_scale された描画結果がうまく描画されない場合に利用してください。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-adjust_scale" class="dlist">
+<dl>
+<dt class="hdlist1">float adjust_scale [default: 1.0]</dt>
+<dd>
+<p>Live2Dモデルの描画サイズを変更します。<br>
+GDCubismは自身が持つSubViewport内にLive2Dモデルの描画を行います。<br>
+このパラメータを調整する事でLive2Dモデルの描画サイズを自由に変更できます。</p>
+</dd>
+</dl>
+</div>
 <div id="id-property-assets" class="dlist">
 <dl>
 <dt class="hdlist1">String assets [default: ""]</dt>
@@ -421,6 +461,22 @@ moc3 file version 5.0.00以上</p>
 <p><em>GDCubismUserModel</em> は、自分自身に指定された <em>SubViewport</em> サイズ内に収まる様にLive2Dモデルを描画しようとします。そのためLive2Dモデルの製作者が意図しない結果になってしまう場合があります。<br>
 <br>
 このチェックを外すことで、スケーリングなしで表示を行います。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-load_expressions" class="dlist">
+<dl>
+<dt class="hdlist1">bool load_expressions [default: true]</dt>
+<dd>
+<p><em>false</em> にすると、 Live2D Modelの読み込み時に <em>Expression</em> の読み込みを行いません。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-load_motions" class="dlist">
+<dl>
+<dt class="hdlist1">bool load_motions [default: true]</dt>
+<dd>
+<p><em>false</em> にすると、 Live2D Modelの読み込み時に <em>Motion</em> の読み込みを行いません。</p>
 </dd>
 </dl>
 </div>
