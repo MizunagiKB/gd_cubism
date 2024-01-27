@@ -28,6 +28,8 @@ InternalCubismRendererResource::InternalCubismRendererResource(GDCubismUserModel
     , _parent_node(parent_node)
     , sub_viewport_counter(0)
     , mesh_instance_counter(0)
+    , adjust_pos(0.0, 0.0)
+    , adjust_scale(1.0)
 {
     ResourceLoader* res_loader = memnew(ResourceLoader);
 

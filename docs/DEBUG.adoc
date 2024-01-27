@@ -1,0 +1,73 @@
+= Cubism for GDScript
+:encoding: utf-8
+:lang: en
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:nofooter:
+:toc: left
+:toclevels: 3
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ./res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+link:DEBUG{adocsuffix}[Japanese] / English
+
+
+== デバッグ方法
+
+GDCubism のデバッグを行うには VisualStudio Code を使用して以下の方法で行えます。
+
+. SCons のビルド時に `debug_symbols=true optimize=none` を追加します。
+. launch.json に以下を追加します。
+. Godot で demo プロジェクトを開き Export を行います。
+.. 作業がしやすい様に、 demo.export というフォルダが事前に用意されています。
+. デバッグ実行を行います。
+
+
+=== Windows
+
+[source, json]
+----
+{
+    "name": "Debug (Windows)",
+    "type": "cppvsdbg",
+    "request": "launch",
+    "program": "${workspaceFolder}\\demo.export\\demo.exe",
+    "externalConsole": true,
+    "logging": {
+        "moduleLoad": false,
+        "trace": true
+    },
+    "cwd": "${workspaceFolder}\\demo.export",
+}
+----
+
+
+=== macOS
+
+[source, json]
+----
+{
+    "name": "Debug (macOS)",
+    "type":"cppdbg",
+    "request": "launch",
+    "program": "${workspaceRoot}/demo.export/demo.app/Contents/MacOS/demo",
+    "stopAtEntry": false,
+    "launchCompleteCommand": "exec-run",
+    "osx": {
+        "MIMode": "lldb"
+    },
+    "cwd": "${workspaceRoot}/demo.export",
+}
+----
+

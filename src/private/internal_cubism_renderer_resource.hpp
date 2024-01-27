@@ -60,6 +60,10 @@ public:
     TypedArray<SubViewport> ary_sub_viewport;
     Csm::csmInt32 mesh_instance_counter;
     TypedArray<MeshInstance2D> ary_mesh_instance;
+
+    // Adjust Parameters
+    Vector2 adjust_pos;
+    float adjust_scale;
 };
 
 

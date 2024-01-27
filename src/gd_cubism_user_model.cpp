@@ -32,8 +32,12 @@ using namespace godot;
 // ------------------------------------------------------------------- class(s)
 GDCubismUserModel::GDCubismUserModel()
     : internal_model(nullptr)
+    , enable_load_expressions(true)
+    , enable_load_motions(true)
     , speed_scale(1.0)
     , auto_scale(true)
+    , adjust_scale(1.0)
+    , adjust_pos(0.0, 0.0)
     , parameter_mode(ParameterMode::FULL_PARAMETER)
     , playback_process_mode(MotionProcessCallback::IDLE)
     , anim_loop(DEFAULT_PROP_ANIM_LOOP)
@@ -62,6 +66,16 @@ void GDCubismUserModel::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_assets"), &GDCubismUserModel::get_assets);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "assets", PROPERTY_HINT_FILE, "*.model3.json"), "set_assets", "get_assets");
 
+    // Enable Load Expressions
+    ClassDB::bind_method(D_METHOD("set_load_expressions", "enable"), &GDCubismUserModel::set_load_expressions);
+    ClassDB::bind_method(D_METHOD("get_load_expressions"), &GDCubismUserModel::get_load_expressions);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "load_expressions"), "set_load_expressions", "get_load_expressions");
+
+    // Enable Load Motions
+    ClassDB::bind_method(D_METHOD("set_load_motions", "enable"), &GDCubismUserModel::set_load_motions);
+    ClassDB::bind_method(D_METHOD("get_load_motions"), &GDCubismUserModel::get_load_motions);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "load_motions"), "set_load_motions", "get_load_motions");
+
     ClassDB::bind_method(D_METHOD("get_canvas_info"), &GDCubismUserModel::get_canvas_info);
 
     ClassDB::bind_method(D_METHOD("clear"), &GDCubismUserModel::clear);
@@ -81,6 +95,14 @@ void GDCubismUserModel::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_auto_scale", "value"), &GDCubismUserModel::set_auto_scale);
     ClassDB::bind_method(D_METHOD("get_auto_scale"), &GDCubismUserModel::get_auto_scale);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "auto_scale"), "set_auto_scale", "get_auto_scale");
+
+    ClassDB::bind_method(D_METHOD("set_adjust_scale", "value"), &GDCubismUserModel::set_adjust_scale);
+    ClassDB::bind_method(D_METHOD("get_adjust_scale"), &GDCubismUserModel::get_adjust_scale);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "adjust_scale", PROPERTY_HINT_RANGE, "0.01,16.0,0.01"), "set_adjust_scale", "get_adjust_scale");
+
+    ClassDB::bind_method(D_METHOD("set_adjust_position", "value"), &GDCubismUserModel::set_adjust_position);
+    ClassDB::bind_method(D_METHOD("get_adjust_position"), &GDCubismUserModel::get_adjust_position);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "adjust_position"), "set_adjust_position", "get_adjust_position");
 
     ClassDB::bind_method(D_METHOD("set_shader_add"), &GDCubismUserModel::set_shader_add);
     ClassDB::bind_method(D_METHOD("get_shader_add"), &GDCubismUserModel::get_shader_add);
@@ -194,8 +216,7 @@ GDCubismUserModel::moc3FileFormatVersion GDCubismUserModel::csm_get_latest_moc_v
 
 
 GDCubismUserModel::moc3FileFormatVersion GDCubismUserModel::csm_get_moc_version() {
-    if(this->is_initialized() == false) return moc3FileFormatVersion::CSM_MOC_VERSION_UNKNOWN;
-
+    ERR_FAIL_COND_V(this->is_initialized() == false, moc3FileFormatVersion::CSM_MOC_VERSION_UNKNOWN);
     return this->internal_model->_moc3_file_format_version;
 }
 
@@ -248,8 +269,14 @@ String GDCubismUserModel::get_assets() const {
 }
 
 
+void GDCubismUserModel::set_load_expressions(const bool enable) { this->enable_load_expressions = enable; }
+bool GDCubismUserModel::get_load_expressions() const { return this->enable_load_expressions; }
+void GDCubismUserModel::set_load_motions(const bool enable) { this->enable_load_motions = enable; }
+bool GDCubismUserModel::get_load_motions() const { return this->enable_load_motions; }
+
+
 Dictionary GDCubismUserModel::get_canvas_info() const {
-    if(this->is_initialized() == false) return Dictionary();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Dictionary());
 
     Dictionary result;
     Live2D::Cubism::Core::csmVector2 vct_pixel_size;
@@ -325,7 +352,8 @@ bool GDCubismUserModel::get_auto_scale() const {
 
 
 Dictionary GDCubismUserModel::get_motions() const {
-    if(this->is_initialized() == false) return Dictionary();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Dictionary());
+    if(this->enable_load_motions == false) return Dictionary();
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
@@ -367,7 +395,7 @@ Ref<GDCubismMotionQueueEntryHandle> GDCubismUserModel::start_motion_loop(const S
 
 
 Array GDCubismUserModel::get_cubism_motion_queue_entries() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
 
     Array ary_motion_entry;
 
@@ -392,7 +420,8 @@ void GDCubismUserModel::stop_motion() {
 
 
 Array GDCubismUserModel::get_expressions() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
+    if(this->enable_load_expressions == false) return Array();
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
@@ -423,7 +452,7 @@ void GDCubismUserModel::stop_expression() {
 
 
 Array GDCubismUserModel::get_hit_areas() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
 
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
@@ -444,21 +473,21 @@ Array GDCubismUserModel::get_hit_areas() const {
 
 
 Array GDCubismUserModel::get_parameters() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
 
     return this->ary_parameter;
 }
 
 
 Array GDCubismUserModel::get_part_opacities() const {
-    if(this->is_initialized() == false) return Array();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Array());
 
     return this->ary_part_opacity;
 }
 
 
 Dictionary GDCubismUserModel::get_meshes() const {
-    if(this->is_initialized() == false) return Dictionary();
+    ERR_FAIL_COND_V(this->is_initialized() == false, Dictionary());
 
     return this->internal_model->_renderer_resource.dict_mesh;
 }
@@ -507,7 +536,7 @@ void GDCubismUserModel::_update(const float delta) {
 
 
 void GDCubismUserModel::advance(const float delta) {
-    if(this->is_initialized() == false) return;
+    ERR_FAIL_COND(this->is_initialized() == false);
     if(this->playback_process_mode != MANUAL) return;
 
     this->_update(delta);
@@ -533,21 +562,24 @@ void GDCubismUserModel::setup_property() {
     Csm::ICubismModelSetting* setting = this->internal_model->_model_setting;
 
     // Property - Expression
-    this->dict_anim_expression.Clear();
-    for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
-        const Csm::csmChar* expression_id = setting->GetExpressionName(i);
-        anim_expression anim_e(expression_id);
+    if(this->enable_load_expressions == true) {
+        for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
+            const Csm::csmChar* expression_id = setting->GetExpressionName(i);
+            anim_expression anim_e(expression_id);
 
-        this->dict_anim_expression[anim_e.to_string()] = anim_e;
+            this->dict_anim_expression[anim_e.to_string()] = anim_e;
+        }
     }
 
     // Property - Motion
-    for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
-        const Csm::csmChar* group = setting->GetMotionGroupName(i);
-        for(Csm::csmInt32 no = 0; no < setting->GetMotionCount(group); no++) {
-            anim_motion anim_m(group, no);
+    if(this->enable_load_motions == true) {
+        for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
+            const Csm::csmChar* group = setting->GetMotionGroupName(i);
+            for(Csm::csmInt32 no = 0; no < setting->GetMotionCount(group); no++) {
+                anim_motion anim_m(group, no);
 
-            this->dict_anim_motion[anim_m.to_string()] = anim_m;
+                this->dict_anim_motion[anim_m.to_string()] = anim_m;
+            }
         }
     }
 }
@@ -697,23 +729,27 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
     // Property - Expression
     ary_enum.clear();
-    for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
-        const Csm::csmChar* expression_id = setting->GetExpressionName(i);
-        anim_expression anim_e(expression_id);
+    if(this->enable_load_expressions == true) {
+        for(Csm::csmInt32 i = 0; i < setting->GetExpressionCount(); i++) {
+            const Csm::csmChar* expression_id = setting->GetExpressionName(i);
+            anim_expression anim_e(expression_id);
 
-        ary_enum.append(anim_e.to_string());
+            ary_enum.append(anim_e.to_string());
+        }
     }
 
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_ANIM_EXPRESSION, PROPERTY_HINT_ENUM, String(",").join(ary_enum)));
 
     // Property - Motion
     ary_enum.clear();
-    for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
-        const Csm::csmChar* group = setting->GetMotionGroupName(i);
-        for(Csm::csmInt32 no = 0; no < setting->GetMotionCount(group); no++) {
-            anim_motion anim_m(group, no);
+    if(this->enable_load_motions == true) {
+        for(Csm::csmInt32 i = 0; i < setting->GetMotionGroupCount(); i++) {
+            const Csm::csmChar* group = setting->GetMotionGroupName(i);
+            for(Csm::csmInt32 no = 0; no < setting->GetMotionCount(group); no++) {
+                anim_motion anim_m(group, no);
 
-            ary_enum.append(anim_m.to_string());
+                ary_enum.append(anim_m.to_string());
+            }
         }
     }
 
@@ -798,7 +834,6 @@ void GDCubismUserModel::_process(double delta) {
 void GDCubismUserModel::_physics_process(double delta) {
     if(this->is_initialized() == false) return;
     if(this->playback_process_mode != PHYSICS) return;
-    Csm::CubismModel *model = this->internal_model->GetModel();
 
     this->_update(delta);
 }

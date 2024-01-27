@@ -5,19 +5,22 @@
 :copyright: 2023 MizunagiKB
 :doctype: book
 :nofooter:
-:toc:
+:toc: left
 :toclevels: 3
 :source-highlighter: highlight.js
-:experimental:
 :icons: font
-
-
+:experimental:
+:stylesdir: ./docs/res/theme/css
+:stylesheet: mizunagi-works.css
 ifdef::env-github,env-vscode[]
-link:LICENSE.adoc[Japanese] / link:LICENSE.en.adoc[English]
+:adocsuffix: .adoc
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-link:LICENSE{outfilesuffix}[Japanese] / link:LICENSE.en{outfilesuffix}[English]
+:adocsuffix: .html
 endif::env-github,env-vscode[]
+
+
+link:LICENSE{adocsuffix}[Japanese] / link:LICENSE.en{adocsuffix}[English]
 
 
 == LICENSE
