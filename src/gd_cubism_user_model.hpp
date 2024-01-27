@@ -104,8 +104,14 @@ public:
 
     String assets;
     InternalCubismUserModel *internal_model;
+    bool enable_load_expressions;
+    bool enable_load_motions;
+
     float speed_scale;
     bool auto_scale;
+    float adjust_scale;
+    Vector2 adjust_pos;
+
     ParameterMode parameter_mode;
     MotionProcessCallback playback_process_mode;
 
@@ -134,6 +140,11 @@ public:
     void set_assets(const String assets);
     String get_assets() const;
 
+    void set_load_expressions(const bool enable);
+    bool get_load_expressions() const;
+    void set_load_motions(const bool enable);
+    bool get_load_motions() const;
+
     Dictionary get_canvas_info() const;
 
     bool is_initialized() const;
@@ -150,6 +161,12 @@ public:
 
     void set_auto_scale(const bool value);
     bool get_auto_scale() const;
+
+    void set_adjust_scale(const float scale) { this->adjust_scale = scale; }
+    float get_adjust_scale() const { return this->adjust_scale; }
+
+    void set_adjust_position(const Vector2 pos) { this->adjust_pos = pos; }
+    Vector2 get_adjust_position() const { return this->adjust_pos; }
 
     Dictionary get_motions() const;
     Ref<GDCubismMotionQueueEntryHandle> start_motion(const String str_group, const int32_t no, const Priority priority);

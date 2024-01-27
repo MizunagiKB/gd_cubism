@@ -71,7 +71,10 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
     }
 
     // Expression
-    this->expression_load();
+    if(this->_owner_viewport->enable_load_expressions == true) {
+        this->expression_load();
+    }
+
     // Physics
     this->physics_load();
     // Pose
@@ -105,7 +108,10 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
     this->_model->SaveParameters();
 
     // Motion
-    this->motion_load();
+    if(this->_owner_viewport->enable_load_motions== true) {
+        this->motion_load();
+    }
+
     // GDCubismEffect
     this->effect_init();
 
@@ -127,6 +133,10 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
         InternalCubismRenderer2D* renderer = this->GetRenderer<InternalCubismRenderer2D>();
         #else
         #endif // GD_CUBISM_USE_RENDERER_2D
+
+        // Update Adjust Parameter(s)
+        this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
+        this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
         this->_renderer_resource.pro_proc(
             renderer->calc_viewport_count(),
@@ -223,6 +233,10 @@ void InternalCubismUserModel::update_node() {
     InternalCubismRenderer2D* renderer = this->GetRenderer<InternalCubismRenderer2D>();
     #else
     #endif // GD_CUBISM_USE_RENDERER_2D
+
+    // Update Adjust Parameter(s)
+    this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
+    this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
     this->_renderer_resource.pro_proc(
         renderer->calc_viewport_count(),
