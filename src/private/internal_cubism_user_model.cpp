@@ -135,8 +135,8 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
         #endif // GD_CUBISM_USE_RENDERER_2D
 
         // Update Adjust Parameter(s)
-        this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
         this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
+        this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
         this->_renderer_resource.pro_proc(
             renderer->calc_viewport_count(),
@@ -235,8 +235,8 @@ void InternalCubismUserModel::update_node() {
     #endif // GD_CUBISM_USE_RENDERER_2D
 
     // Update Adjust Parameter(s)
-    this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
     this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
+    this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
     this->_renderer_resource.pro_proc(
         renderer->calc_viewport_count(),

@@ -36,8 +36,8 @@ GDCubismUserModel::GDCubismUserModel()
     , enable_load_motions(true)
     , speed_scale(1.0)
     , auto_scale(true)
-    , adjust_pos(0.0, 0.0)
     , adjust_scale(1.0)
+    , adjust_pos(0.0, 0.0)
     , parameter_mode(ParameterMode::FULL_PARAMETER)
     , playback_process_mode(MotionProcessCallback::IDLE)
     , anim_loop(DEFAULT_PROP_ANIM_LOOP)
@@ -96,13 +96,13 @@ void GDCubismUserModel::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_auto_scale"), &GDCubismUserModel::get_auto_scale);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "auto_scale"), "set_auto_scale", "get_auto_scale");
 
-    ClassDB::bind_method(D_METHOD("set_adjust_position", "value"), &GDCubismUserModel::set_adjust_position);
-    ClassDB::bind_method(D_METHOD("get_adjust_position"), &GDCubismUserModel::get_adjust_position);
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "adjust_position"), "set_adjust_position", "get_adjust_position");
-
     ClassDB::bind_method(D_METHOD("set_adjust_scale", "value"), &GDCubismUserModel::set_adjust_scale);
     ClassDB::bind_method(D_METHOD("get_adjust_scale"), &GDCubismUserModel::get_adjust_scale);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "adjust_scale", PROPERTY_HINT_RANGE, "0.01,16.0,0.01"), "set_adjust_scale", "get_adjust_scale");
+
+    ClassDB::bind_method(D_METHOD("set_adjust_position", "value"), &GDCubismUserModel::set_adjust_position);
+    ClassDB::bind_method(D_METHOD("get_adjust_position"), &GDCubismUserModel::get_adjust_position);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "adjust_position"), "set_adjust_position", "get_adjust_position");
 
     ClassDB::bind_method(D_METHOD("set_shader_add"), &GDCubismUserModel::set_shader_add);
     ClassDB::bind_method(D_METHOD("get_shader_add"), &GDCubismUserModel::get_shader_add);
