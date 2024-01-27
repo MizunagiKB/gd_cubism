@@ -30,8 +30,12 @@ This is a _SubViewport_ subclass for loading the Live2D model, generating the _T
 
 [cols="3",frame=none,grid=none]
 |===
+>|Vector2 <|<<id-property-adjust_position,adjust_position>> |[default: Vector2(0, 0)]
+>|float <|<<id-property-adjust_scale,adjust_scale>> |[default: 1.0]
 >|String <|<<id-property-assets,assets>> |[default: ""]
 >|bool <|<<id-property-auto_scale,auto_scale>> |[default: true]
+>|bool <|<<id-property-load_expressions,load_expressions>> |[default: true]
+>|bool <|<<id-property-load_motins,load_motins>> |[default: true]
 >|ParameterMode <|<<id-property-<parameter_mode,parameter_mode>> |[default: 0]
 >|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
 >|Shader <|<<id-property-shader_add,shader_add>> |
@@ -152,16 +156,42 @@ I hope this helps! If you have any other requests, feel free to ask.
 
 == Property Descriptions
 
+[[id-property-adjust_position]]
+Vector2 adjust_position [default: Vector2(0, 0)]::
+Changes the rendering position of the Live2D model. +
+GDCubism performs the rendering of the Live2D model within its own SubViewport. +
+By adjusting this parameter, you can close-up a part of the Live2D model or use it when the auto_scale rendered result is not drawn well.
+
+
+[[id-property-adjust_scale]]
+float adjust_scale [default: 1.0]::
+Changes the rendering size of the Live2D model. +
+GDCubism performs the rendering of the Live2D model within its own SubViewport. +
+By adjusting this parameter, you can freely change the rendering size of the Live2D model.
+
+
 [[id-property-assets]]
 String assets [default: ""]::
 By specifying a file with the *.model3.json extension, you can load the Live2D model. As soon as you specify a file, it will be loaded immediately. +
 Since the _clear_ function is called internally, if you want to switch the Live2D model, you can do so by simply specifying a new file.
+
 
 [[id-property-auto_scale]]
 bool auto_scale [default: true]::
 _GDCubismUserModel_ tries to render the Live2D model to fit within the _SubViewport_ size specified for itself. Therefore, there may be results that the creator of the Live2D model did not intend. +
 +
 By unchecking this, you can display without scaling.
+
+
+[[id-property-load_expressions]]
+bool load_expressions [default: true]::
+If set to _false_, it will not load _Expressions_ when loading the Live2D Model.
+
+
+[[id-property-load_motions]]
+bool load_motions [default: true]::
+If set to _false_, it will not load _Motions_ when loading the Live2D Model.
+
 
 [[id-property-parameter_mode]]
 ParameterMode parameter_mode [default: 0]::
