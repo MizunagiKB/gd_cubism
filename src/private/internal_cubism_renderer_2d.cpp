@@ -115,7 +115,9 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(const Csm::CubismModel* 
         const float fmin = godot::MIN<float, float>(vct_origin.x, vct_origin.y);
         const float scale = godot::MIN<float, float>(fmin / vct_origin.x, fmin / vct_origin.y);
         const float basesize = godot::MIN<float, float>(vct_canvas_size.x, vct_canvas_size.y);
-        calc_ppunit = basesize * scale;
+        calc_ppunit = basesize * scale * res.adjust_scale;
+    } else {
+        calc_ppunit = ppunit * res.adjust_scale;
     }
 
     Array ary;
@@ -128,7 +130,7 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(const Csm::CubismModel* 
         Vector2(
             vct_canvas_size.x * vct_origin.x / vct_size.x,
             vct_canvas_size.y * vct_origin.y / vct_size.y
-        )
+        ) + res.adjust_pos
     );
 
     ary[Mesh::ARRAY_TEX_UV] = make_PackedArrayVector2(
