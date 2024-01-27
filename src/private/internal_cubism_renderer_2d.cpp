@@ -306,7 +306,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const
         CubismIdHandle handle = model->GetDrawableId(index);
         String node_name(handle->GetString().GetRawString());
 
-        res.dict_mesh[node_name]= this->make_ArrayMesh(model, index, res);;
+        res.dict_mesh[node_name]= this->make_ArrayMesh(model, index, res);
     }
 }
 
