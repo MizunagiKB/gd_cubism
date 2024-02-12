@@ -8,8 +8,8 @@ uniform vec4 color_base;
 uniform vec4 color_screen;
 uniform vec4 color_multiply;
 uniform vec4 channel;
-uniform sampler2D tex_main;
-uniform sampler2D tex_mask;
+uniform sampler2D tex_main : filter_linear_mipmap;
+uniform sampler2D tex_mask : filter_linear_mipmap;
 
 void vertex() {
     UV.y = 1.0 - UV.y;
