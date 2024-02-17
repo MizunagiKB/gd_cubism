@@ -79,13 +79,30 @@ image::res/images/usage_simple_06.png[fig06,512]
 
 === トラブルシューティング
 
-* モデルが正常に読み込まれない
+==== モデルが正常に読み込まれない
 
 モデルのファイル名が日本語になっている場合は正常に読み込まれないため、Cubism Editorで出力したファイルの名前と、*.model3.json内の参照を上書きすることで正常に動作します。
 
-* まばたきが正常に行われない
+==== まばたきが正常に行われない
 
 *.model3.json内のEyeBlinkのIdsが指定されていない可能性があります。設定して再出力するか、IdsにParamEyeLOpenとParamEyeROpenを追記してください。
+
+==== 表示される画像が汚い
+0.5以降でシェーダーにMipmapが有効になりました。
+
+有効にする場合は、Live2Dで使用しているテクスチャを Mipmap を有効にして再インポートを行なってください。
+
+image::res/images/usage_mipmap_01.png[mipmap01,256]
+
+Mipmapの効果はかなり高いですが、絵によってはぼやけた感じとなる場合があります。
+
+Mipmap適用なし
+
+image::res/images/usage_mipmap_02a.jpg[mipmap02a,256]
+
+Mipmap適用あり
+
+image::res/images/usage_mipmap_02b.jpg[mipmap02b,256]
 
 
 == デモについて
