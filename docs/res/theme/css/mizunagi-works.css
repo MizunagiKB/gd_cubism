@@ -19,21 +19,34 @@
     }
 }
 
-h1, h2, h3, h4, h5, h6, #toctitle,
-.sidebarblock > .content > .title {
-  color: rgba(0, 0, 0, 0.8);
+h1, h2, h3, h4, h5, h6, #toctitle {
+    font-weight: bold;
+    color: rgba(0, 0.2, 0.2, 0.8);
 }
 
 h1 {
-    font-weight: bold;
     font-size: 1.5em;
 }
 
-h2, h3, h4, h5, h6 {
-    font-weight: bold;
-    font-size: 1.25em;
+h2 {
+    font-size: 2.0em;
 }
 
+h3 {
+    margin-top: 4em;
+    font-size: 1.5em;
+}
+
+h4, h5, h6 {
+    margin-top: 3em;
+}
+
+.sidebarblock > .content > .title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: rgba(0, 0.2, 0.2, 0.8);
+}
+/*
 code {
     font-size: 9pt;
 }
@@ -41,4 +54,4 @@ code {
 dl {
     margin-top: 3em;
 }
-
+*/
