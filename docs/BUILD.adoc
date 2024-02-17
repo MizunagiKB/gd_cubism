@@ -24,8 +24,11 @@ link:BUILD{adocsuffix}[Japanese] / link:BUILD.en{adocsuffix}[English]
 
 
 == ビルド方法
-=== ビルド前の準備
-==== ソースコードの取得と準備
+=== ソースコードの取得と準備
+
+まずgd_cubismをgit cloneしてください。
+
+最新のバージョンでしたらそのまま使用してください。もし機能拡張やバグ修正が行われたものを試したい場合は適宜ブランチを切り替えてください。
 
 [source, bash]
 ----
@@ -35,12 +38,15 @@ git submodule update --init
 ----
 
 
-==== CubismSdkForNativeの入手と配置
+=== CubismSdkForNativeの入手と配置
 
-. Live2D Cubism SDK for Nativeを取得してください。
-.. GDCubismが利用しているSDKバージョンは **Cubism 5 SDK for Native R1 beta4** です。
-.. thirdpartyフォルダに展開した内容をそのまま配置してください。
-. 展開すると以下のような配置となります。
+次にビルドに必要なSDKをLive2Dのオフィシャルサイトから入手してください。
+
+* Live2D Official website - https://www.live2d.com/
+
+Cubism SDK for Native には Cusism SDK 以外に Cubism Native Framework が含まれています。
+
+ダウンロードしたものを以下のフォルダ構成になる様に展開してください。（ダウンロードしたものを thirdparty フォルダに配置してファイルを展開すればこの形になるはずです）
 
 [source]
 ----
