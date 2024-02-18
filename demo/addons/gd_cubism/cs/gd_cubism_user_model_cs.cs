@@ -93,6 +93,34 @@ public partial class GDCubismUserModelCS : GodotObject
     // ------------------------------------------------------------ Property(s)
 
     /// <value>
+    ///     Property <c>AdjustPosition</c>
+    ///     <br />
+    ///     Changes the rendering position of the Live2D model.
+    ///     GDCubism performs the rendering of the Live2D model within its own SubViewport.
+    ///     <br />
+    ///     By adjusting this parameter, you can close-up a part of the Live2D model or use it when the auto_scale rendered result is not drawn well.
+    /// </value>
+    public Vector2 AdjustPosition
+    {
+        set { this.InternalObject.Call("set_adjust_position", value); }
+        get { return (Vector2)this.InternalObject.Call("get_adjust_position"); }
+    }
+
+    /// <value>
+    ///     Property <c>AdjustScale</c>
+    ///     <br />
+    ///     Changes the rendering size of the Live2D model.
+    ///     GDCubism performs the rendering of the Live2D model within its own SubViewport.
+    ///     <br />
+    ///     By adjusting this parameter, you can freely change the rendering size of the Live2D model.
+    /// </value>
+    public float AdjustScale
+    {
+        set { this.InternalObject.Call("set_adjust_scale", value); }
+        get { return (float)this.InternalObject.Call("get_adjust_scale"); }
+    }
+
+    /// <value>
     ///     Property <c>Assets</c>
     ///     <br />
     ///     You can load a Live2D model by specifying a file with the *.model3.json extension.
@@ -118,6 +146,28 @@ public partial class GDCubismUserModelCS : GodotObject
     {
         set { this.InternalObject.Call("set_auto_scale", value); }
         get { return (bool)this.InternalObject.Call("get_auto_scale"); }
+    }
+
+    /// <value>
+    ///     Property <c>LoadExpressions</c>
+    ///     <br />
+    ///     If set to <c>false</c>, it will not load _Expressions_ when loading the Live2D Model.
+    /// </value>
+    public bool LoadExpressions
+    {
+        set { this.InternalObject.Call("set_load_expressions", value); }
+        get { return (bool)this.InternalObject.Call("get_load_expressions"); }
+    }
+
+    /// <value>
+    ///     Property <c>LoadMotions</c>
+    ///     <br />
+    ///     If set to <c>false</c>, it will not load _Motions_ when loading the Live2D Model.
+    /// </value>
+    public bool LoadMotions
+    {
+        set { this.InternalObject.Call("set_load_motions", value); }
+        get { return (bool)this.InternalObject.Call("get_load_motions"); }
     }
 
     /// <value>

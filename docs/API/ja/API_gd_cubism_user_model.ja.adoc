@@ -34,7 +34,7 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 >|String <|<<id-property-assets,assets>> |[default: ""]
 >|bool <|<<id-property-auto_scale,auto_scale>> |[default: true]
 >|bool <|<<id-property-load_expressions,load_expressions>> |[default: true]
->|bool <|<<id-property-load_motins,load_motins>> |[default: true]
+>|bool <|<<id-property-load_motions,load_motions>> |[default: true]
 >|ParameterMode <|<<id-property-<parameter_mode,parameter_mode>> |[default: 0]
 >|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
 >|Shader <|<<id-property-shader_add,shader_add>> |
