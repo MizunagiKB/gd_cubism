@@ -81,13 +81,41 @@ image::res/images/usage_simple_06.png[fig06,512]
 
 === Troubleshooting
 
-* Model does not load properly
+==== Model does not load properly
 
 If the model file name is in Japanese, it will not load properly, so overwriting the file name output by the Cubism Editor and the reference in *.model3.json will work properly.
 
-* Blink does not occur normally
+==== Blink does not occur normally
 
 It is possible that the Ids for EyeBlink in *.model3.json is not specified. Please set it and re-export, or add ParamEyeLOpen and ParamEyeROpen to Ids.
+
+==== Image Appears Blurry
+
+Mipmap has been enabled for shaders from version 0.5 onwards.
+
+If you wish to enable it, please re-import the texture being used in Live2D with Mipmap enabled.
+
+image::res/images/usage_mipmap_01.png[mipmap01,256]
+
+The effect of Mipmap is quite significant, however, depending on the image, it may appear blurry.
+
+Without Mipmap Application
+
+image::res/images/usage_mipmap_02a.jpg[mipmap02a,256]
+
+With Mipmap Application
+
+image::res/images/usage_mipmap_02b.jpg[mipmap02b,256]
+
+==== Live2D Models Not Displayed When Exporting Projects
+
+Live2D models utilize various files, which are internally processed by Live2D. Consequently, Godot Engine struggles to effectively package Live2D-related resources.
+
+To ensure proper packaging, navigate to the Resources section in the Export screen. Here, directly specify the resources you are using and the folder containing these resources.
+
+For detailed instructions, refer to the Resource options section in the official documentation on Exporting projects:
+
+https://docs.godotengine.org/ja/4.x/tutorials/export/exporting_projects.html#resource-options
 
 
 == About the Demo
