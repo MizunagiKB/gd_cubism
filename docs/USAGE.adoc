@@ -88,6 +88,7 @@ image::res/images/usage_simple_06.png[fig06,512]
 *.model3.json内のEyeBlinkのIdsが指定されていない可能性があります。設定して再出力するか、IdsにParamEyeLOpenとParamEyeROpenを追記してください。
 
 ==== 表示される画像が汚い
+
 0.5以降でシェーダーにMipmapが有効になりました。
 
 有効にする場合は、Live2Dで使用しているテクスチャを Mipmap を有効にして再インポートを行なってください。
@@ -103,6 +104,16 @@ image::res/images/usage_mipmap_02a.jpg[mipmap02a,256]
 Mipmap適用あり
 
 image::res/images/usage_mipmap_02b.jpg[mipmap02b,256]
+
+==== プロジェクトを Export すると Live2D モデルが表示されない
+
+Live2Dモデルは様々なファイルを使用していますが、これらのファイルは Live2D が内部で読み込みます。そのため、 Godot Engine は Live2D 関係のリソースをうまくパッケージに取り込むことが出来ません。
+
+正しくパッケージに取り込まれるようにするには Export 画面の Resources 欄に、あなたが使用しているリソースやリソースが収められているフォルダを直接指定しなければなりません。
+
+指定方法についてはオフィシャルドキュメントの Exporting projects に Resource options という欄がありますので、説明を読みながら適宜追加してあげてください。
+
+https://docs.godotengine.org/ja/4.x/tutorials/export/exporting_projects.html#resource-options
 
 
 == デモについて
