@@ -35,7 +35,9 @@ static Csm::CubismFramework::Option option;
 // ------------------------------------------------------------------- class(s)
 // ------------------------------------------------------------------ method(s)
 void output(const char* message) {
+    #ifdef DEBUG_ENABLED
     WARN_PRINT(message);
+    #endif // DEBUG_ENABLED    
 }
 
 
@@ -45,7 +47,12 @@ void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
 	}
 
     option.LogFunction = output;
+
+    #ifdef DEBUG_ENABLED
     option.LoggingLevel = Csm::CubismFramework::Option::LogLevel::LogLevel_Verbose;
+    #else
+    option.LoggingLevel = Csm::CubismFramework::Option::LogLevel::LogLevel_Off;
+    #endif // DEBUG_ENABLED  
 
     Csm::CubismFramework::StartUp(&allocator, &option);
     Csm::CubismFramework::Initialize();
