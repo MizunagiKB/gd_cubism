@@ -808,7 +808,9 @@ void GDCubismUserModel::_ready() {
     this->set_disable_input(true);
     // Memory leak when set_use_own_world_3d is true
     // https://github.com/godotengine/godot/issues/81476
-    this->set_use_own_world_3d(false);
+    this->set_use_own_world_3d(SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG);
+    // Memory leak when set_transparent_background is true(* every time & window minimize)
+    // https://github.com/godotengine/godot/issues/89651
     this->set_transparent_background(true);
 }
 

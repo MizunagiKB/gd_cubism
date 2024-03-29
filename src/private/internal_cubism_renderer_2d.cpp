@@ -268,7 +268,9 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
             viewport->set_disable_input(true);
             // Memory leak when set_use_own_world_3d is true
             // https://github.com/godotengine/godot/issues/81476
-            viewport->set_use_own_world_3d(false);
+            viewport->set_use_own_world_3d(SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG);
+            // Memory leak when set_transparent_background is true(* every time & window minimize)
+            // https://github.com/godotengine/godot/issues/89651
             viewport->set_transparent_background(true);
 
             this->update_mask(viewport, index, res);
@@ -279,10 +281,11 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
         }
 
-        res.dict_mesh[node_name] = this->make_ArrayMesh(model, index, res);
+        Ref<ArrayMesh> m = this->make_ArrayMesh(model, index, res);
         
         node->set_name(node_name);
-        node->set_mesh(this->make_ArrayMesh(model, index, res));
+        node->set_mesh(m);
+        res.dict_mesh[node_name] = m;
         node->set_material(mat);
         node->set_z_index(renderOrder[index]);
         node->set_visible(true);

@@ -11,8 +11,10 @@
 
 #ifdef GD_CUBISM_USE_RENDERER_2D
 const bool SUBVIEWPORT_DISABLE_3D_FLAG = true;
+const bool SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG = false;
 #else
 const bool SUBVIEWPORT_DISABLE_3D_FLAG = false;
+const bool SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG = false;
 #endif // GD_CUBISM_USE_RENDERER_2D
 
 // --------------------------------------------------------------- namespace(s)

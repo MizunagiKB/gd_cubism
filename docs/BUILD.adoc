@@ -51,7 +51,7 @@ Cubism SDK for Native には Cusism SDK 以外に Cubism Native Framework が含
 [source]
 ----
 ./thirdparty
-    /CubismSdkForNative-5-r.1-beta.4
+    /CubismSdkForNative-5-r.1
         /Core
             /dll
             ...
@@ -147,7 +147,7 @@ universalバイナリとしてビルドする場合は、sconsを実行する前
 
 [source, bash]
 ----
-pushd thirdparty/CubismSdkForNative-5-r.1-beta.2/Core/lib/macos
+pushd thirdparty/CubismSdkForNative-5-r.1/Core/lib/macos
 mkdir universal
 lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output universal/libLive2DCubismCore.a
 popd

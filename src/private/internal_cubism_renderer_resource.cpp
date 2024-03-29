@@ -74,9 +74,9 @@ SubViewport* InternalCubismRendererResource::request_viewport() {
     if(counter < this->ary_sub_viewport.size()) {
         return Object::cast_to<SubViewport>(this->ary_sub_viewport[counter]);
     } else {
-        SubViewport* node = memnew(SubViewport);
-        this->ary_sub_viewport.append(node);
-        return node;
+        SubViewport* viewport = memnew(SubViewport);
+        this->ary_sub_viewport.append(viewport);
+        return viewport;
     }
 };
 
