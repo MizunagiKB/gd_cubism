@@ -1,8 +1,14 @@
 = Cubism for GDScript
 :encoding: utf-8
-:lang: ja
+:lang: en
 :author: MizunagiKB <mizukb@live.jp>
 :copyright: 2023 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ./docs/res/theme/css
+:stylesheet: mizunagi-works.css
 ifdef::env-github,env-vscode[]
 :adocsuffix: .adoc
 endif::env-github,env-vscode[]
@@ -70,19 +76,19 @@ GDCubism を組み込んでの配布や販売を考えている場合は以下�
 ====
 
 ifdef::env-github,env-vscode[]
-* link:./docs/LICENSE{adocsuffix}[]
+* link:./docs/modules/ROOT/pages/ja/license{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./LICENSE{adocsuffix}[]
+* link:./license{adocsuffix}[]
 endif::env-github,env-vscode[]
 
 == ビルド方法
 
 ifdef::env-github,env-vscode[]
-* link:./docs/BUILD{adocsuffix}[]
+* link:./docs/modules/ROOT/pages/ja/build{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./BUILD{adocsuffix}[]
+* link:./build{adocsuffix}[]
 endif::env-github,env-vscode[]
 
 
@@ -92,7 +98,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/USAGE{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./USAGE{adocsuffix}[]
+* link:./usage{adocsuffix}[]
 endif::env-github,env-vscode[]
 
 == 関連情報
