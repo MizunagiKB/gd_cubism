@@ -21,7 +21,7 @@ ifdef::env-github,env-vscode[]
 link:README.adoc[Japanese] / link:README.en.adoc[English]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-xref:../ja/index{adocsuffix}[Japanese] / xref:../en/index{adocsuffix}[English]
+xref:ja/index[Japanese] / xref:en/index[English]
 endif::env-github,env-vscode[]
 
 
@@ -79,7 +79,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/ja/license{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* xref:./license[]
+* xref:ja/license[]
 endif::env-github,env-vscode[]
 
 == ビルド方法
@@ -88,7 +88,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/ja/build{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* xref:./build[]
+* xref:ja/build[]
 endif::env-github,env-vscode[]
 
 
@@ -98,7 +98,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/ja/usage{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* xref:./usage[]
+* xref:ja/usage[]
 endif::env-github,env-vscode[]
 
 == 関連情報
