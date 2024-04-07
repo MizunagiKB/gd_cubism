@@ -4,9 +4,6 @@
 :author: MizunagiKB <mizukb@live.jp>
 :copyright: 2023 MizunagiKB
 :doctype: book
-:nofooter:
-:toc: left
-:toclevels: 3
 :source-highlighter: highlight.js
 :icons: font
 :experimental:
@@ -136,9 +133,9 @@ Switches forcibly.
 enum ParameterMode::
 * FULL_PARAMETER = 0 +
 Specify this when playing the _Motion_ specified by the <<id-method-start_motion,_start_motion_>> function. +
-When this is specified, operations by link:API_gd_cubism_parameter.ja.adoc[_GDCubismParameter_] cannot be performed.
+When this is specified, operations by link:./gd_cubism_parameter[_GDCubismParameter_] cannot be performed.
 * NONE_PARAMETER = 1 +
-Specify this when using the link:API_gd_cubism_parameter.ja.adoc[_GDCubismParameter_] obtained by the <<id-method-start_motion,_get_parameter_>> function to operate the Live2D model. +
+Specify this when using the link:./gd_cubism_parameter[_GDCubismParameter_] obtained by the <<id-method-start_motion,_get_parameter_>> function to operate the Live2D model. +
 When this is specified, motion playback cannot be performed by the <<id-method-start_motion,_start_motion_>> function.
 
 
@@ -446,12 +443,12 @@ Plays the specified _expression_id_.
 
 
 [[id-method-start_motion]]
-link:API_gd_cubism_motion_queue_entry_handle[GDCubismMotionQueueEntryHandle] start_motion(group: String, no: int, priority: <<id-enum-priority,Priority>>)::
+link:./gd_cubism_motion_queue_entry_handle[GDCubismMotionQueueEntryHandle] start_motion(group: String, no: int, priority: <<id-enum-priority,Priority>>)::
 Plays the _Motion_ specified by _group_ and _no_.
 
 
 [[id-method-start_motion_loop]]
-link:API_gd_cubism_motion_queue_entry_handle[GDCubismMotionQueueEntryHandle] start_motion_loop(group: String, no: int, priority: <<id-enum-priority,Priority>>)::
+link:./gd_cubism_motion_queue_entry_handle[GDCubismMotionQueueEntryHandle] start_motion_loop(group: String, no: int, priority: <<id-enum-priority,Priority>>)::
 Plays the _Motion_ specified by _group_ and _no_. +
 +
 Specify this when you want to play repeatedly. If the _loop_ argument is _false_, it behaves the same as the _start_motion_ function.
