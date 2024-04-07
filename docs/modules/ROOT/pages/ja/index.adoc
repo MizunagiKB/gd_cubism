@@ -79,7 +79,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/ja/license{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./license{adocsuffix}[]
+* link:./license[]
 endif::env-github,env-vscode[]
 
 == ビルド方法
@@ -88,7 +88,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/ja/build{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./build{adocsuffix}[]
+* link:./build[]
 endif::env-github,env-vscode[]
 
 
@@ -98,7 +98,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/ja/usage{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./usage{adocsuffix}[]
+* link:./usage[]
 endif::env-github,env-vscode[]
 
 == 関連情報

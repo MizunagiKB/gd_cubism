@@ -60,7 +60,7 @@ image::usage_simple_02.png[fig02,256]
 
 Once the Live2D model is loaded correctly, the preview screen displays the Live2D model.
 
-image::res/images/usage_simple_03.png[fig03,256]
+image::usage_simple_03.png[fig03,256]
 
 
 ==== Assign to Sprite2D texture
@@ -68,15 +68,15 @@ image::res/images/usage_simple_03.png[fig03,256]
 Then select the _Sprite2D_ node to open the Texture item. +
 When you select ''New ViewportTexture'' from the list, a dialog to select _Viewport_ will appear, select _GDCubismUserModel_.
 
-image::res/images/usage_simple_04.png[fig04,256]
+image::usage_simple_04.png[fig04,256]
 
 The Live2D model is displayed in the Texture field.
 
-image::res/images/usage_simple_05.png[fig05,256]
+image::usage_simple_05.png[fig05,256]
 
 The Live2D model is also displayed at the _Sprite2D_ position.
 
-image::res/images/usage_simple_06.png[fig06,512]
+image::usage_simple_06.png[fig06,512]
 
 
 === Troubleshooting
@@ -95,17 +95,17 @@ Mipmap has been enabled for shaders from version 0.5 onwards.
 
 If you wish to enable it, please re-import the texture being used in Live2D with Mipmap enabled.
 
-image::res/images/usage_mipmap_01.png[mipmap01,256]
+image::usage_mipmap_01.png[mipmap01,256]
 
 The effect of Mipmap is quite significant, however, depending on the image, it may appear blurry.
 
 Without Mipmap Application
 
-image::res/images/usage_mipmap_02a.jpg[mipmap02a,256]
+image::usage_mipmap_02a.jpg[mipmap02a,256]
 
 With Mipmap Application
 
-image::res/images/usage_mipmap_02b.jpg[mipmap02b,256]
+image::usage_mipmap_02b.jpg[mipmap02b,256]
 
 ==== Live2D Models Not Displayed When Exporting Projects
 
@@ -186,52 +186,51 @@ GDCubism provides a variety of classes. Please refer to the document linked belo
 |===
 |GDScript Class |C# Class |Features
 
-|link:API/en/API_gd_cubism_effect.en{adocsuffix}[GDCubismEffect]
+|link:./api/gd_cubism_effect{adocsuffix}[GDCubismEffect]
 |GDCubismEffectCS
 |-
 
-|link:API/en/API_gd_cubism_effect_breath.en{adocsuffix}[GDCubismEffectBreath]
+|link:./api/gd_cubism_effect_breath{adocsuffix}[GDCubismEffectBreath]
 |GDCubismEffectBreathCS
 |△
 
-|link:API/en/API_gd_cubism_effect_custom.en{adocsuffix}[GDCubismEffectCustom]
+|link:./api/gd_cubism_effect_custom{adocsuffix}[GDCubismEffectCustom]
 |GDCubismEffectCustomCS
 |△
 
-|link:API/en/API_gd_cubism_effect_eye_blink.en{adocsuffix}[GDCubismEffectEyeBlink]
+|link:./api/gd_cubism_effect_eye_blink{adocsuffix}[GDCubismEffectEyeBlink]
 |GDCubismEffectEyeBlinkCS
 |△
 
-|link:API/en/API_gd_cubism_effect_hit_area.en{adocsuffix}[GDCubismEffectHitArea]
+|link:./api/gd_cubism_effect_hit_area{adocsuffix}[GDCubismEffectHitArea]
 |GDCubismEffectHitAreaCS
 |△
 
-|link:API/en/API_gd_cubism_effect_target_point.en{adocsuffix}[GDCubismEffectTargetPoint]
+|link:./api/gd_cubism_effect_target_point{adocsuffix}[GDCubismEffectTargetPoint]
 |GDCubismEffectTargetPointCS
 |△
 
-|link:API/en/API_gd_cubism_motion_entry.en{adocsuffix}[GDCubismMotionEntry]
+|link:./api/gd_cubism_motion_entry{adocsuffix}[GDCubismMotionEntry]
 |GDCubismMotionEntryCS
 |x
 
-|link:API/en/API_gd_cubism_motion_queue_entry_handle.en{adocsuffix}[GDCubismMotionQueueEntryHandle]
+|link:./api/gd_cubism_motion_queue_entry_handle{adocsuffix}[GDCubismMotionQueueEntryHandle]
 |GDCubismMotionQueueEntryHadleCS
 |x
 
-|link:API/en/API_gd_cubism_value_abs.en{adocsuffix}[GDCubismValueAbs]
+|link:./api/gd_cubism_value_abs{adocsuffix}[GDCubismValueAbs]
 |GDCubismValueAbsCS
 |-
 
-|link:API/en/API_gd_cubism_parameter.en{adocsuffix}[GDCubismParameter]
+|link:./api/gd_cubism_parameter{adocsuffix}[GDCubismParameter]
 |GDCubismParameterCS
 |○
 
-|link:API/en/API_gd_cubism_part_opacity.en{adocsuffix}[GDCubismPartOpacity]
+|link:./api/gd_cubism_part_opacity{adocsuffix}[GDCubismPartOpacity]
 |GDCubismPartOpacityCS
 |○
 
-|link:API/en/API_gd_cubism_user_model.en{adocsuffix}[GDCubismUserModel]
+|link:./api/gd_cubism_user_model{adocsuffix}[GDCubismUserModel]
 |GDCubismUserModelCS
 |○
 |===
-
