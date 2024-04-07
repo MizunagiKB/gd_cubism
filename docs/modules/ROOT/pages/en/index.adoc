@@ -1,4 +1,4 @@
-= Cubism for GDScript
+= Cubism for Godot Engine
 :encoding: utf-8
 :lang: en
 :author: MizunagiKB <mizukb@live.jp>
@@ -70,29 +70,29 @@ a|
 == About LICENSE
 
 ifdef::env-github,env-vscode[]
-* link:./docs/LICENSE.en{adocsuffix}[]
+* link:./docs/modules/ROOT/pages/en/license{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./LICENSE.en{adocsuffix}[]
+* link:./license{adocsuffix}[]
 endif::env-github,env-vscode[]
 
 == How to build
 
 ifdef::env-github,env-vscode[]
-* link:./docs/BUILD.en{adocsuffix}[]
+* link:./docs/modules/ROOT/pages/en/build{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./BUILD.en{adocsuffix}[]
+* link:./build{adocsuffix}[]
 endif::env-github,env-vscode[]
 
 
 == Usage
 
 ifdef::env-github,env-vscode[]
-* link:./docs/USAGE.en{adocsuffix}[]
+* link:./docs/modules/ROOT/pages/en/usage{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./USAGE.en{adocsuffix}[]
+* link:./usage{adocsuffix}[]
 endif::env-github,env-vscode[]
 
 

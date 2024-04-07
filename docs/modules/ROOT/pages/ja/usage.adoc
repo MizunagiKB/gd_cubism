@@ -184,47 +184,47 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 |===
 |GDScript Class |C# Class |Features
 
-|link:./api/API_gd_cubism_effect.ja{adocsuffix}[GDCubismEffect]
+|link:./api/gd_cubism_effect{adocsuffix}[GDCubismEffect]
 |GDCubismEffectCS
 |-
 
-|link:./api/API_gd_cubism_effect_breath.ja{adocsuffix}[GDCubismEffectBreath]
+|link:./api/gd_cubism_effect_breath{adocsuffix}[GDCubismEffectBreath]
 |GDCubismEffectBreathCS
 |△
 
-|link:./api/API_gd_cubism_effect_custom.ja{adocsuffix}[GDCubismEffectCustom]
+|link:./api/gd_cubism_effect_custom{adocsuffix}[GDCubismEffectCustom]
 |GDCubismEffectCustomCS
 |△
 
-|link:./api/API_gd_cubism_effect_eye_blink.ja{adocsuffix}[GDCubismEffectEyeBlink]
+|link:./api/gd_cubism_effect_eye_blink{adocsuffix}[GDCubismEffectEyeBlink]
 |GDCubismEffectEyeBlinkCS
 |△
 
-|link:./api/API_gd_cubism_effect_hit_area.ja{adocsuffix}[GDCubismEffectHitArea]
+|link:./api/gd_cubism_effect_hit_area{adocsuffix}[GDCubismEffectHitArea]
 |GDCubismEffectHitAreaCS
 |△
 
-|link:./api/API_gd_cubism_effect_target_point.ja{adocsuffix}[GDCubismEffectTargetPoint]
+|link:./api/gd_cubism_effect_target_point{adocsuffix}[GDCubismEffectTargetPoint]
 |GDCubismEffectTargetPointCS
 |△
 
-|link:./api/API_gd_cubism_motion_entry.ja{adocsuffix}[GDCubismMotionEntry]
+|link:./api/gd_cubism_motion_entry{adocsuffix}[GDCubismMotionEntry]
 |GDCubismMotionEntryCS
 |x
 
-|link:./api/API_gd_cubism_motion_queue_entry_handle.ja{adocsuffix}[GDCubismMotionQueueEntryHandle]
+|link:./api/gd_cubism_motion_queue_entry_handle{adocsuffix}[GDCubismMotionQueueEntryHandle]
 |GDCubismMotionQueueEntryHadleCS
 |x
 
-|link:./api/API_gd_cubism_value_abs.ja{adocsuffix}[GDCubismValueAbs]
+|link:./api/gd_cubism_value_abs{adocsuffix}[GDCubismValueAbs]
 |GDCubismValueAbsCS
 |-
 
-|link:./api/API_gd_cubism_parameter.ja{adocsuffix}[GDCubismParameter]
+|link:./api/gd_cubism_parameter{adocsuffix}[GDCubismParameter]
 |GDCubismParameterCS
 |○
 
-|link:./api/API_gd_cubism_part_opacity{adocsuffix}[GDCubismPartOpacity]
+|link:./api/gd_cubism_part_opacity{adocsuffix}[GDCubismPartOpacity]
 |GDCubismPartOpacityCS
 |○
 

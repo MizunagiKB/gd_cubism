@@ -1,4 +1,4 @@
-= Cubism for GDScript
+= Cubism for Godot Engine
 :encoding: utf-8
 :lang: en
 :author: MizunagiKB <mizukb@live.jp>
@@ -95,7 +95,7 @@ endif::env-github,env-vscode[]
 == 使用方法
 
 ifdef::env-github,env-vscode[]
-* link:./docs/USAGE{adocsuffix}[]
+* link:./docs/modules/ROOT/pages/ja/usage{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
 * link:./usage{adocsuffix}[]

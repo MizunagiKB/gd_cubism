@@ -24,9 +24,12 @@ mono_crash.*.json
 *.exp
 *.lib
 
+docs-site/package.json
+docs-site/package-lock.json
 docs-site/public/
 docs-site/node_modules/
 
 # for Experimental
 thirdparty/CubismNativeFramework
 thirdparty/CubismSdkForNative*
+
