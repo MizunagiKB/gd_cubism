@@ -4,9 +4,6 @@
 :author: MizunagiKB <mizukb@live.jp>
 :copyright: 2023 MizunagiKB
 :doctype: book
-:nofooter:
-:toc: left
-:toclevels: 3
 :source-highlighter: highlight.js
 :icons: font
 :experimental:
@@ -93,17 +90,17 @@ image::usage_simple_06.png[fig06,512]
 
 有効にする場合は、Live2Dで使用しているテクスチャを Mipmap を有効にして再インポートを行なってください。
 
-image::res/images/usage_mipmap_01.png[mipmap01,256]
+image::usage_mipmap_01.png[mipmap01,256]
 
 Mipmapの効果はかなり高いですが、絵によってはぼやけた感じとなる場合があります。
 
 Mipmap適用なし
 
-image::res/images/usage_mipmap_02a.jpg[mipmap02a,256]
+image::usage_mipmap_02a.jpg[mipmap02a,256]
 
 Mipmap適用あり
 
-image::res/images/usage_mipmap_02b.jpg[mipmap02b,256]
+image::usage_mipmap_02b.jpg[mipmap02b,256]
 
 ==== プロジェクトを Export すると Live2D モデルが表示されない
 
