@@ -20,7 +20,7 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
-link:USAGE{adocsuffix}[Japanese] / link:USAGE.en{adocsuffix}[English]
+link:../ja/usage{adocsuffix}[Japanese] / link:../en/usage{adocsuffix}[English]
 
 
 == 使用方法

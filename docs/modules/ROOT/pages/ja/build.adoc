@@ -20,7 +20,7 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
-link:BUILD{adocsuffix}[Japanese] / link:BUILD.en{adocsuffix}[English]
+link:../ja/build{adocsuffix}[Japanese] / link:../en/build{adocsuffix}[English]
 
 
 == ビルド方法

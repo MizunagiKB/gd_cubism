@@ -1,6 +1,6 @@
 = Cubism for GDScript
 :encoding: utf-8
-:lang: ja
+:lang: en
 :author: MizunagiKB <mizukb@live.jp>
 :copyright: 2023 MizunagiKB
 :doctype: book
@@ -30,16 +30,16 @@ endif::env-github,env-vscode[]
 
 == About GDCubism
 
-このソフトウェア（以下GDCubism）は link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]を GDScript や C# から利用可能にするための**非公式**な GDExtension です。
+This software (GDCubism) is an **unofficial** GDExtension that makes the link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK] accessible from GDScript or C#.
 
-この GDExtension は Godot Engine 4.1.1 以降で使用可能です。
+This GDExtension can be used with Godot Engine 4.1.1 and later.
 
-GDCubism 内部ではLive2D社が公開している link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework] を併用しています。
+Internally, GDCubism uses the link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework] published by Live2D Inc.
 
-GDCubism については開発元のLive2D社に問い合わせない様お願い致します。
+Please do not contact the developer, Live2D Inc., regarding GDCubism.
 
 
-== 対応プラットフォーム
+== Support platform
 
 [cols="2",frame=none,grid=none]
 |===
@@ -70,41 +70,36 @@ a|
 |===
 
 
-== ライセンス
-
-[NOTE]
-====
-GDCubism は依存する外部ライブラリとリンクすることで、異なる利用条件のライセンスになります。 +
-GDCubism を組み込んでの配布や販売を考えている場合は以下のページに記載されているライセンスを確認してください。
-====
+== About LICENSE
 
 ifdef::env-github,env-vscode[]
-* link:./docs/LICENSE{adocsuffix}[]
+* link:./docs/LICENSE.en{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./LICENSE{adocsuffix}[]
+* link:./LICENSE.en{adocsuffix}[]
 endif::env-github,env-vscode[]
 
-== ビルド方法
+== How to build
 
 ifdef::env-github,env-vscode[]
-* link:./docs/BUILD{adocsuffix}[]
+* link:./docs/BUILD.en{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./BUILD{adocsuffix}[]
+* link:./BUILD.en{adocsuffix}[]
 endif::env-github,env-vscode[]
 
 
-== 使用方法
+== Usage
 
 ifdef::env-github,env-vscode[]
-* link:./docs/USAGE{adocsuffix}[]
+* link:./docs/USAGE.en{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* link:./USAGE{adocsuffix}[]
+* link:./USAGE.en{adocsuffix}[]
 endif::env-github,env-vscode[]
 
-== 関連情報
+
+== Ralated link
 
 * link:https://www.live2d.com/[Live2D Cubism]
 * link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]
