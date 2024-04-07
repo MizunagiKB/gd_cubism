@@ -184,43 +184,43 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 |===
 |GDScript Class |C# Class |Features
 
-|link:API/ja/API_gd_cubism_effect.ja{adocsuffix}[GDCubismEffect]
+|link:./api/API_gd_cubism_effect.ja{adocsuffix}[GDCubismEffect]
 |GDCubismEffectCS
 |-
 
-|link:API/ja/API_gd_cubism_effect_breath.ja{adocsuffix}[GDCubismEffectBreath]
+|link:./api/API_gd_cubism_effect_breath.ja{adocsuffix}[GDCubismEffectBreath]
 |GDCubismEffectBreathCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_custom.ja{adocsuffix}[GDCubismEffectCustom]
+|link:./api/API_gd_cubism_effect_custom.ja{adocsuffix}[GDCubismEffectCustom]
 |GDCubismEffectCustomCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_eye_blink.ja{adocsuffix}[GDCubismEffectEyeBlink]
+|link:./api/API_gd_cubism_effect_eye_blink.ja{adocsuffix}[GDCubismEffectEyeBlink]
 |GDCubismEffectEyeBlinkCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_hit_area.ja{adocsuffix}[GDCubismEffectHitArea]
+|link:./api/API_gd_cubism_effect_hit_area.ja{adocsuffix}[GDCubismEffectHitArea]
 |GDCubismEffectHitAreaCS
 |△
 
-|link:API/ja/API_gd_cubism_effect_target_point.ja{adocsuffix}[GDCubismEffectTargetPoint]
+|link:./api/API_gd_cubism_effect_target_point.ja{adocsuffix}[GDCubismEffectTargetPoint]
 |GDCubismEffectTargetPointCS
 |△
 
-|link:API/ja/API_gd_cubism_motion_entry.ja{adocsuffix}[GDCubismMotionEntry]
+|link:./api/API_gd_cubism_motion_entry.ja{adocsuffix}[GDCubismMotionEntry]
 |GDCubismMotionEntryCS
 |x
 
-|link:API/ja/API_gd_cubism_motion_queue_entry_handle.ja{adocsuffix}[GDCubismMotionQueueEntryHandle]
+|link:./api/API_gd_cubism_motion_queue_entry_handle.ja{adocsuffix}[GDCubismMotionQueueEntryHandle]
 |GDCubismMotionQueueEntryHadleCS
 |x
 
-|link:API/ja/API_gd_cubism_value_abs.ja{adocsuffix}[GDCubismValueAbs]
+|link:./api/API_gd_cubism_value_abs.ja{adocsuffix}[GDCubismValueAbs]
 |GDCubismValueAbsCS
 |-
 
-|link:API/ja/API_gd_cubism_parameter.ja{adocsuffix}[GDCubismParameter]
+|link:./api/API_gd_cubism_parameter.ja{adocsuffix}[GDCubismParameter]
 |GDCubismParameterCS
 |○
 
