@@ -329,12 +329,12 @@ Destroys the currently held Live2D model.
 
 
 [[id-method-csm_get_latest_moc_version]]
-<<id-property-moc3_file_format_version,moc3FileFormatVersion>> csm_get_latest_moc_version()::
+<<id-enum-moc3_file_format_version,moc3FileFormatVersion>> csm_get_latest_moc_version()::
 Returns the latest file version that GDCubismUserModel can load.
 
 
 [[id-method-csm_get_moc_version]]
-<<id-property-moc3_file_format_version,moc3FileFormatVersion>> csm_get_moc_version()::
+<<id-enum-moc3_file_format_version,moc3FileFormatVersion>> csm_get_moc_version()::
 Returns the version of the loaded moc3 file.
 
 

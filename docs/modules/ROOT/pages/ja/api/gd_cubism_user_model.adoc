@@ -327,12 +327,12 @@ void clear()::
 
 
 [[id-method-csm_get_latest_moc_version]]
-<<id-property-moc3_file_format_version,moc3FileFormatVersion>> csm_get_latest_moc_version()::
+<<id-enum-moc3_file_format_version,moc3FileFormatVersion>> csm_get_latest_moc_version()::
 GDCubismUserModelが読み込める最新のファイルバージョンを戻します。
 
 
 [[id-method-csm_get_moc_version]]
-<<id-property-moc3_file_format_version,moc3FileFormatVersion>> csm_get_moc_version()::
+<<id-enum-moc3_file_format_version,moc3FileFormatVersion>> csm_get_moc_version()::
 読み込まれたmoc3ファイルのバージョンを戻します。
 
 
