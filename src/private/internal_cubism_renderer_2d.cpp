@@ -112,12 +112,9 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(const Csm::CubismModel* 
     float calc_ppunit = ppunit;
 
     if(res._owner_viewport->auto_scale == true) {
-        const float fmin = godot::MIN<float, float>(vct_origin.x, vct_origin.y);
-        const float scale = godot::MIN<float, float>(fmin / vct_origin.x, fmin / vct_origin.y);
-        const float basesize = godot::MIN<float, float>(vct_canvas_size.x, vct_canvas_size.y);
-        calc_ppunit = basesize * scale * res.adjust_scale;
-    } else {
-        calc_ppunit = ppunit * res.adjust_scale;
+        const float fdst = godot::MIN<float, float>(vct_canvas_size.x, vct_canvas_size.y);
+        const float fsrc = godot::MAX<float, float>(vct_size.x, vct_size.y);
+        calc_ppunit = (fdst * ppunit) / fsrc;
     }
 
     Array ary;
@@ -126,7 +123,7 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(const Csm::CubismModel* 
     ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
         model->GetDrawableVertexPositions(index),
         model->GetDrawableVertexCount(index),
-        calc_ppunit,
+        calc_ppunit * res.adjust_scale,
         Vector2(
             vct_canvas_size.x * vct_origin.x / vct_size.x,
             vct_canvas_size.y * vct_origin.y / vct_size.y
