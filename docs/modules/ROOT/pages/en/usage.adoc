@@ -43,7 +43,7 @@ Describes how to import a Live2D model and view it in _Sprite2D_.
 
 Please arrange the nodes in the same way while referring to the figure below.
 
-image::res/images/usage_simple_01.png[fig01,256]
+image::usage_simple_01.png[fig01,256]
 
 
 ==== Loading Live2D Models
@@ -53,7 +53,7 @@ Select _GDCubismUserModel_ from the node list and press the file selection butto
  +
 A file selection dialog will appear, from which you can select any *.model3.json file.
 
-image::res/images/usage_simple_02.png[fig02,256]
+image::usage_simple_02.png[fig02,256]
 
 
 ==== Are you seeing a Live2D model?
