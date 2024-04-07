@@ -224,11 +224,11 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 |GDCubismParameterCS
 |○
 
-|link:./api/gd_cubism_part_opacity{adocsuffix}[GDCubismPartOpacity]
+|xref:ja/api/gd_cubism_part_opacity.adoc[]
 |GDCubismPartOpacityCS
 |○
 
-|link:./api/gd_cubism_user_model{adocsuffix}[GDCubismUserModel]
+|xref:ja/api/gd_cubism_user_model.adoc[]
 |GDCubismUserModelCS
 |○
 |===
