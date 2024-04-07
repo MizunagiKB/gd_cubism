@@ -21,7 +21,7 @@ ifdef::env-github,env-vscode[]
 link:README.adoc[Japanese] / link:README.en.adoc[English]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-xref:../ja/index{adocsuffix}[Japanese] / xref:../en/index{adocsuffix}[English]
+xref:ja/index.adoc[Japanese] / xref:en/index.adoc[English]
 endif::env-github,env-vscode[]
 
 
@@ -73,7 +73,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/en/license{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* xref:./license[]
+* xref:en/license.adoc[]
 endif::env-github,env-vscode[]
 
 == How to build
@@ -82,7 +82,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/en/build{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* xref:./build[]
+* xref:en/build.adoc[]
 endif::env-github,env-vscode[]
 
 
@@ -92,7 +92,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/en/usage{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* xref:./usage[]
+* xref:en/usage.adoc[]
 endif::env-github,env-vscode[]
 
 

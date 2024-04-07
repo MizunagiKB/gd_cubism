@@ -98,7 +98,7 @@ ifdef::env-github,env-vscode[]
 * link:./docs/modules/ROOT/pages/ja/usage{adocsuffix}[]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-* xref:usage.adoc[]
+* xref:ja/usage.adoc[]
 endif::env-github,env-vscode[]
 
 == 関連情報

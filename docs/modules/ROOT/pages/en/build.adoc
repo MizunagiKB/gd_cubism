@@ -1,4 +1,4 @@
-= Cubism for GDScript
+= Build
 :encoding: utf-8
 :lang: en
 :author: MizunagiKB <mizukb@live.jp>
@@ -17,7 +17,7 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
-xref:ja/build{adocsuffix}[Japanese] / xref:en/build{adocsuffix}[English]
+xref:ja/build.adoc[Japanese] / xref:en/build.adoc[English]
 
 
 == How to build

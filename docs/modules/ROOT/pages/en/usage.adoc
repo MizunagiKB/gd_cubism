@@ -17,7 +17,7 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
-link:../ja/usage{adocsuffix}[Japanese] / link:../en/usage{adocsuffix}[English]
+xref:ja/usage.adoc[Japanese] / xref:en/usage.adoc[English]
 
 
 == How to use

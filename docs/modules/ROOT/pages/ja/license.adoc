@@ -1,4 +1,4 @@
-= Cubism for GDScript
+= License
 :encoding: utf-8
 :lang: ja
 :author: MizunagiKB <mizukb@live.jp>
@@ -17,7 +17,7 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
-link:../ja/license{adocsuffix}[Japanese] / link:../en/license{adocsuffix}[English]
+xref:ja/license.adoc[Japanese] / xref:en/license.adoc[English]
 
 
 == ライセンスについて
