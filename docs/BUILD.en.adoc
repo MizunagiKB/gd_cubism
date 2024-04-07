@@ -51,14 +51,60 @@ Please extract the downloaded files so that they follow the folder structure bel
 [source, console]
 ----
 ./thirdparty
-    /CubismSdkForNative-5-r.1
-        /Core
-            /dll
-            ...
-        /Framework
-            /build
-            ...
+└── CubismSdkForNative-5-r.1
+     ├── CHANGELOG.md
+     ├── Core
+     │   ├── CHANGELOG.md
+     │   ├── LICENSE.md
+     │   ├── README.ja.md
+     │   ├── README.md
+     │   ├── RedistributableFiles.txt
+     │   ├── dll
+     │   ├── include
+     │   └── lib
+     ├── Framework
+     │   ├── CHANGELOG.md
+     │   ├── CMakeLists.txt
+     │   ├── LICENSE.md
+     │   ├── README.ja.md
+     │   ├── README.md
+     │   ├── TRANSLATION.md
+     │   └── src
+     ├── LICENSE.md
+     ├── NOTICE.ja.md
+     ├── NOTICE.md
+     ├── README.ja.md
+     ├── README.md
+     ├── Samples
+     │   ├── Cocos2d-x
+     │   ├── D3D11
+     │   ├── D3D9
+     │   ├── Metal
+     │   ├── OpenGL
+     │   ├── Resources
+     │   └── Vulkan
+     ├── cubism-info.yml
+     ├── logor.png
+     └── logos.png
 ----
+
+
+==== Bug Resolution
+
+Depending on the version and environment of the Godot Engine, a bug causing memory leaks in the non-display state of the Window has been observed.
+
+This bug occurs when using the Vulkan renderer in _Forward+_, _mobile_, and although some issues have been addressed, it has not been resolved in the macOS environment.
+
+To address this issue, we have made it possible to specify *COUNTERMEASURES_90017_90030* during scons execution.
+
+COUNTERMEASURES_90017_90030=1 (default):: Does not call the rendering process of the Live2D model when the Window is in non-display state.
+COUNTERMEASURES_90017_90030=0:: Calls the rendering process of the Live2D model regardless of the display state of the Window.
+
+For details on the bug, please refer to the following issues:
+
+* https://github.com/godotengine/godot/issues/89651
+* https://github.com/godotengine/godot/issues/90017
+* https://github.com/godotengine/godot/issues/90030
 
 
 ==== Customizing CubismNativeFramework

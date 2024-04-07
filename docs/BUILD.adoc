@@ -51,14 +51,61 @@ Cubism SDK for Native には Cusism SDK 以外に Cubism Native Framework が含
 [source]
 ----
 ./thirdparty
-    /CubismSdkForNative-5-r.1
-        /Core
-            /dll
-            ...
-        /Framework
-            /build
-            ...
+└── CubismSdkForNative-5-r.1
+     ├── CHANGELOG.md
+     ├── Core
+     │   ├── CHANGELOG.md
+     │   ├── LICENSE.md
+     │   ├── README.ja.md
+     │   ├── README.md
+     │   ├── RedistributableFiles.txt
+     │   ├── dll
+     │   ├── include
+     │   └── lib
+     ├── Framework
+     │   ├── CHANGELOG.md
+     │   ├── CMakeLists.txt
+     │   ├── LICENSE.md
+     │   ├── README.ja.md
+     │   ├── README.md
+     │   ├── TRANSLATION.md
+     │   └── src
+     ├── LICENSE.md
+     ├── NOTICE.ja.md
+     ├── NOTICE.md
+     ├── README.ja.md
+     ├── README.md
+     ├── Samples
+     │   ├── Cocos2d-x
+     │   ├── D3D11
+     │   ├── D3D9
+     │   ├── Metal
+     │   ├── OpenGL
+     │   ├── Resources
+     │   └── Vulkan
+     ├── cubism-info.yml
+     ├── logor.png
+     └── logos.png
 ----
+
+
+==== 不具合対応について
+
+Godot Engine のバージョンと環境によっては、Window非表示状態でメモリリークが発生する不具合が発生しています。
+
+この不具合は Vulkan レンダラーを使用している _Forward+_, _mobile_ で発生しており、一部の問題は対策されているものの macOS 環境においては解消されていません。
+
+この問題に対応するため、 scons 実行時に *COUNTERMEASURES_90017_90030* を指定できる様にしました。
+
+COUNTERMEASURES_90017_90030=1 (default):: Window非表示状態のときLive2Dモデルの描画処理を呼び出しません。
+COUNTERMEASURES_90017_90030=0:: Windowの表示状態に関わらず、常にLive2Dモデルの描画処理を呼び出します。
+
+
+不具合の内容については以下のIssueを参照してください。
+
+* https://github.com/godotengine/godot/issues/89651
+* https://github.com/godotengine/godot/issues/90017
+* https://github.com/godotengine/godot/issues/90030
 
 
 ==== CubismNativeFrameworkのカスタマイズ
