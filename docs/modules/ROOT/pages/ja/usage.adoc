@@ -43,7 +43,7 @@ Live2Dモデルを読み込んで _Sprite2D_ で表示を行う方法につい�
 
 以下の図を参考にしながら同じ様にノードを配置してください。
 
-image::res/images/usage_simple_01.png[fig01,256]
+image::usage_simple_01.png[fig01,256]
 
 
 ==== Live2Dモデルの読込
@@ -51,14 +51,14 @@ image::res/images/usage_simple_01.png[fig01,256]
 ノード一覧から _GDCubismUserModel_ を選択して、Assets項目の右にあるファイル選択ボタンを押してください。 +
 ファイル選択ダイアログが表示されますので、そこから任意の *.model3.json ファイルを選択します。
 
-image::res/images/usage_simple_02.png[fig02,256]
+image::usage_simple_02.png[fig02,256]
 
 
 ==== プレビュー画面にLive2Dモデルが表示されているのを確認
 
 Live2Dモデルが正しく読み込まれましたら、プレビュー画面にLive2Dモデルが表示されます。
 
-image::res/images/usage_simple_03.png[fig03,256]
+image::usage_simple_03.png[fig03,256]
 
 
 ==== スプライトにLive2Dモデルを表示
@@ -66,15 +66,15 @@ image::res/images/usage_simple_03.png[fig03,256]
 次に _Sprite2D_ ノードを選択して、Texture項目を開きます。 +
 一覧から ```New ViewportTexture``` を選択すると _Viewport_ を選択するダイアログが表示されますので、 _GDCubismUserModel_ を選択します。
 
-image::res/images/usage_simple_04.png[fig04,256]
+image::usage_simple_04.png[fig04,256]
 
 Texture欄にLive2Dモデルが表示されます。
 
-image::res/images/usage_simple_05.png[fig05,256]
+image::usage_simple_05.png[fig05,256]
 
 _Sprite2D_ の位置にもLive2Dモデルが表示されます。
 
-image::res/images/usage_simple_06.png[fig06,512]
+image::usage_simple_06.png[fig06,512]
 
 
 === トラブルシューティング
