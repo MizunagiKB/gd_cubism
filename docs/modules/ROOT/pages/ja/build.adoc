@@ -35,7 +35,7 @@ git submodule update --init
 ----
 
 
-=== CubismSdkForNativeの入手と配置
+==== CubismSdkForNativeの入手と配置
 
 次にビルドに必要なSDKをLive2Dのオフィシャルサイトから入手してください。
 
