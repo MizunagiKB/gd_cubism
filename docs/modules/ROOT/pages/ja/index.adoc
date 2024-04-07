@@ -21,7 +21,7 @@ ifdef::env-github,env-vscode[]
 link:README.adoc[Japanese] / link:README.en.adoc[English]
 endif::env-github,env-vscode[]
 ifndef::env-github,env-vscode[]
-xref:ja/index[Japanese] / xref:en/index[English]
+xref:ja/index.adoc[Japanese] / xref:en/index.adoc[English]
 endif::env-github,env-vscode[]
 
 
