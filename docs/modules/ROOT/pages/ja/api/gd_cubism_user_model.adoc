@@ -204,7 +204,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::shader/2d_cubism_norm_add.gdshader[]
+include::example$2d_cubism_norm_add.gdshader[]
 ----
 
 
@@ -215,7 +215,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::shader/2d_cubism_mask.gdshader[]
+include::example$2d_cubism_mask.gdshader[]
 ----
 
 
