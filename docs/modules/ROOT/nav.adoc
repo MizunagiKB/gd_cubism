@@ -1,4 +1,4 @@
-* xref:pages/ja/index.adoc[]
+* xref:ja/index.adoc[]
 * xref:ja/license.adoc[]
 * xref:ja/build.adoc[]
 * xref:ja/usage.adoc[]
