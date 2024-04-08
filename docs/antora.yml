@@ -2,4 +2,4 @@ name: gd_cubism
 title: GDCubism
 version: "0.6-antora"
 nav:
-- modules/nav.adoc
+- modules/ROOT/nav.adoc
