@@ -202,7 +202,7 @@ Shader shader_mask_add::
 Live2Dモデルの描画に使用する _shader_ を指定します。 +
 既定では以下の内容の _shader_ が使用されます。
 
-[source,,numlines]
+[source,glsl,numlines]
 ----
 include::example$2d_cubism_norm_add.gdshader[]
 ----
@@ -226,7 +226,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_add.gdshader[]
+include::example$2d_cubism_mask_add.gdshader[]
 ----
 
 
@@ -237,7 +237,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_add_inv.gdshader[]
+include::example$2d_cubism_mask_add_inv.gdshader[]
 ----
 
 
@@ -248,7 +248,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader[]
+include::example$2d_cubism_mask_mix.gdshader[]
 ----
 
 
@@ -259,7 +259,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader[]
+include::.example$2d_cubism_mask_mix_inv.gdshader[]
 ----
 
 
@@ -270,7 +270,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader[]
+include::example$2d_cubism_mask_mul.gdshader[]
 ----
 
 
@@ -281,7 +281,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader[]
+include::example$2d_cubism_mask_mul_inv.gdshader[]
 ----
 
 
@@ -292,7 +292,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader[]
+include::example$2d_cubism_norm_mix.gdshader[]
 ----
 
 
@@ -303,7 +303,7 @@ Live2Dモデルの描画に使用する _shader_ を指定します。 +
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader[]
+include::example$2d_cubism_norm_mul.gdshader[]
 ----
 
 
