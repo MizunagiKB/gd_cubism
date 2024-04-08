@@ -206,7 +206,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader[]
+include::example$2d_cubism_norm_add.gdshader[]
 ----
 
 
@@ -217,7 +217,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask.gdshader[]
+include::example$2d_cubism_mask.gdshader[]
 ----
 
 
@@ -228,7 +228,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_add.gdshader[]
+include::example$2d_cubism_mask_add.gdshader[]
 ----
 
 
@@ -239,7 +239,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_add_inv.gdshader[]
+include::example$2d_cubism_mask_add_inv.gdshader[]
 ----
 
 
@@ -250,7 +250,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader[]
+include::example$2d_cubism_mask_mix.gdshader[]
 ----
 
 
@@ -261,7 +261,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader[]
+include::example$2d_cubism_mask_mix_inv.gdshader[]
 ----
 
 
@@ -272,7 +272,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader[]
+include::example$2d_cubism_mask_mul.gdshader[]
 ----
 
 
@@ -283,7 +283,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader[]
+include::example$2d_cubism_mask_mul_inv.gdshader[]
 ----
 
 
@@ -294,7 +294,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader[]
+include::example$2d_cubism_norm_mix.gdshader[]
 ----
 
 
@@ -305,7 +305,7 @@ By default, the following _shader_ is used.
 
 [source,,numlines]
 ----
-include::../../../demo/addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader[]
+include::example$2d_cubism_norm_mul.gdshader[]
 ----
 
 

@@ -202,7 +202,7 @@ Shader shader_mask_add::
 Live2Dモデルの描画に使用する _shader_ を指定します。 +
 既定では以下の内容の _shader_ が使用されます。
 
-[source,glsl,numlines]
+[source,,numlines]
 ----
 include::example$2d_cubism_norm_add.gdshader[]
 ----
