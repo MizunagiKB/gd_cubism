@@ -13,7 +13,7 @@
 * xref:ja/api/gd_cubism_parameter.adoc[]
 * xref:ja/api/gd_cubism_part_opacity.adoc[]
 * xref:ja/api/gd_cubism_user_model.adoc[]
-* xref:ja/api/gd_cubism_value_abs.ja.adoc[]
+* xref:ja/api/gd_cubism_value_abs.adoc[]
 
 .en
 * xref:en/index.adoc[]
@@ -30,4 +30,4 @@
 * xref:en/api/gd_cubism_parameter.adoc[]
 * xref:en/api/gd_cubism_part_opacity.adoc[]
 * xref:en/api/gd_cubism_user_model.adoc[]
-* xref:en/api/gd_cubism_value_abs.ja.adoc[]
+* xref:en/api/gd_cubism_value_abs.adoc[]
