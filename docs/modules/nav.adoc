@@ -1,0 +1,7 @@
+* xref:ja/index.adoc[]
+* xref:ja/license.adoc[]
+* xref:ja/build.adoc[]
+* xref:ja/usage.adoc[]
+
+.API
+* xref:ja/api/gd_cubism_user_model.adoc[]

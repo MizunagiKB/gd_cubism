@@ -1,2 +1,5 @@
-name: home
-version: 0.6-antora
+name: gd_cubism
+title: GDCubism
+version: "0.6"
+nav:
+- modules/ROOT/nav.adoc
