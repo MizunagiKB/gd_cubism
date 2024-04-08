@@ -1,6 +1,6 @@
 name: gd_cubism
 version: "0.6-antora"
 title: GDCubism
-start_page: modules/ROOT/pages/ja/index.adoc
+start_page: ja/index.adoc
 nav:
 - modules/ROOT/nav.adoc
