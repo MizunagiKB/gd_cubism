@@ -1,4 +1,4 @@
-= GDCubismEffectEyeBlink
+= GDCubismEffectTargetPoint
 :encoding: utf-8
 :lang: ja
 :author: MizunagiKB <mizukb@live.jp>

@@ -19,7 +19,7 @@ endif::env-github,env-vscode[]
 
 == Desc
 
-By placing it as a child element of link:./gd_cubism_user_model[_GDCubismUserModel_], you can handle the _HitArea_ set on the Live2D model.
+By placing it as a child element of xref:./gd_cubism_user_model.adoc[], you can handle the _HitArea_ set on the Live2D model.
 
 _HitArea_ is composed of any _Triangle_. This allows you to express complex shapes, but in the _GDCubismEffectHitArea_ class, it is treated as a box (_Rect2_) that contains the vertices that make up the _Triagle_.
 

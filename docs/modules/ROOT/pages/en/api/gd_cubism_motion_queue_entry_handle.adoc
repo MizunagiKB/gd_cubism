@@ -19,7 +19,7 @@ endif::env-github,env-vscode[]
 
 == Desc
 
-The return values of the _start_motion_ function and the _start_random_motion_ function of link:./gd_cubism_user_model[_GDCubismUserModel_].
+The return values of the _start_motion_ function and the _start_random_motion_ function of xref:./gd_cubism_user_model.adoc[].
 
 
 == Properties
@@ -42,4 +42,4 @@ Failure
 == Property Descriptions
 
 HandleError error [default: 1]::
-Checks whether the call to the _start_motion_ function and the _start_random_motion_ function of link:./gd_cubism_user_model[_GDCubismUserModel_] was successful.
+Checks whether the call to the _start_motion_ function and the _start_random_motion_ function of xref:./gd_cubism_user_model.adoc[] was successful.

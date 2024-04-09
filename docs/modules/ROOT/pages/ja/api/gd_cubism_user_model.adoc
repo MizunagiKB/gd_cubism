@@ -132,9 +132,9 @@ enum Priority::
 enum ParameterMode::
 * FULL_PARAMETER = 0 +
 <<id-method-start_motion,_start_motion_>> 関数で指定した _Motion_ を再生する時に指定します。 +
-この指定がされているときは link:./gd_cubism_parameter[_GDCubismParameter_] による操作は行えません。
+この指定がされているときは xref:./gd_cubism_parameter.adoc[] による操作は行えません。
 * NONE_PARAMETER = 1 +
-<<id-method-start_motion,_get_parameter_>> 関数で取得した link:./gd_cubism_parameter[_GDCubismParameter_] を使用して、Live2Dモデルを操作する場合に指定します。 +
+<<id-method-start_motion,_get_parameter_>> 関数で取得した xref:./gd_cubism_parameter.adoc[] を使用して、Live2Dモデルを操作する場合に指定します。 +
 この指定がされているときは <<id-method-start_motion,_start_motion_>> 関数でモーション再生は行えません。
 
 
@@ -441,12 +441,12 @@ void start_expression(expression_id: String)::
 
 
 [[id-method-start_motion]]
-link:./gd_cubism_motion_queue_entry_handle[GDCubismMotionQueueEntryHandle] start_motion(group: String, no: int, priority: <<id-enum-priority,Priority>>)::
+xref:./gd_cubism_motion_queue_entry_handle.adoc[] start_motion(group: String, no: int, priority: <<id-enum-priority,Priority>>)::
 指定した _group_ と _no_ の _Motion_ を再生します。
 
 
 [[id-method-start_motion_loop]]
-link:./gd_cubism_motion_queue_entry_handle[GDCubismMotionQueueEntryHandle] start_motion_loop(group: String, no: int, priority: <<id-enum-priority,Priority>>)::
+xref:./gd_cubism_motion_queue_entry_handle.adoc[] start_motion_loop(group: String, no: int, priority: <<id-enum-priority,Priority>>)::
 指定した _group_ と _no_ の _Motion_ を再生します。 +
  +
 繰り返し再生を行いたい場合に指定します。 _loop_ 引数が _false_ の場合は、 _start_motion_ 関数と同じ動作となります。
