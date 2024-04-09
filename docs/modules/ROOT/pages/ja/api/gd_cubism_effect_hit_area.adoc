@@ -19,7 +19,7 @@ endif::env-github,env-vscode[]
 
 == Desc
 
-xref:ja/api/gd_cubism_user_model[] の子要素として配置することで、 Live2Dモデルに設定された _HitArea_ を扱える様になります。
+xref:gd_cubism_user_model.adoc[] の子要素として配置することで、 Live2Dモデルに設定された _HitArea_ を扱える様になります。
 
 _HitArea_ は任意の _Triangle_ で構成されます。そのため複雑な形状を表現する事ができますが、 _GDCubismEffectHitArea_ クラスでは、 _Triagle_ を構成する頂点が含まれるボックス( _Rect2_ )として扱われます。
 
