@@ -19,7 +19,7 @@ endif::env-github,env-vscode[]
 
 == Desc
 
-link:./gd_cubism_user_model[_GDCubismUserModel_] の子要素として配置することで、独自の機能を拡張可能です。
+xref:ja/api/gd_cubism_user_model.adoc[] の子要素として配置することで、独自の機能を拡張可能です。
 
 
 == Properties

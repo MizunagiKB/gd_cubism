@@ -19,7 +19,7 @@ endif::env-github,env-vscode[]
 
 == Desc
 
-link:./gd_cubism_user_model[_GDCubismUserModel_] の _get_part_opacities_ 関数で戻される _Array_ に含まれる要素。
+xref:ja/api/gd_cubism_user_model.adoc[] の _get_part_opacities_ 関数で戻される _Array_ に含まれる要素。
 
 このクラスの _value_ に値を書き込むことで、Live2Dモデルのパーツ透明度を書き換えることができます。
 

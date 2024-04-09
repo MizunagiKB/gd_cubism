@@ -19,7 +19,7 @@ endif::env-github,env-vscode[]
 
 == Desc
 
-link:./gd_cubism_user_model[_GDCubismUserModel_] の _start_motion_ 関数、 _start_random_motion_ 関数の戻り値。
+xref:ja/api/gd_cubism_user_model.adoc[] の _start_motion_ 関数、 _start_random_motion_ 関数の戻り値。
 
 
 == Properties
@@ -42,4 +42,4 @@ enum HandleError::
 == Property Descriptions
 
 HandleError error [default: 1]::
-link:./gd_cubism_user_model[_GDCubismUserModel_] の _start_motion_ 関数、 _start_random_motion_ 関数を呼び出しが成功したかどうかを確認します。
+xref:ja/api/gd_cubism_user_model.adoc[] の _start_motion_ 関数、 _start_random_motion_ 関数を呼び出しが成功したかどうかを確認します。

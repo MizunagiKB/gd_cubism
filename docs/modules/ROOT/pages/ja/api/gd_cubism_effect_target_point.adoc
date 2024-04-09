@@ -19,7 +19,7 @@ endif::env-github,env-vscode[]
 
 == Desc
 
-link:./gd_cubism_user_model[_GDCubismUserModel_] の子要素として配置することで、指定した座標に顔や視線を向ける様になります。
+xref:ja/api/gd_cubism_user_model.adoc[] の子要素として配置することで、指定した座標に顔や視線を向ける様になります。
 
 NOTE: この要素を利用するには、Live2Dモデルに事前設定をしておく必要があります。
 
