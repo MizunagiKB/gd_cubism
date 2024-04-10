@@ -9,7 +9,7 @@ content:
       start_path: docs
 ui:
   bundle:
-    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
+    url: https://github.com/asciidoctor/asciidoctor-docs-ui/releases/download/prod-284/ui-bundle.zip
 output:
   dir: ./public
 antora:

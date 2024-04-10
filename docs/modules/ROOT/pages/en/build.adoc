@@ -104,6 +104,27 @@ For details on the bug, please refer to the following issues:
 * https://github.com/godotengine/godot/issues/90030
 
 
+==== Differences in Behavior with CubismEditor
+
+GDCubism, which internally uses CubismNativeFramework, is designed to be able to play Live2D models created with Cubism Editor. However, differences may arise in drawing priority and motion.
+
+The Cubism SDK for Native’s documentation contains differences in operation with Cubism Editor and tips for data creation.
+
+The content of the document is mainly for Unity and Cubism SDK for Native, and there are places where it cannot be used as is, but please refer to it.
+
+.Cubism Editor 5
+* link:https://docs.live2d.com/en/cubism-sdk-manual/cubism-5-new-functions/[SDK Support for New Features in Cubism 5]
+* link:https://docs.live2d.com/en/cubism-sdk-manual/cubism-4-new-functions/[SDK Support for Cubism 4 New Features]
+* link:https://docs.live2d.com/en/cubism-sdk-manual/cubism-4-2-new-functions/[SDK Support for Cubism 4.2 New Features]
+* link:https://docs.live2d.com/en/cubism-sdk-manual/compatibility-with-cubism-5/[SDK Compatibility with Cubism 5 Features]
+* link:https://docs.live2d.com/en/cubism-sdk-manual/compatibility-with-cubism-4-2/[SDK Compatibility with Cubism 4.2 Features]
+* link:https://docs.live2d.com/en/cubism-sdk-manual/update-sdk-to-cubism5/[Migrating Older Version Projects to Cubism 5 SDK]
+* link:https://docs.live2d.com/en/cubism-sdk-manual/update-sdk-to-cubism4/[Migrate Older Version Projects to Cubism 4 SDK]
+
+.Cubism Editor 5 / Platform Comparison
+* link:https://docs.live2d.com/en/cubism-sdk-manual/sdk-type-for-motiopn/[Differences in Motion Creation by Workflow]
+
+
 ==== Customizing CubismNativeFramework
 
 GDCubism uses CubismNativeFramework, which is included in CubismSdkForNative. If you want to use the latest Framework or customize it for your own needs, you can do so by following these steps:

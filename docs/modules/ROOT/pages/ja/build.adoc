@@ -105,6 +105,27 @@ COUNTERMEASURES_90017_90030=0:: Windowの表示状態に関わらず、常にLiv
 * https://github.com/godotengine/godot/issues/90030
 
 
+==== CubismEditor との挙動の違いについて
+
+GDCubism が内部で使用している CubismNativeFramework は、 Cubism Editor で作成された Live2D モデルを再生可能な様に作成されているものの、描画のプライオリティやモーションに差異が生まれる事があります。
+
+Cubism SDK for Native のドキュメントには、Cubism Editor との動作の違いやデータ作成上のヒントが記載されています。
+
+ドキュメントの内容は主に Unity や Cubism SDK for Native 向けでそのまま使用できない場所もありますが、参考にしてみてください。
+
+.Cubism Editor 5
+* link:https://docs.live2d.com/cubism-sdk-manual/cubism-5-new-functions/[Cubism 5 新機能のSDK対応について]
+* link:https://docs.live2d.com/cubism-sdk-manual/cubism-4-new-functions/[Cubism 4 新機能のSDK対応について]
+* link:https://docs.live2d.com/cubism-sdk-manual/cubism-4-2-new-functions/[Cubism 4.2 新機能のSDK対応について]
+* link:https://docs.live2d.com/cubism-sdk-manual/compatibility-with-cubism-5/[Cubism 5 機能のSDK互換性について]
+* link:https://docs.live2d.com/cubism-sdk-manual/compatibility-with-cubism-4-2/[Cubism 4.2 機能のSDK互換性について]
+* link:https://docs.live2d.com/cubism-sdk-manual/update-sdk-to-cubism5/[旧バージョンのプロジェクトをCubism 5 SDKへ移行]
+* link:https://docs.live2d.com/cubism-sdk-manual/update-sdk-to-cubism4/[旧バージョンのプロジェクトをCubism 4 SDKへ移行]
+
+.Cubism Editor 5 / プラットフォーム比較
+* link:https://docs.live2d.com/cubism-sdk-manual/sdk-type-for-motiopn/[ワークフローによるモーション作成の違いについて]
+
+
 ==== CubismNativeFrameworkのカスタマイズ
 
 GDCubismはCubismSdkForNativeに同梱されているCubismNativeFrameworkを使用していますが、最新のFrameworkや独自に拡張したい場合は、以下の方法で変更可能です。
