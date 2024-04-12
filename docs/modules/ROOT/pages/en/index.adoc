@@ -1,0 +1,106 @@
+= Cubism for Godot Engine
+:encoding: utf-8
+:lang: en
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ./docs/res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+ifdef::env-github,env-vscode[]
+link:README.adoc[Japanese] / link:README.en.adoc[English]
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+xref:ja/index.adoc[Japanese] / xref:en/index.adoc[English]
+endif::env-github,env-vscode[]
+
+
+== About GDCubism
+
+This software (GDCubism) is an **unofficial** GDExtension that makes the link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK] accessible from GDScript or C#.
+
+This GDExtension can be used with Godot Engine 4.1.1 and later.
+
+Internally, GDCubism uses the link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework] published by Live2D Inc.
+
+Please do not contact the developer, Live2D Inc., regarding GDCubism.
+
+
+== Support platform
+
+[cols="2",frame=none,grid=none]
+|===
+>|Windows
+a|
+* x86_32
+* x86_64
+
+>|macOS
+a|
+* x86_64
+* arm64
+* universal
+
+>|Linux
+a|
+* x86_64
+
+>|iOS
+a|
+* arm64 (experimental)
+* universal (experimental)
+
+>|Android
+a|
+* armv7 (experimental)
+* arm64v8 (experimental)
+|===
+
+
+== About LICENSE
+
+ifdef::env-github,env-vscode[]
+* link:./docs/modules/ROOT/pages/en/license{adocsuffix}[]
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+* xref:en/license.adoc[]
+endif::env-github,env-vscode[]
+
+== How to build
+
+ifdef::env-github,env-vscode[]
+* link:./docs/modules/ROOT/pages/en/build{adocsuffix}[]
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+* xref:en/build.adoc[]
+endif::env-github,env-vscode[]
+
+
+== Usage
+
+ifdef::env-github,env-vscode[]
+* link:./docs/modules/ROOT/pages/en/usage{adocsuffix}[]
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+* xref:en/usage.adoc[]
+endif::env-github,env-vscode[]
+
+
+== Ralated link
+
+* link:https://www.live2d.com/[Live2D Cubism]
+* link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]
+* link:https://github.com/Live2D[Live2D (GitHub)]
+* link:https://github.com/Live2D/CubismNativeFramework[CubismNativeFramework (GitHub)]
+* link:https://github.com/MizunagiKB/gd_cubism[MizunagiKB / gd_cubism (GitHub)]
+

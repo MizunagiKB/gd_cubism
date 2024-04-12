@@ -1,0 +1,90 @@
+= GDCubismEffectHitArea
+:encoding: utf-8
+:lang: en
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ../../res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+== Desc
+
+By placing it as a child element of xref:./gd_cubism_user_model.adoc[], you can handle the _HitArea_ set on the Live2D model.
+
+_HitArea_ is composed of any _Triangle_. This allows you to express complex shapes, but in the _GDCubismEffectHitArea_ class, it is treated as a box (_Rect2_) that contains the vertices that make up the _Triagle_.
+
+If you want to determine on a _Triangle_ basis, you can do so by using the _get_detail_ function after receiving the _hit_area_entered_ signal.
+
+
+== Properties
+
+[cols="3",frame=none,grid=none]
+|===
+>|bool <|monitoring |[default: true]
+|===
+
+
+== Methods
+
+[cols="2",frame=none,grid=none]
+|===
+>|Dictionary <|get_detail(model: GDCubismUserModel, id: String)
+>|Vector2 <|get_target()
+>|void <|set_target(target: Vector2)
+|===
+
+
+== Signals
+
+hit_area_entered(model: GDCubismUserModel, id: String)::
+Called when the _HitArea_ of the Live2D model is set at the point specified by _set_target_. +
+The behavior changes as follows depending on the state of _monitoring_.
+* In case of _true_ ... It will not be called until _set_target_ is removed from _HitArea_ after it is called.
+* In case of _false_ ... It will be called any number of times while _set_target_ is within _HitArea_.
+
+hit_area_exited(model: GDCubismUserModel, id: String)::
+Called when _set_target_ becomes outside the range of _HitArea_ after _hit_area_enterd_ is called. +
+This signal has a chance to be called after _hit_area_enterd_ is called, regardless of the state of _minitoring_, and it is only called once.
+
+
+== Enumerations
+== Constants
+== Property Descriptions
+
+bool monitoring [default: true]::
+Switches the behavior of the _hit_area_enterd_ signal.
+
+
+== Method Descriptions
+
+Dictionary get_detail(model: GDCubismUserModel, id: String)::
+You can get more detailed information at the time of _hit_area_entered_. +
+The information obtained has three types of states depending on the judgment result between the point specified by _set_target_ and the _mesh_ specified by _id_.
+
+_Dictopnary_ contains nothing:::
+There is nothing at the place specified by _set_target_.
+
+_Dictopnary_ contains _rect: Rect2_:::
+The place specified by _set_target_ is within _rect_, but not within _Triangle_.
+
+_Dictopnary_ contains _rect: Rect2_ and _vertices: Array_:::
+The place specified by _set_target_ is within _rect_ and within _Triangle_.
+
+
+Vector2 get_target()::
+Gets the point specified by _set_target_.
+
+void set_target(target: Vector2)::
+You can perform contact detection with HitArea and the specified coordinates. +
+Calling _set_target_ once is considered a click. +
+Calling it continuously is considered a drag operation.
