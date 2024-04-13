@@ -1,0 +1,18 @@
+site:
+  title: GDCubism
+  url: http://localhost/
+  start_page: gd_cubism::ja/index.adoc
+content:
+  sources:
+    - url: https://github.com/MizunagiKB/gd_cubism.git
+      branches: 0.6-antora
+      start_path: docs
+ui:
+  bundle:
+    url: https://github.com/MizunagiKB/gd_cubism_ui/releases/download/v1.0.0/ui-bundle.zip
+output:
+  dir: ./public
+antora:
+  extensions:
+    - require: "@antora/lunr-extension"
+      languages: [ja, en]

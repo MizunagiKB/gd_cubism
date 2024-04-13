@@ -1,0 +1,55 @@
+= GDCubismEffectCustom
+:encoding: utf-8
+:lang: en
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ../../res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+== Desc
+
+By placing it as a child element of xref:./gd_cubism_user_model.adoc[], you can extend your own functions.
+
+
+== Properties
+== Methods
+== Signals
+
+cubism_epilogue(model: GDCubismUserModel, delta: float)::
+Called when the Live2D model is drawn.
+
+cubism_init(model: GDCubismUserModel)::
+Called at the start of using the Live2D model. +
+Normally it is only called once, but there is a possibility that a signal will occur again under the following conditions.
+* When a new Live2D model is loaded.
+* When _GDCubismEffect*_ is added or removed as a child element of the Live2D model.
+
+cubism_process(model: GDCubismUserModel, delta: float)::
+Called when the Live2D model is drawn.
+
+cubism_prologue(model: GDCubismUserModel, delta: float)::
+Called when the Live2D model is drawn.
+
+cubism_term(model: GDCubismUserModel)::
+Called at the end of using the Live2D model.
+Normally it is only called once, but there is a possibility that a signal will occur again under the following conditions.
+* When a new Live2D model is loaded.
+* When _GDCubismEffect*_ is added or removed as a child element of the Live2D model.
+
+
+== Enumerations
+== Constants
+== Property Descriptions
+== Method Descriptions
+

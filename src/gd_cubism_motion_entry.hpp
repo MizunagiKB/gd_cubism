@@ -29,6 +29,7 @@ class GDCubismMotionQueueEntryHandle : public Resource {
     GDCLASS(GDCubismMotionQueueEntryHandle, Resource)
     friend GDCubismUserModel;
 
+public:
     enum HandleError {
         OK = godot::Error::OK,
         FAILED = godot::Error::FAILED

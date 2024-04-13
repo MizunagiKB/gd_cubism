@@ -1,0 +1,74 @@
+= GDCubismParameter
+:encoding: utf-8
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ../../res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+== Desc
+
+xref:ja/api/gd_cubism_user_model.adoc[] の _get_parameters_ 関数で戻される _Array_ に含まれる要素。
+
+このクラスの _value_ に値を書き込むことで、Live2Dモデルの parameter を書き換えることができます。
+
+
+== Properties
+
+[cols="3",frame=none,grid=none]
+|===
+>|float <|default_value |[default: 0.0]
+>|float <|maximum_value |[default: 0.0]
+>|float <|minimum_value |[default: 0.0]
+|===
+
+
+== Methods
+[cols="2",frame=none,grid=none]
+|===
+>|void <|reset()
+|===
+
+
+== Enumerations
+enum Type::
+* NORMAL = 0
+* BLEND_SHAPE = 1
+
+
+== Property Descriptions
+
+[[id-property-default_value]]
+float default_value [default: 0.0]::
+このクラスが保持する parameter の初期値。
+
+
+[[id-property-maximum_value]]
+float maximum_value [default: 0.0]::
+このクラスが保持する parameter に設定可能な最大値。
+
+
+[[id-property-minimum_value]]
+float minimum_value [default: 0.0]::
+このクラスが保持する parameter に設定可能な最小値。
+
+
+== Method Descriptions
+
+[[id-method-reset]]
+void reset()::
+現在設定されている値を _default_value_ にします。
++
+機能と動作は ```value = default_value``` と同じです。
+

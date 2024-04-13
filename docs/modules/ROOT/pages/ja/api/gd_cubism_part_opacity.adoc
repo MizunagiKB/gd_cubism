@@ -1,0 +1,32 @@
+= GDCubismPartOpacity
+:encoding: utf-8
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ../../res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+== Desc
+
+xref:ja/api/gd_cubism_user_model.adoc[] の _get_part_opacities_ 関数で戻される _Array_ に含まれる要素。
+
+このクラスの _value_ に値を書き込むことで、Live2Dモデルのパーツ透明度を書き換えることができます。
+
+
+== Methods
+== Signals
+== Enumerations
+== Constants
+== Property Descriptions
+== Method Descriptions
