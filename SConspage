@@ -24,6 +24,7 @@ def build():
         target="./docs",
         action=["antora --fetch $SOURCE"],
     )
+    env.Command(target="./docs/.nojekyll", source=None, action="touch ./docs/.nojekyll")
 
 
 collect_page()
