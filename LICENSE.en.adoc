@@ -17,9 +17,6 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
-xref:ja/license.adoc[Japanese] / xref:en/license.adoc[English]
-
-
 == LICENSE
 
 This software depends on the following software and does not work alone.
