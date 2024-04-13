@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Usage :: GDCubism</title>
+    <link rel="canonical" href="https://mizunagikb.github.io/gd_cubism/gd_cubism/0.6-antora/ja/usage.html">
+    <meta name="generator" content="Antora 3.1.7">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://mizunagikb.github.io/gd_cubism">GDCubism</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" aria-controls="topbar-nav" aria-expanded="false" aria-label="Toggle main menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="gd_cubism" data-version="0.6-antora">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
+    <h3 class="title"><a href="index.html">GDCubism</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">ja</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Cubism for Godot Engine</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="license.html">License</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="build.html">Build</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="usage.html">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect.html">GDCubismEffect</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_breath.html">GDCubismEffectBreath</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_custom.html">GDCubismEffectCustom</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_eye_blink.html">GDCubismEffectEyeBlink</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_hit_area.html">GDCubismEffectHitArea</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_target_point.html">GDCubismEffectTargetPoint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_motion_entry.html">GDCubismMotionQueueEntry</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_motion_queue_entry_handle.html">GDCubismMotionQueueEntryHandle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_parameter.html">GDCubismParameter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_part_opacity.html">GDCubismPartOpacity</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_user_model.html">GDCubismUserModel</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_value_abs.html">GDCubismValueAbs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">en</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../en/index.html">Cubism for Godot Engine</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../en/license.html">License</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../en/build.html">Build</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../en/usage.html">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect.html">GDCubismEffect</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_breath.html">GDCubismEffectBreath</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_custom.html">GDCubismEffectCustom</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_eye_blink.html">GDCubismEffectEyeBlink</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_hit_area.html">GDCubismEffectHitArea</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_target_point.html">GDCubismEffectTargetPoint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_motion_entry.html">GDCubismMotionQueueEntry</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_motion_queue_entry_handle.html">GDCubismMotionQueueEntryHandle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_parameter.html">GDCubismParameter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_part_opacity.html">GDCubismPartOpacity</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_user_model.html">GDCubismUserModel</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_value_abs.html">GDCubismValueAbs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">GDCubism</span>
+    <span class="version">0.6-antora</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <div class="title"><a href="index.html">GDCubism</a></div>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">0.6-antora</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">GDCubism</a></li>
+    <li>ja</li>
+    <li><a href="usage.html">Usage</a></li>
+  </ul>
+</nav>
+<div class="edit-this-page"><a href="https://github.com/MizunagiKB/gd_cubism/edit/0.6/docs-src/modules/ROOT/pages/ja/usage.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Usage</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="#">Japanese</a> / <a href="../en/usage.html" class="xref page">English</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_使用方法"><a class="anchor" href="#_使用方法"></a>使用方法</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>すぐに動かしてみたい場合は、 <em>demo</em> フォルダにある <em>project.godot</em> を Godot Engine のエディタから開いてください。（デモの動かし方はこのドキュメントの下に記載）</p>
+</div>
+<div class="paragraph">
+<p>独自のプロジェクトで使用する場合は <em>demo</em> フォルダにある <em>addons</em> フォルダ以下の内容を利用したいプロジェクトにコピーしてください。</p>
+</div>
+<div class="paragraph">
+<p>既に <em>addons</em> フォルダがある場合は、 <em>gd_cubism</em> フォルダ以下の内容をコピーしてください。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<em>addons</em> フォルダは GDCubism の様に Godot Engine を拡張するためのプログラムを収めるために用意されたフォルダです。
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_簡単な使い方editorから使う場合"><a class="anchor" href="#_簡単な使い方editorから使う場合"></a>簡単な使い方（Editorから使う場合）</h3>
+<div class="paragraph">
+<p>Live2Dモデルを読み込んで <em>Sprite2D</em> で表示を行う方法について説明します。</p>
+</div>
+<div class="sect3">
+<h4 id="_ノードの配置"><a class="anchor" href="#_ノードの配置"></a>ノードの配置</h4>
+<div class="paragraph">
+<p>以下の図を参考にしながら同じ様にノードを配置してください。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/usage_simple_01.png" alt="fig01" width="256">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_live2dモデルの読込"><a class="anchor" href="#_live2dモデルの読込"></a>Live2Dモデルの読込</h4>
+<div class="paragraph">
+<p>ノード一覧から <em>GDCubismUserModel</em> を選択して、Assets項目の右にあるファイル選択ボタンを押してください。<br>
+ファイル選択ダイアログが表示されますので、そこから任意の *.model3.json ファイルを選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/usage_simple_02.png" alt="fig02" width="256">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_プレビュー画面にlive2dモデルが表示されているのを確認"><a class="anchor" href="#_プレビュー画面にlive2dモデルが表示されているのを確認"></a>プレビュー画面にLive2Dモデルが表示されているのを確認</h4>
+<div class="paragraph">
+<p>Live2Dモデルが正しく読み込まれましたら、プレビュー画面にLive2Dモデルが表示されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/usage_simple_03.png" alt="fig03" width="256">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_スプライトにlive2dモデルを表示"><a class="anchor" href="#_スプライトにlive2dモデルを表示"></a>スプライトにLive2Dモデルを表示</h4>
+<div class="paragraph">
+<p>次に <em>Sprite2D</em> ノードを選択して、Texture項目を開きます。<br>
+一覧から <code><code>New ViewportTexture</code></code> を選択すると <em>Viewport</em> を選択するダイアログが表示されますので、 <em>GDCubismUserModel</em> を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/usage_simple_04.png" alt="fig04" width="256">
+</div>
+</div>
+<div class="paragraph">
+<p>Texture欄にLive2Dモデルが表示されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/usage_simple_05.png" alt="fig05" width="256">
+</div>
+</div>
+<div class="paragraph">
+<p><em>Sprite2D</em> の位置にもLive2Dモデルが表示されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/usage_simple_06.png" alt="fig06" width="512">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_トラブルシューティング"><a class="anchor" href="#_トラブルシューティング"></a>トラブルシューティング</h3>
+<div class="sect3">
+<h4 id="_モデルが正常に読み込まれない"><a class="anchor" href="#_モデルが正常に読み込まれない"></a>モデルが正常に読み込まれない</h4>
+<div class="paragraph">
+<p>モデルのファイル名が日本語になっている場合は正常に読み込まれないため、Cubism Editorで出力したファイルの名前と、*.model3.json内の参照を上書きすることで正常に動作します。</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_まばたきが正常に行われない"><a class="anchor" href="#_まばたきが正常に行われない"></a>まばたきが正常に行われない</h4>
+<div class="paragraph">
+<p>*.model3.json内のEyeBlinkのIdsが指定されていない可能性があります。設定して再出力するか、IdsにParamEyeLOpenとParamEyeROpenを追記してください。</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_表示される画像が汚い"><a class="anchor" href="#_表示される画像が汚い"></a>表示される画像が汚い</h4>
+<div class="paragraph">
+<p>0.5以降でシェーダーにMipmapが有効になりました。</p>
+</div>
+<div class="paragraph">
+<p>有効にする場合は、Live2Dで使用しているテクスチャを Mipmap を有効にして再インポートを行なってください。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/usage_mipmap_01.png" alt="mipmap01" width="256">
+</div>
+</div>
+<div class="paragraph">
+<p>Mipmapの効果はかなり高いですが、絵によってはぼやけた感じとなる場合があります。</p>
+</div>
+<div class="paragraph">
+<p>Mipmap適用なし</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/usage_mipmap_02a.jpg" alt="mipmap02a" width="256">
+</div>
+</div>
+<div class="paragraph">
+<p>Mipmap適用あり</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/usage_mipmap_02b.jpg" alt="mipmap02b" width="256">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_プロジェクトを_export_すると_live2d_モデルが表示されない"><a class="anchor" href="#_プロジェクトを_export_すると_live2d_モデルが表示されない"></a>プロジェクトを Export すると Live2D モデルが表示されない</h4>
+<div class="paragraph">
+<p>Live2Dモデルは様々なファイルを使用していますが、これらのファイルは Live2D が内部で読み込みます。そのため、 Godot Engine は Live2D 関係のリソースをうまくパッケージに取り込むことが出来ません。</p>
+</div>
+<div class="paragraph">
+<p>正しくパッケージに取り込まれるようにするには Export 画面の Resources 欄に、あなたが使用しているリソースやリソースが収められているフォルダを直接指定しなければなりません。</p>
+</div>
+<div class="paragraph">
+<p>指定方法についてはオフィシャルドキュメントの Exporting projects に Resource options という欄がありますので、説明を読みながら適宜追加してあげてください。</p>
+</div>
+<div class="paragraph">
+<p><a href="https://docs.godotengine.org/ja/4.x/tutorials/export/exporting_projects.html#resource-options" class="bare">https://docs.godotengine.org/ja/4.x/tutorials/export/exporting_projects.html#resource-options</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_デモについて"><a class="anchor" href="#_デモについて"></a>デモについて</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>demo</em> フォルダには、サンプルとして以下のものが収められています。どのサンプルも動かすにはLive2Dモデルの虹色まおが必要となります。</p>
+</div>
+<div class="paragraph">
+<p>このLive2Dモデルは、<a href="https://www.live2d.com" class="bare">https://www.live2d.com</a> からダウンロードする事が出来ます。</p>
+</div>
+<div class="paragraph">
+<p>ダウンロードしたファイルの中身を以下の様に配置してください。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>(<em>demo/addons/gd_cubism/example/res/live2d</em>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>mao_pro_jp</p>
+<div class="ulist">
+<ul>
+<li>
+<p>runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>expressions</p>
+<div class="ulist">
+<ul>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>map_pro_t02.4096</p>
+<div class="ulist">
+<ul>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>motions</p>
+<div class="ulist">
+<ul>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>mao_pro_t02.cdi3.json</p>
+</li>
+<li>
+<p>mao_pro_t02.moc3</p>
+</li>
+<li>
+<p>mao_pro_t02.model3.json</p>
+</li>
+<li>
+<p>mao_pro_t02.physics3.json</p>
+</li>
+<li>
+<p>mao_pro_t02.pose3.json</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>mao_pro_t02.can3</p>
+</li>
+<li>
+<p>mao_pro_t02.cmo3</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>手持ちのモデルで試したい場合は、上を参考にして出力したものを <em>demo/addons/gd_cubism/example/res/live2d</em> 以下に配置してください。</p>
+</div>
+<div class="sect2">
+<h3 id="_デモの説明"><a class="anchor" href="#_デモの説明"></a>デモの説明</h3>
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">Name</th>
+<th class="tableblock halign-center valign-top">Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">demo_effect_custom_01.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>GDCubismEffectCustom</em> を使用したサンプルとなります。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">demo_effect_custom_02.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>GDCubismEffectCustom</em> を使用したサンプルとなります。
+簡易的なリップシンクを行なって、音量にあわせて口を動かしています。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">demo_effect_custom_03.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>GDCubismEffectTargetPoint</em> を使用したサンプルとなります。
+マウスの位置にあわせてLive2Dモデルが視線を向ける動作をします。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">demo_effect_hit_area.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>GDCubismEffectHitArea</em> を使用したサンプルとなります。
+Live2Dモデルに設定された <em>HitArea</em> の使い方サンプルでもあります。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">demo_simple.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nodeの組み合わせのみでLive2Dモデルの表示を行うサンプルとなります。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">demo_transparent.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Live2Dモデルの周囲を透明にしてキャラクターのみを表示するサンプルとなります。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">viewer.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">簡易的なビューアを兼ねたサンプルとなります。
+<em>Expression</em> や <em>Motion</em> を再生できます。</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+プログラムは GDScript 版と C# 版が用意されています。 tscnファイルに割り当てられているスクリプトを入れ替える事で動作確認が可能です。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api_reference_c_support_status"><a class="anchor" href="#_api_reference_c_support_status"></a>API Reference / C# Support status</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>GDCubismにはさまざまなクラスが用意されています。使用方法は以下のリンク先のドキュメントを参照してください。</p>
+</div>
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">GDScript Class</th>
+<th class="tableblock halign-center valign-top">C# Class</th>
+<th class="tableblock halign-center valign-top">Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_effect.html">GDCubismEffect</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismEffectCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_effect_breath.html">GDCubismEffectBreath</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismEffectBreathCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">△</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_effect_custom.html">GDCubismEffectCustom</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismEffectCustomCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">△</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_effect_eye_blink.html">GDCubismEffectEyeBlink</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismEffectEyeBlinkCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">△</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_effect_hit_area.html">GDCubismEffectHitArea</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismEffectHitAreaCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">△</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_effect_target_point.html">GDCubismEffectTargetPoint</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismEffectTargetPointCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">△</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_motion_entry.html">GDCubismMotionEntry</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismMotionEntryCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_motion_queue_entry_handle.html">GDCubismMotionQueueEntryHandle</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismMotionQueueEntryHadleCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_value_abs.html">GDCubismValueAbs</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismValueAbsCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="./api/gd_cubism_parameter.html">GDCubismParameter</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismParameterCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">○</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="api/gd_cubism_part_opacity.html" class="xref page">GDCubismPartOpacity</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismPartOpacityCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">○</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="api/gd_cubism_user_model.html" class="xref page">GDCubismUserModel</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GDCubismUserModelCS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">○</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/vendor/lunr-languages.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>
