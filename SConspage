@@ -18,13 +18,13 @@ def collect_page():
 
     env.Command(
         source="./LICENSE.adoc",
-        target=os.path.join("./docs-src/modules/ROOT/pages/ja/license.adoc", filename),
+        target="./docs-src/modules/ROOT/pages/ja/license.adoc",
         action=[Copy("$TARGET", "$SOURCE")],
     )
 
     env.Command(
         source="./LICENSE.en.adoc",
-        target=os.path.join("./docs-src/modules/ROOT/pages/en/license.adoc", filename),
+        target="./docs-src/modules/ROOT/pages/en/license.adoc",
         action=[Copy("$TARGET", "$SOURCE")],
     )
 
