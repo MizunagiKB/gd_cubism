@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 import os
 import glob
-import shutil
 
 
 env = Environment(ENV={"PATH": os.environ["PATH"]})
@@ -13,16 +12,16 @@ def collect_page():
         _, filename = os.path.split(src_pathname)
         env.Command(
             source=src_pathname,
-            target=os.path.join("./docs/modules/ROOT/examples", filename),
+            target=os.path.join("./docs-src/modules/ROOT/examples", filename),
             action=[Copy("$TARGET", "$SOURCE")],
         )
 
 
 def build():
-    env.Command(target="DUMMY", source=None, action=[Delete("./docs-site/public")])
+    env.Command(target="DUMMY", source=None, action=[Delete("./docs")])
     env.Command(
         source="./docs-site/antora-playbook.yml",
-        target="./docs-site/public",
+        target="./docs",
         action=["antora --fetch $SOURCE"],
     )
 

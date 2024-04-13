@@ -11,7 +11,7 @@ ui:
   bundle:
     url: https://github.com/MizunagiKB/gd_cubism_ui/releases/download/v1.0.0/ui-bundle.zip
 output:
-  dir: ../docs
+  dir: docs
 antora:
   extensions:
     - require: "@antora/lunr-extension"
