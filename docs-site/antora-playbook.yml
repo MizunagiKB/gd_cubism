@@ -6,7 +6,7 @@ content:
   sources:
     - url: https://github.com/MizunagiKB/gd_cubism.git
       branches: 0.6
-      start_path: docs
+      start_path: docs-src
 ui:
   bundle:
     url: https://github.com/MizunagiKB/gd_cubism_ui/releases/download/v1.0.0/ui-bundle.zip
