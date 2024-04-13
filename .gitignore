@@ -25,8 +25,8 @@ mono_crash.*.json
 *.lib
 
 # for Antora
+docs
 docs-site/node_modules
-docs-site/public
 docs-site/package-lock.json
 docs-site/package.json
 
