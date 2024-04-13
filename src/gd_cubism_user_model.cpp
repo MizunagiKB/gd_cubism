@@ -7,6 +7,7 @@
 #include <godot_cpp/classes/ref.hpp>
 #include <godot_cpp/classes/sprite2d.hpp>
 #include <godot_cpp/classes/viewport_texture.hpp>
+#include <godot_cpp/classes/window.hpp>
 
 #include <CubismFramework.hpp>
 #include <Model/CubismModel.hpp>
@@ -521,7 +522,17 @@ void GDCubismUserModel::_update(const float delta) {
 
     this->internal_model->epi_update(delta * this->speed_scale);
 
+    // https://github.com/godotengine/godot/issues/90030
+    // https://github.com/godotengine/godot/issues/90017
+    #ifdef COUNTERMEASURES_90017_90030
+        if(get_window()->is_visible() == true) {
+            if(get_window()->get_mode() != Window::Mode::MODE_MINIMIZED) {
+                this->internal_model->update_node();
+            }
+        }
+    #else
     this->internal_model->update_node();
+    #endif // COUNTERMEASURES_90017_90030    
 
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++ ) {
         Ref<GDCubismPartOpacity> param = this->ary_part_opacity[index];
@@ -808,7 +819,9 @@ void GDCubismUserModel::_ready() {
     this->set_disable_input(true);
     // Memory leak when set_use_own_world_3d is true
     // https://github.com/godotengine/godot/issues/81476
-    this->set_use_own_world_3d(false);
+    this->set_use_own_world_3d(SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG);
+    // Memory leak when set_transparent_background is true(* every time & window minimize)
+    // https://github.com/godotengine/godot/issues/89651
     this->set_transparent_background(true);
 }
 

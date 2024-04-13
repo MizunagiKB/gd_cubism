@@ -1,0 +1,365 @@
+= Build
+:encoding: utf-8
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ./res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+xref:ja/build.adoc[Japanese] / xref:en/build.adoc[English]
+
+
+== ビルド方法
+=== ソースコードの取得と準備
+
+まずgd_cubismをgit cloneしてください。
+
+最新のバージョンでしたらそのまま使用してください。もし機能拡張やバグ修正が行われたものを試したい場合は適宜ブランチを切り替えてください。
+
+[source, bash]
+----
+git clone https://github.com/MizunagiKB/gd_cubism.git
+cd gd_cubism
+git submodule update --init
+----
+
+
+==== CubismSdkForNativeの入手と配置
+
+次にビルドに必要なSDKをLive2Dのオフィシャルサイトから入手してください。
+
+* Live2D Official website - https://www.live2d.com/
+
+Cubism SDK for Native には Cusism SDK 以外に Cubism Native Framework が含まれています。
+
+ダウンロードしたものを以下のフォルダ構成になる様に展開してください。（ダウンロードしたものを thirdparty フォルダに配置してファイルを展開すればこの形になるはずです）
+
+[source]
+----
+./thirdparty
+└── CubismSdkForNative-5-r.1
+     ├── CHANGELOG.md
+     ├── Core
+     │   ├── CHANGELOG.md
+     │   ├── LICENSE.md
+     │   ├── README.ja.md
+     │   ├── README.md
+     │   ├── RedistributableFiles.txt
+     │   ├── dll
+     │   ├── include
+     │   └── lib
+     ├── Framework
+     │   ├── CHANGELOG.md
+     │   ├── CMakeLists.txt
+     │   ├── LICENSE.md
+     │   ├── README.ja.md
+     │   ├── README.md
+     │   ├── TRANSLATION.md
+     │   └── src
+     ├── LICENSE.md
+     ├── NOTICE.ja.md
+     ├── NOTICE.md
+     ├── README.ja.md
+     ├── README.md
+     ├── Samples
+     │   ├── Cocos2d-x
+     │   ├── D3D11
+     │   ├── D3D9
+     │   ├── Metal
+     │   ├── OpenGL
+     │   ├── Resources
+     │   └── Vulkan
+     ├── cubism-info.yml
+     ├── logor.png
+     └── logos.png
+----
+
+
+==== 不具合対応について
+
+Godot Engine のバージョンと環境によっては、Window非表示状態でメモリリークが発生する不具合が発生しています。
+
+この不具合は Vulkan レンダラーを使用している _Forward+_, _mobile_ で発生しており、一部の問題は対策されているものの macOS 環境においては解消されていません。
+
+この問題に対応するため、 scons 実行時に *COUNTERMEASURES_90017_90030* を指定できる様にしました。
+
+COUNTERMEASURES_90017_90030=1 (default):: Window非表示状態のときLive2Dモデルの描画処理を呼び出しません。
+COUNTERMEASURES_90017_90030=0:: Windowの表示状態に関わらず、常にLive2Dモデルの描画処理を呼び出します。
+
+
+不具合の内容については以下のIssueを参照してください。
+
+* https://github.com/godotengine/godot/issues/89651
+* https://github.com/godotengine/godot/issues/90017
+* https://github.com/godotengine/godot/issues/90030
+
+
+==== CubismEditor との挙動の違いについて
+
+GDCubism が内部で使用している CubismNativeFramework は、 Cubism Editor で作成された Live2D モデルを再生可能な様に作成されているものの、描画のプライオリティやモーションに差異が生まれる事があります。
+
+Cubism SDK for Native のドキュメントには、Cubism Editor との動作の違いやデータ作成上のヒントが記載されています。
+
+ドキュメントの内容は主に Unity や Cubism SDK for Native 向けでそのまま使用できない場所もありますが、参考にしてみてください。
+
+.Cubism Editor 5
+* link:https://docs.live2d.com/cubism-sdk-manual/cubism-5-new-functions/[Cubism 5 新機能のSDK対応について]
+* link:https://docs.live2d.com/cubism-sdk-manual/cubism-4-new-functions/[Cubism 4 新機能のSDK対応について]
+* link:https://docs.live2d.com/cubism-sdk-manual/cubism-4-2-new-functions/[Cubism 4.2 新機能のSDK対応について]
+* link:https://docs.live2d.com/cubism-sdk-manual/compatibility-with-cubism-5/[Cubism 5 機能のSDK互換性について]
+* link:https://docs.live2d.com/cubism-sdk-manual/compatibility-with-cubism-4-2/[Cubism 4.2 機能のSDK互換性について]
+* link:https://docs.live2d.com/cubism-sdk-manual/update-sdk-to-cubism5/[旧バージョンのプロジェクトをCubism 5 SDKへ移行]
+* link:https://docs.live2d.com/cubism-sdk-manual/update-sdk-to-cubism4/[旧バージョンのプロジェクトをCubism 4 SDKへ移行]
+
+.Cubism Editor 5 / プラットフォーム比較
+* link:https://docs.live2d.com/cubism-sdk-manual/sdk-type-for-motiopn/[ワークフローによるモーション作成の違いについて]
+
+
+==== CubismNativeFrameworkのカスタマイズ
+
+GDCubismはCubismSdkForNativeに同梱されているCubismNativeFrameworkを使用していますが、最新のFrameworkや独自に拡張したい場合は、以下の方法で変更可能です。
+
+[source, bash]
+----
+pushd thirdparty
+git clone https://github.com/Live2D/CubismNativeFramework.git
+popd
+----
+
+CAUTION: ビルドはCubismSdkForNativeにあるFrameworkよりカスタムビルドの方が優先されます。
+不要になりましたら削除を行ってください。
+
+
+=== Windows版のビルド
+
+[NOTE]
+====
+ビルドには以下のものが必要となります。
+
+* link:https://visualstudio.microsoft.com/ja/vs/community/[VisualStudio Community], version 2019 or lator.
+* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+
+.Visual Studioのインストールに関する注意事項
+****
+Visual Studio をインストールする場合は、ワークロードのリストから C{plus}{plus} を有効化しなければなりません。
+
+もし間違って C{plus}{plus} サポート無しで Visual Studio をインストールしてしまったなら、再度インストーラーを実行してください。変更 (Modify)ボタンが表示されるはずです。プログラムの追加と削除からインストーラーを起動しても、修復オプションしか表示されず、 C{plus}{plus} ツールはインストールできません。
+
+link:https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_windows.html#development-in-visual-studio[Godot Engine 4.1 documentation]
+****
+
+
+環境が準備できたら以下の手順でビルドを行ってください。
+
+[source, console]
+--
+scons platform=windows arch=x86_64 target=template_debug
+scons platform=windows arch=x86_64 target=template_release
+--
+
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
+
+* libgd_cubism.windows.debug.x86_64.dll
+* libgd_cubism.windows.release.x86_64.dll
+
+
+=== macOS版のビルド
+
+ビルドには以下のものが必要となります。
+
+[NOTE]
+====
+* link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
+* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+準備できたら以下の手順でビルドを行ってください。
+
+[source, bash]
+--
+# for x86_64(intel mac)
+scons platform=macos arch=x86_64 target=template_debug
+scons platform=macos arch=x86_64 target=template_release
+# for arm64(Apple Silicon mac)
+scons platform=macos arch=arm64 target=template_debug
+scons platform=macos arch=arm64 target=template_release
+--
+
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
+
+* libgd_cubism.macos.debug.framework
+* libgd_cubism.macos.release.framework
+
+
+==== universalバイナリとしてビルドする場合
+
+universalバイナリとしてビルドする場合は、sconsを実行する前に以下の様にリンクファイルを生成してください。
+
+[source, bash]
+----
+pushd thirdparty/CubismSdkForNative-5-r.1/Core/lib/macos
+mkdir universal
+lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output universal/libLive2DCubismCore.a
+popd
+
+# for universal
+scons platform=macos arch=universal target=template_debug
+scons platform=macos arch=universal target=template_release
+----
+
+
+=== Linux版のビルド
+
+[NOTE]
+====
+ビルドには以下のものが必要となります。
+
+* GCC 7+, Clang 6+.
+* link:https://www.python.org/downloads/windows/[Python 3.6+].
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+
+Linuxの場合、ディストリビューション毎に必要なパッケージが追加で必要となる場合があります。どのディストリビューションで何が必要になるかは Godot Engine のドキュメントを参考にしてください。
+
+* link:https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_linuxbsd.html[Compiling for Linux, *BSD]
+====
+
+
+環境が準備できたら以下の手順でビルドを行ってください。
+
+[source, bash]
+--
+scons platform=linux arch=x86_64 target=template_debug
+scons platform=linux arch=x86_64 target=template_release
+--
+
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
+
+* libgd_cubism.linux.debug.x86_64.so
+* libgd_cubism.linux.release.x86_64.so
+
+
+=== その他のビルドについて
+
+以下の二つはビルドが行えることのみを確認しており、動作確認まではしていません。
+
+それぞれの環境で動かしてみる場合の参考にご利用ください。
+
+
+==== iOS版のビルド
+
+ビルドには以下のものが必要となります。
+
+[NOTE]
+====
+* link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
+* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+Xcodeはコマンドラインのみで使用している場合、iphoneos向けのビルドが開始されない場合があります。
+
+この場合はXcodeのパスを以下の様に指定し直すことでビルドが行われる様になります。
+
+[source, bash]
+----
+sudo xcode-select --switch /Applications/Xcode.app 
+----
+
+準備できたら以下の手順でビルドを行ってください。
+
+[source, bash]
+--
+# for arm64
+scons platform=ios arch=arm64 target=template_debug
+scons platform=ios arch=arm64 target=template_release
+# for universol
+scons platform=ios arch=universal target=template_debug
+scons platform=ios arch=universal target=template_release
+--
+
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
+
+* libgd_cubism.ios.debug.arm64.dylib
+* libgd_cubism.ios.release.arm64.dylib
+* libgd_cubism.ios.debug.universal.dylib
+* libgd_cubism.ios.release.universal.dylib
+
+
+==== Android版のビルド
+
+[NOTE]
+====
+ビルドには以下のものが必要となります。
+
+* link:https://www.python.org/downloads/windows/[Python 3.6+].
+* link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+* link:https://developer.android.com/studio[Android Studio]
+* link:https://www.azul.com/downloads/?package=jdk#zulu[Azul Zulu: 21.28.85]
+====
+
+ここでは Windows10 環境に Android Studio を導入しているという前提で話をします。
+
+Android Studio を起動して、 SDKManager を起動します。 SDKManager は Android Studio 起動時の Welcome to Android Studio と表示されている画面にある More Actions から選択できます。
+
+SDKManagerが起動したら、以下のものにチェックを入れてダウンロードします。
+
+* SDK Platforms
+** Android API 34
+** Android 10("Q")
+* SDK Tools
+** Android SDK Build-Tools 34
+** NDK (Side by side)
+** Android SDK Command-line Tools (latest)
+** CMake
+** Android Emulator
+** Android SDK Platform-Tools
+** Android SDK Tools (Obsolete)
+
+環境が準備できたら以下の手順でビルドを行ってください。
+
+[source, bash]
+--
+scons platform=android target=template_debug arch=armv7
+scons platform=android target=template_release arch=armv7
+scons platform=android target=template_debug arch=arm64v8
+scons platform=android target=template_release arch=arm64v8
+--
+
+ビルドが開始されていない場合は、以下の環境変数を設定してみてください。
+
+* ANDROID_SDK_ROOT ... SDKManager で選択したものがインストールされている場所
+* ANDROID_HOME ... SDKManager で選択したものがインストールされている場所
+* ANDROID_NDK_HOME ... SDKManager でインストールした NDK の場所
+* ANDROID_NDK_ROOT ... SDKManager でインストールした NDK の場所
+
+.example
+[source, bash]
+--
+set ANDROID_SDK_ROOT=D:\Android\sdk
+set ANDROID_HOME=D:\Android\sdk
+set ANDROID_NDK_HOME=%ANDROID_SDK_ROOT%\ndk\26.0.10792818
+set ANDROID_NDK_ROOT=%ANDROID_SDK_ROOT%\ndk\26.0.10792818
+--
+
+ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
+
+* libgd_cubism.android.debug.arm32.so
+* libgd_cubism.android.release.arm32.so
+* libgd_cubism.android.debug.arm64.so
+* libgd_cubism.android.release.arm64.so
+

@@ -24,6 +24,13 @@ mono_crash.*.json
 *.exp
 *.lib
 
+# for Antora
+docs
+docs-site/node_modules
+docs-site/package-lock.json
+docs-site/package.json
+
 # for Experimental
 thirdparty/CubismNativeFramework
 thirdparty/CubismSdkForNative*
+

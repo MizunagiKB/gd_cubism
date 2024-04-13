@@ -11,9 +11,15 @@
 
 #ifdef GD_CUBISM_USE_RENDERER_2D
 const bool SUBVIEWPORT_DISABLE_3D_FLAG = true;
+const bool SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG = false;
 #else
 const bool SUBVIEWPORT_DISABLE_3D_FLAG = false;
+const bool SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG = false;
 #endif // GD_CUBISM_USE_RENDERER_2D
+
+// https://github.com/godotengine/godot/issues/90017
+// https://github.com/godotengine/godot/issues/90030
+// COUNTERMEASURES_90017_90030
 
 // --------------------------------------------------------------- namespace(s)
 // -------------------------------------------------------------------- enum(s)

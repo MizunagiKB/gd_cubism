@@ -1,0 +1,55 @@
+= GDCubismEffectCustom
+:encoding: utf-8
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ../../res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+== Desc
+
+xref:ja/api/gd_cubism_user_model.adoc[] の子要素として配置することで、独自の機能を拡張可能です。
+
+
+== Properties
+== Methods
+== Signals
+
+cubism_epilogue(model: GDCubismUserModel, delta: float)::
+Live2Dモデルが描画される時に呼び出されます。
+
+cubism_init(model: GDCubismUserModel)::
+Live2Dモデルの使用開始時に呼び出されます。 +
+通常は一回だけしか呼び出されませんが、以下の条件で再度シグナルが発生する可能性があります。
+* Live2Dモデルが新たに読み込まれた時。
+* Live2Dモデルの子要素として _GDCubismEffect*_ が追加・削除された時。
+
+cubism_process(model: GDCubismUserModel, delta: float)::
+Live2Dモデルが描画される時に呼び出されます。
+
+cubism_prologue(model: GDCubismUserModel, delta: float)::
+Live2Dモデルが描画される時に呼び出されます。
+
+cubism_term(model: GDCubismUserModel)::
+Live2Dモデルの使用終了時に呼び出されます。
+通常は一回だけしか呼び出されませんが、以下の条件で再度シグナルが発生する可能性があります。
+* Live2Dモデルが新たに読み込まれた時。
+* Live2Dモデルの子要素として _GDCubismEffect*_ が追加・削除された時。
+
+
+== Enumerations
+== Constants
+== Property Descriptions
+== Method Descriptions
+

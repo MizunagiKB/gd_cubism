@@ -7,37 +7,25 @@ import glob
 env = Environment(ENV={"PATH": os.environ["PATH"]})
 
 
-# root
-def build_root():
-    list_source = [
-        {"source": "./README.adoc", "target": "./docs/index.html"},
-        {"source": "./README.en.adoc", "target": "./docs/index.en.html"},
-        {"source": "./LICENSE.adoc", "target": "./docs/LICENSE.html"},
-        {"source": "./LICENSE.en.adoc", "target": "./docs/LICENSE.en.html"},
-    ]
-    for adoc in list_source:
+def collect_page():
+    for src_pathname in glob.glob("./demo/addons/gd_cubism/res/shader/*.gdshader"):
+        _, filename = os.path.split(src_pathname)
         env.Command(
-            source=adoc["source"],
-            target=adoc["target"],
-            action="asciidoctor $SOURCE -o $TARGET",
+            source=src_pathname,
+            target=os.path.join("./docs-src/modules/ROOT/examples", filename),
+            action=[Copy("$TARGET", "$SOURCE")],
         )
 
 
-# docs
-def build_docs(pathname):
-    list_source = glob.glob(pathname)
-    for source in list_source:
-        target = source.replace(".adoc", ".html")
-        env.Command(
-            source=source,
-            target=target,
-            action="asciidoctor $SOURCE",
-        )
-
-    list_source = glob.glob("./docs/*.adoc")
+def build():
+    env.Command(target="DUMMY", source=None, action=[Delete("./docs")])
+    env.Command(
+        source="./docs-site/antora-playbook.yml",
+        target="./docs",
+        action=["antora --fetch $SOURCE"],
+    )
+    env.Command(target="./docs/.nojekyll", source=None, action="touch ./docs/.nojekyll")
 
 
-build_root()
-build_docs("./docs/*.adoc")
-build_docs("./docs/API/ja/*.adoc")
-build_docs("./docs/API/en/*.adoc")
+collect_page()
+build()

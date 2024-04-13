@@ -25,8 +25,19 @@ def get_cubism_sdk(dirname: str) -> tuple[Path]:
     if all(map(lambda o: o.is_dir(), tpl_path)) is True:
         print("     CUBISM_NATIVE_CORE_DIR = {:s}".format(str(tpl_path[0])))
         print("CUBISM_NATIVE_FRAMEWORK_DIR = {:s}".format(str(tpl_path[1])))
-        print("   CUBISM_MOTION_CUSTOMDATA = 1")
-        env.Append(CPPDEFINES={"CUBISM_MOTION_CUSTOMDATA": 1})
+
+        # ------------------------------------------------ Compile parameter(s)
+        dict_CPPDEFINES = {}
+        for param_n, param_v in (
+            ("CUBISM_MOTION_CUSTOMDATA", "1"),
+            ("COUNTERMEASURES_90017_90030", "1"),
+        ):
+            v = ARGUMENTS.get(param_n, param_v)
+            print("{:>27s} = {:s}".format(param_n, v))
+            if v == "1":
+                dict_CPPDEFINES[param_n] = v
+
+        env.Append(CPPDEFINES=dict_CPPDEFINES)
         return str(tpl_path[0]), str(tpl_path[1])
 
     print("*** Directory not found, 'CubismSdkForNative' ***")

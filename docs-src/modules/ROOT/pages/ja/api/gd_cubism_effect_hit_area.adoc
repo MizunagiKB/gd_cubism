@@ -1,0 +1,91 @@
+= GDCubismEffectHitArea
+:encoding: utf-8
+:lang: ja
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2023 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ../../res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+== Desc
+
+xref:ja/api/gd_cubism_user_model.adoc[] の子要素として配置することで、 Live2Dモデルに設定された _HitArea_ を扱える様になります。
+
+_HitArea_ は任意の _Triangle_ で構成されます。そのため複雑な形状を表現する事ができますが、 _GDCubismEffectHitArea_ クラスでは、 _Triagle_ を構成する頂点が含まれるボックス( _Rect2_ )として扱われます。
+
+_Triangle_ 単位での判定を行いたい場合は、 _hit_area_entered_ シグナルの受信後に _get_detail_ 関数を利用する事で行えます。
+
+
+== Properties
+
+[cols="3",frame=none,grid=none]
+|===
+>|bool <|monitoring |[default: true]
+|===
+
+
+== Methods
+
+[cols="2",frame=none,grid=none]
+|===
+>|Dictionary <|get_detail(model: GDCubismUserModel, id: String)
+>|Vector2 <|get_target()
+>|void <|set_target(target: Vector2)
+|===
+
+
+== Signals
+
+hit_area_entered(model: GDCubismUserModel, id: String)::
+_set_target_ で指定されたポイントにLive2Dモデルの _HitArea_ が設定されている場合に呼び出されます。 +
+_monitoring_ の状態で以下の様に振る舞いが変化します。
+* _ture_ の場合 ... 呼び出された後に _set_target_ が _HitArea_ から外れるまで呼び出されません。
+* _false_ の場合 ... _set_target_ が _HitArea_ 内にいる間、何度でも呼び出されます。
+
+hit_area_exited(model: GDCubismUserModel, id: String)::
+_hit_area_enterd_ が呼び出された後、 _set_target_ が _HitArea_ の範囲外になった場合に呼び出されます。 +
+このシグナルは、 _minitoring_ の状態に関わらず _hit_area_enterd_ が呼び出された後に呼び出される機会が生じ、一度しか呼び出されません。
+
+
+== Enumerations
+== Constants
+== Property Descriptions
+
+bool monitoring [default: true]::
+_hit_area_enterd シグナルの振る舞いを切り替えます。
+
+
+== Method Descriptions
+
+Dictionary get_detail(model: GDCubismUserModel, id: String)::
+_hit_area_entered_ 時により詳細な情報を得る事ができます。 +
+得られる情報は、 _set_target_ で指定したポイントと _id_ で指定された _mesh_ との判定結果により三種類の状態を持ちます。
+
+_Dictopnary_ に何も含まれていない:::
+_set_target_ で指定された場所には何もありません。
+
+_Dictopnary_ に _rect: Rect2_ が含まれる:::
+_set_target_ で指定された場所は _rect_ 内ではありますが、 _Triangle_ 内ではありません。
+
+_Dictopnary_ に _rect: Rect2_ と _vertices: Array_ が含まれる:::
+_set_target_ で指定された場所は _rect_ 内であり、 _Triangle_ 内です。
+
+
+Vector2 get_target()::
+_set_target_ で指定したポイントを取得します。
+
+void set_target(target: Vector2)::
+指定した座標とHitAreaとの接触判定を行う事ができます。 +
+_set_target_ を一度呼び出すとクリックとみなされます。 +
+連続して呼び出すとドラッグ操作とみなされます。
+
