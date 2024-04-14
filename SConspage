@@ -16,6 +16,18 @@ def collect_page():
             action=[Copy("$TARGET", "$SOURCE")],
         )
 
+    env.Command(
+        source="./LICENSE.adoc",
+        target="./docs-src/modules/ROOT/pages/ja/license.adoc",
+        action=[Copy("$TARGET", "$SOURCE")],
+    )
+
+    env.Command(
+        source="./LICENSE.en.adoc",
+        target="./docs-src/modules/ROOT/pages/en/license.adoc",
+        action=[Copy("$TARGET", "$SOURCE")],
+    )
+
 
 def build():
     env.Command(target="DUMMY", source=None, action=[Delete("./docs")])

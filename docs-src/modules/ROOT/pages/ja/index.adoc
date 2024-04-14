@@ -17,14 +17,6 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
-ifdef::env-github,env-vscode[]
-link:README.adoc[Japanese] / link:README.en.adoc[English]
-endif::env-github,env-vscode[]
-ifndef::env-github,env-vscode[]
-xref:ja/index.adoc[Japanese] / xref:en/index.adoc[English]
-endif::env-github,env-vscode[]
-
-
 == About GDCubism
 
 このソフトウェア（以下GDCubism）は link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]を GDScript や C# から利用可能にするための**非公式**な GDExtension です。
@@ -75,31 +67,18 @@ GDCubism は依存する外部ライブラリとリンクすることで、異�
 GDCubism を組み込んでの配布や販売を考えている場合は以下のページに記載されているライセンスを確認してください。
 ====
 
-ifdef::env-github,env-vscode[]
-* link:./docs/modules/ROOT/pages/ja/license{adocsuffix}[]
-endif::env-github,env-vscode[]
-ifndef::env-github,env-vscode[]
 * xref:ja/license.adoc[]
-endif::env-github,env-vscode[]
+
 
 == ビルド方法
 
-ifdef::env-github,env-vscode[]
-* link:./docs/modules/ROOT/pages/ja/build{adocsuffix}[]
-endif::env-github,env-vscode[]
-ifndef::env-github,env-vscode[]
 * xref:ja/build.adoc[]
-endif::env-github,env-vscode[]
 
 
 == 使用方法
 
-ifdef::env-github,env-vscode[]
-* link:./docs/modules/ROOT/pages/ja/usage{adocsuffix}[]
-endif::env-github,env-vscode[]
-ifndef::env-github,env-vscode[]
 * xref:ja/usage.adoc[]
-endif::env-github,env-vscode[]
+
 
 == 関連情報
 
