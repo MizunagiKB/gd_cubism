@@ -61,16 +61,16 @@ a|
 
 == About LICENSE
 
-* xref:license.adoc[]
+* xref:en/license.adoc[]
 
 == How to build
 
-* xref:build.adoc[]
+* xref:en/build.adoc[]
 
 
 == Usage
 
-* xref:usage.adoc[]
+* xref:en/usage.adoc[]
 
 
 == Ralated link
