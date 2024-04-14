@@ -64,6 +64,12 @@ a|
 
 == About LICENSE
 
+[NOTE]
+====
+GDCubism, when linked with dependent external libraries, results in licenses with different usage conditions. +
+If you are considering distributing or selling a product incorporating GDCubism, please check the licenses listed on the following page.
+====
+
 * link:./docs-src/modules/ROOT/pages/ja/license.adoc[License]
 
 
