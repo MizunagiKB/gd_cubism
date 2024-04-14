@@ -20,6 +20,11 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
+ifdef::env-github,env-vscode[]
+link:LICENSE.adoc[Japanese] / link:LICENSE.en.adoc[English]
+endif::env-github,env-vscode[]
+
+
 == About GDCubism
 
 このソフトウェア（以下GDCubism）は link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]を GDScript や C# から利用可能にするための**非公式**な GDExtension です。

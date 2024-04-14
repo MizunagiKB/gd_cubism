@@ -20,6 +20,11 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
+ifdef::env-github,env-vscode[]
+link:README.adoc[Japanese] / link:README.en.adoc[English]
+endif::env-github,env-vscode[]
+
+
 == About GDCubism
 
 This software (GDCubism) is an **unofficial** GDExtension that makes the link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK] accessible from GDScript or C#.
@@ -70,17 +75,17 @@ GDCubism, when linked with dependent external libraries, results in licenses wit
 If you are considering distributing or selling a product incorporating GDCubism, please check the licenses listed on the following page.
 ====
 
-* link:./docs-src/modules/ROOT/pages/ja/license.adoc[License]
+* link:./docs-src/modules/ROOT/pages/en/license.adoc[License]
 
 
 == How to build
 
-* link:./docs-src/modules/ROOT/pages/ja/build.adoc[Build]
+* link:./docs-src/modules/ROOT/pages/en/build.adoc[Build]
 
 
 == Usage
 
-* link:./docs-src/modules/ROOT/pages/ja/usage.adoc[Usage]
+* link:./docs-src/modules/ROOT/pages/en/usage.adoc[Usage]
 
 
 == Ralated link
