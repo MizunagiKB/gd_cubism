@@ -21,7 +21,7 @@ endif::env-github,env-vscode[]
 
 
 ifdef::env-github,env-vscode[]
-link:LICENSE.adoc[Japanese] / link:LICENSE.en.adoc[English]
+link:README.adoc[Japanese] / link:README.en.adoc[English]
 endif::env-github,env-vscode[]
 
 
