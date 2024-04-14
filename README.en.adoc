@@ -64,17 +64,17 @@ a|
 
 == About LICENSE
 
-* link:./docs-src/modules/ROOT/pages/ja/license.adoc[]
+* link:./docs-src/modules/ROOT/pages/ja/license.adoc[License]
 
 
 == How to build
 
-* link:./docs-src/modules/ROOT/pages/ja/build.adoc[]
+* link:./docs-src/modules/ROOT/pages/ja/build.adoc[Build]
 
 
 == Usage
 
-* link:./docs-src/modules/ROOT/pages/ja/usage.adoc[]
+* link:./docs-src/modules/ROOT/pages/ja/usage.adoc[Usage]
 
 
 == Ralated link
