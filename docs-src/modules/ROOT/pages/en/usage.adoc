@@ -98,7 +98,7 @@ The effect of Mipmap is quite significant, however, depending on the image, it m
 
 Without Mipmap Application
 
-image::usage_mipmap_02a.jpg[mipmap02a,256]
+image::../../images/usage_mipmap_02a.jpg[mipmap02a,256]
 
 With Mipmap Application
 
