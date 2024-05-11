@@ -40,7 +40,7 @@ Describes how to import a Live2D model and view it in _Sprite2D_.
 
 Please arrange the nodes in the same way while referring to the figure below.
 
-image::usage_simple_01.png[fig01,256]
+image::../../images/usage_simple_01.png[fig01,256]
 
 
 ==== Loading Live2D Models
@@ -50,14 +50,14 @@ Select _GDCubismUserModel_ from the node list and press the file selection butto
  +
 A file selection dialog will appear, from which you can select any *.model3.json file.
 
-image::usage_simple_02.png[fig02,256]
+image::../../images/usage_simple_02.png[fig02,256]
 
 
 ==== Are you seeing a Live2D model?
 
 Once the Live2D model is loaded correctly, the preview screen displays the Live2D model.
 
-image::usage_simple_03.png[fig03,256]
+image::../../images/usage_simple_03.png[fig03,256]
 
 
 ==== Assign to Sprite2D texture
@@ -65,15 +65,15 @@ image::usage_simple_03.png[fig03,256]
 Then select the _Sprite2D_ node to open the Texture item. +
 When you select ''New ViewportTexture'' from the list, a dialog to select _Viewport_ will appear, select _GDCubismUserModel_.
 
-image::usage_simple_04.png[fig04,256]
+image::../../images/usage_simple_04.png[fig04,256]
 
 The Live2D model is displayed in the Texture field.
 
-image::usage_simple_05.png[fig05,256]
+image::../../images/usage_simple_05.png[fig05,256]
 
 The Live2D model is also displayed at the _Sprite2D_ position.
 
-image::usage_simple_06.png[fig06,512]
+image::../../images/usage_simple_06.png[fig06,512]
 
 
 === Troubleshooting
@@ -92,7 +92,7 @@ Mipmap has been enabled for shaders from version 0.5 onwards.
 
 If you wish to enable it, please re-import the texture being used in Live2D with Mipmap enabled.
 
-image::usage_mipmap_01.png[mipmap01,256]
+image::../../images/usage_mipmap_01.png[mipmap01,256]
 
 The effect of Mipmap is quite significant, however, depending on the image, it may appear blurry.
 
@@ -102,7 +102,7 @@ image::usage_mipmap_02a.jpg[mipmap02a,256]
 
 With Mipmap Application
 
-image::usage_mipmap_02b.jpg[mipmap02b,256]
+image::../../images/usage_mipmap_02b.jpg[mipmap02b,256]
 
 ==== Live2D Models Not Displayed When Exporting Projects
 
