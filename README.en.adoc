@@ -75,6 +75,21 @@ GDCubism, when linked with dependent external libraries, results in licenses wit
 If you are considering distributing or selling a product incorporating GDCubism, please check the licenses listed on the following page.
 ====
 
+ifdef::env-github,env-vscode[]
+* link:https://mizunagikb.github.io/gd_cubism/gd_cubism/0.6/en/license.html[License]
+
+
+== ビルド方法
+
+* link:https://mizunagikb.github.io/gd_cubism/gd_cubism/0.6/en/build.html[Build]
+
+
+== 使用方法
+
+* link:https://mizunagikb.github.io/gd_cubism/gd_cubism/0.6/en/usage.html[Usage]
+endif::env-github,env-vscode[]
+
+ifndef::env-github,env-vscode[]
 * link:./docs-src/modules/ROOT/pages/en/license.adoc[License]
 
 
@@ -86,13 +101,16 @@ If you are considering distributing or selling a product incorporating GDCubism,
 == Usage
 
 * link:./docs-src/modules/ROOT/pages/en/usage.adoc[Usage]
+endif::env-github,env-vscode[]
 
 
 == Ralated link
 
-* link:https://www.live2d.com/[Live2D Cubism]
-* link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]
-* link:https://github.com/Live2D[Live2D (GitHub)]
-* link:https://github.com/Live2D/CubismNativeFramework[CubismNativeFramework (GitHub)]
-* link:https://github.com/MizunagiKB/gd_cubism[MizunagiKB / gd_cubism (GitHub)]
+* Live2D
+** link:https://www.live2d.com/[Live2D Cubism]
+** link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]
+** link:https://github.com/Live2D[Live2D (GitHub)]
+** link:https://github.com/Live2D/CubismNativeFramework[CubismNativeFramework (GitHub)]
+* MizunagiKB
+** link:https://github.com/MizunagiKB/gd_cubism[MizunagiKB / gd_cubism (GitHub)]
 
