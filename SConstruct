@@ -14,7 +14,7 @@ print("")
 
 
 # ------------------------------------------------------ get CubismSdkForNative
-def get_cubism_sdk(dirname: str) -> tuple[Path]:
+def get_cubism_sdk(dirname):
     list_path: list[Path] = [
         o_path for o_path in Path("thirdparty").glob(dirname) if o_path.is_dir()
     ]
