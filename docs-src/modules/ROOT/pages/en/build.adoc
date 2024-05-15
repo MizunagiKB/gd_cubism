@@ -146,7 +146,7 @@ CAUTION: This build has priority over the Framework in CubismSdkForNative, so pl
 The following items are required for building:
 
 * link:https://visualstudio.microsoft.com/ja/vs/community/[VisualStudio Community], version 2019 or lator.
-* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://www.python.org/downloads/windows/[Python 3.8+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
 
@@ -182,7 +182,7 @@ When the build is completed, the following files will be generated under _demo/a
 The following items are required for building:
 
 * link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
-* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://www.python.org/downloads/windows/[Python 3.8+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
 
@@ -229,7 +229,7 @@ scons platform=macos arch=universal target=template_release
 The following items are required for building:
 
 * GCC 7+, Clang 6+.
-* link:https://www.python.org/downloads/windows/[Python 3.6+].
+* link:https://www.python.org/downloads/windows/[Python 3.8+].
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 
 For Linux, additional packages may be required for each distribution. Please refer to the Godot Engine documentation to find out what distributions require. (I checked on Ubuntu 22.04 Desktop)
@@ -266,7 +266,7 @@ Please use them as a reference when trying to run them in each environment.
 The following items are required for building:
 
 * link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
-* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://www.python.org/downloads/windows/[Python 3.8+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
 
@@ -305,7 +305,7 @@ When the build is completed, the following files will be generated under _demo/a
 ====
 The following items are required for building:
 
-* link:https://www.python.org/downloads/windows/[Python 3.6+].
+* link:https://www.python.org/downloads/windows/[Python 3.8+].
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 * link:https://developer.android.com/studio[Android Studio]
 * link:https://www.azul.com/downloads/?package=jdk#zulu[Azul Zulu: 21.28.85]
