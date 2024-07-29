@@ -43,7 +43,7 @@ git submodule update --init
 
 Cubism SDK for Native には Cusism SDK 以外に Cubism Native Framework が含まれています。
 
-ダウンロードしたものを以下のフォルダ構成になる様に展開してください。（ダウンロードしたものを thirdparty フォルダに配置してファイルを展開すればこの形になるはずです）
+ダウンロードしたファイルを以下のフォルダ構成になる様に展開してください。（ダウンロードしたものを thirdparty フォルダに配置してファイルを展開すればこの形になります）
 
 [source]
 ----

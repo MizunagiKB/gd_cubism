@@ -1,0 +1,87 @@
+= Custom
+:encoding: utf-8
+:lang: en
+:author: MizunagiKB <mizukb@live.jp>
+:copyright: 2024 MizunagiKB
+:doctype: book
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+:stylesdir: ./docs/res/theme/css
+:stylesheet: mizunagi-works.css
+ifdef::env-github,env-vscode[]
+:adocsuffix: .adoc
+endif::env-github,env-vscode[]
+ifndef::env-github,env-vscode[]
+:adocsuffix: .html
+endif::env-github,env-vscode[]
+
+
+[NOTE]
+====
+この文書は執筆中です。
+====
+
+
+== Custom 
+
+このドキュメントは GDCubism を利用する際に、アニメーション周りをカスタマイズするための情報について記載しています。
+
+GDScript で制御したり、 AnimationPlayer と連携させたい場合に参照してください。
+
+
+=== 処理の流れ
+
+GDCubismは以下の順番で処理を行なっています。
+
+概要としては、以下の処理を繰り返しています。
+
+. モーションとエクスプレッションを更新。
+. Live2D情報を更新。
+. 更新結果を元にGodot EngineでLive2Dモデルを描画。
+
+より詳細にすると以下の様になります。
+
+. GDCubismEffect系ノードに対して _cubism_prologue_ シグナルを送信。 
+. モーションが指定されていればパラメータを更新。
+. エクスプレッションが指定されていればパラメータを更新。
+. 新たなGDCubismEffect系ノードが追加されている場合は初期化。
+. GDCubismEffect系ノードに対して _cubism_process_ シグナルを送信。 
+. GDCubismUserModel の parameters を反映。
+. GDCubismUserModel の opacities を反映。
+. Live2D 物理を更新。
+. Live2D ポーズを更新。
+. Live2D 描画情報を更新。
+. GDCubismEffect系ノードに対して _cubism_epilogue_ シグナルを送信。 
+. 描画システムを取得。
+. 描画に必要な SubViewport と Mesh 数を計算。
+. Live2Dモデル の描画。
+
+この処理自体はGDCubismで決められた手順のため、変更する事ができません。
+
+とはいえそれではゲーム向きの処理を行う際にかなり不便となります。そのため、いくつかのシグナルを受け付けられる様になっています。
+
+シグナルを受信して独自の処理を追加するには、 link:../api/gd_cubism_effect_custom{adocsuffix}[GDCubismEffectCustom] を GDCusismUserModel の子要素として追加します。
+
+NOTE: GDCubismEffect から継承された、 GDCubismEffectBreath, GDCubismEffectCustom, GDCubismEffectEyeBlynk, GDCubismEffectHitArea, GDCubismEffectTargetPoint は、シグナルを受信して処理を行なっています。
+
+
+== GDCubismEffectCustom を使用したパラメータ制御
+
+上で少し触れていますが GDCubismEffectCustom を使用すると、 GDCubismUserModel が Live2Dモデルを更新するタイミングでシグナルを受け取る事が出来ます。
+
+GDCubismEffectCustom が受け取る事ができるシグナルは5種類ありますが、そのうち Live2D モデルに関するものは以下の3種類となります。
+
+cubism_prologue::
+Live2Dモデルに適用されたモーションとエクスプレッションの更新前に呼び出されます。このシグナルを受けった際にパラメータ変更を行なっても無視されてしまいます。
+ +
+現在は GDCubismUserModel の get_parameters 関数で取得したパラメータに対して操作出来てしまいますが、将来のバージョンで挙動が変わる可能性があります。
+
+cubism_process::
+Live2Dモデルに適用されたモーションとエクスプレッションが更新された後に呼び出されます。このシグナルを受け取ったタイミングでパラメータを更新すると、モーションを再生させながら任意の処理を上書き出来ます。
+
+例えば、手の形を差し替える、帽子を外す、目を閉じるといった処理です。
+
+
+cubism_epilogue::
+cubism_process とほとんど同じですが、GDCubismUserModel の get_parameters の内容がモーションとエクスプレッションを反映させた状態になっています。
