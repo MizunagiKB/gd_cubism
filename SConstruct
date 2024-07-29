@@ -187,7 +187,7 @@ elif env["platform"] == "android":
         ]
     )
     print("                       libs = {:s}".format(str(o_cubism_lib)))
-    env.Append(LIBS=["Live2DCubismCore"])
+    env.Append(LIBS=["Live2DCubismCore", "log"])
 
 else:
     print("!!! Unsupported platform !!!")
