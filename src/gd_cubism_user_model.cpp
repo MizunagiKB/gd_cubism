@@ -512,12 +512,18 @@ void GDCubismUserModel::_update(const float delta) {
 
     for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++ ) {
         Ref<GDCubismParameter> param = this->ary_parameter[index];
-        if(param.is_null() != true) param->set_raw_value();
+        if(param.is_null() != true) {
+            param->set_raw_value();
+            param->get_raw_value();
+        }
     }
 
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++ ) {
         Ref<GDCubismPartOpacity> param = this->ary_part_opacity[index];
-        if(param.is_null() != true) param->set_raw_value();
+        if(param.is_null() != true) {
+            param->set_raw_value();
+            param->get_raw_value();
+        }
     }
 
     this->internal_model->epi_update(delta * this->speed_scale);
@@ -532,17 +538,7 @@ void GDCubismUserModel::_update(const float delta) {
         }
     #else
     this->internal_model->update_node();
-    #endif // COUNTERMEASURES_90017_90030    
-
-    for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++ ) {
-        Ref<GDCubismPartOpacity> param = this->ary_part_opacity[index];
-        if(param.is_null() != true) param->get_raw_value();
-    }
-
-    for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++ ) {
-        Ref<GDCubismParameter> param = this->ary_parameter[index];
-        if(param.is_null() != true) param->get_raw_value();
-    }
+    #endif // COUNTERMEASURES_90017_90030
 }
 
 
