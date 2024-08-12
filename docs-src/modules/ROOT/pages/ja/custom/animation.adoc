@@ -1,4 +1,4 @@
-= Custom
+= Custom Animation
 :encoding: utf-8
 :lang: en
 :author: MizunagiKB <mizukb@live.jp>
@@ -23,52 +23,105 @@ endif::env-github,env-vscode[]
 ====
 
 
-== Custom 
+== はじめに
 
-このドキュメントは GDCubism を利用する際に、アニメーション周りをカスタマイズするための情報について記載しています。
+GDCubism は Godot Engine 上で Live2D モデルを再生する事を簡単に目的に開発されています。
 
-GDScript で制御したり、 AnimationPlayer と連携させたい場合に参照してください。
+SubViewport経由で描画を行なっているため、モデル表示までは少し手間ですが、一旦表示まで行えば Godot Editor 上から簡単に確認できる様にしています。
 
+簡単に表示が行える一方で、より細かい制御を行いたい場合にどうすれば良いのかというのがややわかりづらいものになっています。例えば、モーションの再生をさせつつ一部のパラメータのみを変更したいといった場合です。
 
-=== 処理の流れ
+その様な操作は GDScript を使用する事で実現できるのですが、現状ソースコードを読む事でしか気がつけないため、このドキュメントを執筆しました。
 
-GDCubismは以下の順番で処理を行なっています。
-
-概要としては、以下の処理を繰り返しています。
-
-. モーションとエクスプレッションを更新。
-. Live2D情報を更新。
-. 更新結果を元にGodot EngineでLive2Dモデルを描画。
-
-より詳細にすると以下の様になります。
-
-. GDCubismEffect系ノードに対して _cubism_prologue_ シグナルを送信。 
-. モーションが指定されていればパラメータを更新。
-. エクスプレッションが指定されていればパラメータを更新。
-. 新たなGDCubismEffect系ノードが追加されている場合は初期化。
-. GDCubismEffect系ノードに対して _cubism_process_ シグナルを送信。 
-. GDCubismUserModel の parameters を反映。
-. GDCubismUserModel の opacities を反映。
-. Live2D 物理を更新。
-. Live2D ポーズを更新。
-. Live2D 描画情報を更新。
-. GDCubismEffect系ノードに対して _cubism_epilogue_ シグナルを送信。 
-. 描画システムを取得。
-. 描画に必要な SubViewport と Mesh 数を計算。
-. Live2Dモデル の描画。
-
-この処理自体はGDCubismで決められた手順のため、変更する事ができません。
-
-とはいえそれではゲーム向きの処理を行う際にかなり不便となります。そのため、いくつかのシグナルを受け付けられる様になっています。
-
-シグナルを受信して独自の処理を追加するには、 link:../api/gd_cubism_effect_custom{adocsuffix}[GDCubismEffectCustom] を GDCusismUserModel の子要素として追加します。
-
-NOTE: GDCubismEffect から継承された、 GDCubismEffectBreath, GDCubismEffectCustom, GDCubismEffectEyeBlynk, GDCubismEffectHitArea, GDCubismEffectTargetPoint は、シグナルを受信して処理を行なっています。
+GDScript や AnimationPlayer と連携させたい場合に参照ください。
 
 
-== GDCubismEffectCustom を使用したパラメータ制御
+=== 処理の流れについて
 
-上で少し触れていますが GDCubismEffectCustom を使用すると、 GDCubismUserModel が Live2Dモデルを更新するタイミングでシグナルを受け取る事が出来ます。
+GDScript で Live2D モデルを制御する場合、 GDCubismUserModel の get_parameter 関数で取得する配列を制御することになりますが、何も考えずに設定しても Live2D モデルにうまく反映されません。
+
+その理由はパラメータを上書きしようとしても、設定されているモーションが上書きをしてしまう事が原因です。
+
+うまく設定するには GDCubism がどの様に描画をおこなっているかを知るっておく方が良いかと思いますので、まずは GDCubism がどのように Live2D モデルを描画しているかについて説明します。（技術的な背景に興味がない方は読み飛ばしてください）
+
+
+==== 処理についての説明
+
+GDCubismUserModel は以下の処理を毎フレーム行います。順番の大枠は「設定値の読込」「Live2D情報の更新」「描画」となります。
+
+. 設定値の読込
+.. モーションパラメータを更新。
+.. エクスプレッションパラメータを更新。
+.. GDCubismUserModel の parameters を反映。
+.. GDCubismUserModel の opacities を反映。
+. Live2D情報の更新
+.. 物理パラメータを更新。
+.. ポーズを更新。
+.. 描画情報を更新。
+. 描画情報の作成
+.. 描画に必要な SubViewport と Mesh 数を計算。
+.. SubViewport と ArrayMesh を生成し、ノードツリーに割り当て。
+
+実際のプログラムコード（0.6時点）では、 _process をトリガとして以下の様に呼び出されています。
+
+NOTE: _process は playback_process_mode が IDLE に設定されている場合です。 PHYSICS の場合は _physics_process、 MANUAL の場合は  _advance となります。
+
+
+* _GDCubismUserModel_._process
+** _GDCubismUserModel_._update
+
+*** _InternalCubismModel_.pro_update
+**** _InternalCubismModel_.effect_batch
+***** *cubism_prologue* シグナルの呼び出し
+**** Live2D モデルのパラメータ情報を復元
+**** _motionManager.UpdateMotion
+**** Live2D モデルのパラメータ情報を保存
+**** _expressionManager.UpdateMotion
+**** _InternalCubismModel_.GetModelOpacity
+
+*** _InternalCubismModel_.efx_update
+**** GDCubismEffect*ノードに変更があれば、 efx_term, efx_init シグナルの呼び出しfootnote:id[ここで呼び出されると、シグナルが中途半端に呼び出されてしまうため、今後のバージョンで呼び出し位置が変更される可能性があります。]
+**** _InternalCubismModel_.effect_batch
+***** *cubism_process* シグナルの呼び出し
+
+*** パラメータ情報の設定と取得
+*** 透明度の設定と取得
+
+*** _InternalCubismModel_.epi_update
+**** Live2D モデルの物理パラメータを更新
+**** Live2D モデルのポーズを更新
+**** Live2D モデルの内部状態を更新
+**** _InternalCubismModel_.effect_batch
+***** *cubism_epilogue* シグナルの呼び出し
+
+*** _InternalCubismModel_.update_node
+**** _InternalCubismModel_.GetRenderer
+**** 描画サイズの反映
+**** 描画位置の反映
+**** 描画に必要なリソースの確保
+**** 描画に必要な情報を GodotEngine に設定
+
+
+==== 任意の処理を追加する方法
+
+内部の説明をしましたので、実際にどう処理すれば良いかについて記述していきます。
+
+
+===== _process 関数内で処理する方法
+
+前述した一連の処理は、すべて Godot Engine が GDCubismUserModel の _process を呼び出すタイミングで行われます。
+
+そのため、少しだけ Live2D モデルのパラメータを変更したい場合は、その後で行えばよいことになります。注意点としては Godot Engine 側が GDCubismUserModel 内の _process が呼び出されるのがいつなのかという事です。
+
+これは GDCubismUserModel がノードツリーのどの場所にあり、スクリプトがどこに設定されているかによります。確実に反映させるには、 GDCubismUserModel の playback_process_mode を MANUAL にして、 advance 関数を呼び出してからパラメータを操作するようにしてください。
+
+これにより、パラメータの更新が反映前に上書きされてしまうのを防ぐ事が出来ます。
+
+
+===== GDCubismEffectCustom で処理する方法
+
+GDCubismUserModel の子要素に GDCubismEffectCustom を追加すると、cubism_prologue, cubism_process, cubism_epilogue シグナルが受け取れるようになります。
+
 
 GDCubismEffectCustom が受け取る事ができるシグナルは5種類ありますが、そのうち Live2D モデルに関するものは以下の3種類となります。
 
@@ -85,3 +138,4 @@ Live2Dモデルに適用されたモーションとエクスプレッション�
 
 cubism_epilogue::
 cubism_process とほとんど同じですが、GDCubismUserModel の get_parameters の内容がモーションとエクスプレッションを反映させた状態になっています。
+
