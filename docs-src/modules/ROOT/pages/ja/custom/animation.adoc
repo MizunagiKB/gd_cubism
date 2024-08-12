@@ -17,6 +17,9 @@ ifndef::env-github,env-vscode[]
 endif::env-github,env-vscode[]
 
 
+xref:ja/custom/animation.adoc[Japanese] / xref:en/custom/animation.adoc[English]
+
+
 [NOTE]
 ====
 この文書は執筆中です。
@@ -62,7 +65,7 @@ GDCubismUserModel は以下の処理を毎フレーム行います。順番の�
 .. 描画に必要な SubViewport と Mesh 数を計算。
 .. SubViewport と ArrayMesh を生成し、ノードツリーに割り当て。
 
-実際のプログラムコード（0.6時点）では、 _process をトリガとして以下の様に呼び出されています。
+> 実際のプログラムコード（0.6時点）では、 _process をトリガとして以下の様に呼び出されています。
 
 NOTE: _process は playback_process_mode が IDLE に設定されている場合です。 PHYSICS の場合は _physics_process、 MANUAL の場合は  _advance となります。
 
