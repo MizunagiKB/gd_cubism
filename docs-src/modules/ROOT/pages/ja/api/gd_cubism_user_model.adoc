@@ -134,7 +134,7 @@ enum ParameterMode::
 <<id-method-start_motion,_start_motion_>> 関数で指定した _Motion_ を再生する時に指定します。 +
 この指定がされているときは xref:./gd_cubism_parameter.adoc[] による操作は行えません。
 * NONE_PARAMETER = 1 +
-<<id-method-start_motion,_get_parameter_>> 関数で取得した xref:./gd_cubism_parameter.adoc[] を使用して、Live2Dモデルを操作する場合に指定します。 +
+<<id-method-start_motion,_get_parameters_>> 関数で取得した xref:./gd_cubism_parameter.adoc[] を使用して、Live2Dモデルを操作する場合に指定します。 +
 この指定がされているときは <<id-method-start_motion,_start_motion_>> 関数でモーション再生は行えません。
 
 
@@ -425,13 +425,13 @@ for group in dict_motion.keys():
 ----
 
 
-[[id-method-get_parameter]]
-Array get_parameter()::
+[[id-method-get_parameters]]
+Array get_parameters()::
 現在保持しているLive2Dモデルを操作するためのクラスを取得します。
 
 
-[[id-method-get_part_opacity]]
-Array get_part_opacity()::
+[[id-method-get_part_opacities]]
+Array get_part_opacities()::
 現在保持しているLive2Dモデルのパーツ透明度を操作するためのクラスを取得します。
 
 
