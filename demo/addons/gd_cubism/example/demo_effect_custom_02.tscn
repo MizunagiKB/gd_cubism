@@ -1,30 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://xk7rqvf532rj"]
+[gd_scene load_steps=3 format=3 uid="uid://drt0184vymus2"]
 
 [ext_resource type="Script" path="res://addons/gd_cubism/example/custom_efx_02.gd" id="1_ittjg"]
+[ext_resource type="Texture2D" uid="uid://c8o4yd28cp3jy" path="res://icon.svg" id="2_0d7x8"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_w6cby"]
-blend_mode = 4
-light_mode = 1
-
-[node name="demo_effect_custom_02" type="Node2D"]
+[node name="demo_effect_custom_01" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("CanvasItemMaterial_w6cby")
-position = Vector2(256, 256)
+position = Vector2(640, 512)
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D"]
 disable_3d = true
 transparent_bg = true
 gui_disable_input = true
+size = Vector2i(1024, 1024)
 render_target_update_mode = 4
 
 [node name="GDCubismEffectCustom" type="GDCubismEffectCustom" parent="Sprite2D/GDCubismUserModel"]
 script = ExtResource("1_ittjg")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-autoplay = true
-bus = &"Voice"
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D/GDCubismUserModel/GDCubismEffectCustom"]
+z_index = 1024
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_0d7x8")
 
-[connection signal="cubism_init" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_init"]
 [connection signal="cubism_process" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_process"]
-[connection signal="cubism_term" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_term"]

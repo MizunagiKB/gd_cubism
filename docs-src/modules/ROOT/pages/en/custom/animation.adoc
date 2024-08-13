@@ -35,9 +35,9 @@ Since rendering is performed via SubViewport, displaying the model requires some
 
 While it is easy to display, it is somewhat unclear how to achieve finer control. For example, if you want to play a motion while changing only some parameters.
 
-Such operations can be achieved using GDScript, but currently, you can only notice this by reading the source code, so this document was written.
+Such operations can be achieved using GDScript; however, at present, they can only be discovered by reading the source code. 
 
-Please refer to this document when you want to link with GDScript or AnimationPlayer.
+Therefore, I have compiled this document as a reference.
 
 
 === Process Flow
@@ -109,7 +109,7 @@ NOTE: _process is when playback_process_mode is set to IDLE. For PHYSICS, it is 
 
 ==== How to Add Arbitrary Processing
 
-Now that I have explained the internal process, I will describe how to actually process it.
+From here, we will describe how to proceed with the actual processing.
 
 
 ===== How to Process in the _process Function
@@ -121,6 +121,12 @@ Therefore, if you want to change the parameters of the Live2D model a little, yo
 This depends on where GDCubismUserModel is in the node tree and where the script is set. To ensure it is reflected, set the playback_process_mode of GDCubismUserModel to MANUAL and call the advance function before operating the parameters.
 
 This prevents the parameter update from being overwritten before it is reflected.
+
+[source]
+[source,,numlines]
+----
+include::example$custom_animation_process.gd[]
+----
 
 
 ===== How to Process with GDCubismEffectCustom
@@ -143,3 +149,23 @@ For example, replacing the shape of the hand, removing the hat, or closing the e
 
 cubism_epilogue::
 It is almost the same as cubism_process, but the content of get_parameters of GDCubismUserModel reflects the motion and expression.
+
+[source]
+[source,,numlines]
+----
+include::example$custom_animation_signal.gd[]
+----
+
+
+== About the Sample Code
+
+The following samples are provided using GDCubismEffectCustom.
+
+|demo_effect_custom_01.tscn
+|This is a sample using _GDCubismEffectCustom_.
+
+|demo_effect_custom_02.tscn
+|This is a sample using _GDCubismEffectCustom_.
+
+|demo_effect_custom_03.tscn
+|This is a sample using _GDCubismEffectCustom_. It performs a simple lip sync, moving the mouth according to the volume.

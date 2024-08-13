@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://drt0184vymus2"]
+[gd_scene load_steps=2 format=3 uid="uid://0sa003phknvv"]
 
-[ext_resource type="Script" path="res://addons/gd_cubism/example/custom_efx_01.gd" id="1_lkrys"]
-[ext_resource type="Texture2D" uid="uid://c8o4yd28cp3jy" path="res://icon.svg" id="2_ur0ha"]
+[ext_resource type="Script" path="res://addons/gd_cubism/example/demo_effect_custom_01.gd" id="1_2sdfp"]
 
 [node name="demo_effect_custom_01" type="Node2D"]
+script = ExtResource("1_2sdfp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(640, 512)
@@ -16,11 +16,9 @@ size = Vector2i(1024, 1024)
 render_target_update_mode = 4
 
 [node name="GDCubismEffectCustom" type="GDCubismEffectCustom" parent="Sprite2D/GDCubismUserModel"]
-script = ExtResource("1_lkrys")
 
-[node name="Sprite2D" type="Sprite2D" parent="Sprite2D/GDCubismUserModel/GDCubismEffectCustom"]
-z_index = 1024
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_ur0ha")
-
-[connection signal="cubism_process" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_process"]
+[connection signal="cubism_epilogue" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="." method="_on_gd_cubism_effect_custom_cubism_epilogue"]
+[connection signal="cubism_init" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="." method="_on_gd_cubism_effect_custom_cubism_init"]
+[connection signal="cubism_process" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="." method="_on_gd_cubism_effect_custom_cubism_process"]
+[connection signal="cubism_prologue" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="." method="_on_gd_cubism_effect_custom_cubism_prologue"]
+[connection signal="cubism_term" from="Sprite2D/GDCubismUserModel/GDCubismEffectCustom" to="." method="_on_gd_cubism_effect_custom_cubism_term"]

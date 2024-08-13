@@ -34,9 +34,9 @@ SubViewport経由で描画を行なっているため、モデル表示までは
 
 簡単に表示が行える一方で、より細かい制御を行いたい場合にどうすれば良いのかというのがややわかりづらいものになっています。例えば、モーションの再生をさせつつ一部のパラメータのみを変更したいといった場合です。
 
-その様な操作は GDScript を使用する事で実現できるのですが、現状ソースコードを読む事でしか気がつけないため、このドキュメントを執筆しました。
+その様な操作は GDScript を使用する事で実現できるのですが、現状ソースコードを読む事でしか気がつけません。
 
-GDScript や AnimationPlayer と連携させたい場合に参照ください。
+そのため、資料としてこのドキュメントを執筆しました。
 
 
 === 処理の流れについて
@@ -107,7 +107,7 @@ NOTE: _process は playback_process_mode が IDLE に設定されている場合
 
 ==== 任意の処理を追加する方法
 
-内部の説明をしましたので、実際にどう処理すれば良いかについて記述していきます。
+ここからは実際にどう処理すれば良いかについて記述していきます。
 
 
 ===== _process 関数内で処理する方法
@@ -119,6 +119,12 @@ NOTE: _process は playback_process_mode が IDLE に設定されている場合
 これは GDCubismUserModel がノードツリーのどの場所にあり、スクリプトがどこに設定されているかによります。確実に反映させるには、 GDCubismUserModel の playback_process_mode を MANUAL にして、 advance 関数を呼び出してからパラメータを操作するようにしてください。
 
 これにより、パラメータの更新が反映前に上書きされてしまうのを防ぐ事が出来ます。
+
+[source]
+[source,,numlines]
+----
+include::example$custom_animation_process.gd[]
+----
 
 
 ===== GDCubismEffectCustom で処理する方法
@@ -142,3 +148,23 @@ Live2Dモデルに適用されたモーションとエクスプレッション�
 cubism_epilogue::
 cubism_process とほとんど同じですが、GDCubismUserModel の get_parameters の内容がモーションとエクスプレッションを反映させた状態になっています。
 
+[source]
+[source,,numlines]
+----
+include::example$custom_animation_signal.gd[]
+----
+
+
+== サンプルコードについて
+
+GDCubismEffectCustom を使用したサンプルとして以下のものが用意されています。
+
+|demo_effect_custom_01.tscn
+|_GDCubismEffectCustom_ を使用したサンプルとなります。
+
+|demo_effect_custom_02.tscn
+|_GDCubismEffectCustom_ を使用したサンプルとなります。
+
+|demo_effect_custom_03.tscn
+|_GDCubismEffectCustom_ を使用したサンプルとなります。
+簡易的なリップシンクを行なって、音量にあわせて口を動かしています。
