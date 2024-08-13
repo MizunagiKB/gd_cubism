@@ -152,6 +152,19 @@ CAUTION: ビルドはCubismSdkForNativeにあるFrameworkよりカスタムビ�
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
 
+[CAUTION]
+====
+SCons 4.8 を使用すると VS Project が正常に生成出来ず、ビルドに失敗するという報告を受けています。 この問題は Godot Engine 側にあり、将来のバージョンで解消されると思いますが、現状は SCons を 4.7 で使用してください。
+https://github.com/godotengine/godot/pull/94117
+
+[source]
+----
+# scons をインストールする時にバージョン指定をする事で対応可能です。
+# 4.8 以上が導入されている場合もこの方法で 4.7 にする事が出来ます。
+pip install scons==4.7
+----
+====
+
 
 .Visual Studioのインストールに関する注意事項
 ****
@@ -187,6 +200,20 @@ scons platform=windows vsproj=yes arch=x86_64 target=template_release
 * link:https://www.python.org/downloads/windows/[Python 3.8+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
+
+[CAUTION]
+====
+SCons 4.8 を使用するとビルドに失敗するという報告を受けています。 この問題は Godot Engine 側にあり、将来のバージョンで解消されると思いますが、現状は SCons を 4.7 で使用してください。
+https://github.com/godotengine/godot/pull/94117
+
+[source]
+----
+# scons をインストールする時にバージョン指定をする事で対応可能です。
+# 4.8 以上が導入されている場合もこの方法で 4.7 にする事が出来ます。
+pip install scons==4.7
+----
+====
+
 
 準備できたら以下の手順でビルドを行ってください。
 
