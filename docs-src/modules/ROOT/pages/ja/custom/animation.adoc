@@ -159,6 +159,11 @@ include::example$custom_animation_signal.gd[]
 
 GDCubismEffectCustom を使用したサンプルとして以下のものが用意されています。
 
+
+[cols="1,1",frame=none,grid=none]
+|===
+^|Name ^|Desc
+
 |demo_effect_custom_01.tscn
 |_GDCubismEffectCustom_ を使用したサンプルとなります。
 
@@ -168,3 +173,5 @@ GDCubismEffectCustom を使用したサンプルとして以下のものが用�
 |demo_effect_custom_03.tscn
 |_GDCubismEffectCustom_ を使用したサンプルとなります。
 簡易的なリップシンクを行なって、音量にあわせて口を動かしています。
+
+|===

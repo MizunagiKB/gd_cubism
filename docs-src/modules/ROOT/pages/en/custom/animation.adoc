@@ -161,6 +161,11 @@ include::example$custom_animation_signal.gd[]
 
 The following samples are provided using GDCubismEffectCustom.
 
+
+[cols="1,1",frame=none,grid=none]
+|===
+^|Name ^|Desc
+
 |demo_effect_custom_01.tscn
 |This is a sample using _GDCubismEffectCustom_.
 
@@ -169,3 +174,5 @@ The following samples are provided using GDCubismEffectCustom.
 
 |demo_effect_custom_03.tscn
 |This is a sample using _GDCubismEffectCustom_. It performs a simple lip sync, moving the mouth according to the volume.
+
+|===
