@@ -31,6 +31,7 @@ xref:ja/api/gd_cubism_user_model.adoc[] の _get_parameters_ 関数で戻され�
 >|float <|default_value |[default: 0.0]
 >|float <|maximum_value |[default: 0.0]
 >|float <|minimum_value |[default: 0.0]
+>|bool <|hold |[default: false]
 |===
 
 
@@ -64,11 +65,15 @@ float minimum_value [default: 0.0]::
 このクラスが保持する parameter に設定可能な最小値。
 
 
+[[id-property-hold]]
+bool hold [default: false]::
+true にすると、モーションやエクスプレッションが設定されている場合でも、設定したパラメータが優先して適用されます。
+
+
 == Method Descriptions
 
 [[id-method-reset]]
 void reset()::
 現在設定されている値を _default_value_ にします。
 +
-機能と動作は ```value = default_value``` と同じです。
-
+hold の状態も解除されます。

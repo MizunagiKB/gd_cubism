@@ -32,6 +32,7 @@ By writing a value to this class's _value_, you can modify the parameter of the 
 >|float <|default_value |[default: 0.0]
 >|float <|maximum_value |[default: 0.0]
 >|float <|minimum_value |[default: 0.0]
+>|bool <|hold |[default: false]
 |===
 
 
@@ -54,13 +55,21 @@ enum Type::
 float default_value [default: 0.0]::
 The initial value of the parameter held by this class.
 
+
 [[id-property-maximum_value]]
 float maximum_value [default: 0.0]::
 The maximum value that can be set for the parameter held by this class.
 
+
 [[id-property-minimum_value]]
 float minimum_value [default: 0.0]::
 The minimum value that can be set for the parameter held by this class.
+
+
+[[id-property-hold]]
+bool hold [default: false]::
+If true, the parameters you set will take precedence even if motion or expression is set.
+
 
 == Method Descriptions
 
@@ -68,5 +77,4 @@ The minimum value that can be set for the parameter held by this class.
 void reset()::
 Resets the currently set value to _default_value_.
 +
-Its function and operation are the same as ```value = default_value```.
-
+The hold status is also lifted.
