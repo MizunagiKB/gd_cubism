@@ -150,6 +150,24 @@ The following items are required for building:
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
 
+[CAUTION]
+====
+There have been reports that using SCons 4.8 results in build failures.
+
+This issue lies with the Godot Engine and is expected to be resolved in future versions.
+
+* https://github.com/godotengine/godot/pull/94117
+
+For now, please use SCons 4.7.
+
+[source]
+----
+# You can address this by specifying the version when installing scons.
+# If a version higher than 4.8 is installed, you can use this method to revert to 4.7.
+pip install scons==4.7
+----
+====
+
 
 .Installing Visual Studio caveats
 ****
@@ -163,10 +181,10 @@ link:https://docs.godotengine.org/en/stable/contributing/development/compiling/c
 
 When ready, run the build with the following command.
 
-[source]
+[source, console]
 --
-scons platform=windows arch=x86_64 target=template_debug
-scons platform=windows arch=x86_64 target=template_release
+scons platform=windows vsproj=yes arch=x86_64 target=template_debug
+scons platform=windows vsproj=yes arch=x86_64 target=template_release
 --
 
 When the build is completed, the following files will be generated under _demo/addons/gd_cubism/bin_.
@@ -185,6 +203,25 @@ The following items are required for building:
 * link:https://www.python.org/downloads/windows/[Python 3.8+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
+
+[CAUTION]
+====
+There have been reports that using SCons 4.8 results in build failures.
+
+This issue lies with the Godot Engine and is expected to be resolved in future versions.
+
+* https://github.com/godotengine/godot/pull/94117
+
+For now, please use SCons 4.7.
+
+[source]
+----
+# You can address this by specifying the version when installing scons.
+# If a version higher than 4.8 is installed, you can use this method to revert to 4.7.
+pip install scons==4.7
+----
+====
+
 
 When ready, run the build with the following command.
 
