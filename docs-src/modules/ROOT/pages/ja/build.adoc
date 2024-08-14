@@ -43,7 +43,7 @@ git submodule update --init
 
 Cubism SDK for Native には Cusism SDK 以外に Cubism Native Framework が含まれています。
 
-ダウンロードしたものを以下のフォルダ構成になる様に展開してください。（ダウンロードしたものを thirdparty フォルダに配置してファイルを展開すればこの形になるはずです）
+ダウンロードしたファイルを以下のフォルダ構成になる様に展開してください。（ダウンロードしたものを thirdparty フォルダに配置してファイルを展開すればこの形になります）
 
 [source]
 ----
@@ -148,8 +148,21 @@ CAUTION: ビルドはCubismSdkForNativeにあるFrameworkよりカスタムビ�
 ビルドには以下のものが必要となります。
 
 * link:https://visualstudio.microsoft.com/ja/vs/community/[VisualStudio Community], version 2019 or lator.
-* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://www.python.org/downloads/windows/[Python 3.8+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
+====
+
+[CAUTION]
+====
+SCons 4.8 を使用すると VS Project が正常に生成出来ず、ビルドに失敗するという報告を受けています。 この問題は Godot Engine 側にあり、将来のバージョンで解消されると思いますが、現状は SCons を 4.7 で使用してください。
+https://github.com/godotengine/godot/pull/94117
+
+[source]
+----
+# scons をインストールする時にバージョン指定をする事で対応可能です。
+# 4.8 以上が導入されている場合もこの方法で 4.7 にする事が出来ます。
+pip install scons==4.7
+----
 ====
 
 
@@ -167,8 +180,8 @@ link:https://docs.godotengine.org/en/stable/contributing/development/compiling/c
 
 [source, console]
 --
-scons platform=windows arch=x86_64 target=template_debug
-scons platform=windows arch=x86_64 target=template_release
+scons platform=windows vsproj=yes arch=x86_64 target=template_debug
+scons platform=windows vsproj=yes arch=x86_64 target=template_release
 --
 
 ビルドが完了すると以下のファイルが _demo/addons/gd_cubism/bin_ 以下に生成されます。
@@ -184,9 +197,23 @@ scons platform=windows arch=x86_64 target=template_release
 [NOTE]
 ====
 * link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
-* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://www.python.org/downloads/windows/[Python 3.8+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
+
+[CAUTION]
+====
+SCons 4.8 を使用するとビルドに失敗するという報告を受けています。 この問題は Godot Engine 側にあり、将来のバージョンで解消されると思いますが、現状は SCons を 4.7 で使用してください。
+https://github.com/godotengine/godot/pull/94117
+
+[source]
+----
+# scons をインストールする時にバージョン指定をする事で対応可能です。
+# 4.8 以上が導入されている場合もこの方法で 4.7 にする事が出来ます。
+pip install scons==4.7
+----
+====
+
 
 準備できたら以下の手順でビルドを行ってください。
 
@@ -230,7 +257,7 @@ scons platform=macos arch=universal target=template_release
 ビルドには以下のものが必要となります。
 
 * GCC 7+, Clang 6+.
-* link:https://www.python.org/downloads/windows/[Python 3.6+].
+* link:https://www.python.org/downloads/windows/[Python 3.8+].
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 
 Linuxの場合、ディストリビューション毎に必要なパッケージが追加で必要となる場合があります。どのディストリビューションで何が必要になるかは Godot Engine のドキュメントを参考にしてください。
@@ -267,7 +294,7 @@ scons platform=linux arch=x86_64 target=template_release
 [NOTE]
 ====
 * link:https://apps.apple.com/us/app/xcode/id497799835[Xcode]
-* link:https://www.python.org/downloads/windows/[Python 3.6+]
+* link:https://www.python.org/downloads/windows/[Python 3.8+]
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 ====
 
@@ -306,7 +333,7 @@ scons platform=ios arch=universal target=template_release
 ====
 ビルドには以下のものが必要となります。
 
-* link:https://www.python.org/downloads/windows/[Python 3.6+].
+* link:https://www.python.org/downloads/windows/[Python 3.8+].
 * link:https://scons.org/pages/download.html[SCons 3.0+] build system.
 * link:https://developer.android.com/studio[Android Studio]
 * link:https://www.azul.com/downloads/?package=jdk#zulu[Azul Zulu: 21.28.85]
