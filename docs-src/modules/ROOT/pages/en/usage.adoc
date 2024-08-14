@@ -143,6 +143,11 @@ Please arrange the contents of the downloaded file as follows:
 If you want to try with your own model, please place the output referring to the above in _demo/addons/gd_cubism/example/res/live2d_.
 
 
+=== Related Documentation
+
+* xref:ja/custom/motion.adoc[]
+
+
 === Description of the Demo
 
 [cols="1,1",frame=none,grid=none]
