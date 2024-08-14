@@ -151,9 +151,12 @@ _demo_ フォルダには、サンプルとして以下のものが収められ�
 
 |demo_effect_custom_02.tscn
 |_GDCubismEffectCustom_ を使用したサンプルとなります。
-簡易的なリップシンクを行なって、音量にあわせて口を動かしています。
 
 |demo_effect_custom_03.tscn
+|_GDCubismEffectCustom_ を使用したサンプルとなります。
+簡易的なリップシンクを行なって、音量にあわせて口を動かしています。
+
+|demo_effect_custom_target_point.tscn
 |_GDCubismEffectTargetPoint_ を使用したサンプルとなります。
 マウスの位置にあわせてLive2Dモデルが視線を向ける動作をします。
 

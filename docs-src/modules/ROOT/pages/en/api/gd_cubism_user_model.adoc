@@ -135,7 +135,7 @@ enum ParameterMode::
 Specify this when playing the _Motion_ specified by the <<id-method-start_motion,_start_motion_>> function. +
 When this is specified, operations by xref:./gd_cubism_parameter.adoc[] cannot be performed.
 * NONE_PARAMETER = 1 +
-Specify this when using the xref:./gd_cubism_parameter.adoc[] obtained by the <<id-method-start_motion,_get_parameter_>> function to operate the Live2D model. +
+Specify this when using the xref:./gd_cubism_parameter.adoc[] obtained by the <<id-method-start_motion,_get_parameters_>> function to operate the Live2D model. +
 When this is specified, motion playback cannot be performed by the <<id-method-start_motion,_start_motion_>> function.
 
 
@@ -427,13 +427,13 @@ for group in dict_motion.keys():
 ----
 
 
-[[id-method-get_parameter]]
-Array get_parameter()::
+[[id-method-get_parameters]]
+Array get_parameters()::
 Gets a class to operate the currently held Live2D model.
 
 
-[[id-method-get_part_opacity]]
-Array get_part_opacity()::
+[[id-method-get_part_opacities]]
+Array get_part_opacities()::
 Gets a class to operate the part transparency of the currently held Live2D model.
 
 

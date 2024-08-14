@@ -153,9 +153,12 @@ If you want to try with your own model, please place the output referring to the
 |This is a sample using _GDCubismEffectCustom_.
 
 |demo_effect_custom_02.tscn
-|This is a sample using _GDCubismEffectCustom_. It performs a simple lip sync, moving the mouth according to the volume.
+|This is a sample using _GDCubismEffectCustom_.
 
 |demo_effect_custom_03.tscn
+|This is a sample using _GDCubismEffectCustom_. It performs a simple lip sync, moving the mouth according to the volume.
+
+|demo_effect_custom_target_pooint.tscn
 |This is a sample using _GDCubismEffectTargetPoint_. The Live2D model will look in the direction of the mouse position.
 
 |demo_effect_hit_area.tscn
