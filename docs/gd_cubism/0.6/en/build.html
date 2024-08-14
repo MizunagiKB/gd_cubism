@@ -425,6 +425,40 @@ This build has priority over the Framework in CubismSdkForNative, so please dele
 </tr>
 </table>
 </div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There have been reports that using SCons 4.8 results in build failures.</p>
+</div>
+<div class="paragraph">
+<p>This issue lies with the Godot Engine and is expected to be resolved in future versions.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/godotengine/godot/pull/94117" class="bare">https://github.com/godotengine/godot/pull/94117</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For now, please use SCons 4.7.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># You can address this by specifying the version when installing scons.
+# If a version higher than 4.8 is installed, you can use this method to revert to 4.7.
+pip install scons==4.7</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">Installing Visual Studio caveats</div>
@@ -444,8 +478,8 @@ This build has priority over the Framework in CubismSdkForNative, so please dele
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">scons platform=windows arch=x86_64 target=template_debug
-scons platform=windows arch=x86_64 target=template_release</code></pre>
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">scons platform=windows vsproj=yes arch=x86_64 target=template_debug
+scons platform=windows vsproj=yes arch=x86_64 target=template_release</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -486,6 +520,40 @@ scons platform=windows arch=x86_64 target=template_release</code></pre>
 <p><a href="https://scons.org/pages/download.html">SCons 3.0+</a> build system.</p>
 </li>
 </ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There have been reports that using SCons 4.8 results in build failures.</p>
+</div>
+<div class="paragraph">
+<p>This issue lies with the Godot Engine and is expected to be resolved in future versions.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/godotengine/godot/pull/94117" class="bare">https://github.com/godotengine/godot/pull/94117</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For now, please use SCons 4.7.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># You can address this by specifying the version when installing scons.
+# If a version higher than 4.8 is installed, you can use this method to revert to 4.7.
+pip install scons==4.7</code></pre>
+</div>
 </div>
 </td>
 </tr>

@@ -515,7 +515,7 @@ moc3 file version 5.0.00以上</p>
 </li>
 <li>
 <p>NONE_PARAMETER = 1<br>
-<a href="#id-method-start_motion"><em>get_parameter</em></a> 関数で取得した <a href="gd_cubism_parameter.html" class="xref page">GDCubismParameter</a> を使用して、Live2Dモデルを操作する場合に指定します。<br>
+<a href="#id-method-start_motion"><em>get_parameters</em></a> 関数で取得した <a href="gd_cubism_parameter.html" class="xref page">GDCubismParameter</a> を使用して、Live2Dモデルを操作する場合に指定します。<br>
 この指定がされているときは <a href="#id-method-start_motion"><em>start_motion</em></a> 関数でモーション再生は行えません。</p>
 </li>
 </ul>
@@ -1224,17 +1224,17 @@ for group in dict_motion.keys():
         print("group: %s, no: %d" % [group, no])</code></pre>
 </div>
 </div>
-<div id="id-method-get_parameter" class="dlist">
+<div id="id-method-get_parameters" class="dlist">
 <dl>
-<dt class="hdlist1">Array get_parameter()</dt>
+<dt class="hdlist1">Array get_parameters()</dt>
 <dd>
 <p>現在保持しているLive2Dモデルを操作するためのクラスを取得します。</p>
 </dd>
 </dl>
 </div>
-<div id="id-method-get_part_opacity" class="dlist">
+<div id="id-method-get_part_opacities" class="dlist">
 <dl>
-<dt class="hdlist1">Array get_part_opacity()</dt>
+<dt class="hdlist1">Array get_part_opacities()</dt>
 <dd>
 <p>現在保持しているLive2Dモデルのパーツ透明度を操作するためのクラスを取得します。</p>
 </dd>

@@ -241,7 +241,7 @@ git submodule update --init</code></pre>
 <p>Cubism SDK for Native には Cusism SDK 以外に Cubism Native Framework が含まれています。</p>
 </div>
 <div class="paragraph">
-<p>ダウンロードしたものを以下のフォルダ構成になる様に展開してください。（ダウンロードしたものを thirdparty フォルダに配置してファイルを展開すればこの形になるはずです）</p>
+<p>ダウンロードしたファイルを以下のフォルダ構成になる様に展開してください。（ダウンロードしたものを thirdparty フォルダに配置してファイルを展開すればこの形になります）</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -426,6 +426,28 @@ popd</code></pre>
 </tr>
 </table>
 </div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>SCons 4.8 を使用すると VS Project が正常に生成出来ず、ビルドに失敗するという報告を受けています。 この問題は Godot Engine 側にあり、将来のバージョンで解消されると思いますが、現状は SCons を 4.7 で使用してください。
+<a href="https://github.com/godotengine/godot/pull/94117" class="bare">https://github.com/godotengine/godot/pull/94117</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># scons をインストールする時にバージョン指定をする事で対応可能です。
+# 4.8 以上が導入されている場合もこの方法で 4.7 にする事が出来ます。
+pip install scons==4.7</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">Visual Studioのインストールに関する注意事項</div>
@@ -445,8 +467,8 @@ popd</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">scons platform=windows arch=x86_64 target=template_debug
-scons platform=windows arch=x86_64 target=template_release</code></pre>
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">scons platform=windows vsproj=yes arch=x86_64 target=template_debug
+scons platform=windows vsproj=yes arch=x86_64 target=template_release</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -487,6 +509,28 @@ scons platform=windows arch=x86_64 target=template_release</code></pre>
 <p><a href="https://scons.org/pages/download.html">SCons 3.0+</a> build system.</p>
 </li>
 </ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>SCons 4.8 を使用するとビルドに失敗するという報告を受けています。 この問題は Godot Engine 側にあり、将来のバージョンで解消されると思いますが、現状は SCons を 4.7 で使用してください。
+<a href="https://github.com/godotengine/godot/pull/94117" class="bare">https://github.com/godotengine/godot/pull/94117</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># scons をインストールする時にバージョン指定をする事で対応可能です。
+# 4.8 以上が導入されている場合もこの方法で 4.7 にする事が出来ます。
+pip install scons==4.7</code></pre>
+</div>
 </div>
 </td>
 </tr>

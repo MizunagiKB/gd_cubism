@@ -519,7 +519,7 @@ When this is specified, operations by <a href="gd_cubism_parameter.html" class="
 </li>
 <li>
 <p>NONE_PARAMETER = 1<br>
-Specify this when using the <a href="gd_cubism_parameter.html" class="xref page">GDCubismParameter</a> obtained by the <a href="#id-method-start_motion"><em>get_parameter</em></a> function to operate the Live2D model.<br>
+Specify this when using the <a href="gd_cubism_parameter.html" class="xref page">GDCubismParameter</a> obtained by the <a href="#id-method-start_motion"><em>get_parameters</em></a> function to operate the Live2D model.<br>
 When this is specified, motion playback cannot be performed by the <a href="#id-method-start_motion"><em>start_motion</em></a> function.</p>
 </li>
 </ul>
@@ -1240,17 +1240,17 @@ for group in dict_motion.keys():
         print("group: %s, no: %d" % [group, no])</code></pre>
 </div>
 </div>
-<div id="id-method-get_parameter" class="dlist">
+<div id="id-method-get_parameters" class="dlist">
 <dl>
-<dt class="hdlist1">Array get_parameter()</dt>
+<dt class="hdlist1">Array get_parameters()</dt>
 <dd>
 <p>Gets a class to operate the currently held Live2D model.</p>
 </dd>
 </dl>
 </div>
-<div id="id-method-get_part_opacity" class="dlist">
+<div id="id-method-get_part_opacities" class="dlist">
 <dl>
-<dt class="hdlist1">Array get_part_opacity()</dt>
+<dt class="hdlist1">Array get_part_opacities()</dt>
 <dd>
 <p>Gets a class to operate the part transparency of the currently held Live2D model.</p>
 </dd>
