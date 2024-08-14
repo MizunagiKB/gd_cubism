@@ -513,8 +513,13 @@ void GDCubismUserModel::_update(const float delta) {
     for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++ ) {
         Ref<GDCubismParameter> param = this->ary_parameter[index];
         if(param.is_null() != true) {
-            param->set_raw_value();
-            param->get_raw_value();
+            if(param->hold == true) {
+                param->set_raw_value();
+                param->changed = true;
+            } else {
+                param->set_raw_value();
+                param->get_raw_value();
+            }
         }
     }
 
