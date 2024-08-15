@@ -140,6 +140,12 @@ _demo_ フォルダには、サンプルとして以下のものが収められ�
 
 手持ちのモデルで試したい場合は、上を参考にして出力したものを _demo/addons/gd_cubism/example/res/live2d_ 以下に配置してください。
 
+
+=== 関連ドキュメント
+
+* xref:ja/custom/motion.adoc[]
+
+
 === デモの説明
 
 [cols="1,1",frame=none,grid=none]
