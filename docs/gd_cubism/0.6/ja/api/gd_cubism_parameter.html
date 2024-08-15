@@ -237,6 +237,11 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock">minimum_value</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[default: 0.0]</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hold</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: false]</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -307,6 +312,14 @@
 </dd>
 </dl>
 </div>
+<div id="id-property-hold" class="dlist">
+<dl>
+<dt class="hdlist1">bool hold [default: false]</dt>
+<dd>
+<p>true にすると、モーションやエクスプレッションが設定されている場合でも、設定したパラメータが優先して適用されます。</p>
+</dd>
+</dl>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -318,7 +331,7 @@
 <dd>
 <p>現在設定されている値を <em>default_value</em> にします。</p>
 <div class="paragraph">
-<p>機能と動作は <code><code>value = default_value</code></code> と同じです。</p>
+<p>hold の状態も解除されます。</p>
 </div>
 </dd>
 </dl>

@@ -237,6 +237,11 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock">minimum_value</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[default: 0.0]</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hold</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: false]</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -307,6 +312,14 @@
 </dd>
 </dl>
 </div>
+<div id="id-property-hold" class="dlist">
+<dl>
+<dt class="hdlist1">bool hold [default: false]</dt>
+<dd>
+<p>If true, the parameters you set will take precedence even if motion or expression is set.</p>
+</dd>
+</dl>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -318,7 +331,7 @@
 <dd>
 <p>Resets the currently set value to <em>default_value</em>.</p>
 <div class="paragraph">
-<p>Its function and operation are the same as <code><code>value = default_value</code></code>.</p>
+<p>The hold status is also lifted.</p>
 </div>
 </dd>
 </dl>
