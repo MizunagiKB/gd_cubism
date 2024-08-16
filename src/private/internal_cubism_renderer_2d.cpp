@@ -103,9 +103,9 @@ Ref<ShaderMaterial> InternalCubismRenderer2D::make_ShaderMaterial(const Csm::Cub
 }
 
 
-Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(const Csm::CubismModel* model, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const {
+Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(const Csm::CubismModel* model, const Vector2 vct_canvas_size, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const {
 
-    const Vector2 vct_canvas_size = Vector2(res._owner_viewport->get_size().x, res._owner_viewport->get_size().y);
+    //const Vector2 vct_canvas_size = Vector2(res._owner_viewport->get_size().x, res._owner_viewport->get_size().y);
     const Vector2 vct_size = this->get_size(model);
     const Vector2 vct_origin = this->get_origin(model);
     const float ppunit = this->get_ppunit(model);
@@ -223,7 +223,7 @@ void InternalCubismRenderer2D::update_mask(SubViewport* viewport, const Csm::csm
         Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
         MeshInstance2D *node = res.request_mesh_instance();
 
-        node->set_mesh(this->make_ArrayMesh(model, j, res));
+        node->set_mesh(this->make_ArrayMesh(model, viewport->get_size(), j, res));
         node->set_material(mat);
         node->set_z_index(model->GetDrawableRenderOrders()[index]);
         node->set_visible(true);
@@ -237,6 +237,13 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
     const CubismModel *model = this->GetModel();
     const Csm::csmInt32* renderOrder = model->GetDrawableRenderOrders();
     const Csm::csmInt32* maskCount = model->GetDrawableMaskCounts();
+    Vector2i vct_canvas_size;
+
+    if(res._owner_viewport->mask_viewport_size.x > 0 && res._owner_viewport->mask_viewport_size.y > 0) {
+        vct_canvas_size = res._owner_viewport->mask_viewport_size;
+    } else {
+        vct_canvas_size = res._owner_viewport->get_size();
+    }
 
     // 描画
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++) {
@@ -256,7 +263,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
 
             SubViewport *viewport = res.request_viewport();
 
-            viewport->set_size(res._owner_viewport->get_size());
+            viewport->set_size(vct_canvas_size);
 
             viewport->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
             viewport->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
@@ -278,7 +285,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
         }
 
-        Ref<ArrayMesh> m = this->make_ArrayMesh(model, index, res);
+        Ref<ArrayMesh> m = this->make_ArrayMesh(model, res._owner_viewport->get_size(), index, res);
         
         node->set_name(node_name);
         node->set_mesh(m);
@@ -306,7 +313,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const
         CubismIdHandle handle = model->GetDrawableId(index);
         String node_name(handle->GetString().GetRawString());
 
-        res.dict_mesh[node_name]= this->make_ArrayMesh(model, index, res);
+        res.dict_mesh[node_name]= this->make_ArrayMesh(model, res._owner_viewport->get_size(), index, res);
     }
 }
 
