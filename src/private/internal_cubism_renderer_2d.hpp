@@ -41,7 +41,7 @@ public:
 
 private:
     Ref<ShaderMaterial> make_ShaderMaterial(const Csm::CubismModel* model, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const;
-    Ref<ArrayMesh> make_ArrayMesh(const Csm::CubismModel* model, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const;
+    Ref<ArrayMesh> make_ArrayMesh(const Csm::CubismModel* model, const Vector2 vct_canvas_size, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const;
 
     void update_mask(SubViewport* viewport, const Csm::csmInt32 index, InternalCubismRendererResource &res);
 

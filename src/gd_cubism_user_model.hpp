@@ -7,6 +7,7 @@
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
 
+#include <godot_cpp/classes/canvas_group.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/shader.hpp>
 #include <godot_cpp/classes/sub_viewport.hpp>
@@ -111,6 +112,7 @@ public:
     bool auto_scale;
     float adjust_scale;
     Vector2 adjust_pos;
+    Vector2i mask_viewport_size;
 
     ParameterMode parameter_mode;
     MotionProcessCallback playback_process_mode;
@@ -167,6 +169,9 @@ public:
 
     void set_adjust_position(const Vector2 pos) { this->adjust_pos = pos; }
     Vector2 get_adjust_position() const { return this->adjust_pos; }
+
+    void set_mask_viewport_size(const Vector2i size) { this->mask_viewport_size = size; }
+    Vector2i get_mask_viewport_size() const { return this->mask_viewport_size; }
 
     Dictionary get_motions() const;
     Ref<GDCubismMotionQueueEntryHandle> start_motion(const String str_group, const int32_t no, const Priority priority);

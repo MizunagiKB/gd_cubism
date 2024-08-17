@@ -28,10 +28,10 @@ xref:ja/api/gd_cubism_user_model.adoc[] の _get_parameters_ 関数で戻され�
 
 [cols="3",frame=none,grid=none]
 |===
->|float <|default_value |[default: 0.0]
->|float <|maximum_value |[default: 0.0]
->|float <|minimum_value |[default: 0.0]
->|bool <|hold |[default: false]
+>|float <|<<id-property-default_value,default_value>> |[default: 0.0]
+>|bool <|<<id-property-hold,hold>> |[default: false]
+>|float <|<<id-property-maximum_value,maximum_value>> |[default: 0.0]
+>|float <|<<id-property-minimum_value,minimum_value>> |[default: 0.0]
 |===
 
 
