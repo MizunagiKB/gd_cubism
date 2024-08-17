@@ -246,12 +246,17 @@
 </tr>
 <tr>
 <td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-load_motins">load_motins</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-load_motions">load_motions</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Vector2i</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-mask_viewport_size">mask_viewport_size</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: Vector2i(0, 0)]</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-right valign-top"><p class="tableblock">ParameterMode</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-&lt;parameter_mode">parameter_mode</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-parameter_mode">parameter_mode</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[default: 0]</p></td>
 </tr>
 <tr>
@@ -611,6 +616,27 @@ Since the <em>clear</em> function is called internally, if you want to switch th
 <dt class="hdlist1">bool load_motions [default: true]</dt>
 <dd>
 <p>If set to <em>false</em>, it will not load <em>Motions</em> when loading the Live2D Model.</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-mask_viewport_size" class="dlist">
+<dl>
+<dt class="hdlist1">Vector2i mask_viewport_size [default: Vector2i(0, 0)]</dt>
+<dd>
+<p>Specify the resolution for the mask image required for the Live2D model.</p>
+<div class="paragraph">
+<p>If either x or y is set to 0, the same size as the Viewport set in GDCubismUserModel will be used.</p>
+</div>
+<div class="paragraph">
+<p>Reducing the resolution can help conserve GPU memory.<br>
+However, if the size is reduced to less than approximately 512x512, there may be issues with rendering quality depending on where the mask is applied.</p>
+</div>
+<div class="paragraph">
+<p>Ensure that the aspect ratio of this image matches the aspect ratio of the Viewport in GDCubismUserModel. For example, if it is <em>1024x512</em>, then values like <em>512x256</em> or <em>128x64</em> are appropriate.</p>
+</div>
+<div class="paragraph">
+<p>Since GDCubism assumes the same aspect ratio as the Viewport for rendering, using an incorrect ratio may result in undesirable outcomes.</p>
+</div>
 </dd>
 </dl>
 </div>

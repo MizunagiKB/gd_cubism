@@ -251,7 +251,7 @@
 </tr>
 <tr>
 <td class="tableblock halign-right valign-top"><p class="tableblock">ParameterMode</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-&lt;parameter_mode">parameter_mode</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-parameter_mode">parameter_mode</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[default: 0]</p></td>
 </tr>
 <tr>
@@ -600,6 +600,26 @@ GDCubismは自身が持つSubViewport内にLive2Dモデルの描画を行いま�
 <dt class="hdlist1">bool load_motions [default: true]</dt>
 <dd>
 <p><em>false</em> にすると、 Live2D Modelの読み込み時に <em>Motion</em> の読み込みを行いません。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-mask_viewport_size" class="dlist">
+<dl>
+<dt class="hdlist1">Vector2i mask_viewport_size [default: Vector2i(0, 0)]</dt>
+<dd>
+<p>Live2Dモデルでマスク画像を必要とする場合の解像度を指定します。</p>
+<div class="paragraph">
+<p>x, y のどちらかに 0 が設定されている場合は、 GDCubismUserModel に設定されている Viewport と同じサイズが使用されます。</p>
+</div>
+<div class="paragraph">
+<p>解像度を下げるとGPUメモリの消費を抑える事が出来ます。512x512程度のサイズより小さくしてしまうと、マスクの適用場所によっては描画品質に問題が生じる可能性があります。</p>
+</div>
+<div class="paragraph">
+<p>この画像の縦横比は GDCubismUserModel の Viewport と同じ比率となるようにしてください。1024x512 であれば、512x256 や 128x64 といった数値です。</p>
+</div>
+<div class="paragraph">
+<p>GDCubism は Viewport と同じ比率であることを前提に描画を行うため、正しい比率以外の場合は望ましい結果を得る事が出来ません。</p>
+</div>
 </dd>
 </dl>
 </div>
