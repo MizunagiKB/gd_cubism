@@ -3,7 +3,7 @@
 extends Node2D
 
 
-const DEFAULT_ASSET: String = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro_t02.model3.json"
+const DEFAULT_ASSET: String = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro.model3.json"
 const CONVEX_MESH_SRC: Array[String] = [
     "ArtMesh121",
     "ArtMesh122",
