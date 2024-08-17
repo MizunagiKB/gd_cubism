@@ -32,7 +32,7 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 >|bool <|<<id-property-auto_scale,auto_scale>> |[default: true]
 >|bool <|<<id-property-load_expressions,load_expressions>> |[default: true]
 >|bool <|<<id-property-load_motions,load_motions>> |[default: true]
->|ParameterMode <|<<id-property-<parameter_mode,parameter_mode>> |[default: 0]
+>|ParameterMode <|<<id-property-parameter_mode,parameter_mode>> |[default: 0]
 >|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
 >|Shader <|<<id-property-shader_add,shader_add>> |
 >|Shader <|<<id-property-shader_mask,shader_mask>> |
@@ -185,6 +185,19 @@ _false_ にすると、 Live2D Modelの読み込み時に _Expression_ の読み
 [[id-property-load_motions]]
 bool load_motions [default: true]::
 _false_ にすると、 Live2D Modelの読み込み時に _Motion_ の読み込みを行いません。
+
+
+[[id-property-mask_viewport_size]]
+Vector2i mask_viewport_size [default: Vector2i(0, 0)]::
+Live2Dモデルでマスク画像を必要とする場合の解像度を指定します。
++
+x, y のどちらかに 0 が設定されている場合は、 GDCubismUserModel に設定されている Viewport と同じサイズが使用されます。
++
+解像度を下げるとGPUメモリの消費を抑える事が出来ます。512x512程度のサイズより小さくしてしまうと、マスクの適用場所によっては描画品質に問題が生じる可能性があります。
++
+この画像の縦横比は GDCubismUserModel の Viewport と同じ比率となるようにしてください。1024x512 であれば、512x256 や 128x64 といった数値です。
++
+GDCubism は Viewport と同じ比率であることを前提に描画を行うため、正しい比率以外の場合は望ましい結果を得る事が出来ません。
 
 
 [[id-property-parameter_mode]]

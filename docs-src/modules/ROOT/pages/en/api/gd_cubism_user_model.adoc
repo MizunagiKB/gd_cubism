@@ -32,8 +32,9 @@ This is a _SubViewport_ subclass for loading the Live2D model, generating the _T
 >|String <|<<id-property-assets,assets>> |[default: ""]
 >|bool <|<<id-property-auto_scale,auto_scale>> |[default: true]
 >|bool <|<<id-property-load_expressions,load_expressions>> |[default: true]
->|bool <|<<id-property-load_motins,load_motins>> |[default: true]
->|ParameterMode <|<<id-property-<parameter_mode,parameter_mode>> |[default: 0]
+>|bool <|<<id-property-load_motions,load_motions>> |[default: true]
+>|Vector2i <|<<id-property-mask_viewport_size,mask_viewport_size>> |[default: Vector2i(0, 0)]
+>|ParameterMode <|<<id-property-parameter_mode,parameter_mode>> |[default: 0]
 >|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
 >|Shader <|<<id-property-shader_add,shader_add>> |
 >|Shader <|<<id-property-shader_mask,shader_mask>> |
@@ -188,6 +189,20 @@ If set to _false_, it will not load _Expressions_ when loading the Live2D Model.
 [[id-property-load_motions]]
 bool load_motions [default: true]::
 If set to _false_, it will not load _Motions_ when loading the Live2D Model.
+
+
+[[id-property-mask_viewport_size]]
+Vector2i mask_viewport_size [default: Vector2i(0, 0)]::
+Specify the resolution for the mask image required for the Live2D model.
++
+If either x or y is set to 0, the same size as the Viewport set in GDCubismUserModel will be used.
++
+Reducing the resolution can help conserve GPU memory. +
+However, if the size is reduced to less than approximately 512x512, there may be issues with rendering quality depending on where the mask is applied.
++
+Ensure that the aspect ratio of this image matches the aspect ratio of the Viewport in GDCubismUserModel. For example, if it is _1024x512_, then values like _512x256_ or _128x64_ are appropriate.
++
+Since GDCubism assumes the same aspect ratio as the Viewport for rendering, using an incorrect ratio may result in undesirable outcomes.
 
 
 [[id-property-parameter_mode]]
