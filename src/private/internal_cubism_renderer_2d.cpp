@@ -15,7 +15,6 @@
 #include <private/internal_cubism_renderer_resource.hpp>
 #include <private/internal_cubism_user_model.hpp>
 
-
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
 using namespace Live2D::Cubism::Core;
@@ -23,62 +22,92 @@ using namespace Live2D::Cubism::Framework;
 using namespace Live2D::Cubism::Framework::Rendering;
 using namespace godot;
 
-
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
 PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t size);
 PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size);
 PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size, const Csm::csmFloat32 ppunit, Vector2 vct_adjust);
-const Vector4 make_vector4(const Live2D::Cubism::Core::csmVector4& src_vec4);
-
+const Vector4 make_vector4(const Live2D::Cubism::Core::csmVector4 &src_vec4);
 
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
-InternalCubismRenderer2D::InternalCubismRenderer2D() {
+InternalCubismRenderer2D::InternalCubismRenderer2D()
+{
 }
 
-
-InternalCubismRenderer2D::~InternalCubismRenderer2D() {
+InternalCubismRenderer2D::~InternalCubismRenderer2D()
+{
 }
 
-
-Ref<ShaderMaterial> InternalCubismRenderer2D::make_ShaderMaterial(const Csm::CubismModel* model, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const {
+Ref<ShaderMaterial> InternalCubismRenderer2D::make_ShaderMaterial(const Csm::CubismModel *model, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const
+{
     Ref<ShaderMaterial> mat;
     mat.instantiate();
 
     GDCubismShader e = GD_CUBISM_SHADER_NORM_MIX;
 
-    if(model->GetDrawableMaskCounts()[index] == 0) {
-        switch(model->GetDrawableBlendMode(index))
+    if (model->GetDrawableMaskCounts()[index] == 0)
+    {
+        switch (model->GetDrawableBlendMode(index))
         {
-            case CubismBlendMode_Additive:          e = GD_CUBISM_SHADER_NORM_ADD; break;
-            case CubismBlendMode_Normal:            e = GD_CUBISM_SHADER_NORM_MIX; break;
-            case CubismBlendMode_Multiplicative:    e = GD_CUBISM_SHADER_NORM_MUL; break;
-            default: e = GD_CUBISM_SHADER_NORM_MIX; break;
+        case CubismBlendMode_Additive:
+            e = GD_CUBISM_SHADER_NORM_ADD;
+            break;
+        case CubismBlendMode_Normal:
+            e = GD_CUBISM_SHADER_NORM_MIX;
+            break;
+        case CubismBlendMode_Multiplicative:
+            e = GD_CUBISM_SHADER_NORM_MUL;
+            break;
+        default:
+            e = GD_CUBISM_SHADER_NORM_MIX;
+            break;
         }
-    } else {
-        if(model->GetDrawableInvertedMask(index) == false) {
-            switch(model->GetDrawableBlendMode(index))
+    }
+    else
+    {
+        if (model->GetDrawableInvertedMask(index) == false)
+        {
+            switch (model->GetDrawableBlendMode(index))
             {
-                case CubismBlendMode_Additive:          e = GD_CUBISM_SHADER_MASK_ADD; break;
-                case CubismBlendMode_Normal:            e = GD_CUBISM_SHADER_MASK_MIX; break;
-                case CubismBlendMode_Multiplicative:    e = GD_CUBISM_SHADER_MASK_MUL; break;
-                default: e = GD_CUBISM_SHADER_MASK_MIX; break;
+            case CubismBlendMode_Additive:
+                e = GD_CUBISM_SHADER_MASK_ADD;
+                break;
+            case CubismBlendMode_Normal:
+                e = GD_CUBISM_SHADER_MASK_MIX;
+                break;
+            case CubismBlendMode_Multiplicative:
+                e = GD_CUBISM_SHADER_MASK_MUL;
+                break;
+            default:
+                e = GD_CUBISM_SHADER_MASK_MIX;
+                break;
             }
-        } else {
-            switch(model->GetDrawableBlendMode(index))
+        }
+        else
+        {
+            switch (model->GetDrawableBlendMode(index))
             {
-                case CubismBlendMode_Additive:          e = GD_CUBISM_SHADER_MASK_ADD_INV; break;
-                case CubismBlendMode_Normal:            e = GD_CUBISM_SHADER_MASK_MIX_INV; break;
-                case CubismBlendMode_Multiplicative:    e = GD_CUBISM_SHADER_MASK_MUL_INV; break;
-                default: e = GD_CUBISM_SHADER_MASK_MIX_INV; break;
+            case CubismBlendMode_Additive:
+                e = GD_CUBISM_SHADER_MASK_ADD_INV;
+                break;
+            case CubismBlendMode_Normal:
+                e = GD_CUBISM_SHADER_MASK_MIX_INV;
+                break;
+            case CubismBlendMode_Multiplicative:
+                e = GD_CUBISM_SHADER_MASK_MUL_INV;
+                break;
+            default:
+                e = GD_CUBISM_SHADER_MASK_MIX_INV;
+                break;
             }
         }
     }
 
     Ref<Shader> shader = res._owner_viewport->get_shader(e);
-    if(shader.is_null()) shader = res.get_shader(e);
+    if (shader.is_null())
+        shader = res.get_shader(e);
 
     mat->set_shader(shader);
 
@@ -102,16 +131,22 @@ Ref<ShaderMaterial> InternalCubismRenderer2D::make_ShaderMaterial(const Csm::Cub
     return mat;
 }
 
+Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
+    const Csm::CubismModel *model, const Vector2 vct_canvas_size,
+    const Csm::csmInt32 index,
+    const bool auto_scale,
+    const float adjust_scale,
+    const Vector2 &adjust_pos,
+    const bool maskmode) const
+{
 
-Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(const Csm::CubismModel* model, const Vector2 vct_canvas_size, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const {
-
-    //const Vector2 vct_canvas_size = Vector2(res._owner_viewport->get_size().x, res._owner_viewport->get_size().y);
     const Vector2 vct_size = this->get_size(model);
     const Vector2 vct_origin = this->get_origin(model);
     const float ppunit = this->get_ppunit(model);
     float calc_ppunit = ppunit;
 
-    if(res._owner_viewport->auto_scale == true) {
+    if (auto_scale == true)
+    {
         const float fdst = godot::MIN<float, float>(vct_canvas_size.x, vct_canvas_size.y);
         const float fsrc = godot::MAX<float, float>(vct_size.x, vct_size.y);
         calc_ppunit = (fdst * ppunit) / fsrc;
@@ -123,22 +158,19 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(const Csm::CubismModel* 
     ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
         model->GetDrawableVertexPositions(index),
         model->GetDrawableVertexCount(index),
-        calc_ppunit * res.adjust_scale,
+        calc_ppunit * adjust_scale,
         Vector2(
             vct_canvas_size.x * vct_origin.x / vct_size.x,
-            vct_canvas_size.y * vct_origin.y / vct_size.y
-        ) + res.adjust_pos
-    );
+            vct_canvas_size.y * vct_origin.y / vct_size.y) +
+            adjust_pos);
 
     ary[Mesh::ARRAY_TEX_UV] = make_PackedArrayVector2(
         model->GetDrawableVertexUvs(index),
-        model->GetDrawableVertexCount(index)
-    );
+        model->GetDrawableVertexCount(index));
 
     ary[Mesh::ARRAY_INDEX] = make_PackedArrayInt32(
         model->GetDrawableVertexIndices(index),
-        model->GetDrawableVertexIndexCount(index)
-    );
+        model->GetDrawableVertexIndexCount(index));
 
     Ref<ArrayMesh> ary_mesh;
     ary_mesh.instantiate();
@@ -147,24 +179,27 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(const Csm::CubismModel* 
     return ary_mesh;
 }
 
-
-Csm::csmInt32 InternalCubismRenderer2D::calc_viewport_count() const {
+Csm::csmInt32 InternalCubismRenderer2D::calc_viewport_count() const
+{
     const CubismModel *model = this->GetModel();
     Csm::csmInt32 count = 0;
 
-    for(Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++) {
-        if(model->GetDrawableMaskCounts()[index] > 0) count++;
+    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
+    {
+        if (model->GetDrawableMaskCounts()[index] > 0)
+            count++;
     }
 
     return count;
 }
 
-
-Csm::csmInt32 InternalCubismRenderer2D::calc_mesh_instance_count() const {
+Csm::csmInt32 InternalCubismRenderer2D::calc_mesh_instance_count() const
+{
     const CubismModel *model = this->GetModel();
     Csm::csmInt32 count = 0;
 
-    for(Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++) {
+    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
+    {
         count += model->GetDrawableMaskCounts()[index];
         count++;
     }
@@ -172,8 +207,8 @@ Csm::csmInt32 InternalCubismRenderer2D::calc_mesh_instance_count() const {
     return count;
 }
 
-
-Vector2 InternalCubismRenderer2D::get_size(const Csm::CubismModel* model) const {
+Vector2 InternalCubismRenderer2D::get_size(const Csm::CubismModel *model) const
+{
     Live2D::Cubism::Core::csmVector2 vct_size;
     Live2D::Cubism::Core::csmVector2 vct_origin;
     Csm::csmFloat32 ppunit;
@@ -183,8 +218,8 @@ Vector2 InternalCubismRenderer2D::get_size(const Csm::CubismModel* model) const 
     return Vector2(vct_size.X, vct_size.Y);
 }
 
-
-Vector2 InternalCubismRenderer2D::get_origin(const Csm::CubismModel* model) const {
+Vector2 InternalCubismRenderer2D::get_origin(const Csm::CubismModel *model) const
+{
     Live2D::Cubism::Core::csmVector2 vct_size;
     Live2D::Cubism::Core::csmVector2 vct_origin;
     Csm::csmFloat32 ppunit;
@@ -194,8 +229,8 @@ Vector2 InternalCubismRenderer2D::get_origin(const Csm::CubismModel* model) cons
     return Vector2(vct_origin.X, vct_origin.Y);
 }
 
-
-float InternalCubismRenderer2D::get_ppunit(const Csm::CubismModel* model) const {
+float InternalCubismRenderer2D::get_ppunit(const Csm::CubismModel *model) const
+{
     Live2D::Cubism::Core::csmVector2 vct_size;
     Live2D::Cubism::Core::csmVector2 vct_origin;
     Csm::csmFloat32 ppunit;
@@ -205,25 +240,34 @@ float InternalCubismRenderer2D::get_ppunit(const Csm::CubismModel* model) const 
     return ppunit;
 }
 
-
-void InternalCubismRenderer2D::update_mask(SubViewport* viewport, const Csm::csmInt32 index, InternalCubismRendererResource &res) {
+void InternalCubismRenderer2D::update_mask(SubViewport *viewport, const Csm::csmInt32 index, InternalCubismRendererResource &res)
+{
     CubismModel *model = this->GetModel();
 
     Ref<ShaderMaterial> mat;
     mat.instantiate();
 
     Ref<Shader> shader = res._owner_viewport->get_shader(GD_CUBISM_SHADER_MASK);
-    if(shader.is_null()) shader = res.get_shader(GD_CUBISM_SHADER_MASK);
+    if (shader.is_null())
+        shader = res.get_shader(GD_CUBISM_SHADER_MASK);
 
     mat->set_shader(shader);
     mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
     mat->set_shader_parameter("tex_main", res.ary_texture[model->GetDrawableTextureIndex(index)]);
 
-    for(Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++) {
+    for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
+    {
         Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
         MeshInstance2D *node = res.request_mesh_instance();
 
-        node->set_mesh(this->make_ArrayMesh(model, viewport->get_size(), j, res));
+        node->set_mesh(
+            this->make_ArrayMesh(model,
+                                 viewport->get_size(),
+                                 j,
+                                 res._owner_viewport->auto_scale,
+                                 res.adjust_scale,
+                                 res.adjust_pos,
+                                 true));
         node->set_material(mat);
         node->set_z_index(model->GetDrawableRenderOrders()[index]);
         node->set_visible(true);
@@ -232,26 +276,33 @@ void InternalCubismRenderer2D::update_mask(SubViewport* viewport, const Csm::csm
     }
 }
 
-
-void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
+void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
+{
     const CubismModel *model = this->GetModel();
-    const Csm::csmInt32* renderOrder = model->GetDrawableRenderOrders();
-    const Csm::csmInt32* maskCount = model->GetDrawableMaskCounts();
+    const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
+    const Csm::csmInt32 *maskCount = model->GetDrawableMaskCounts();
     Vector2i vct_canvas_size;
 
-    if(res._owner_viewport->mask_viewport_size.x > 0 && res._owner_viewport->mask_viewport_size.y > 0) {
+    if (res._owner_viewport->mask_viewport_size.x > 0 && res._owner_viewport->mask_viewport_size.y > 0)
+    {
         vct_canvas_size = res._owner_viewport->mask_viewport_size;
-    } else {
+    }
+    else
+    {
         vct_canvas_size = res._owner_viewport->get_size();
     }
 
     // 描画
-    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++) {
+    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
+    {
 
         // Drawableが表示状態でなければ処理をパスする
-        if(model->GetDrawableDynamicFlagIsVisible(index) == false) continue;
-        if(model->GetDrawableVertexCount(index) == 0) continue;
-        if(model->GetDrawableVertexIndexCount(index) == 0) continue;
+        if (model->GetDrawableDynamicFlagIsVisible(index) == false)
+            continue;
+        if (model->GetDrawableVertexCount(index) == 0)
+            continue;
+        if (model->GetDrawableVertexIndexCount(index) == 0)
+            continue;
 
         MeshInstance2D *node = res.request_mesh_instance();
         Ref<ShaderMaterial> mat = this->make_ShaderMaterial(model, index, res);
@@ -259,7 +310,8 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
         CubismIdHandle handle = model->GetDrawableId(index);
         String node_name(handle->GetString().GetRawString());
 
-        if(model->GetDrawableMaskCounts()[index] > 0) {
+        if (model->GetDrawableMaskCounts()[index] > 0)
+        {
 
             SubViewport *viewport = res.request_viewport();
 
@@ -279,14 +331,19 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
 
             this->update_mask(viewport, index, res);
 
-            //res._parent_node->add_child(viewport);
+            // res._parent_node->add_child(viewport);
             res._parent_node->call_deferred("add_child", viewport);
 
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
         }
 
-        Ref<ArrayMesh> m = this->make_ArrayMesh(model, res._owner_viewport->get_size(), index, res);
-        
+        Ref<ArrayMesh> m = this->make_ArrayMesh(
+            model, res._owner_viewport->get_size(), index,
+            res._owner_viewport->auto_scale,
+            res.adjust_scale,
+            res.adjust_pos,
+            false);
+
         node->set_name(node_name);
         node->set_mesh(m);
         res.dict_mesh[node_name] = m;
@@ -294,75 +351,84 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res) {
         node->set_z_index(renderOrder[index]);
         node->set_visible(true);
 
-        //res._parent_node->add_child(node);
+        // res._parent_node->add_child(node);
         res._parent_node->call_deferred("add_child", node);
     }
 }
 
-void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const bool update_node, const bool update_mesh) {
+void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const bool update_node, const bool update_mesh)
+{
     const CubismModel *model = this->GetModel();
-    const Csm::csmInt32* renderOrder = model->GetDrawableRenderOrders();
-    const Csm::csmInt32* maskCount = model->GetDrawableMaskCounts();
+    const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
+    const Csm::csmInt32 *maskCount = model->GetDrawableMaskCounts();
 
-    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++) {
+    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
+    {
 
-        if(model->GetDrawableDynamicFlagIsVisible(index) == false) continue;
-        if(model->GetDrawableVertexCount(index) == 0) continue;
-        if(model->GetDrawableVertexIndexCount(index) == 0) continue;
+        if (model->GetDrawableDynamicFlagIsVisible(index) == false)
+            continue;
+        if (model->GetDrawableVertexCount(index) == 0)
+            continue;
+        if (model->GetDrawableVertexIndexCount(index) == 0)
+            continue;
 
         CubismIdHandle handle = model->GetDrawableId(index);
         String node_name(handle->GetString().GetRawString());
 
-        res.dict_mesh[node_name]= this->make_ArrayMesh(model, res._owner_viewport->get_size(), index, res);
+        res.dict_mesh[node_name] = this->make_ArrayMesh(
+            model, res._owner_viewport->get_size(), index,
+            res._owner_viewport->auto_scale,
+            res.adjust_scale, res.adjust_pos, false);
     }
 }
 
-
-void InternalCubismRenderer2D::Initialize(Csm::CubismModel* model, Csm::csmInt32 maskBufferCount) {
+void InternalCubismRenderer2D::Initialize(Csm::CubismModel *model, Csm::csmInt32 maskBufferCount)
+{
     CubismRenderer::Initialize(model, maskBufferCount);
 }
-
 
 void InternalCubismRenderer2D::DoDrawModel() {}
 void InternalCubismRenderer2D::SaveProfile() {}
 void InternalCubismRenderer2D::RestoreProfile() {}
 
-
 // ------------------------------------------------------------------ method(s)
-PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t size) {
+PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t size)
+{
     PackedInt32Array ary;
     ary.resize(size);
-    for(int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         ary.set(i, ptr[i]);
     }
     return ary;
 }
 
-
-PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size) {
+PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size)
+{
     PackedVector2Array ary;
     ary.resize(size);
-    for(int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         ary.set(i, Vector2(ptr[i].X, ptr[i].Y));
     }
     return ary;
 }
 
-
-PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size, const Csm::csmFloat32 ppunit, Vector2 vct_adjust) {
+PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size, const Csm::csmFloat32 ppunit, Vector2 vct_adjust)
+{
     PackedVector2Array ary;
     ary.resize(size);
 
-    for(int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         ary.set(i, (Vector2(ptr[i].X, ptr[i].Y * -1.0) * ppunit) + vct_adjust);
     }
     return ary;
 }
 
-
-const Vector4 make_vector4(const Live2D::Cubism::Core::csmVector4& src_vec4) {
+const Vector4 make_vector4(const Live2D::Cubism::Core::csmVector4 &src_vec4)
+{
     return Vector4(src_vec4.X, src_vec4.Y, src_vec4.Z, src_vec4.W);
 }
-
 
 #endif // GD_CUBISM_USE_RENDERER_2D
