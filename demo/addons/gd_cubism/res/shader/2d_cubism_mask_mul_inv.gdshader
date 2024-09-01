@@ -11,6 +11,9 @@ uniform vec4 channel;
 uniform sampler2D tex_main : filter_linear_mipmap;
 uniform sampler2D tex_mask : filter_linear_mipmap;
 
+uniform vec2 mask_adjust_pos;
+uniform float mask_adjust_scale;
+
 void vertex() {
     UV.y = 1.0 - UV.y;
 }
@@ -24,7 +27,8 @@ void fragment() {
     vec4 color_for_mask = color_tex * color_base;
     color_for_mask.rgb = color_for_mask.rgb * color_for_mask.a;
 
-    vec4 clip_mask = texture(tex_mask, SCREEN_UV) * channel;
+    float screen_scale = 1.0 / mask_adjust_scale;
+    vec4 clip_mask = texture(tex_mask, ((SCREEN_UV - 0.5) * screen_scale) + 0.50 ) * channel;
     float mask_val = clip_mask.r + clip_mask.g + clip_mask.b + clip_mask.a;
     color_for_mask = color_for_mask * (1.0 - mask_val);
     COLOR = vec4(
