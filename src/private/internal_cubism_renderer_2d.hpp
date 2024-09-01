@@ -42,6 +42,7 @@ private:
     Ref<ArrayMesh> make_ArrayMesh(
         const Csm::CubismModel *model,
         const Vector2 vct_canvas_size,
+        const Vector2 vct_mask_size,
         const Csm::csmInt32 index,
         const bool auto_scale,
         const float adjust_scale,

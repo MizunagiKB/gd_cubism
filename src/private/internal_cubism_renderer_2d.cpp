@@ -132,7 +132,9 @@ Ref<ShaderMaterial> InternalCubismRenderer2D::make_ShaderMaterial(const Csm::Cub
 }
 
 Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
-    const Csm::CubismModel *model, const Vector2 vct_canvas_size,
+    const Csm::CubismModel *model,
+    const Vector2 vct_canvas_size,
+    const Vector2 vct_mask_size,
     const Csm::csmInt32 index,
     const bool auto_scale,
     const float adjust_scale,
@@ -147,22 +149,46 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
 
     if (auto_scale == true)
     {
-        const float fdst = godot::MIN<float, float>(vct_canvas_size.x, vct_canvas_size.y);
+        const float fdstC = godot::MIN<float, float>(vct_canvas_size.x, vct_canvas_size.y);
+        const float fdstM = godot::MIN<float, float>(vct_mask_size.x, vct_mask_size.y);
         const float fsrc = godot::MAX<float, float>(vct_size.x, vct_size.y);
-        calc_ppunit = (fdst * ppunit) / fsrc;
+ 
+        if(maskmode == true)
+        {
+            calc_ppunit = (fdstM * ppunit) / fsrc;
+        } else {
+            calc_ppunit = (fdstC * ppunit) / fsrc;
+        }
     }
 
     Array ary;
     ary.resize(Mesh::ARRAY_MAX);
 
-    ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
-        model->GetDrawableVertexPositions(index),
-        model->GetDrawableVertexCount(index),
-        calc_ppunit * adjust_scale,
-        Vector2(
-            vct_canvas_size.x * vct_origin.x / vct_size.x,
-            vct_canvas_size.y * vct_origin.y / vct_size.y) +
-            adjust_pos);
+    if(maskmode == true){
+        const Vector2 adj = adjust_pos * (vct_mask_size / vct_canvas_size);
+
+        ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
+            model->GetDrawableVertexPositions(index),
+            model->GetDrawableVertexCount(index),
+            calc_ppunit,
+            Vector2(
+                vct_mask_size.x * vct_origin.x / vct_size.x,
+                vct_mask_size.y * vct_origin.y / vct_size.y) +
+                adj
+            );
+    } else {
+        const Vector2 adj = adjust_pos * adjust_scale;
+
+        ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
+            model->GetDrawableVertexPositions(index),
+            model->GetDrawableVertexCount(index),
+            calc_ppunit * adjust_scale,
+            Vector2(
+                vct_canvas_size.x * vct_origin.x / vct_size.x,
+                vct_canvas_size.y * vct_origin.y / vct_size.y) +
+                adj
+            );
+    }
 
     ary[Mesh::ARRAY_TEX_UV] = make_PackedArrayVector2(
         model->GetDrawableVertexUvs(index),
@@ -262,6 +288,7 @@ void InternalCubismRenderer2D::update_mask(SubViewport *viewport, const Csm::csm
 
         node->set_mesh(
             this->make_ArrayMesh(model,
+                                 res._owner_viewport->get_size(),
                                  viewport->get_size(),
                                  j,
                                  res._owner_viewport->auto_scale,
@@ -335,10 +362,15 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
             res._parent_node->call_deferred("add_child", viewport);
 
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
+            mat->set_shader_parameter("mask_adjust_pos", res.adjust_pos);
+            mat->set_shader_parameter("mask_adjust_scale", res.adjust_scale);
         }
 
         Ref<ArrayMesh> m = this->make_ArrayMesh(
-            model, res._owner_viewport->get_size(), index,
+            model,
+            res._owner_viewport->get_size(),
+            res._owner_viewport->get_size(),
+            index,
             res._owner_viewport->auto_scale,
             res.adjust_scale,
             res.adjust_pos,
@@ -376,7 +408,10 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const
         String node_name(handle->GetString().GetRawString());
 
         res.dict_mesh[node_name] = this->make_ArrayMesh(
-            model, res._owner_viewport->get_size(), index,
+            model,
+            res._owner_viewport->get_size(),
+            res._owner_viewport->get_size(),
+            index,
             res._owner_viewport->auto_scale,
             res.adjust_scale, res.adjust_pos, false);
     }
