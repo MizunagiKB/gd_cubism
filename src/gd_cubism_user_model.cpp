@@ -387,7 +387,7 @@ Ref<GDCubismMotionQueueEntryHandle> GDCubismUserModel::start_motion_loop(const S
     if(this->is_initialized() == false) return queue_handle;
 
     queue_handle->_handle = this->internal_model->motion_start(
-        str_group.utf8().ptr(),
+        str_group.utf8().get_data(),
         no,
         priority,
         loop,
@@ -446,7 +446,7 @@ Array GDCubismUserModel::get_expressions() const {
 void GDCubismUserModel::start_expression(const String str_expression_id) {
     if(this->is_initialized() == false) return;
 
-    this->internal_model->expression_set(str_expression_id.utf8().ptr());
+    this->internal_model->expression_set(str_expression_id.utf8().get_data());
 }
 
 
