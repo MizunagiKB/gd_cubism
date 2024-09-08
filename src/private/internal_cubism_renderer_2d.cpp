@@ -25,9 +25,9 @@ using namespace godot;
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
-PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t size);
-PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size);
-PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size, const Csm::csmFloat32 ppunit, Vector2 vct_adjust);
+PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t &size);
+PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size);
+PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit, const Vector2 &vct_adjust);
 const Vector4 make_vector4(const Live2D::Cubism::Core::csmVector4 &src_vec4);
 
 // ----------------------------------------------------------- class:forward(s)
@@ -131,63 +131,77 @@ Ref<ShaderMaterial> InternalCubismRenderer2D::make_ShaderMaterial(const Csm::Cub
     return mat;
 }
 
-Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
+void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     const Csm::CubismModel *model,
-    const Vector2 vct_canvas_size,
-    const Vector2 vct_mask_size,
-    const Csm::csmInt32 index,
-    const bool auto_scale,
-    const float adjust_scale,
+    const float &adjust_scale,
     const Vector2 &adjust_pos,
-    const bool maskmode) const
+    InternalCubismRendererResource &res)
 {
-
     const Vector2 vct_size = this->get_size(model);
     const Vector2 vct_origin = this->get_origin(model);
     const float ppunit = this->get_ppunit(model);
-    float calc_ppunit = ppunit;
 
-    if (auto_scale == true)
+    res.vct_canvas_size = res._owner_viewport->get_size();
+
+    if (res._owner_viewport->mask_viewport_size.x > 0 && res._owner_viewport->mask_viewport_size.y > 0)
     {
-        const float fdstC = godot::MIN<float, float>(vct_canvas_size.x, vct_canvas_size.y);
-        const float fdstM = godot::MIN<float, float>(vct_mask_size.x, vct_mask_size.y);
-        const float fsrc = godot::MAX<float, float>(vct_size.x, vct_size.y);
- 
-        if(maskmode == true)
-        {
-            calc_ppunit = (fdstM * ppunit) / fsrc;
-        } else {
-            calc_ppunit = (fdstC * ppunit) / fsrc;
-        }
+        res.vct_mask_size = res._owner_viewport->mask_viewport_size;
+    }
+    else
+    {
+        res.vct_mask_size = res._owner_viewport->get_size();
     }
 
+    res.CALCULATED_ORIGIN_C = (Vector2(res.vct_canvas_size) * vct_origin) / vct_size;
+    res.CALCULATED_ORIGIN_M = (Vector2(res.vct_mask_size) * vct_origin) / vct_size;
+    res.RATIO = float(res.vct_mask_size.x) / float(res.vct_canvas_size.x);
+
+    if(res._owner_viewport->auto_scale == true)
+    {
+        float fdstC = godot::MIN(res.vct_canvas_size.x, res.vct_canvas_size.y);
+        float fdstM = godot::MIN(res.vct_mask_size.x, res.vct_mask_size.y);
+        float fsrc = godot::MAX(vct_size.x, vct_size.y);
+
+        res.CALCULATED_PPUNIT_C = (fdstC * ppunit) / fsrc;
+        res.CALCULATED_PPUNIT_M = (fdstM * ppunit) / fsrc;
+    } else {
+        res.CALCULATED_PPUNIT_C = ppunit;
+        res.CALCULATED_PPUNIT_M = ppunit * res.RATIO;
+    }
+}
+
+Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
+    const Csm::CubismModel *model,
+    const Csm::csmInt32 index,
+    const float adjust_scale,
+    const Vector2 &adjust_pos,
+    const bool maskmode,
+    const InternalCubismRendererResource &res) const
+{
     Array ary;
+
     ary.resize(Mesh::ARRAY_MAX);
 
-    if(maskmode == true){
-        const Vector2 adj = adjust_pos * (vct_mask_size / vct_canvas_size);
-
-        ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
-            model->GetDrawableVertexPositions(index),
-            model->GetDrawableVertexCount(index),
-            calc_ppunit,
-            Vector2(
-                vct_mask_size.x * vct_origin.x / vct_size.x,
-                vct_mask_size.y * vct_origin.y / vct_size.y) +
-                adj
-            );
+    if(maskmode == true) {
+        if(res._owner_viewport->auto_scale == true) {
+            ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
+                model->GetDrawableVertexPositions(index),
+                model->GetDrawableVertexCount(index),
+                res.CALCULATED_PPUNIT_M,
+                res.CALCULATED_ORIGIN_M + adjust_pos * res.RATIO);
+        } else {
+            ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
+                model->GetDrawableVertexPositions(index),
+                model->GetDrawableVertexCount(index),
+                res.CALCULATED_PPUNIT_M * res.adjust_scale,
+                res.CALCULATED_ORIGIN_M + adjust_pos * res.RATIO);
+        }
     } else {
-        const Vector2 adj = adjust_pos * adjust_scale;
-
         ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
             model->GetDrawableVertexPositions(index),
             model->GetDrawableVertexCount(index),
-            calc_ppunit * adjust_scale,
-            Vector2(
-                vct_canvas_size.x * vct_origin.x / vct_size.x,
-                vct_canvas_size.y * vct_origin.y / vct_size.y) +
-                adj
-            );
+            res.CALCULATED_PPUNIT_C * res.adjust_scale,
+            res.CALCULATED_ORIGIN_C + res.adjust_pos);
     }
 
     ary[Mesh::ARRAY_TEX_UV] = make_PackedArrayVector2(
@@ -199,6 +213,7 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
         model->GetDrawableVertexIndexCount(index));
 
     Ref<ArrayMesh> ary_mesh;
+
     ary_mesh.instantiate();
     ary_mesh->add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, ary);
 
@@ -287,14 +302,14 @@ void InternalCubismRenderer2D::update_mask(SubViewport *viewport, const Csm::csm
         MeshInstance2D *node = res.request_mesh_instance();
 
         node->set_mesh(
-            this->make_ArrayMesh(model,
-                                 res._owner_viewport->get_size(),
-                                 viewport->get_size(),
-                                 j,
-                                 res._owner_viewport->auto_scale,
-                                 res.adjust_scale,
-                                 res.adjust_pos,
-                                 true));
+            this->make_ArrayMesh(
+                model,
+                j,
+                res.adjust_scale,
+                res.adjust_pos,
+                true,
+                res));
+
         node->set_material(mat);
         node->set_z_index(model->GetDrawableRenderOrders()[index]);
         node->set_visible(true);
@@ -308,21 +323,17 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
     const CubismModel *model = this->GetModel();
     const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
     const Csm::csmInt32 *maskCount = model->GetDrawableMaskCounts();
-    Vector2i vct_canvas_size;
 
-    if (res._owner_viewport->mask_viewport_size.x > 0 && res._owner_viewport->mask_viewport_size.y > 0)
-    {
-        vct_canvas_size = res._owner_viewport->mask_viewport_size;
-    }
-    else
-    {
-        vct_canvas_size = res._owner_viewport->get_size();
-    }
+    this->make_ArrayMesh_prepare(
+        model,
+        res.adjust_scale,
+        res.adjust_pos,
+        res
+    );
 
     // 描画
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
     {
-
         // Drawableが表示状態でなければ処理をパスする
         if (model->GetDrawableDynamicFlagIsVisible(index) == false)
             continue;
@@ -342,7 +353,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
 
             SubViewport *viewport = res.request_viewport();
 
-            viewport->set_size(vct_canvas_size);
+            viewport->set_size(res.vct_mask_size);
 
             viewport->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
             viewport->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
@@ -362,19 +373,25 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
             res._parent_node->call_deferred("add_child", viewport);
 
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
-            mat->set_shader_parameter("mask_adjust_pos", res.adjust_pos);
+
+            mat->set_shader_parameter("auto_scale", res._owner_viewport->auto_scale);
+            mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
+            mat->set_shader_parameter("mask_size", Vector2(res.vct_mask_size));
+            mat->set_shader_parameter("ratio", res.RATIO);
+            mat->set_shader_parameter("adjust_scale", res.adjust_scale);
+            mat->set_shader_parameter("adjust_pos", res.adjust_pos);
+
             mat->set_shader_parameter("mask_adjust_scale", res.adjust_scale);
+            mat->set_shader_parameter("mask_adjust_pos", res.adjust_pos);
         }
 
         Ref<ArrayMesh> m = this->make_ArrayMesh(
             model,
-            res._owner_viewport->get_size(),
-            res._owner_viewport->get_size(),
             index,
-            res._owner_viewport->auto_scale,
             res.adjust_scale,
             res.adjust_pos,
-            false);
+            false,
+            res);
 
         node->set_name(node_name);
         node->set_mesh(m);
@@ -409,11 +426,11 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const
 
         res.dict_mesh[node_name] = this->make_ArrayMesh(
             model,
-            res._owner_viewport->get_size(),
-            res._owner_viewport->get_size(),
             index,
-            res._owner_viewport->auto_scale,
-            res.adjust_scale, res.adjust_pos, false);
+            res.adjust_scale,
+            res.adjust_pos,
+            false,
+            res);
     }
 }
 
@@ -427,7 +444,7 @@ void InternalCubismRenderer2D::SaveProfile() {}
 void InternalCubismRenderer2D::RestoreProfile() {}
 
 // ------------------------------------------------------------------ method(s)
-PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t size)
+PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t &size)
 {
     PackedInt32Array ary;
     ary.resize(size);
@@ -438,7 +455,7 @@ PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t size)
     return ary;
 }
 
-PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size)
+PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size)
 {
     PackedVector2Array ary;
     ary.resize(size);
@@ -449,7 +466,7 @@ PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector
     return ary;
 }
 
-PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t size, const Csm::csmFloat32 ppunit, Vector2 vct_adjust)
+PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit, const Vector2 &vct_adjust)
 {
     PackedVector2Array ary;
     ary.resize(size);
