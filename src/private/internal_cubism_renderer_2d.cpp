@@ -133,8 +133,6 @@ Ref<ShaderMaterial> InternalCubismRenderer2D::make_ShaderMaterial(const Csm::Cub
 
 void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     const Csm::CubismModel *model,
-    const float &adjust_scale,
-    const Vector2 &adjust_pos,
     InternalCubismRendererResource &res)
 {
     const Vector2 vct_size = this->get_size(model);
@@ -156,7 +154,7 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     res.CALCULATED_ORIGIN_M = (Vector2(res.vct_mask_size) * vct_origin) / vct_size;
     res.RATIO = float(res.vct_mask_size.x) / float(res.vct_canvas_size.x);
 
-    if(res._owner_viewport->auto_scale == true)
+    if (res._owner_viewport->auto_scale == true)
     {
         float fdstC = godot::MIN(res.vct_canvas_size.x, res.vct_canvas_size.y);
         float fdstM = godot::MIN(res.vct_mask_size.x, res.vct_mask_size.y);
@@ -164,7 +162,9 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
 
         res.CALCULATED_PPUNIT_C = (fdstC * ppunit) / fsrc;
         res.CALCULATED_PPUNIT_M = (fdstM * ppunit) / fsrc;
-    } else {
+    }
+    else
+    {
         res.CALCULATED_PPUNIT_C = ppunit;
         res.CALCULATED_PPUNIT_M = ppunit * res.RATIO;
     }
@@ -173,30 +173,35 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
 Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
     const Csm::CubismModel *model,
     const Csm::csmInt32 index,
-    const float adjust_scale,
-    const Vector2 &adjust_pos,
     const bool maskmode,
     const InternalCubismRendererResource &res) const
 {
+    const Vector2 adjust_pos = res.adjust_pos;
     Array ary;
 
     ary.resize(Mesh::ARRAY_MAX);
 
-    if(maskmode == true) {
-        if(res._owner_viewport->auto_scale == true) {
+    if (maskmode == true)
+    {
+        if (res._owner_viewport->auto_scale == true)
+        {
             ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
                 model->GetDrawableVertexPositions(index),
                 model->GetDrawableVertexCount(index),
                 res.CALCULATED_PPUNIT_M,
                 res.CALCULATED_ORIGIN_M + adjust_pos * res.RATIO);
-        } else {
+        }
+        else
+        {
             ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
                 model->GetDrawableVertexPositions(index),
                 model->GetDrawableVertexCount(index),
                 res.CALCULATED_PPUNIT_M * res.adjust_scale,
                 res.CALCULATED_ORIGIN_M + adjust_pos * res.RATIO);
         }
-    } else {
+    }
+    else
+    {
         ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
             model->GetDrawableVertexPositions(index),
             model->GetDrawableVertexCount(index),
@@ -305,8 +310,6 @@ void InternalCubismRenderer2D::update_mask(SubViewport *viewport, const Csm::csm
             this->make_ArrayMesh(
                 model,
                 j,
-                res.adjust_scale,
-                res.adjust_pos,
                 true,
                 res));
 
@@ -326,10 +329,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
 
     this->make_ArrayMesh_prepare(
         model,
-        res.adjust_scale,
-        res.adjust_pos,
-        res
-    );
+        res);
 
     // 描画
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
@@ -380,16 +380,11 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
             mat->set_shader_parameter("ratio", res.RATIO);
             mat->set_shader_parameter("adjust_scale", res.adjust_scale);
             mat->set_shader_parameter("adjust_pos", res.adjust_pos);
-
-            mat->set_shader_parameter("mask_adjust_scale", res.adjust_scale);
-            mat->set_shader_parameter("mask_adjust_pos", res.adjust_pos);
         }
 
         Ref<ArrayMesh> m = this->make_ArrayMesh(
             model,
             index,
-            res.adjust_scale,
-            res.adjust_pos,
             false,
             res);
 
@@ -427,8 +422,6 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const
         res.dict_mesh[node_name] = this->make_ArrayMesh(
             model,
             index,
-            res.adjust_scale,
-            res.adjust_pos,
             false,
             res);
     }
@@ -470,7 +463,6 @@ PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector
 {
     PackedVector2Array ary;
     ary.resize(size);
-
     for (int i = 0; i < size; i++)
     {
         ary.set(i, (Vector2(ptr[i].X, ptr[i].Y * -1.0) * ppunit) + vct_adjust);

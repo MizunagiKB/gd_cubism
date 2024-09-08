@@ -41,15 +41,11 @@ private:
     Ref<ShaderMaterial> make_ShaderMaterial(const Csm::CubismModel *model, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const;
     void make_ArrayMesh_prepare(
         const Csm::CubismModel *model,
-        const float &adjust_scale,
-        const Vector2 &adjust_pos,
         InternalCubismRendererResource &res);
 
     Ref<ArrayMesh> make_ArrayMesh(
         const Csm::CubismModel *model,
         const Csm::csmInt32 index,
-        const float adjust_scale,
-        const Vector2 &adjust_pos,
         const bool makemask,
         const InternalCubismRendererResource &res) const;
 
