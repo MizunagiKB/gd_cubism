@@ -143,7 +143,7 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
             renderer->calc_mesh_instance_count()
         );
 
-        renderer->IsPremultipliedAlpha(true);
+        renderer->IsPremultipliedAlpha(false);
         renderer->DrawModel();
         renderer->update(this->_renderer_resource, false, true);
 
@@ -243,7 +243,7 @@ void InternalCubismUserModel::update_node() {
         renderer->calc_mesh_instance_count()
     );
 
-    renderer->IsPremultipliedAlpha(true);
+    renderer->IsPremultipliedAlpha(false);
     renderer->DrawModel();
     renderer->update(this->_renderer_resource);
 
