@@ -111,18 +111,9 @@ Ref<ShaderMaterial> InternalCubismRenderer2D::make_ShaderMaterial(const Csm::Cub
 
     mat->set_shader(shader);
 
-    Live2D::Cubism::Core::csmVector2 tmpSizeInPixels;
-    Live2D::Cubism::Core::csmVector2 tmpOriginInPixels;
-    Csm::csmFloat32 tmpPixelsPerUnit;
-
-    Live2D::Cubism::Core::csmReadCanvasInfo(model->GetModel(), &tmpSizeInPixels, &tmpOriginInPixels, &tmpPixelsPerUnit);
-
-    mat->set_shader_parameter("vct_origin", Vector2(tmpOriginInPixels.X, tmpOriginInPixels.Y));
-
-    CubismTextureColor color_base = this->GetModelColorWithOpacity(model->GetDrawableOpacity(index));
+    const CubismTextureColor color_base = this->GetModelColorWithOpacity(model->GetDrawableOpacity(index));
 
     mat->set_shader_parameter("color_base", Vector4(color_base.R, color_base.G, color_base.B, color_base.A));
-
     mat->set_shader_parameter("color_screen", make_vector4(model->GetDrawableScreenColor(index)));
     mat->set_shader_parameter("color_multiply", make_vector4(model->GetDrawableMultiplyColor(index)));
     mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
@@ -306,12 +297,7 @@ void InternalCubismRenderer2D::update_mask(SubViewport *viewport, const Csm::csm
         Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
         MeshInstance2D *node = res.request_mesh_instance();
 
-        node->set_mesh(
-            this->make_ArrayMesh(
-                model,
-                j,
-                true,
-                res));
+        node->set_mesh(this->make_ArrayMesh(model, j, true, res));
 
         node->set_material(mat);
         node->set_z_index(model->GetDrawableRenderOrders()[index]);
@@ -350,7 +336,6 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
 
         if (model->GetDrawableMaskCounts()[index] > 0)
         {
-
             SubViewport *viewport = res.request_viewport();
 
             viewport->set_size(res.vct_mask_size);
@@ -382,11 +367,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
             mat->set_shader_parameter("adjust_pos", res.adjust_pos);
         }
 
-        Ref<ArrayMesh> m = this->make_ArrayMesh(
-            model,
-            index,
-            false,
-            res);
+        Ref<ArrayMesh> m = this->make_ArrayMesh(model, index, false, res);
 
         node->set_name(node_name);
         node->set_mesh(m);
@@ -419,11 +400,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const
         CubismIdHandle handle = model->GetDrawableId(index);
         String node_name(handle->GetString().GetRawString());
 
-        res.dict_mesh[node_name] = this->make_ArrayMesh(
-            model,
-            index,
-            false,
-            res);
+        res.dict_mesh[node_name] = this->make_ArrayMesh(model, index, false, res);
     }
 }
 
