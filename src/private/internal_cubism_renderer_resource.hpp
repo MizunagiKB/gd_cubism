@@ -66,8 +66,9 @@ public:
     float adjust_scale;
 
     // Render parameters
-    Vector2i vct_canvas_size;
+    Rect2 vct_canvas_rect;
     Vector2i vct_mask_size;
+    Vector2 VCT_VIEWPORT_SCALE;
     float RATIO;
     float CALCULATED_PPUNIT_C;
     float CALCULATED_PPUNIT_M;

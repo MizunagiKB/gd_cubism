@@ -106,6 +106,9 @@ void GDCubismUserModel::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_adjust_position"), &GDCubismUserModel::get_adjust_position);
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "adjust_position"), "set_adjust_position", "get_adjust_position");
 
+    ClassDB::bind_method(D_METHOD("get_main_viewport_rect"), &GDCubismUserModel::get_main_viewport_rect);
+    ClassDB::bind_method(D_METHOD("get_main_viewport_transform"), &GDCubismUserModel::get_main_viewport_transform);
+
     ClassDB::bind_method(D_METHOD("set_mask_viewport_size", "value"), &GDCubismUserModel::set_mask_viewport_size);
     ClassDB::bind_method(D_METHOD("get_mask_viewport_size"), &GDCubismUserModel::get_mask_viewport_size);
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2I, "mask_viewport_size"), "set_mask_viewport_size", "get_mask_viewport_size");
@@ -817,6 +820,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
 
 void GDCubismUserModel::_ready() {
+    #if 0
     // Setup SubViewport
     this->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
     this->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
@@ -829,6 +833,7 @@ void GDCubismUserModel::_ready() {
     // Memory leak when set_transparent_background is true(* every time & window minimize)
     // https://github.com/godotengine/godot/issues/89651
     this->set_transparent_background(true);
+    #endif
 }
 
 

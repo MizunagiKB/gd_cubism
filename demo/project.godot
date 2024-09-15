@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="demo"
-run/main_scene="res://addons/gd_cubism/example/viewer.tscn"
+run/main_scene="res://addons/gd_cubism/example/demo_simple.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -25,3 +25,7 @@ window/per_pixel_transparency/allowed=true
 [physics]
 
 common/physics_ticks_per_second=120
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

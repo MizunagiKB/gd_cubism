@@ -130,7 +130,9 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     const Vector2 vct_origin = this->get_origin(model);
     const float ppunit = this->get_ppunit(model);
 
-    res.vct_canvas_size = res._owner_viewport->get_size();
+    res.vct_canvas_rect = res._owner_viewport->get_main_viewport_rect();
+
+    res.VCT_VIEWPORT_SCALE.x = 1.0;
 
     if (res._owner_viewport->mask_viewport_size.x > 0 && res._owner_viewport->mask_viewport_size.y > 0)
     {
@@ -138,16 +140,18 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     }
     else
     {
-        res.vct_mask_size = res._owner_viewport->get_size();
+        res.vct_mask_size = res.vct_canvas_rect.size;
     }
 
-    res.CALCULATED_ORIGIN_C = (Vector2(res.vct_canvas_size) * vct_origin) / vct_size;
-    res.CALCULATED_ORIGIN_M = (Vector2(res.vct_mask_size) * vct_origin) / vct_size;
-    res.RATIO = float(res.vct_mask_size.x) / float(res.vct_canvas_size.x);
+    Vector2 pos = Vector2(0.0, 0.0);
+
+    res.CALCULATED_ORIGIN_C = pos;
+    res.CALCULATED_ORIGIN_M = pos;
+    res.RATIO = 1.0;
 
     if (res._owner_viewport->auto_scale == true)
     {
-        float fdstC = godot::MIN(res.vct_canvas_size.x, res.vct_canvas_size.y);
+        float fdstC = godot::MIN(res.vct_canvas_rect.size.x, res.vct_canvas_rect.size.y);
         float fdstM = godot::MIN(res.vct_mask_size.x, res.vct_mask_size.y);
         float fsrc = godot::MAX(vct_size.x, vct_size.y);
 
@@ -188,7 +192,7 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
                 model->GetDrawableVertexPositions(index),
                 model->GetDrawableVertexCount(index),
                 res.CALCULATED_PPUNIT_M * res.adjust_scale,
-                res.CALCULATED_ORIGIN_M + adjust_pos * res.RATIO);
+                res.CALCULATED_ORIGIN_M + res.adjust_pos);
         }
     }
     else
@@ -352,6 +356,10 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
             // https://github.com/godotengine/godot/issues/89651
             viewport->set_transparent_background(true);
 
+            // for Direct Render
+            Transform2D tf = res._owner_viewport->get_main_viewport_transform();
+            viewport->set_global_canvas_transform(tf * res._owner_viewport->get_global_transform());
+
             this->update_mask(viewport, index, res);
 
             // res._parent_node->add_child(viewport);
@@ -360,7 +368,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
 
             mat->set_shader_parameter("auto_scale", res._owner_viewport->auto_scale);
-            mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
+            mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_rect.size));
             mat->set_shader_parameter("mask_size", Vector2(res.vct_mask_size));
             mat->set_shader_parameter("ratio", res.RATIO);
             mat->set_shader_parameter("adjust_scale", res.adjust_scale);

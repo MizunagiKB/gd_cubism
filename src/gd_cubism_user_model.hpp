@@ -8,6 +8,7 @@
 #include <gd_cubism.hpp>
 
 #include <godot_cpp/classes/canvas_group.hpp>
+#include <godot_cpp/classes/display_server.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/shader.hpp>
 #include <godot_cpp/classes/sub_viewport.hpp>
@@ -68,8 +69,8 @@ public:
 };
 
 
-class GDCubismUserModel : public SubViewport {
-    GDCLASS(GDCubismUserModel, SubViewport);
+class GDCubismUserModel : public Node2D {
+    GDCLASS(GDCubismUserModel, Node2D);
 
 public:
     GDCubismUserModel();
@@ -169,6 +170,9 @@ public:
 
     void set_adjust_position(const Vector2 pos) { this->adjust_pos = pos; }
     Vector2 get_adjust_position() const { return this->adjust_pos; }
+
+    Rect2 get_main_viewport_rect() const { return this->get_viewport_rect(); }
+    Transform2D get_main_viewport_transform() const { return this->get_viewport_transform(); }
 
     void set_mask_viewport_size(const Vector2i size) { this->mask_viewport_size = size; }
     Vector2i get_mask_viewport_size() const { return this->mask_viewport_size; }
