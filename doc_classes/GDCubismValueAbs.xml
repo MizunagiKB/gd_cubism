@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="GDCubismValueAbs" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="id" type="String" setter="" getter="get_id" default="&quot;&quot;">
+		</member>
+		<member name="value" type="float" setter="set_value" getter="get_value" default="0.0">
+		</member>
+	</members>
+</class>

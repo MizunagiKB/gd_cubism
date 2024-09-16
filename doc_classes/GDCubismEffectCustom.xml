@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="GDCubismEffectCustom" inherits="GDCubismEffect" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+		By placing it as a child element of [GDCubismUserModel], you can extend your own functions.
+	</description>
+	<tutorials>
+	</tutorials>
+	<signals>
+		<signal name="cubism_epilogue">
+			<param index="0" name="model" type="GDCubismUserModel" />
+			<param index="1" name="delta" type="float" />
+			<description>
+				Called when the Live2D model is drawn.
+			</description>
+		</signal>
+		<signal name="cubism_init">
+			<param index="0" name="model" type="GDCubismUserModel" />
+			<description>
+				Called at the start of using the Live2D model.
+				Normally it is only called once, but there is a possibility that a signal will occur again under the following conditions.
+				- When a new Live2D model is loaded.
+				- When [code]GDCubismEffect*[/code] is added or removed as a child element of the Live2D model.
+			</description>
+		</signal>
+		<signal name="cubism_process">
+			<param index="0" name="model" type="GDCubismUserModel" />
+			<param index="1" name="delta" type="float" />
+			<description>
+				Called when the Live2D model is drawn.
+			</description>
+		</signal>
+		<signal name="cubism_prologue">
+			<param index="0" name="model" type="GDCubismUserModel" />
+			<param index="1" name="delta" type="float" />
+			<description>
+				Called when the Live2D model is drawn.
+			</description>
+		</signal>
+		<signal name="cubism_term">
+			<param index="0" name="model" type="GDCubismUserModel" />
+			<description>
+				Called at the end of using the Live2D model.
+				Normally it is only called once, but there is a possibility that a signal will occur again under the following conditions.
+				- When a new Live2D model is loaded.
+				- When [code]GDCubismEffect*[/code] is added or removed as a child element of the Live2D model.
+			</description>
+		</signal>
+	</signals>
+</class>

@@ -64,6 +64,15 @@ public:
     // Adjust Parameters
     Vector2 adjust_pos;
     float adjust_scale;
+
+    // Render parameters
+    Vector2i vct_canvas_size;
+    Vector2i vct_mask_size;
+    float RATIO;
+    float CALCULATED_PPUNIT_C;
+    float CALCULATED_PPUNIT_M;
+    Vector2 CALCULATED_ORIGIN_C;
+    Vector2 CALCULATED_ORIGIN_M;
 };
 
 

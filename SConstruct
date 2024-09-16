@@ -220,6 +220,17 @@ for dirname in (
 sources += sources_cubism
 
 
+#
+if env["target"] in ["editor", "template_debug"]:
+    try:
+        doc_data = env.GodotCPPDocData(
+            "src/gen/doc_data.gen.cpp", source=glob("doc_classes/*.xml")
+        )
+        sources.append(doc_data)
+    except AttributeError:
+        print("Not including class reference as we're targeting a pre-4.3 baseline.")
+
+
 (extension_path,) = glob("demo/addons/*/*.gdextension")
 
 # Find the addon path (e.g. project/addons/example).

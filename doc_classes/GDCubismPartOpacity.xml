@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="GDCubismPartOpacity" inherits="GDCubismValueAbs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+		Elements contained in the [Array] returned by the [method GDCubismUserModel.get_part_opacities] function of [GDCubismUserModel].
+		By writing a value to this class's value, you can modify the opacity of the parts of the Live2D model.
+	</description>
+	<tutorials>
+	</tutorials>
+</class>

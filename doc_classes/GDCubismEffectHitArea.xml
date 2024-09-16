@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="GDCubismEffectHitArea" inherits="GDCubismEffect" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+		By placing it as a child element of [GDCubismUserModel], you can handle the HitArea set on the Live2D model.
+		HitArea is composed of any Triangle. This allows you to express complex shapes, but in the [GDCubismEffectHitArea] class, it is treated as a box [Rect2] that contains the vertices that make up the Triagle.
+		If you want to determine on a Triangle basis, you can do so by using the [method get_detail] function after receiving the [signal hit_area_entered] signal.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_detail">
+			<return type="Dictionary" />
+			<param index="0" name="model" type="GDCubismUserModel" />
+			<param index="1" name="id" type="String" />
+			<description>
+				You can get more detailed information at the time of [signal hit_area_entered].
+				The information obtained has three types of states depending on the judgment result between the point specified by [method set_target] and the [param mesh] specified by [param id].
+			</description>
+		</method>
+		<method name="get_target" qualifiers="const">
+			<return type="Vector2" />
+			<description>
+				Gets the point specified by [method set_target].
+			</description>
+		</method>
+		<method name="set_target">
+			<return type="void" />
+			<param index="0" name="target" type="Vector2" />
+			<description>
+				You can perform contact detection with HitArea and the specified coordinates.
+				Calling [method set_target] once is considered a click.
+				Calling it continuously is considered a drag operation.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="monitoring" type="bool" setter="set_monitoring" getter="get_monitoring" default="true">
+			Switches the behavior of the [signal hit_area_enterd] signal.
+		</member>
+	</members>
+	<signals>
+		<signal name="hit_area_entered">
+			<param index="0" name="model" type="GDCubismUserModel" />
+			<param index="1" name="id" type="String" />
+			<description>
+				Called when the HitArea of the Live2D model is set at the point specified by [method set_target].
+				The behavior changes as follows depending on the state of [member monitoring].
+				- [b]In case of [code]true[/code]:[/b] ... It will not be called until [method set_target] is removed from HitArea after it is called.
+				- [b]In case of [code]false[/code]:[/b] ... It will be called any number of times while [method set_target] is within HitArea.
+			</description>
+		</signal>
+		<signal name="hit_area_exited">
+			<param index="0" name="model" type="GDCubismUserModel" />
+			<param index="1" name="id" type="String" />
+			<description>
+				Called when [method set_target] becomes outside the range of HitArea after [signal hit_area_enterd] is called.
+				This signal has a chance to be called after [signal hit_area_enterd] is called, regardless of the state of [member minitoring], and it is only called once.
+			</description>
+		</signal>
+	</signals>
+</class>
