@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="GDCubismEffectTargetPoint" inherits="GDCubismEffect" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+		By placing it as a child element of [GDCubsimUserModel], you can make the face and eyes look at the specified coordinates.
+		[b]NOTE:[/b] You need to pre-configure the Live2D model to use this element.
+		If you want to move the eyes to the position where you drag the mouse pointer on the screen, use the following code to update the current position to [GDCubismEffectTargetPoint].
+		[codeblocks]
+		[gdscript]
+			func _input(event):
+
+			    if event as InputEventMouseButton:
+			        pressed = event.is_pressed()
+
+			    if event as InputEventMouseMotion:
+			        if pressed == true:
+			            # Convert to Node using mouse coordinates for display
+			            var local_pos = $Sprite2D.to_local(event.position)
+			            # Adjust the converted coordinates to the display size of SubViewport
+			            var render_size: Vector2 = Vector2(
+			                float($Sprite2D/GDCubismUserModel.size.x) * $Sprite2D.scale.x,
+			                float($Sprite2D/GDCubismUserModel.size.y) * $Sprite2D.scale.y * -1.0
+			            ) * 0.5
+			            local_pos /= render_size
+			            $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_target(local_pos)
+			        else:
+			            $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_target(Vector2.ZERO)
+		[/gdscript]
+		[/codeblocks]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_target" qualifiers="const">
+			<return type="Vector2" />
+			<description>
+				Gets the direction the Live2D model is facing.
+			</description>
+		</method>
+		<method name="set_target">
+			<return type="void" />
+			<param index="0" name="target" type="Vector2" />
+			<description>
+				Sets the direction the Live2D model is facing.
+				The direction that can be set is in the range of -1.0 to 1.0 for both x and y.
+				If you pass a value that exceeds the range, it will be contained within the range.
+
+				The coordinates to specify are not the coordinates of the screen, but the range from the center of the Node where the texture is pasted.
+
+				- x: 0.0, y: 0.0 Front
+				- x: -1.0, y: 0.0 Screen left
+				- x: 1.0, y: 0.0 Screen right
+				- x: 0.0, y: -1.0 Screen bottom
+				- x: 0.0, y: 1.0 Screen top
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="body_angle_x" type="String" setter="set_body_angle_x" getter="get_body_angle_x" default="&quot;ParamBodyAngleX&quot;">
+			Specifies the ID used to change the orientation of the body with [method set_target].
+		</member>
+		<member name="body_range" type="float" setter="set_body_range" getter="get_body_range" default="10.0">
+			Specifies how much to move the ID specified with [member body_angle_x].
+			The larger the value, the more sensitive the response, and if you specify 0.0, it will not respond.
+		</member>
+		<member name="eyes_ball_x" type="String" setter="set_eyes_ball_x" getter="get_eyes_ball_x" default="&quot;ParamEyeBallX&quot;">
+			Specifies the ID used to change the line of sight (direction of the pupil) with [method set_target].
+		</member>
+		<member name="eyes_ball_y" type="String" setter="set_eyes_ball_y" getter="get_eyes_ball_y" default="&quot;ParamEyeBallY&quot;">
+			Specifies the ID used to change the line of sight (direction of the pupil) with [method set_target].
+		</member>
+		<member name="eyes_range" type="float" setter="set_eyes_range" getter="get_eyes_range" default="1.0">
+			Specifies how much to move the ID specified with [member eyes_ball_x], [member eyes_ball_x].
+			The larger the value, the more sensitive the response, and if you specify 0.0, it will not respond.
+		</member>
+		<member name="head_angle_x" type="String" setter="set_head_angle_x" getter="get_head_angle_x" default="&quot;ParamAngleX&quot;">
+			Specifies the ID used to change the line of sight (direction of the pupil) with [method set_target].
+		</member>
+		<member name="head_angle_y" type="String" setter="set_head_angle_y" getter="get_head_angle_y" default="&quot;ParamAngleY&quot;">
+			Specifies the ID used to change the line of sight (direction of the pupil) with [method set_target].
+		</member>
+		<member name="head_angle_z" type="String" setter="set_head_angle_z" getter="get_head_angle_z" default="&quot;ParamAngleZ&quot;">
+			Specifies the ID used to change the line of sight (direction of the pupil) with [method set_target].
+		</member>
+		<member name="head_range" type="float" setter="set_head_range" getter="get_head_range" default="30.0">
+			Specifies how much to move the ID specified with [member head_angle_x], [member head_angle_y], [member head_angle_z].
+			The larger the value, the more sensitive it responds, and if you specify 0.0, it will not respond.
+		</member>
+	</members>
+</class>

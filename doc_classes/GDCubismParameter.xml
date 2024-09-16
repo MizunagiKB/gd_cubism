@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="GDCubismParameter" inherits="GDCubismValueAbs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+		Elements contained in the [Array] returned by the [method GDCubismUserModel.get_parameters] function of [GDCubismUserModel].
+		By writing a value to this class's value, you can modify the parameter of the Live2D model.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="reset">
+			<return type="void" />
+			<description>
+				Resets the currently set value to [default_value].
+				The hold status is also lifted.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="default_value" type="float" setter="" getter="get_default_value" default="0.0">
+			The initial value of the parameter held by this class.
+		</member>
+		<member name="hold" type="bool" setter="set_hold" getter="get_hold" default="false">
+			The maximum value that can be set for the parameter held by this class.
+		</member>
+		<member name="maximum_value" type="float" setter="" getter="get_maximum_value" default="0.0">
+			The minimum value that can be set for the parameter held by this class.
+		</member>
+		<member name="minimum_value" type="float" setter="" getter="get_minimum_value" default="0.0">
+			If true, the parameters you set will take precedence even if motion or expression is set.
+		</member>
+	</members>
+	<constants>
+		<constant name="NORMAL" value="0" enum="Type">
+		</constant>
+		<constant name="BLEND_SHAPE" value="1" enum="Type">
+		</constant>
+	</constants>
+</class>

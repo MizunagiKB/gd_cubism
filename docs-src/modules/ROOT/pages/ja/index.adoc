@@ -21,7 +21,10 @@ endif::env-github,env-vscode[]
 
 このソフトウェア（以下GDCubism）は link:https://www.live2d.com/download/cubism-sdk/[Live2D Cubism SDK]を GDScript や C# から利用可能にするための**非公式**な GDExtension です。
 
-この GDExtension は Godot Engine 4.1.1 以降で使用可能です。
+[NOTE]
+====
+この GDExtension は Godot Engine 4.3 以上で使用可能です。（4.1, 4.2 で使用したい場合は link:https://github.com/MizunagiKB/gd_cubism/tree/0.7-godot4.1[7.0-godot41] を使用してください）
+====
 
 GDCubism 内部ではLive2D社が公開している link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework] を併用しています。
 
@@ -41,7 +44,6 @@ a|
 a|
 * x86_64
 * arm64
-* universal
 
 >|Linux
 a|

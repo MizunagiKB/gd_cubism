@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="GDCubismMotionQueueEntryHandle" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+		The return values of the [method GDCubismUserModel.start_motion] function and the [method GDCubismUserModel.start_random_motion] function of [GDCubismUserModel].
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="error" type="int" setter="" getter="get_error" enum="GDCubismMotionQueueEntryHandle.HandleError" default="1">
+			Checks whether the call to the [method GDCubismUserModel.start_motion] function and the [method GDCubismUserModel.start_random_motion] function of [GDCubismUserModel] was successful.
+		</member>
+	</members>
+	<constants>
+		<constant name="OK" value="0" enum="HandleError">
+			Success
+		</constant>
+		<constant name="FAILED" value="1" enum="HandleError">
+			Failure
+		</constant>
+	</constants>
+</class>

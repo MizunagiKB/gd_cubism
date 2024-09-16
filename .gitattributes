@@ -10,3 +10,6 @@
 # for Godot Engine
 *.gd    text eol=lf
 *.tscn  text eol=lf
+
+# for Godot Engine 4.1
+godot.project   merge=godot4.1
