@@ -138,16 +138,9 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
         this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
         this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
-        this->_renderer_resource.pro_proc(
-            renderer->calc_viewport_count(),
-            renderer->calc_mesh_instance_count()
-        );
-
         renderer->IsPremultipliedAlpha(false);
         renderer->DrawModel();
-        renderer->update(this->_renderer_resource, false, true);
-
-        this->_renderer_resource.epi_proc();
+        renderer->build_model(this->_renderer_resource);
     }
     // ------------------------------------------------------------------------
 
@@ -238,16 +231,9 @@ void InternalCubismUserModel::update_node() {
     this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
     this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
-    this->_renderer_resource.pro_proc(
-        renderer->calc_viewport_count(),
-        renderer->calc_mesh_instance_count()
-    );
-
     renderer->IsPremultipliedAlpha(false);
     renderer->DrawModel();
     renderer->update(this->_renderer_resource);
-
-    this->_renderer_resource.epi_proc();
 }
 
 

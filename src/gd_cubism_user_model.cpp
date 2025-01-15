@@ -312,6 +312,10 @@ void GDCubismUserModel::clear() {
         this->internal_model = nullptr;
     }
 
+    for (int i = 0; i < this->get_child_count(); i++) {
+        this->get_child(i)->queue_free();
+    }
+
     this->setup_property();
     this->notify_property_list_changed();
 }

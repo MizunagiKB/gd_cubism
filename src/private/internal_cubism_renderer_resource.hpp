@@ -20,6 +20,7 @@
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
+using namespace Live2D::Cubism::Framework::Rendering;
 using namespace godot;
 
 
@@ -40,27 +41,24 @@ public:
 
     SubViewport* request_viewport();
     MeshInstance2D* request_mesh_instance();
+    ShaderMaterial* request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index);
+    ShaderMaterial* request_mask_material();
 
     void pro_proc(const Csm::csmInt32 viewport_count, const Csm::csmInt32 mesh_instance_count);
     void epi_proc();
-
-    void dispose_node(const bool node_release);
 
     // Shader
     Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }
 
 public:
-    const GDCubismUserModel *_owner_viewport;
+    GDCubismUserModel *_owner_viewport;
     Node *_parent_node;
 
     Array ary_texture;
     Array ary_shader;
     Dictionary dict_mesh;
-    Csm::csmInt32 sub_viewport_counter;
-    TypedArray<SubViewport> ary_sub_viewport;
-    Csm::csmInt32 mesh_instance_counter;
-    TypedArray<MeshInstance2D> ary_mesh_instance;
-
+    Dictionary dict_mask;
+    
     // Adjust Parameters
     Vector2 adjust_pos;
     float adjust_scale;

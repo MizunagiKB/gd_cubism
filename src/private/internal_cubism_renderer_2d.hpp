@@ -38,18 +38,20 @@ public:
     virtual ~InternalCubismRenderer2D();
 
 private:
-    Ref<ShaderMaterial> make_ShaderMaterial(const Csm::CubismModel *model, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const;
+    static void ready_mask(const MeshInstance2D *node);
+
+    void update_material(const Csm::CubismModel *model, const Csm::csmInt32 index, const Ref<ShaderMaterial> mat) const;
+    
     void make_ArrayMesh_prepare(
         const Csm::CubismModel *model,
         InternalCubismRendererResource &res);
 
-    Ref<ArrayMesh> make_ArrayMesh(
+    void update_mesh(
         const Csm::CubismModel *model,
         const Csm::csmInt32 index,
         const bool makemask,
-        const InternalCubismRendererResource &res) const;
-
-    void update_mask(SubViewport *viewport, const Csm::csmInt32 index, InternalCubismRendererResource &res);
+        const InternalCubismRendererResource &res,
+        const Ref<ArrayMesh> ary_mesh) const;
 
 public:
     Csm::csmInt32 calc_viewport_count() const;
@@ -59,7 +61,7 @@ public:
     float get_ppunit(const Csm::CubismModel *model) const;
 
     void update(InternalCubismRendererResource &res);
-    void update(InternalCubismRendererResource &res, const bool update_node, const bool update_mesh);
+    void build_model(InternalCubismRendererResource &res);
 
     virtual void Initialize(Csm::CubismModel *model, Csm::csmInt32 maskBufferCount);
     void DoDrawModel();
