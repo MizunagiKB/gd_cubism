@@ -134,6 +134,10 @@ public:
 protected:
     static void _bind_methods();
 
+private:
+    void load_model(const String asset_path);
+    void clear();
+
 public:
     Dictionary csm_get_version();
     moc3FileFormatVersion csm_get_latest_moc_version();
@@ -150,7 +154,6 @@ public:
     Dictionary get_canvas_info() const;
 
     bool is_initialized() const;
-    void clear();
 
     void set_parameter_mode(const ParameterMode value);
     GDCubismUserModel::ParameterMode get_parameter_mode() const;

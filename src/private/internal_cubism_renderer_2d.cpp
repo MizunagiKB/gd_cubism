@@ -40,86 +40,13 @@ InternalCubismRenderer2D::~InternalCubismRenderer2D()
 {
 }
 
-Ref<ShaderMaterial> InternalCubismRenderer2D::make_ShaderMaterial(const Csm::CubismModel *model, const Csm::csmInt32 index, const InternalCubismRendererResource &res) const
+void InternalCubismRenderer2D::update_material(const Csm::CubismModel *model, const Csm::csmInt32 index, const Ref<ShaderMaterial> mat) const
 {
-    Ref<ShaderMaterial> mat;
-    mat.instantiate();
-
-    GDCubismShader e = GD_CUBISM_SHADER_NORM_MIX;
-
-    if (model->GetDrawableMaskCounts()[index] == 0)
-    {
-        switch (model->GetDrawableBlendMode(index))
-        {
-        case CubismBlendMode_Additive:
-            e = GD_CUBISM_SHADER_NORM_ADD;
-            break;
-        case CubismBlendMode_Normal:
-            e = GD_CUBISM_SHADER_NORM_MIX;
-            break;
-        case CubismBlendMode_Multiplicative:
-            e = GD_CUBISM_SHADER_NORM_MUL;
-            break;
-        default:
-            e = GD_CUBISM_SHADER_NORM_MIX;
-            break;
-        }
-    }
-    else
-    {
-        if (model->GetDrawableInvertedMask(index) == false)
-        {
-            switch (model->GetDrawableBlendMode(index))
-            {
-            case CubismBlendMode_Additive:
-                e = GD_CUBISM_SHADER_MASK_ADD;
-                break;
-            case CubismBlendMode_Normal:
-                e = GD_CUBISM_SHADER_MASK_MIX;
-                break;
-            case CubismBlendMode_Multiplicative:
-                e = GD_CUBISM_SHADER_MASK_MUL;
-                break;
-            default:
-                e = GD_CUBISM_SHADER_MASK_MIX;
-                break;
-            }
-        }
-        else
-        {
-            switch (model->GetDrawableBlendMode(index))
-            {
-            case CubismBlendMode_Additive:
-                e = GD_CUBISM_SHADER_MASK_ADD_INV;
-                break;
-            case CubismBlendMode_Normal:
-                e = GD_CUBISM_SHADER_MASK_MIX_INV;
-                break;
-            case CubismBlendMode_Multiplicative:
-                e = GD_CUBISM_SHADER_MASK_MUL_INV;
-                break;
-            default:
-                e = GD_CUBISM_SHADER_MASK_MIX_INV;
-                break;
-            }
-        }
-    }
-
-    Ref<Shader> shader = res._owner_viewport->get_shader(e);
-    if (shader.is_null())
-        shader = res.get_shader(e);
-
-    mat->set_shader(shader);
-
     const CubismTextureColor color_base = this->GetModelColorWithOpacity(model->GetDrawableOpacity(index));
 
     mat->set_shader_parameter("color_base", Vector4(color_base.R, color_base.G, color_base.B, color_base.A));
     mat->set_shader_parameter("color_screen", make_vector4(model->GetDrawableScreenColor(index)));
     mat->set_shader_parameter("color_multiply", make_vector4(model->GetDrawableMultiplyColor(index)));
-    mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
-    mat->set_shader_parameter("tex_main", res.ary_texture[model->GetDrawableTextureIndex(index)]);
-
-    return mat;
 }
 
 void InternalCubismRenderer2D::make_ArrayMesh_prepare(
@@ -161,13 +88,18 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     }
 }
 
-Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
+void InternalCubismRenderer2D::update_mesh(
     const Csm::CubismModel *model,
     const Csm::csmInt32 index,
     const bool maskmode,
-    const InternalCubismRendererResource &res) const
+    const InternalCubismRendererResource &res,
+    const Ref<ArrayMesh> ary_mesh
+) const
 {
     const Vector2 adjust_pos = res.adjust_pos;
+
+    ary_mesh->clear_surfaces();
+
     Array ary;
 
     ary.resize(Mesh::ARRAY_MAX);
@@ -208,40 +140,7 @@ Ref<ArrayMesh> InternalCubismRenderer2D::make_ArrayMesh(
         model->GetDrawableVertexIndices(index),
         model->GetDrawableVertexIndexCount(index));
 
-    Ref<ArrayMesh> ary_mesh;
-
-    ary_mesh.instantiate();
     ary_mesh->add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, ary);
-
-    return ary_mesh;
-}
-
-Csm::csmInt32 InternalCubismRenderer2D::calc_viewport_count() const
-{
-    const CubismModel *model = this->GetModel();
-    Csm::csmInt32 count = 0;
-
-    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
-    {
-        if (model->GetDrawableMaskCounts()[index] > 0)
-            count++;
-    }
-
-    return count;
-}
-
-Csm::csmInt32 InternalCubismRenderer2D::calc_mesh_instance_count() const
-{
-    const CubismModel *model = this->GetModel();
-    Csm::csmInt32 count = 0;
-
-    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
-    {
-        count += model->GetDrawableMaskCounts()[index];
-        count++;
-    }
-
-    return count;
 }
 
 Vector2 InternalCubismRenderer2D::get_size(const Csm::CubismModel *model) const
@@ -277,36 +176,6 @@ float InternalCubismRenderer2D::get_ppunit(const Csm::CubismModel *model) const
     return ppunit;
 }
 
-void InternalCubismRenderer2D::update_mask(SubViewport *viewport, const Csm::csmInt32 index, InternalCubismRendererResource &res)
-{
-    CubismModel *model = this->GetModel();
-
-    Ref<ShaderMaterial> mat;
-    mat.instantiate();
-
-    Ref<Shader> shader = res._owner_viewport->get_shader(GD_CUBISM_SHADER_MASK);
-    if (shader.is_null())
-        shader = res.get_shader(GD_CUBISM_SHADER_MASK);
-
-    mat->set_shader(shader);
-    mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
-    mat->set_shader_parameter("tex_main", res.ary_texture[model->GetDrawableTextureIndex(index)]);
-
-    for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
-    {
-        Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
-        MeshInstance2D *node = res.request_mesh_instance();
-
-        node->set_mesh(this->make_ArrayMesh(model, j, true, res));
-
-        node->set_material(mat);
-        node->set_z_index(model->GetDrawableRenderOrders()[index]);
-        node->set_visible(true);
-
-        viewport->add_child(node);
-    }
-}
-
 void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
 {
     const CubismModel *model = this->GetModel();
@@ -317,47 +186,43 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
         model,
         res);
 
-    // 描画
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
     {
-        // Drawableが表示状態でなければ処理をパスする
-        if (model->GetDrawableDynamicFlagIsVisible(index) == false)
-            continue;
         if (model->GetDrawableVertexCount(index) == 0)
             continue;
         if (model->GetDrawableVertexIndexCount(index) == 0)
             continue;
 
-        MeshInstance2D *node = res.request_mesh_instance();
-        Ref<ShaderMaterial> mat = this->make_ShaderMaterial(model, index, res);
-
+        
         CubismIdHandle handle = model->GetDrawableId(index);
         String node_name(handle->GetString().GetRawString());
+        MeshInstance2D *node = Object::cast_to<MeshInstance2D>(res.dict_mesh[node_name]);
+        if (node == nullptr) {
+            continue;
+        }
+        const bool visible = model->GetDrawableDynamicFlagIsVisible(index);
+        node->set_visible(visible);
+        if (!visible) {
+            continue;
+        }
+        Ref<ShaderMaterial> mat = node->get_material();
 
-        if (model->GetDrawableMaskCounts()[index] > 0)
-        {
-            SubViewport *viewport = res.request_viewport();
+        this->update_mesh(model, index, false, res, node->get_mesh());
+        this->update_material(model, index, mat);
+        node->set_z_index(renderOrder[index]);
 
+        if (model->GetDrawableMaskCounts()[index] > 0) {
+            const Array masks = res.dict_mask[node_name];
+            SubViewport *viewport = Object::cast_to<SubViewport>(node->get_meta("viewport"));
             viewport->set_size(res.vct_mask_size);
 
-            viewport->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
-            viewport->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
-            // set_update_mode must be specified
-            viewport->set_update_mode(SubViewport::UpdateMode::UPDATE_ALWAYS);
-            viewport->set_disable_input(true);
-            // Memory leak when set_use_own_world_3d is true
-            // https://github.com/godotengine/godot/issues/81476
-            viewport->set_use_own_world_3d(SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG);
-            // Memory leak when set_transparent_background is true(* every time & window minimize)
-            // https://github.com/godotengine/godot/issues/89651
-            viewport->set_transparent_background(true);
-
-            this->update_mask(viewport, index, res);
-
-            // res._parent_node->add_child(viewport);
-            res._parent_node->call_deferred("add_child", viewport);
-
-            mat->set_shader_parameter("tex_mask", viewport->get_texture());
+            for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
+            {
+                MeshInstance2D *node = Object::cast_to<MeshInstance2D>(masks[m_index]);
+                Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
+                this->update_mesh(model, j, true, res, node->get_mesh());
+                node->set_z_index(renderOrder[index]);
+            }
 
             mat->set_shader_parameter("auto_scale", res._owner_viewport->auto_scale);
             mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
@@ -366,32 +231,21 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
             mat->set_shader_parameter("adjust_scale", res.adjust_scale);
             mat->set_shader_parameter("adjust_pos", res.adjust_pos);
         }
-
-        Ref<ArrayMesh> m = this->make_ArrayMesh(model, index, false, res);
-
-        node->set_name(node_name);
-        node->set_mesh(m);
-        res.dict_mesh[node_name] = m;
-        node->set_material(mat);
-        node->set_z_index(renderOrder[index]);
-        node->set_visible(true);
-
-        // res._parent_node->add_child(node);
-        res._parent_node->call_deferred("add_child", node);
     }
 }
 
-void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const bool update_node, const bool update_mesh)
+void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, Node* target_node)
 {
     const CubismModel *model = this->GetModel();
     const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
     const Csm::csmInt32 *maskCount = model->GetDrawableMaskCounts();
 
+    this->make_ArrayMesh_prepare(
+        model,
+        res);
+
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
     {
-
-        if (model->GetDrawableDynamicFlagIsVisible(index) == false)
-            continue;
         if (model->GetDrawableVertexCount(index) == 0)
             continue;
         if (model->GetDrawableVertexIndexCount(index) == 0)
@@ -400,7 +254,75 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, const
         CubismIdHandle handle = model->GetDrawableId(index);
         String node_name(handle->GetString().GetRawString());
 
-        res.dict_mesh[node_name] = this->make_ArrayMesh(model, index, false, res);
+        MeshInstance2D* node = res.request_mesh_instance();
+        ShaderMaterial* mat = res.request_shader_material(model, index);
+        node->set_material(mat);        
+        this->update_mesh(model, index, false, res, node->get_mesh());
+        node->set_name(node_name);
+
+        // build mask
+        if (model->GetDrawableMaskCounts()[index] > 0)
+        {
+            TypedArray<MeshInstance2D> masks;
+            
+            SubViewport* viewport = memnew(SubViewport);
+            {
+                viewport->set_size(res.vct_mask_size);
+
+                viewport->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
+                viewport->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
+                // set_update_mode must be specified
+                viewport->set_update_mode(SubViewport::UpdateMode::UPDATE_ALWAYS);
+                viewport->set_disable_input(true);
+                // Memory leak when set_use_own_world_3d is true
+                // https://github.com/godotengine/godot/issues/81476
+                viewport->set_use_own_world_3d(SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG);
+                // Memory leak when set_transparent_background is true(* every time & window minimize)
+                // https://github.com/godotengine/godot/issues/89651
+                viewport->set_transparent_background(true);
+
+                for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
+                {
+                    Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
+                    CubismIdHandle handle = model->GetDrawableId(j);
+                    String mask_name(handle->GetString().GetRawString());
+
+                    MeshInstance2D *node = res.request_mesh_instance();
+                    ShaderMaterial *mat = res.request_mask_material();
+                    this->update_mesh(model, j, true, res, node->get_mesh());
+
+                    node->set_name(mask_name);
+                    node->set_material(mat);
+                    mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
+                    mat->set_shader_parameter("tex_main", res.ary_texture[model->GetDrawableTextureIndex(index)]);
+
+                    node->set_z_index(model->GetDrawableRenderOrders()[index]);
+                    node->set_visible(true);
+
+                    masks.append(node);
+
+                    viewport->add_child(node);
+                }
+            }
+
+            target_node->add_child(viewport);
+
+            mat->set_shader_parameter("tex_mask", viewport->get_texture());
+            mat->set_shader_parameter("auto_scale", res._owner_viewport->auto_scale);
+            mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
+            mat->set_shader_parameter("mask_size", Vector2(res.vct_mask_size));
+            mat->set_shader_parameter("ratio", res.RATIO);
+            mat->set_shader_parameter("adjust_scale", res.adjust_scale);
+            mat->set_shader_parameter("adjust_pos", res.adjust_pos);
+
+            viewport->set_name(node_name + "__mask");
+            res.dict_mask[node_name] = masks;
+
+            node->set_meta("viewport", viewport);
+        }
+
+        res.dict_mesh[node_name] = node;
+        target_node->add_child(node);
     }
 }
 
