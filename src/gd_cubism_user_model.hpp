@@ -150,7 +150,7 @@ public:
     Dictionary get_canvas_info() const;
 
     bool is_initialized() const;
-    void clear();
+    void load_model();
 
     void set_parameter_mode(const ParameterMode value);
     GDCubismUserModel::ParameterMode get_parameter_mode() const;

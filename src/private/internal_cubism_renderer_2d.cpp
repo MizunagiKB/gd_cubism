@@ -330,8 +330,9 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res)
                 }
             }
 
-            res._parent_node->call_deferred("add_child", viewport);
+            res._parent_node->add_child(viewport);
 
+            mat->set_shader_parameter("tex_mask", viewport->get_texture());
             mat->set_shader_parameter("auto_scale", res._owner_viewport->auto_scale);
             mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
             mat->set_shader_parameter("mask_size", Vector2(res.vct_mask_size));
@@ -343,22 +344,11 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res)
             res.dict_mask[node_name] = masks;
 
             node->set_meta("viewport", viewport);
-
-            // textures from viewports can not be accessed until after the viewport is ready
-            node->connect("ready", callable_mp_static(&InternalCubismRenderer2D::ready_mask).bind(node));
         }
 
         res.dict_mesh[node_name] = node;
-        res._parent_node->call_deferred("add_child", node);
-        
-        
+        res._parent_node->add_child(node);
     }
-}
-
-void InternalCubismRenderer2D::ready_mask(const MeshInstance2D *node) {
-    SubViewport* viewport = Object::cast_to<SubViewport>(node->get_meta("viewport"));
-    Ref<ShaderMaterial> mat = node->get_material();
-    mat->set_shader_parameter("tex_mask", viewport->get_texture());
 }
 
 void InternalCubismRenderer2D::Initialize(Csm::CubismModel *model, Csm::csmInt32 maskBufferCount)
