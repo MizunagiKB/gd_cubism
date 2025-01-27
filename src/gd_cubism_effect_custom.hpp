@@ -37,11 +37,17 @@ protected:
 
 public:
     virtual void _cubism_init(InternalCubismUserModel* model) override {
-        this->emit_signal("cubism_init", model->_owner_viewport);
+        if(this->_initialized == false) {
+            this->emit_signal("cubism_init", model->_owner_viewport);
+            this->_initialized = true;
+        }
     }
 
     virtual void _cubism_term(InternalCubismUserModel* model) override {
-        this->emit_signal("cubism_term", model->_owner_viewport);
+        if(this->_initialized == true) {
+            this->emit_signal("cubism_term", model->_owner_viewport);
+            this->_initialized = false;
+        }
     }
 
     virtual void _cubism_prologue(InternalCubismUserModel* model, const float delta) override {

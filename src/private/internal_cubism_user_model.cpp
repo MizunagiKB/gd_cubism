@@ -112,9 +112,6 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
         this->motion_load();
     }
 
-    // GDCubismEffect
-    this->effect_init();
-
     this->CreateRenderer();
 
     // Resource(Texture)

@@ -32,15 +32,21 @@ private:
 
 public:
     virtual void _cubism_init(InternalCubismUserModel* model) override {
-        Csm::ICubismModelSetting* _model_setting = model->_model_setting;
-        if(_model_setting->GetEyeBlinkParameterCount() == 0) return;
-        this->_eye_blink = Csm::CubismEyeBlink::Create(_model_setting);
+        if(this->_initialized == false) {
+            Csm::ICubismModelSetting* _model_setting = model->_model_setting;
+            if(_model_setting->GetEyeBlinkParameterCount() == 0) return;
+            this->_eye_blink = Csm::CubismEyeBlink::Create(_model_setting);
+            this->_initialized = true;
+        }
     }
 
     virtual void _cubism_term(InternalCubismUserModel* model) override {
-        if(this->_eye_blink != nullptr) {
-            Csm::CubismEyeBlink::Delete(this->_eye_blink);
-            this->_eye_blink = nullptr;
+        if(this->_initialized == true) {
+            if(this->_eye_blink != nullptr) {
+                Csm::CubismEyeBlink::Delete(this->_eye_blink);
+                this->_eye_blink = nullptr;
+            }
+            this->_initialized = false;
         }
     }
 

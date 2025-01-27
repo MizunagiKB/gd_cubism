@@ -82,19 +82,19 @@ protected:
     }
 
 private:
-    void set_head_angle_x(const String id) { this->head_angle_x = id; this->initialized = false; }
+    void set_head_angle_x(const String id) { this->head_angle_x = id; this->_need_update = false; }
     String get_head_angle_x() const { return this->head_angle_x; }
-    void set_head_angle_y(const String id) { this->head_angle_y = id; this->initialized = false; }
+    void set_head_angle_y(const String id) { this->head_angle_y = id; this->_need_update = false; }
     String get_head_angle_y() const { return this->head_angle_y; }
-    void set_head_angle_z(const String id) { this->head_angle_z = id; this->initialized = false; }
+    void set_head_angle_z(const String id) { this->head_angle_z = id; this->_need_update = false; }
     String get_head_angle_z() const { return this->head_angle_z; }
 
-    void set_body_angle_x(const String id) { this->body_angle_x = id; this->initialized = false; }
+    void set_body_angle_x(const String id) { this->body_angle_x = id; this->_need_update = false; }
     String get_body_angle_x() const { return this->body_angle_x; }
 
-    void set_eyes_ball_x(const String id) { this->eyes_ball_x = id; this->initialized = false; }
+    void set_eyes_ball_x(const String id) { this->eyes_ball_x = id; this->_need_update = false; }
     String get_eyes_ball_x() const { return this->eyes_ball_x; }
-    void set_eyes_ball_y(const String id) { this->eyes_ball_y = id; this->initialized = false; }
+    void set_eyes_ball_y(const String id) { this->eyes_ball_y = id; this->_need_update = false; }
     String get_eyes_ball_y() const { return this->eyes_ball_y; }
 
 private:
@@ -111,7 +111,8 @@ private:
     Csm::csmFloat32 _eyesRange = 1.0;
 
     Csm::csmMap<E_PARAM, Csm::csmInt32> _map_param_idx;
-    bool initialized = false;
+
+    bool _need_update = false;
 
 private:
     Csm::csmInt32 find_idx(Csm::CubismModel* _model, const Csm::csmString name) const {
@@ -146,19 +147,24 @@ public:
     }
 
     virtual void _cubism_init(InternalCubismUserModel* model) override {
-        this->_target_point = memnew(Csm::CubismTargetPoint);
-        this->_target_point->Set(0.0, 0.0);
-        this->_map_param_idx.Clear();
-        this->initialized = false;
+        if(this->_initialized == false) {
+            this->_target_point = memnew(Csm::CubismTargetPoint);
+            this->_target_point->Set(0.0, 0.0);
+            this->_map_param_idx.Clear();
+            this->_initialized = true;
+        }
     }
 
     virtual void _cubism_term(InternalCubismUserModel* model) override {
+        if(this->_initialized == true) {
+            this->_map_param_idx.Clear();
 
-        this->_map_param_idx.Clear();
+            if(this->_target_point != nullptr) {
+                memdelete(this->_target_point);
+                this->_target_point = nullptr;
+            }
 
-        if(this->_target_point != nullptr) {
-            memdelete(this->_target_point);
-            this->_target_point = nullptr;
+            this->_initialized = false;
         }
     }
 
@@ -168,7 +174,7 @@ public:
  
         Csm::CubismModel* _model = model->GetModel();
 
-        if(this->initialized == false) {
+        if(this->_need_update == false) {
             Csm::csmInt32 v;
             // ANGLE_X
             v = this->find_idx(_model, Csm::csmString(this->head_angle_x.utf8().ptr()));
@@ -197,7 +203,7 @@ public:
             if(v == -1 && this->eyes_ball_y.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->eyes_ball_y);
             this->_map_param_idx[EYES_BALL_Y] = v;
 
-            this->initialized = true;
+            this->_need_update = true;
         }
 
         this->_target_point->Update(delta);
