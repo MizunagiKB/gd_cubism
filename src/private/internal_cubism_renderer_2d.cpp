@@ -302,10 +302,12 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
                     masks.append(node);
 
                     viewport->add_child(node);
+                    res.managed_nodes.append(node);
                 }
             }
 
             target_node->add_child(viewport);
+            res.managed_nodes.append(viewport);
 
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
             mat->set_shader_parameter("auto_scale", res._owner_viewport->auto_scale);
@@ -323,6 +325,7 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
 
         res.dict_mesh[node_name] = node;
         target_node->add_child(node);
+        res.managed_nodes.append(node);
     }
 }
 

@@ -50,6 +50,7 @@ public:
 public:
     GDCubismUserModel *_owner_viewport;
 
+    TypedArray<Node> managed_nodes;
     Array ary_texture;
     Array ary_shader;
     Dictionary dict_mesh;

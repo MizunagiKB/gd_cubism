@@ -768,15 +768,6 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 }
 
 void GDCubismUserModel::clear() {
-    while (this->get_child_count(true) > 0) {
-        auto const& c = this->get_child(0, true);
-        c->queue_free();
-        this->remove_child(c);
-    }
-
-    if(!this->is_initialized()) {
-        return;
-    }
     if(this->internal_model == nullptr) {
         return;
     }

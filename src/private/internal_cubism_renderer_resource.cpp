@@ -55,6 +55,14 @@ InternalCubismRendererResource::~InternalCubismRendererResource() {
 
 
 void InternalCubismRendererResource::clear() {
+    for (int i = 0; i < this->managed_nodes.size(); i++) {
+        Node *c = Object::cast_to<Node>(this->managed_nodes[i]);
+        c->get_parent()->remove_child(c);
+        c->queue_free();
+    }
+
+    this->managed_nodes.clear();
+
     this->ary_texture.clear();
     this->dict_mesh.clear();
     this->dict_mask.clear();
