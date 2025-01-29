@@ -226,8 +226,12 @@ GDCubismUserModel::moc3FileFormatVersion GDCubismUserModel::csm_get_moc_version(
 
 
 void GDCubismUserModel::set_assets(const String assets) {
-    ERR_FAIL_COND_MSG(!assets.ends_with(".model3.json"), "Must point to Live2D model3.json file");
-    ERR_FAIL_COND_MSG(!FileAccess::file_exists(assets), "Could not find model path");
+    if (!assets.ends_with(".model3.json")) {
+        WARN_PRINT("GDCubismUserModel must point to a Live2D model3.json file");
+    }
+    if (!FileAccess::file_exists(assets)) {
+        WARN_PRINT("Live2D file does not exist, will be unable to initialize model.");
+    }
     this->assets = assets;
     this->load_model(assets);
 }
@@ -785,6 +789,10 @@ void GDCubismUserModel::clear() {
 void GDCubismUserModel::load_model(const String assets) {
     this->clear();
 
+    if (assets.is_empty()) {
+        return;
+    }
+
     Ref<FileAccess> f = FileAccess::open(assets, FileAccess::READ);
     ERR_FAIL_COND_MSG(f.is_null(), "Could not open model path.  Make sure to point to the model3.json");
 
@@ -799,11 +807,6 @@ void GDCubismUserModel::load_model(const String assets) {
     }
 
     Csm::CubismModel *model = this->internal_model->GetModel();
-
-    this->set_size(Vector2i(
-        model->GetCanvasWidthPixel(),
-        model->GetCanvasHeightPixel()
-    ));
 
     {
         this->ary_parameter.clear();
