@@ -11,7 +11,7 @@
 
 #include <private/internal_cubism_renderer_resource.hpp>
 #include <gd_cubism_user_model.hpp>
-
+#include <godot_cpp/variant/utility_functions.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -56,6 +56,7 @@ InternalCubismRendererResource::~InternalCubismRendererResource() {
 
 void InternalCubismRendererResource::clear() {
     for (int i = 0; i < this->managed_nodes.size(); i++) {
+        if (!UtilityFunctions::is_instance_id_valid(this->managed_nodes[i])) continue;
         Node *c = Object::cast_to<Node>(this->managed_nodes[i]);
         c->get_parent()->remove_child(c);
         c->queue_free();
