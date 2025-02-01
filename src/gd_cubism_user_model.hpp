@@ -133,6 +133,7 @@ public:
 
 protected:
     static void _bind_methods();
+    void _notification(int p_what);
 
 private:
     void load_model(const String asset_path);

@@ -50,10 +50,7 @@ GDCubismUserModel::GDCubismUserModel()
 }
 
 
-GDCubismUserModel::~GDCubismUserModel() {
-    this->ary_shader.clear();
-    this->clear();
-}
+GDCubismUserModel::~GDCubismUserModel() {}
 
 
 void GDCubismUserModel::_bind_methods() {
@@ -198,6 +195,14 @@ void GDCubismUserModel::_bind_methods() {
     BIND_ENUM_CONSTANT(PHYSICS);
     BIND_ENUM_CONSTANT(IDLE);
     BIND_ENUM_CONSTANT(MANUAL);
+}
+
+
+void GDCubismUserModel::_notification(int p_what) {
+    if (p_what == NOTIFICATION_PREDELETE) {
+        this->clear();
+        this->ary_shader.clear();
+    }
 }
 
 
