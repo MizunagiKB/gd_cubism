@@ -192,7 +192,6 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
             continue;
         if (model->GetDrawableVertexIndexCount(index) == 0)
             continue;
-
         
         CubismIdHandle handle = model->GetDrawableId(index);
         String node_name(handle->GetString().GetRawString());
@@ -212,24 +211,30 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
         node->set_z_index(renderOrder[index]);
 
         if (model->GetDrawableMaskCounts()[index] > 0) {
-            const Array masks = res.dict_mask[node_name];
             SubViewport *viewport = Object::cast_to<SubViewport>(node->get_meta("viewport"));
             viewport->set_size(res.vct_mask_size);
-
-            for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
-            {
-                MeshInstance2D *node = Object::cast_to<MeshInstance2D>(masks[m_index]);
-                Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
-                this->update_mesh(model, j, true, res, node->get_mesh());
-                node->set_z_index(renderOrder[index]);
-            }
-
             mat->set_shader_parameter("auto_scale", res._owner_viewport->auto_scale);
             mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
             mat->set_shader_parameter("mask_size", Vector2(res.vct_mask_size));
             mat->set_shader_parameter("ratio", res.RATIO);
             mat->set_shader_parameter("adjust_scale", res.adjust_scale);
             mat->set_shader_parameter("adjust_pos", res.adjust_pos);
+
+            const Array masks = res.dict_mask[node_name];
+            
+            for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
+            {
+                Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
+
+                if (model->GetDrawableVertexCount(j) == 0)
+                    continue;
+                if (model->GetDrawableVertexIndexCount(j) == 0)
+                    continue;
+        
+                MeshInstance2D *node = Object::cast_to<MeshInstance2D>(masks[m_index]);
+                this->update_mesh(model, j, true, res, node->get_mesh());
+                node->set_z_index(renderOrder[index]);
+            }
         }
     }
 }
@@ -281,9 +286,17 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
                 // https://github.com/godotengine/godot/issues/89651
                 viewport->set_transparent_background(true);
 
+                masks.resize(model->GetDrawableMaskCounts()[index]);
+
                 for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
                 {
                     Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
+                    
+                    if (model->GetDrawableVertexCount(j) == 0)
+                        continue;
+                    if (model->GetDrawableVertexIndexCount(j) == 0)
+                        continue;
+            
                     CubismIdHandle handle = model->GetDrawableId(j);
                     String mask_name(handle->GetString().GetRawString());
 
@@ -299,7 +312,7 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
                     node->set_z_index(model->GetDrawableRenderOrders()[index]);
                     node->set_visible(true);
 
-                    masks.append(node);
+                    masks[m_index] = node;
 
                     viewport->add_child(node);
                     res.managed_nodes.append(node);
