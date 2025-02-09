@@ -35,9 +35,9 @@ Ref<Animation> GDCubismMotionImporter::parse_motion(const String &p_source_file)
     anim->set_step(1.0 / fps);
 
     // parse motion curves
-    uint32_t curveCount = meta.get("CurveCount", 0);
+    uint32_t curve_count = meta.get("CurveCount", 0);
     Array curves = motion["Curves"];
-    for (uint32_t c_idx = 0; c_idx < curveCount; c_idx++) {
+    for (uint32_t c_idx = 0; c_idx < curve_count; c_idx++) {
         Dictionary curve = curves[c_idx];
     
         // TODO only support parameter type curves for now
@@ -52,30 +52,45 @@ Ref<Animation> GDCubismMotionImporter::parse_motion(const String &p_source_file)
 
         int32_t track = anim->add_track(Animation::TYPE_BEZIER);
         anim->track_set_path(track, NodePath(".:" + property));
+        anim->track_set_interpolation_loop_wrap(track, true);
 
         // first key is always the starting time and value
         anim->bezier_track_insert_key(track, segments[0], segments[1]);
 
-        uint32_t s_idx = 2;
-
-        while (s_idx < segments.size()) {
+        // parsing techniques adapted from Unity Importer
+        // https://github.com/Live2D/CubismUnityComponents/blob/08815c83738ecdd8fe689f4222280540ff8ea9c8/Assets/Live2D/Cubism/Framework/Json/CubismMotion3Json.cs#L401
+        for (uint32_t s_idx = 2, last_key = anim->track_get_key_count(track) - 1; s_idx < segments.size();) {
     
             int32_t type = segments[s_idx];
             ERR_FAIL_COND_V_MSG(type < 0 || type > 3, nullptr, "Invalid Motion Segment Type");
             
+            real_t p0_t = segments[s_idx - 2];
+            real_t p0_v = segments[s_idx - 1];
+                
             if (type == 0) {
                 // LINEAR
-                real_t p_t = segments[s_idx+1];
-                real_t p_v = segments[s_idx+2];
+                real_t p1_t = segments[s_idx+1];
+                real_t p1_v = segments[s_idx+2];
 
-                anim->bezier_track_insert_key(track, p_t, p_v);
+                // tangents
+                Vector2 out_t = Vector2(p1_t - p0_t, p1_v - p0_v);
+                Vector2 in_t = out_t * Vector2(-1, 1);
+
+                UtilityFunctions::print(out_t, in_t);
+
+                anim->bezier_track_set_key_out_handle(track, last_key, out_t);
+
+                last_key = anim->bezier_track_insert_key(
+                    track,
+                    p1_t, p1_v,
+                    in_t,
+                    Vector2(0, 0)
+                );
 
                 s_idx += 3;
             }
             else if (type == 1) {
                 // CUBIC BEZIER
-                real_t p0_t = segments[s_idx - 2];
-                real_t p0_v = segments[s_idx - 1];
                 real_t p1_t = segments[s_idx + 1];
                 real_t p1_v = segments[s_idx + 2];
                 real_t p2_t = segments[s_idx + 3];
@@ -83,20 +98,52 @@ Ref<Animation> GDCubismMotionImporter::parse_motion(const String &p_source_file)
                 real_t p3_t = segments[s_idx + 5];
                 real_t p3_v = segments[s_idx + 6];
 
-                anim->bezier_track_insert_key(
+                real_t tangent_len = Math::absf(p0_t - p3_t) * 0.33333f;
+                Vector2 out_t = Vector2(tangent_len, p1_v - p0_v);
+                Vector2 in_t = Vector2(-tangent_len, p3_v - p2_v);
+
+                anim->bezier_track_set_key_out_handle(track, last_key, out_t);
+
+                last_key = anim->bezier_track_insert_key(
                     track, p3_t, p3_v,
-                    Vector2(p1_t - p0_t, p1_v - p0_v),
-                    Vector2(p3_t - p2_t, p3_v - p2_v)
+                    in_t,
+                    Vector2(0,0)
                 );
 
                 s_idx += 7;
             }
             else if (type == 2) {
                 // Stepped
+                real_t p1_t = segments[s_idx + 1];
+                real_t p1_v = segments[s_idx + 2];
+                
+                last_key = anim->bezier_track_insert_key(
+                    track, p1_t, p1_v,
+                    Vector2(0,INFINITY)
+                );
                 s_idx += 3;
             }
             else if (type == 3) {
                 // Inverse Stepped
+                real_t p1_t = segments[s_idx + 1];
+                real_t p1_v = segments[s_idx + 2];
+                
+                Vector2 out_t = Vector2(p1_t - p0_t, p1_v - p0_v);
+
+                anim->bezier_track_set_key_out_handle(track, last_key, out_t);
+                
+                anim->bezier_track_insert_key(
+                    track, p0_t + 0.01f, p1_v,
+                    out_t,
+                    Vector2(0,0)
+                );
+
+                last_key = anim->bezier_track_insert_key(
+                    track, p1_t, p1_v,
+                    Vector2(0,0),
+                    Vector2(0,0)
+                );
+
                 s_idx += 3;
             }
         }
