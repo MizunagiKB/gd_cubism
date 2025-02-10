@@ -57,7 +57,7 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     const Vector2 vct_origin = this->get_origin(model);
     const float ppunit = this->get_ppunit(model);
 
-    res.vct_canvas_size = res._owner_viewport->get_size();
+    res.vct_canvas_size = vct_size;
 
     if (res._owner_viewport->mask_viewport_size.x > 0 && res._owner_viewport->mask_viewport_size.y > 0)
     {
@@ -65,27 +65,17 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     }
     else
     {
-        res.vct_mask_size = res._owner_viewport->get_size();
+        res.vct_mask_size = vct_size;
     }
 
-    res.CALCULATED_ORIGIN_C = (Vector2(res.vct_canvas_size) * vct_origin) / vct_size;
+    res.CALCULATED_ORIGIN_C = vct_origin;
     res.CALCULATED_ORIGIN_M = (Vector2(res.vct_mask_size) * vct_origin) / vct_size;
-    res.RATIO = float(res.vct_mask_size.x) / float(res.vct_canvas_size.x);
 
-    if (res._owner_viewport->auto_scale == true)
-    {
-        float fdstC = godot::MIN(res.vct_canvas_size.x, res.vct_canvas_size.y);
-        float fdstM = godot::MIN(res.vct_mask_size.x, res.vct_mask_size.y);
-        float fsrc = godot::MAX(vct_size.x, vct_size.y);
-
-        res.CALCULATED_PPUNIT_C = (fdstC * ppunit) / fsrc;
-        res.CALCULATED_PPUNIT_M = (fdstM * ppunit) / fsrc;
-    }
-    else
-    {
-        res.CALCULATED_PPUNIT_C = ppunit;
-        res.CALCULATED_PPUNIT_M = ppunit * res.RATIO;
-    }
+    float fdstC = godot::MIN(res.vct_canvas_size.x, res.vct_canvas_size.y);
+    float fdstM = godot::MIN(res.vct_mask_size.x, res.vct_mask_size.y);
+    
+    res.CALCULATED_PPUNIT_C = ppunit;
+    res.CALCULATED_PPUNIT_M = (fdstM * ppunit) / fdstC;
 }
 
 void InternalCubismRenderer2D::update_mesh(
@@ -96,8 +86,6 @@ void InternalCubismRenderer2D::update_mesh(
     const Ref<ArrayMesh> ary_mesh
 ) const
 {
-    const Vector2 adjust_pos = res.adjust_pos;
-
     ary_mesh->clear_surfaces();
 
     Array ary;
@@ -106,30 +94,19 @@ void InternalCubismRenderer2D::update_mesh(
 
     if (maskmode == true)
     {
-        if (res._owner_viewport->auto_scale == true)
-        {
-            ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
-                model->GetDrawableVertexPositions(index),
-                model->GetDrawableVertexCount(index),
-                res.CALCULATED_PPUNIT_M,
-                res.CALCULATED_ORIGIN_M + adjust_pos * res.RATIO);
-        }
-        else
-        {
-            ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
-                model->GetDrawableVertexPositions(index),
-                model->GetDrawableVertexCount(index),
-                res.CALCULATED_PPUNIT_M * res.adjust_scale,
-                res.CALCULATED_ORIGIN_M + adjust_pos * res.RATIO);
-        }
+        ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
+            model->GetDrawableVertexPositions(index),
+            model->GetDrawableVertexCount(index),
+            res.CALCULATED_PPUNIT_M,
+            res.CALCULATED_ORIGIN_M);
     }
     else
     {
         ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
             model->GetDrawableVertexPositions(index),
             model->GetDrawableVertexCount(index),
-            res.CALCULATED_PPUNIT_C * res.adjust_scale,
-            res.CALCULATED_ORIGIN_C + res.adjust_pos);
+            res.CALCULATED_PPUNIT_C,
+            res.CALCULATED_ORIGIN_C);
     }
 
     ary[Mesh::ARRAY_TEX_UV] = make_PackedArrayVector2(
@@ -213,13 +190,9 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
         if (model->GetDrawableMaskCounts()[index] > 0) {
             SubViewport *viewport = Object::cast_to<SubViewport>(node->get_meta("viewport"));
             viewport->set_size(res.vct_mask_size);
-            mat->set_shader_parameter("auto_scale", res._owner_viewport->auto_scale);
             mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
             mat->set_shader_parameter("mask_size", Vector2(res.vct_mask_size));
-            mat->set_shader_parameter("ratio", res.RATIO);
-            mat->set_shader_parameter("adjust_scale", res.adjust_scale);
-            mat->set_shader_parameter("adjust_pos", res.adjust_pos);
-
+            
             const Array masks = res.dict_mask[node_name];
             
             for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
@@ -322,13 +295,9 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
             res.managed_nodes.append(viewport);
 
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
-            mat->set_shader_parameter("auto_scale", res._owner_viewport->auto_scale);
             mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
             mat->set_shader_parameter("mask_size", Vector2(res.vct_mask_size));
-            mat->set_shader_parameter("ratio", res.RATIO);
-            mat->set_shader_parameter("adjust_scale", res.adjust_scale);
-            mat->set_shader_parameter("adjust_pos", res.adjust_pos);
-
+            
             viewport->set_name(node_name + "__mask");
             res.dict_mask[node_name] = masks;
 
