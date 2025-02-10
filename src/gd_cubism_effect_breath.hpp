@@ -71,8 +71,10 @@ public:
     }
 
     virtual void _cubism_process(InternalCubismUserModel* model, const float delta) override {
+        if(this->_initialized == false) return;
         if(this->_active == false) return;
         if(this->_breath == nullptr) return;
+
         this->_breath->UpdateParameters(model->GetModel(), delta);
     }
 };

@@ -165,6 +165,7 @@ public:
     }
 
     virtual void _cubism_process(InternalCubismUserModel* model, const float delta) override {
+        if(this->_initialized == false) return;
         if(this->_active == false) return;
 
         Csm::ICubismModelSetting* setting = model->_model_setting;
