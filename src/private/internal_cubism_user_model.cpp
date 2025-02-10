@@ -24,12 +24,11 @@ using namespace Live2D::Cubism::Framework;
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
-InternalCubismUserModel::InternalCubismUserModel(GDCubismUserModel *owner_viewport, Node *parent_node)
+InternalCubismUserModel::InternalCubismUserModel(GDCubismUserModel *owner_viewport)
     : CubismUserModel()
     , _moc3_file_format_version(GDCubismUserModel::moc3FileFormatVersion::CSM_MOC_VERSION_UNKNOWN)
-    , _renderer_resource(owner_viewport, parent_node)
+    , _renderer_resource(owner_viewport)
     , _owner_viewport(owner_viewport)
-    , _parent_node(parent_node)
     , _model_pathname("")
     , _model_setting(nullptr) {
 
@@ -42,7 +41,9 @@ InternalCubismUserModel::~InternalCubismUserModel() {
 }
 
 
-bool InternalCubismUserModel::model_load(const String &model_pathname) {
+bool InternalCubismUserModel::model_load(
+    const String &model_pathname
+) {
 
     this->_model_pathname = model_pathname;
     this->_updating = true;
@@ -108,7 +109,7 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
     this->_model->SaveParameters();
 
     // Motion
-    if(this->_owner_viewport->enable_load_motions== true) {
+    if(this->_owner_viewport->enable_load_motions == true) {
         this->motion_load();
     }
 
@@ -138,16 +139,9 @@ bool InternalCubismUserModel::model_load(const String &model_pathname) {
         this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
         this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
-        this->_renderer_resource.pro_proc(
-            renderer->calc_viewport_count(),
-            renderer->calc_mesh_instance_count()
-        );
-
         renderer->IsPremultipliedAlpha(false);
         renderer->DrawModel();
-        renderer->update(this->_renderer_resource, false, true);
-
-        this->_renderer_resource.epi_proc();
+        renderer->build_model(this->_renderer_resource, this->_owner_viewport);
     }
     // ------------------------------------------------------------------------
 
@@ -238,16 +232,9 @@ void InternalCubismUserModel::update_node() {
     this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
     this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
-    this->_renderer_resource.pro_proc(
-        renderer->calc_viewport_count(),
-        renderer->calc_mesh_instance_count()
-    );
-
     renderer->IsPremultipliedAlpha(false);
     renderer->DrawModel();
     renderer->update(this->_renderer_resource);
-
-    this->_renderer_resource.epi_proc();
 }
 
 

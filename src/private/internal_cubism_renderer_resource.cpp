@@ -18,16 +18,11 @@
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
-void _recurisive_dispose_node(const Node* parent_node, const bool node_release);
-
 
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
-InternalCubismRendererResource::InternalCubismRendererResource(GDCubismUserModel *owner_viewport, Node *parent_node)
+InternalCubismRendererResource::InternalCubismRendererResource(GDCubismUserModel *owner_viewport)
     : _owner_viewport(owner_viewport)
-    , _parent_node(parent_node)
-    , sub_viewport_counter(0)
-    , mesh_instance_counter(0)
     , adjust_pos(0.0, 0.0)
     , adjust_scale(1.0)
 {
@@ -56,78 +51,108 @@ InternalCubismRendererResource::~InternalCubismRendererResource() {
     this->clear();
     this->ary_shader.clear();
     this->_owner_viewport = nullptr;
-    this->_parent_node = nullptr;
 }
 
 
 void InternalCubismRendererResource::clear() {
-    this->dispose_node(true);
-    this->ary_texture.clear();
-    this->ary_sub_viewport.clear();
-    this->ary_mesh_instance.clear();
-}
-
-
-SubViewport* InternalCubismRendererResource::request_viewport() {
-    const Csm::csmInt32 counter = this->sub_viewport_counter++;
-
-    if(counter < this->ary_sub_viewport.size()) {
-        return Object::cast_to<SubViewport>(this->ary_sub_viewport[counter]);
-    } else {
-        SubViewport* viewport = memnew(SubViewport);
-        this->ary_sub_viewport.append(viewport);
-        return viewport;
+    for (int i = 0; i < this->managed_nodes.size(); i++) {
+        Node *c = Object::cast_to<Node>(this->managed_nodes[i]);
+        c->get_parent()->remove_child(c);
+        c->queue_free();
     }
-};
 
+    this->managed_nodes.clear();
+
+    this->ary_texture.clear();
+    this->dict_mesh.clear();
+    this->dict_mask.clear();
+}
 
 MeshInstance2D* InternalCubismRendererResource::request_mesh_instance() {
-    const Csm::csmInt32 counter = this->mesh_instance_counter++;
-
-    if(counter < this->ary_mesh_instance.size()) {
-        return Object::cast_to<MeshInstance2D>(this->ary_mesh_instance[counter]);
-    } else {
-        MeshInstance2D* node = memnew(MeshInstance2D);
-        this->ary_mesh_instance.append(node);
-        return node;
-    }
+    ArrayMesh* mesh = memnew(ArrayMesh);
+    MeshInstance2D* node = memnew(MeshInstance2D);
+    node->set_mesh(mesh);
+    return node;
 }
 
-
-void InternalCubismRendererResource::pro_proc(const Csm::csmInt32 viewport_count, const Csm::csmInt32 mesh_instance_count) {
-    this->dispose_node(false);
-    this->dict_mesh.clear();
-    this->sub_viewport_counter = 0;
-    this->mesh_instance_counter = 0;
-}
-
-
-void InternalCubismRendererResource::epi_proc() {}
-
-
-void InternalCubismRendererResource::dispose_node(const bool node_release) {
-    _recurisive_dispose_node(this->_parent_node, node_release);
-}
-
-
-// ------------------------------------------------------------------ method(s)
-void _recurisive_dispose_node(const Node* parent_node, const bool node_release) {
-
-    TypedArray<Node> ary_node = parent_node->get_children();
-
-    for(Csm::csmInt32 i = 0; i < ary_node.size(); i++) {
-
-        if(Object::cast_to<GDCubismEffect>(ary_node[i]) != nullptr) continue;
-
-        MeshInstance2D *m_node = Object::cast_to<MeshInstance2D>(ary_node[i]);
-        if(m_node != nullptr) m_node->set_material(nullptr);
-
-        Node* node = Object::cast_to<Node>(ary_node[i]);
-        if(node != nullptr) {
-            _recurisive_dispose_node(node, node_release);
-            if(node->get_parent() != nullptr) node->get_parent()->remove_child(node);
-            if(node_release == true) node->queue_free();
+ShaderMaterial* InternalCubismRendererResource::request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index) {
+    ShaderMaterial* mat = memnew(ShaderMaterial);
+    
+    GDCubismShader e = GD_CUBISM_SHADER_NORM_MIX;
+    if (model->GetDrawableMaskCounts()[index] == 0)
+    {
+        switch (model->GetDrawableBlendMode(index))
+        {
+        case CubismRenderer::CubismBlendMode_Additive:
+            e = GD_CUBISM_SHADER_NORM_ADD;
+            break;
+        case CubismRenderer::CubismBlendMode_Normal:
+            e = GD_CUBISM_SHADER_NORM_MIX;
+            break;
+        case CubismRenderer::CubismBlendMode_Multiplicative:
+            e = GD_CUBISM_SHADER_NORM_MUL;
+            break;
+        default:
+            e = GD_CUBISM_SHADER_NORM_MIX;
+            break;
         }
     }
+    else if (model->GetDrawableInvertedMask(index) == false)
+    {
+        switch (model->GetDrawableBlendMode(index))
+        {
+        case CubismRenderer::CubismBlendMode_Additive:
+            e = GD_CUBISM_SHADER_MASK_ADD;
+            break;
+        case CubismRenderer::CubismBlendMode_Normal:
+            e = GD_CUBISM_SHADER_MASK_MIX;
+            break;
+        case CubismRenderer::CubismBlendMode_Multiplicative:
+            e = GD_CUBISM_SHADER_MASK_MUL;
+            break;
+        default:
+            e = GD_CUBISM_SHADER_MASK_MIX;
+            break;
+        }
+    }
+    else
+    {
+        switch (model->GetDrawableBlendMode(index))
+        {
+        case CubismRenderer::CubismBlendMode_Additive:
+            e = GD_CUBISM_SHADER_MASK_ADD_INV;
+            break;
+        case CubismRenderer::CubismBlendMode_Normal:
+            e = GD_CUBISM_SHADER_MASK_MIX_INV;
+            break;
+        case CubismRenderer::CubismBlendMode_Multiplicative:
+            e = GD_CUBISM_SHADER_MASK_MUL_INV;
+            break;
+        default:
+            e = GD_CUBISM_SHADER_MASK_MIX_INV;
+            break;
+        }
+    }
+
+    Ref<Shader> shader = this->_owner_viewport->get_shader(e);
+    if (shader.is_null())
+        shader = this->get_shader(e);
+
+    mat->set_shader(shader);
+    mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
+    mat->set_shader_parameter("tex_main", this->ary_texture[model->GetDrawableTextureIndex(index)]);
+
+    return mat;
 }
 
+ShaderMaterial* InternalCubismRendererResource::request_mask_material() {
+    ShaderMaterial* mat = memnew(ShaderMaterial);
+
+    Ref<Shader> shader = this->_owner_viewport->get_shader(GD_CUBISM_SHADER_MASK);
+    if (shader.is_null())
+        shader = this->get_shader(GD_CUBISM_SHADER_MASK);
+
+    mat->set_shader(shader);
+    
+    return mat;
+}
