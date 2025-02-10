@@ -269,6 +269,7 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
         if (model->GetDrawableMaskCounts()[index] > 0)
         {
             TypedArray<MeshInstance2D> masks;
+            masks.resize(model->GetDrawableMaskCounts()[index]);
             
             SubViewport* viewport = memnew(SubViewport);
             {
@@ -285,8 +286,6 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
                 // Memory leak when set_transparent_background is true(* every time & window minimize)
                 // https://github.com/godotengine/godot/issues/89651
                 viewport->set_transparent_background(true);
-
-                masks.resize(model->GetDrawableMaskCounts()[index]);
 
                 for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
                 {
