@@ -39,7 +39,9 @@ private:
 
 public:
     virtual void _cubism_init(InternalCubismUserModel* model) override {
-        if(this->_initialized == false) {
+        if(this->_initialized == true) return;
+
+        if(this->_breath == nullptr) {
             Csm::ICubismModelSetting* _model_setting = model->_model_setting;
             this->_breath = Csm::CubismBreath::Create();
 
@@ -52,24 +54,25 @@ public:
             param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamBreath), 0.5f, 0.5f, 3.2345f, 0.5f));
 
             this->_breath->SetParameters(param);
-
-            this->_initialized = true;
         }
+
+        this->_initialized = true;
     }
 
     virtual void _cubism_term(InternalCubismUserModel* model) override {
-        if(this->_initialized == true) {
-            if(this->_breath != nullptr) {
-                Csm::CubismBreath::Delete(this->_breath);
-                this->_breath = nullptr;
-            }
-            this->_initialized = false;
+        if(this->_initialized == false) return;
+
+        if(this->_breath != nullptr) {
+            Csm::CubismBreath::Delete(this->_breath);
+            this->_breath = nullptr;
         }
+
+        this->_initialized = false;
     }
 
     virtual void _cubism_process(InternalCubismUserModel* model, const float delta) override {
-        if(this->_breath == nullptr) return;
         if(this->_active == false) return;
+        if(this->_breath == nullptr) return;
         this->_breath->UpdateParameters(model->GetModel(), delta);
     }
 };
