@@ -35,7 +35,7 @@ GDCubismUserModel::GDCubismUserModel()
     , enable_load_expressions(true)
     , enable_load_motions(true)
     , speed_scale(1.0)
-    , mask_viewport_size(0, 0)
+    , mask_viewport_size(0)
     , parameter_mode(ParameterMode::FULL_PARAMETER)
     , playback_process_mode(MotionProcessCallback::IDLE)
     , anim_loop(DEFAULT_PROP_ANIM_LOOP)
@@ -87,7 +87,7 @@ void GDCubismUserModel::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_mask_viewport_size", "value"), &GDCubismUserModel::set_mask_viewport_size);
     ClassDB::bind_method(D_METHOD("get_mask_viewport_size"), &GDCubismUserModel::get_mask_viewport_size);
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2I, "mask_viewport_size"), "set_mask_viewport_size", "get_mask_viewport_size");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "mask_viewport_size"), "set_mask_viewport_size", "get_mask_viewport_size");
 
     ClassDB::bind_method(D_METHOD("set_shader_add"), &GDCubismUserModel::set_shader_add);
     ClassDB::bind_method(D_METHOD("get_shader_add"), &GDCubismUserModel::get_shader_add);

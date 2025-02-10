@@ -15,6 +15,8 @@
 #include <private/internal_cubism_renderer_resource.hpp>
 #include <private/internal_cubism_user_model.hpp>
 
+#include <godot_cpp/variant/utility_functions.hpp>
+
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
 using namespace Live2D::Cubism::Core;
@@ -56,26 +58,29 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     const Vector2 vct_size = this->get_size(model);
     const Vector2 vct_origin = this->get_origin(model);
     const float ppunit = this->get_ppunit(model);
+    const float ratio = vct_size.x / vct_size.y;
 
     res.vct_canvas_size = vct_size;
 
-    if (res._owner_viewport->mask_viewport_size.x > 0 && res._owner_viewport->mask_viewport_size.y > 0)
+    if (res._owner_viewport->mask_viewport_size > 0)
     {
-        res.vct_mask_size = res._owner_viewport->mask_viewport_size;
+        const int32_t mask_resolution = res._owner_viewport->mask_viewport_size;
+        res.vct_mask_size = ratio < 1.0
+            ? Vector2i(mask_resolution, mask_resolution / ratio)
+            : Vector2i(mask_resolution * ratio, mask_resolution);
     }
     else
     {
         res.vct_mask_size = vct_size;
     }
 
-    res.CALCULATED_ORIGIN_C = vct_origin;
-    res.CALCULATED_ORIGIN_M = (Vector2(res.vct_mask_size) * vct_origin) / vct_size;
+    const float scale = res.vct_mask_size.length() / res.vct_canvas_size.length();
 
-    float fdstC = godot::MIN(res.vct_canvas_size.x, res.vct_canvas_size.y);
-    float fdstM = godot::MIN(res.vct_mask_size.x, res.vct_mask_size.y);
+    res.CALCULATED_ORIGIN_C = vct_origin;
+    res.CALCULATED_ORIGIN_M = vct_origin * scale;
     
     res.CALCULATED_PPUNIT_C = ppunit;
-    res.CALCULATED_PPUNIT_M = (fdstM * ppunit) / fdstC;
+    res.CALCULATED_PPUNIT_M = ppunit * scale;
 }
 
 void InternalCubismRenderer2D::update_mesh(
@@ -191,7 +196,6 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
             SubViewport *viewport = Object::cast_to<SubViewport>(node->get_meta("viewport"));
             viewport->set_size(res.vct_mask_size);
             mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
-            mat->set_shader_parameter("mask_size", Vector2(res.vct_mask_size));
             
             const Array masks = res.dict_mask[node_name];
             
@@ -296,7 +300,6 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
 
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
             mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
-            mat->set_shader_parameter("mask_size", Vector2(res.vct_mask_size));
             
             viewport->set_name(node_name + "__mask");
             res.dict_mask[node_name] = masks;

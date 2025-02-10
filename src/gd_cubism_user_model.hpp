@@ -109,7 +109,7 @@ public:
     bool enable_load_motions;
 
     float speed_scale;
-    Vector2i mask_viewport_size;
+    int32_t mask_viewport_size;
 
     ParameterMode parameter_mode;
     MotionProcessCallback playback_process_mode;
@@ -162,8 +162,8 @@ public:
     void set_speed_scale(const float speed);
     float get_speed_scale() const;
 
-    void set_mask_viewport_size(const Vector2i size) { this->mask_viewport_size = size; }
-    Vector2i get_mask_viewport_size() const { return this->mask_viewport_size; }
+    void set_mask_viewport_size(const int32_t size) { this->mask_viewport_size = size; }
+    int32_t get_mask_viewport_size() const { return this->mask_viewport_size; }
 
     Dictionary get_motions() const;
     Ref<GDCubismMotionQueueEntryHandle> start_motion(const String str_group, const int32_t no, const Priority priority);

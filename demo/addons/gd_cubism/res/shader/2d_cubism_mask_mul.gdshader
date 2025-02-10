@@ -12,7 +12,6 @@ uniform sampler2D tex_main : filter_linear_mipmap;
 uniform sampler2D tex_mask : filter_linear_mipmap;
 
 uniform vec2 canvas_size;
-uniform vec2 mask_size;
 
 varying vec2 MASK_UV;
 
