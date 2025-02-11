@@ -115,9 +115,6 @@ bool InternalCubismUserModel::model_load(
         this->motion_load();
     }
 
-    // GDCubismEffect
-    this->effect_init();
-
     this->CreateRenderer();
 
     // Resource(Texture)

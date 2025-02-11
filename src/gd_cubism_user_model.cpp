@@ -826,6 +826,8 @@ void GDCubismUserModel::load_model(const String assets) {
         }
     }
 
+    this->cubism_effect_dirty = true;
+  
     this->setup_property();
     this->notify_property_list_changed();
 }
