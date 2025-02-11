@@ -5,6 +5,8 @@
 
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
+#include <godot_cpp/classes/image_texture.hpp>
+#include <godot_cpp/classes/image.hpp>
 
 #ifdef GD_CUBISM_USE_RENDERER_2D
     #include <private/internal_cubism_renderer_2d.hpp>
@@ -151,7 +153,7 @@ bool InternalCubismUserModel::model_load(
 
 void InternalCubismUserModel::model_load_resource()
 {
-    ResourceLoader *res_loader = memnew(ResourceLoader);
+    ResourceLoader *res_loader = ResourceLoader::get_singleton();
 
     this->_renderer_resource.ary_texture.clear();
 
@@ -162,12 +164,18 @@ void InternalCubismUserModel::model_load_resource()
         String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetTextureFileName(index));
         String texture_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
 
-        Ref<Texture2D> tex = res_loader->load(texture_pathname);
+        Ref<Texture2D> tex;
+        // allow dynamically loading image textures for models provided from disk or user data
+        if (!res_loader->exists(texture_pathname)) {
+            Ref<Image> img = Image::load_from_file(texture_pathname);
+            tex = ImageTexture::create_from_image(img);
+            tex->take_over_path(texture_pathname);
+        } else {
+            tex = res_loader->load(texture_pathname);
+        }
 
         this->_renderer_resource.ary_texture.append(tex);
     }
-
-    memdelete(res_loader);
 }
 
 
