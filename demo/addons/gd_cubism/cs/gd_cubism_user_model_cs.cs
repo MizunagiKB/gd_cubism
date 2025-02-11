@@ -126,7 +126,7 @@ public partial class GDCubismUserModelCS : GodotObject
     ///     You can load a Live2D model by specifying a file with the *.model3.json extension.
     ///     The file is loaded immediately upon specification.
     ///     <br />
-    ///     The <c>clear</c> function is called internally, so if you want to switch the Live2D model, you can do so simply by specifying a new file.
+    ///     if you want to switch the Live2D model, you can do so simply by specifying a new file.
     /// </value>
     public String Assets
     {
@@ -281,14 +281,6 @@ public partial class GDCubismUserModelCS : GodotObject
     public void Advance(float delta)
     {
         this.InternalObject.Call("advance", delta);
-    }
-
-    /// <summary>
-    ///     Disposes of the currently held Live2D model.
-    /// </summary>
-    public void Clear()
-    {
-        this.InternalObject.Call("clear");
     }
 
     /// <summary>

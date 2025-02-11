@@ -16,12 +16,6 @@
 				Please specify a value of 0.0 or more for delta.
 			</description>
 		</method>
-		<method name="clear">
-			<return type="void" />
-			<description>
-				Destroys the currently held Live2D model.
-			</description>
-		</method>
 		<method name="csm_get_latest_moc_version">
 			<return type="int" enum="GDCubismUserModel.moc3FileFormatVersion" />
 			<description>
@@ -181,7 +175,7 @@
 		</member>
 		<member name="assets" type="String" setter="set_assets" getter="get_assets" default="&quot;&quot;">
 			By specifying a file with the [code]*.model3.json[/code] extension, you can load the Live2D model. As soon as you specify a file, it will be loaded immediately.
-			Since the [method GDCubismUserModel.clear] function is called internally, if you want to switch the Live2D model, you can do so by simply specifying a new file.
+			if you want to switch the Live2D model, you can do so by simply specifying a new file.
 		</member>
 		<member name="auto_scale" type="bool" setter="set_auto_scale" getter="get_auto_scale" default="true">
 			[GDCubismUserModel] tries to render the Live2D model to fit within the [SubViewport] size specified for itself. Therefore, there may be results that the creator of the Live2D model did not intend.
