@@ -10,7 +10,7 @@
 #include <godot_cpp/classes/canvas_group.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/shader.hpp>
-#include <godot_cpp/classes/sub_viewport.hpp>
+#include <godot_cpp/classes/node2d.hpp>
 
 #include <CubismFramework.hpp>
 #include <Math/CubismVector2.hpp>
@@ -68,8 +68,8 @@ public:
 };
 
 
-class GDCubismUserModel : public SubViewport {
-    GDCLASS(GDCubismUserModel, SubViewport);
+class GDCubismUserModel : public Node2D {
+    GDCLASS(GDCubismUserModel, Node2D);
 
 public:
     GDCubismUserModel();
@@ -109,10 +109,7 @@ public:
     bool enable_load_motions;
 
     float speed_scale;
-    bool auto_scale;
-    float adjust_scale;
-    Vector2 adjust_pos;
-    Vector2i mask_viewport_size;
+    int32_t mask_viewport_size;
 
     ParameterMode parameter_mode;
     MotionProcessCallback playback_process_mode;
@@ -165,17 +162,8 @@ public:
     void set_speed_scale(const float speed);
     float get_speed_scale() const;
 
-    void set_auto_scale(const bool value);
-    bool get_auto_scale() const;
-
-    void set_adjust_scale(const float scale) { this->adjust_scale = scale; }
-    float get_adjust_scale() const { return this->adjust_scale; }
-
-    void set_adjust_position(const Vector2 pos) { this->adjust_pos = pos; }
-    Vector2 get_adjust_position() const { return this->adjust_pos; }
-
-    void set_mask_viewport_size(const Vector2i size) { this->mask_viewport_size = size; }
-    Vector2i get_mask_viewport_size() const { return this->mask_viewport_size; }
+    void set_mask_viewport_size(const int32_t size) { this->mask_viewport_size = size; }
+    int32_t get_mask_viewport_size() const { return this->mask_viewport_size; }
 
     Dictionary get_motions() const;
     Ref<GDCubismMotionQueueEntryHandle> start_motion(const String str_group, const int32_t no, const Priority priority);
