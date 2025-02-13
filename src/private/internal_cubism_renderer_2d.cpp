@@ -6,6 +6,7 @@
 
 #include <godot_cpp/classes/shader_material.hpp>
 #include <godot_cpp/classes/viewport_texture.hpp>
+#include <godot_cpp/classes/image.hpp>
 
 #include <CubismFramework.hpp>
 #include <Model/CubismModel.hpp>
@@ -58,29 +59,10 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
     const Vector2 vct_size = this->get_size(model);
     const Vector2 vct_origin = this->get_origin(model);
     const float ppunit = this->get_ppunit(model);
-    const float ratio = vct_size.x / vct_size.y;
 
     res.vct_canvas_size = vct_size;
-
-    if (res._owner_viewport->mask_viewport_size > 0)
-    {
-        const int32_t mask_resolution = res._owner_viewport->mask_viewport_size;
-        res.vct_mask_size = ratio < 1.0
-            ? Vector2i(mask_resolution, mask_resolution / ratio)
-            : Vector2i(mask_resolution * ratio, mask_resolution);
-    }
-    else
-    {
-        res.vct_mask_size = vct_size;
-    }
-
-    const float scale = res.vct_mask_size.length() / res.vct_canvas_size.length();
-
     res.CALCULATED_ORIGIN_C = vct_origin;
-    res.CALCULATED_ORIGIN_M = vct_origin * scale;
-    
     res.CALCULATED_PPUNIT_C = ppunit;
-    res.CALCULATED_PPUNIT_M = ppunit * scale;
 }
 
 void InternalCubismRenderer2D::update_mesh(
@@ -97,22 +79,11 @@ void InternalCubismRenderer2D::update_mesh(
 
     ary.resize(Mesh::ARRAY_MAX);
 
-    if (maskmode == true)
-    {
-        ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
-            model->GetDrawableVertexPositions(index),
-            model->GetDrawableVertexCount(index),
-            res.CALCULATED_PPUNIT_M,
-            res.CALCULATED_ORIGIN_M);
-    }
-    else
-    {
-        ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
-            model->GetDrawableVertexPositions(index),
-            model->GetDrawableVertexCount(index),
-            res.CALCULATED_PPUNIT_C,
-            res.CALCULATED_ORIGIN_C);
-    }
+    ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
+        model->GetDrawableVertexPositions(index),
+        model->GetDrawableVertexCount(index),
+        res.CALCULATED_PPUNIT_C,
+        res.CALCULATED_ORIGIN_C);
 
     ary[Mesh::ARRAY_TEX_UV] = make_PackedArrayVector2(
         model->GetDrawableVertexUvs(index),
@@ -193,9 +164,17 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
         node->set_z_index(renderOrder[index]);
 
         if (model->GetDrawableMaskCounts()[index] > 0) {
+            AABB bounds = node->get_mesh()->get_aabb();
             SubViewport *viewport = Object::cast_to<SubViewport>(node->get_meta("viewport"));
-            viewport->set_size(res.vct_mask_size);
+            Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
+            Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
+            viewport->set_size(viewport_size);
+            viewport->set_canvas_transform(
+                Transform2D(0, -viewport_offset)
+            );
+            
             mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
+            mat->set_shader_parameter("mesh_offset", viewport_offset);
             
             const Array masks = res.dict_mask[node_name];
             
@@ -245,13 +224,13 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
         // build mask
         if (model->GetDrawableMaskCounts()[index] > 0)
         {
+            AABB bounds = node->get_mesh()->get_aabb();
+
             TypedArray<MeshInstance2D> masks;
             masks.resize(model->GetDrawableMaskCounts()[index]);
             
             SubViewport* viewport = memnew(SubViewport);
             {
-                viewport->set_size(res.vct_mask_size);
-
                 viewport->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
                 viewport->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
                 // set_update_mode must be specified
@@ -298,13 +277,22 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
             target_node->add_child(viewport);
             res.managed_nodes.append(viewport);
 
-            mat->set_shader_parameter("tex_mask", viewport->get_texture());
-            mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
-            
             viewport->set_name(node_name + "__mask");
             res.dict_mask[node_name] = masks;
 
             node->set_meta("viewport", viewport);
+
+            // canvas transform only available after the viewport has been added to the scene
+            Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
+            Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
+            viewport->set_size(viewport_size);
+            viewport->set_canvas_transform(
+                Transform2D(0, -viewport_offset)
+            );
+            
+            mat->set_shader_parameter("tex_mask", viewport->get_texture());
+            mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
+            mat->set_shader_parameter("mesh_offset", viewport_offset);
         }
 
         res.dict_mesh[node_name] = node;

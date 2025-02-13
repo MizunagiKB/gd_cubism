@@ -12,12 +12,15 @@ uniform sampler2D tex_main : filter_linear_mipmap;
 uniform sampler2D tex_mask : filter_linear_mipmap;
 
 uniform vec2 canvas_size;
+uniform vec2 mesh_offset;
 
 varying vec2 MASK_UV;
 
 void vertex() {
     UV.y = 1.0 - UV.y;
-	MASK_UV = VERTEX / canvas_size;
+	vec2 mask_size = vec2(textureSize(tex_mask, 0));
+	vec2 mask_vtx = VERTEX - mesh_offset;
+	MASK_UV = mask_vtx / mask_size;
 }
 
 void fragment() {
