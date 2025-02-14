@@ -6,7 +6,6 @@
 
 #include <godot_cpp/classes/shader_material.hpp>
 #include <godot_cpp/classes/viewport_texture.hpp>
-#include <godot_cpp/classes/image.hpp>
 
 #include <CubismFramework.hpp>
 #include <Model/CubismModel.hpp>
