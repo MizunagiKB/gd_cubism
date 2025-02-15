@@ -18,9 +18,9 @@ varying vec2 MASK_UV;
 
 void vertex() {
     UV.y = 1.0 - UV.y;
-	vec2 mask_size = vec2(textureSize(tex_mask, 0));
-	vec2 mask_vtx = VERTEX - mesh_offset;
-	MASK_UV = mask_vtx / mask_size;
+    vec2 mask_size = vec2(textureSize(tex_mask, 0));
+    vec2 mask_vtx = VERTEX - mesh_offset;
+    MASK_UV = mask_vtx / mask_size;
 }
 
 void fragment() {

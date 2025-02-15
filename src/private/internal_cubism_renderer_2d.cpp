@@ -6,7 +6,6 @@
 
 #include <godot_cpp/classes/shader_material.hpp>
 #include <godot_cpp/classes/viewport_texture.hpp>
-#include <godot_cpp/classes/image.hpp>
 
 #include <CubismFramework.hpp>
 #include <Model/CubismModel.hpp>
@@ -224,8 +223,6 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
         // build mask
         if (model->GetDrawableMaskCounts()[index] > 0)
         {
-            AABB bounds = node->get_mesh()->get_aabb();
-
             TypedArray<MeshInstance2D> masks;
             masks.resize(model->GetDrawableMaskCounts()[index]);
             
@@ -282,13 +279,11 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
 
             node->set_meta("viewport", viewport);
 
-            // canvas transform only available after the viewport has been added to the scene
-            Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
-            Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
+            // canvas transform only available after the viewport canvas has been initialized
+            // on load the mask will not be the right size or offset, but will be corrected immediately on first update
+            Vector2i viewport_size = Vector2i(1,1);
+            Vector2 viewport_offset = Vector2(0,0);
             viewport->set_size(viewport_size);
-            viewport->set_canvas_transform(
-                Transform2D(0, -viewport_offset)
-            );
             
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
             mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
