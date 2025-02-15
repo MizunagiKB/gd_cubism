@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Custom Animation :: GDCubism</title>
+    <link rel="canonical" href="https://mizunagikb.github.io/gd_cubism/gd_cubism/0.8/ja/custom/motion.html">
+    <meta name="generator" content="Antora 3.1.10">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://mizunagikb.github.io/gd_cubism">GDCubism</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" aria-controls="topbar-nav" aria-expanded="false" aria-label="Toggle main menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="gd_cubism" data-version="0.8">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
+    <h3 class="title"><a href="../index.html">GDCubism</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">ja</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Cubism for Godot Engine</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../license.html">License</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../build.html">Build</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../usage.html">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_effect.html">GDCubismEffect</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_effect_breath.html">GDCubismEffectBreath</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_effect_custom.html">GDCubismEffectCustom</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_effect_eye_blink.html">GDCubismEffectEyeBlink</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_effect_hit_area.html">GDCubismEffectHitArea</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_effect_target_point.html">GDCubismEffectTargetPoint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_motion_entry.html">GDCubismMotionQueueEntry</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_motion_queue_entry_handle.html">GDCubismMotionQueueEntryHandle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_parameter.html">GDCubismParameter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_part_opacity.html">GDCubismPartOpacity</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_user_model.html">GDCubismUserModel</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../api/gd_cubism_value_abs.html">GDCubismValueAbs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">en</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../en/index.html">Cubism for Godot Engine</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../en/license.html">License</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../en/build.html">Build</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../en/usage.html">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect.html">GDCubismEffect</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_breath.html">GDCubismEffectBreath</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_custom.html">GDCubismEffectCustom</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_eye_blink.html">GDCubismEffectEyeBlink</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_hit_area.html">GDCubismEffectHitArea</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_target_point.html">GDCubismEffectTargetPoint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_motion_entry.html">GDCubismMotionQueueEntry</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_motion_queue_entry_handle.html">GDCubismMotionQueueEntryHandle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_parameter.html">GDCubismParameter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_part_opacity.html">GDCubismPartOpacity</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_user_model.html">GDCubismUserModel</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_value_abs.html">GDCubismValueAbs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">GDCubism</span>
+    <span class="version">0.8</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <div class="title"><a href="../index.html">GDCubism</a></div>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">0.8</a>
+        </li>
+        <li class="version">
+          <a href="../../../0.7/ja/index.html">0.7</a>
+        </li>
+        <li class="version">
+          <a href="../../../0.6/ja/index.html">0.6</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">GDCubism</a></li>
+    <li><a href="motion.html">Custom Animation</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">0.8</button>
+  <div class="version-menu">
+    <a class="version is-current" href="motion.html">0.8</a>
+    <a class="version" href="../../../0.7/ja/custom/motion.html">0.7</a>
+    <a class="version" href="../../../0.6/ja/custom/motion.html">0.6</a>
+  </div>
+</div>
+<div class="edit-this-page"><a href="https://github.com/MizunagiKB/gd_cubism/edit/0.8/docs-src/modules/ROOT/pages/ja/custom/motion.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Custom Animation</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="#ja/custom/animation.adoc" class="xref unresolved">Japanese</a> / <a href="#en/custom/animation.adoc" class="xref unresolved">English</a></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>この文書は執筆中です。</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_はじめに"><a class="anchor" href="#_はじめに"></a>はじめに</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>GDCubism は Godot Engine 上で Live2D モデルを再生する事を簡単に目的に開発されています。</p>
+</div>
+<div class="paragraph">
+<p>SubViewport経由で描画を行なっているため、モデル表示までは少し手間ですが、一旦表示まで行えば Godot Editor 上から簡単に確認できる様にしています。</p>
+</div>
+<div class="paragraph">
+<p>簡単に表示が行える一方で、より細かい制御を行いたい場合にどうすれば良いのかというのがややわかりづらいものになっています。例えば、モーションの再生をさせつつ一部のパラメータのみを変更したいといった場合です。</p>
+</div>
+<div class="paragraph">
+<p>その様な操作は GDScript を使用する事で実現できるのですが、現状ソースコードを読む事でしか気がつけません。</p>
+</div>
+<div class="paragraph">
+<p>そのため、資料としてこのドキュメントを執筆しました。</p>
+</div>
+<div class="sect2">
+<h3 id="_処理の流れについて"><a class="anchor" href="#_処理の流れについて"></a>処理の流れについて</h3>
+<div class="paragraph">
+<p>GDScript で Live2D モデルを制御する場合、 GDCubismUserModel の get_parameter 関数で取得する配列を制御することになりますが、何も考えずに設定しても Live2D モデルにうまく反映されません。</p>
+</div>
+<div class="paragraph">
+<p>その理由はパラメータを上書きしようとしても、設定されているモーションが上書きをしてしまう事が原因です。</p>
+</div>
+<div class="paragraph">
+<p>うまく設定するには GDCubism がどの様に描画をおこなっているかを知るっておく方が良いかと思いますので、まずは GDCubism がどのように Live2D モデルを描画しているかについて説明します。（技術的な背景に興味がない方は読み飛ばしてください）</p>
+</div>
+<div class="sect3">
+<h4 id="_処理についての説明"><a class="anchor" href="#_処理についての説明"></a>処理についての説明</h4>
+<div class="paragraph">
+<p>GDCubismUserModel は以下の処理を毎フレーム行います。順番の大枠は「設定値の読込」「Live2D情報の更新」「描画」となります。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>設定値の読込</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>モーションパラメータを更新。</p>
+</li>
+<li>
+<p>エクスプレッションパラメータを更新。</p>
+</li>
+<li>
+<p>GDCubismUserModel の parameters を反映。</p>
+</li>
+<li>
+<p>GDCubismUserModel の opacities を反映。</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Live2D情報の更新</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>物理パラメータを更新。</p>
+</li>
+<li>
+<p>ポーズを更新。</p>
+</li>
+<li>
+<p>描画情報を更新。</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>描画情報の作成</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>描画に必要な SubViewport と Mesh 数を計算。</p>
+</li>
+<li>
+<p>SubViewport と ArrayMesh を生成し、ノードツリーに割り当て。</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>実際のプログラムコード（0.6時点）では、 _process をトリガとして以下の様に呼び出されています。</p>
+</div>
+</blockquote>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+_process は playback_process_mode が IDLE に設定されている場合です。 PHYSICS の場合は _physics_process、 MANUAL の場合は  _advance となります。
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>GDCubismUserModel</em>._process</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>GDCubismUserModel</em>._update</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>InternalCubismModel</em>.pro_update</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>InternalCubismModel</em>.effect_batch</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>cubism_prologue</strong> シグナルの呼び出し</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Live2D モデルのパラメータ情報を復元</p>
+</li>
+<li>
+<p>_motionManager.UpdateMotion</p>
+</li>
+<li>
+<p>Live2D モデルのパラメータ情報を保存</p>
+</li>
+<li>
+<p>_expressionManager.UpdateMotion</p>
+</li>
+<li>
+<p><em>InternalCubismModel</em>.GetModelOpacity</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>InternalCubismModel</em>.efx_update</p>
+<div class="ulist">
+<ul>
+<li>
+<p>GDCubismEffect*ノードに変更があれば、 efx_term, efx_init シグナルの呼び出し<sup class="footnote" id="_footnote_id">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
+</li>
+<li>
+<p><em>InternalCubismModel</em>.effect_batch</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>cubism_process</strong> シグナルの呼び出し</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>パラメータ情報の設定と取得</p>
+</li>
+<li>
+<p>透明度の設定と取得</p>
+</li>
+<li>
+<p><em>InternalCubismModel</em>.epi_update</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Live2D モデルの物理パラメータを更新</p>
+</li>
+<li>
+<p>Live2D モデルのポーズを更新</p>
+</li>
+<li>
+<p>Live2D モデルの内部状態を更新</p>
+</li>
+<li>
+<p><em>InternalCubismModel</em>.effect_batch</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>cubism_epilogue</strong> シグナルの呼び出し</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>InternalCubismModel</em>.update_node</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>InternalCubismModel</em>.GetRenderer</p>
+</li>
+<li>
+<p>描画サイズの反映</p>
+</li>
+<li>
+<p>描画位置の反映</p>
+</li>
+<li>
+<p>描画に必要なリソースの確保</p>
+</li>
+<li>
+<p>描画に必要な情報を GodotEngine に設定</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_任意の処理を追加する方法"><a class="anchor" href="#_任意の処理を追加する方法"></a>任意の処理を追加する方法</h4>
+<div class="paragraph">
+<p>ここからは実際にどう処理すれば良いかについて記述していきます。</p>
+</div>
+<div class="sect4">
+<h5 id="_process_関数内で処理する方法"><a class="anchor" href="#_process_関数内で処理する方法"></a>_process 関数内で処理する方法</h5>
+<div class="paragraph">
+<p>前述した一連の処理は、すべて Godot Engine が GDCubismUserModel の _process を呼び出すタイミングで行われます。</p>
+</div>
+<div class="paragraph">
+<p>そのため、少しだけ Live2D モデルのパラメータを変更したい場合は、その後で行えばよいことになります。注意点としては Godot Engine 側が GDCubismUserModel 内の _process が呼び出されるのがいつなのかという事です。</p>
+</div>
+<div class="paragraph">
+<p>これは GDCubismUserModel がノードツリーのどの場所にあり、スクリプトがどこに設定されているかによります。確実に反映させるには、 GDCubismUserModel の playback_process_mode を MANUAL にして、 advance 関数を呼び出してからパラメータを操作するようにしてください。</p>
+</div>
+<div class="paragraph">
+<p>これにより、パラメータの更新が反映前に上書きされてしまうのを防ぐ事が出来ます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">extends Node2D
+
+
+var param_valid: bool = false
+var l_eye: GDCubismParameter
+var r_eye: GDCubismParameter
+
+
+func _ready():
+    pass
+
+
+func _process(delta):
+    var model: GDCubismUserModel = $Sprite2D/GDCubismUserModel
+
+    for _o in model.get_parameters():
+        var o: GDCubismParameter = _o
+        if o.id == "ParamEyeLOpen":
+            o.value = 0.0
+        if o.id == "ParamEyeROpen":
+            o.value = 0.0</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_gdcubismeffectcustom_で処理する方法"><a class="anchor" href="#_gdcubismeffectcustom_で処理する方法"></a>GDCubismEffectCustom で処理する方法</h5>
+<div class="paragraph">
+<p>GDCubismUserModel の子要素に GDCubismEffectCustom を追加すると、cubism_prologue, cubism_process, cubism_epilogue シグナルが受け取れるようになります。</p>
+</div>
+<div class="paragraph">
+<p>GDCubismEffectCustom が受け取る事ができるシグナルは5種類ありますが、そのうち Live2D モデルに関するものは以下の3種類となります。</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">cubism_prologue</dt>
+<dd>
+<p>Live2Dモデルに適用されたモーションとエクスプレッションの更新前に呼び出されます。このシグナルを受けった際にパラメータ変更を行なっても無視されてしまいます。
+<br>
+現在は GDCubismUserModel の get_parameters 関数で取得したパラメータに対して操作出来てしまいますが、将来のバージョンで挙動が変わる可能性があります。</p>
+</dd>
+<dt class="hdlist1">cubism_process</dt>
+<dd>
+<p>Live2Dモデルに適用されたモーションとエクスプレッションが更新された後に呼び出されます。このシグナルを受け取ったタイミングでパラメータを更新すると、モーションを再生させながら任意の処理を上書き出来ます。</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>例えば、手の形を差し替える、帽子を外す、目を閉じるといった処理です。</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">cubism_epilogue</dt>
+<dd>
+<p>cubism_process とほとんど同じですが、GDCubismUserModel の get_parameters の内容がモーションとエクスプレッションを反映させた状態になっています。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">extends Node2D
+
+
+var param_valid: bool = false
+var l_eye: GDCubismParameter
+var r_eye: GDCubismParameter
+
+
+func _ready():
+    pass
+
+
+func _process(delta):
+    pass
+
+
+func _on_gd_cubism_effect_custom_cubism_init(model: GDCubismUserModel):
+    for _o in model.get_parameters():
+        var o: GDCubismParameter = _o
+        if o.id == "ParamEyeLOpen":
+            l_eye = o
+        if o.id == "ParamEyeROpen":
+            r_eye = o
+    param_valid = true
+
+
+func _on_gd_cubism_effect_custom_cubism_term(model):
+    param_valid = false
+
+
+func _on_gd_cubism_effect_custom_cubism_prologue(model, delta):
+    pass
+
+
+func _on_gd_cubism_effect_custom_cubism_process(model: GDCubismUserModel, delta: float):
+    if param_valid == true:
+        l_eye.value = 0.0
+        r_eye.value = 0.0
+
+
+func _on_gd_cubism_effect_custom_cubism_epilogue(model, delta):
+    pass</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_サンプルコードについて"><a class="anchor" href="#_サンプルコードについて"></a>サンプルコードについて</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>GDCubismEffectCustom を使用したサンプルとして以下のものが用意されています。</p>
+</div>
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">Name</th>
+<th class="tableblock halign-center valign-top">Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">demo_effect_custom_01.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>GDCubismEffectCustom</em> を使用したサンプルとなります。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">demo_effect_custom_02.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>GDCubismEffectCustom</em> を使用したサンプルとなります。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">demo_effect_custom_03.tscn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>GDCubismEffectCustom</em> を使用したサンプルとなります。
+簡易的なリップシンクを行なって、音量にあわせて口を動かしています。</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. ここで呼び出されると、シグナルが中途半端に呼び出されてしまうため、今後のバージョンで呼び出し位置が変更される可能性があります。
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+</footer>
+<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+<script src="../../../../_/js/vendor/lunr.js"></script>
+<script src="../../../../_/js/vendor/lunr-languages.js"></script>
+<script src="../../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../../.." data-snippet-length="100" data-stylesheet="../../../../_/css/search.css"></script>
+<script async src="../../../../search-index.js"></script>
+  </body>
+</html>
