@@ -50,10 +50,7 @@ GDCubismUserModel::GDCubismUserModel()
 }
 
 
-GDCubismUserModel::~GDCubismUserModel() {
-    this->ary_shader.clear();
-    this->clear();
-}
+GDCubismUserModel::~GDCubismUserModel() {}
 
 
 void GDCubismUserModel::_bind_methods() {
@@ -79,8 +76,6 @@ void GDCubismUserModel::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "load_motions"), "set_load_motions", "get_load_motions");
 
     ClassDB::bind_method(D_METHOD("get_canvas_info"), &GDCubismUserModel::get_canvas_info);
-
-    ClassDB::bind_method(D_METHOD("clear"), &GDCubismUserModel::clear);
 
     ClassDB::bind_method(D_METHOD("set_parameter_mode", "value"), &GDCubismUserModel::set_parameter_mode);
     ClassDB::bind_method(D_METHOD("get_parameter_mode"), &GDCubismUserModel::get_parameter_mode);
@@ -203,6 +198,14 @@ void GDCubismUserModel::_bind_methods() {
 }
 
 
+void GDCubismUserModel::_notification(int p_what) {
+    if (p_what == NOTIFICATION_PREDELETE) {
+        this->clear();
+        this->ary_shader.clear();
+    }
+}
+
+
 Dictionary GDCubismUserModel::csm_get_version() {
     Dictionary dict_version;
     const Live2D::Cubism::Core::csmVersion version = Live2D::Cubism::Core::csmGetVersion();
@@ -228,52 +231,19 @@ GDCubismUserModel::moc3FileFormatVersion GDCubismUserModel::csm_get_moc_version(
 
 
 void GDCubismUserModel::set_assets(const String assets) {
+    if (!assets.ends_with(".model3.json")) {
+        WARN_PRINT("GDCubismUserModel must point to a Live2D model3.json file");
+    }
+    if (!FileAccess::file_exists(assets)) {
+        WARN_PRINT("Live2D file does not exist, will be unable to initialize model.");
+    }
     this->assets = assets;
-
-    Ref<FileAccess> f = FileAccess::open(assets, FileAccess::READ);
-    if(f.is_null() == true) { this->clear(); return; }
-
-    this->clear();
-    this->internal_model = CSM_NEW InternalCubismUserModel(this, this);
-
-    if(this->internal_model->model_load(assets) == false) { this->clear(); return; }
-    if(this->internal_model->IsInitialized() == false) { this->clear(); return; }
-
-    {
-        Csm::CubismModel *model = this->internal_model->GetModel();
-
-        this->ary_parameter.clear();
-
-        for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
-            Ref<GDCubismParameter> param;
-            param.instantiate();
-            param->setup(model, index);
-            this->ary_parameter.append(param);
-        }
-    }
-
-    {
-        Csm::CubismModel *model = this->internal_model->GetModel();
-
-        this->ary_part_opacity.clear();
-
-        for(Csm::csmInt32 index = 0; index < model->GetPartCount(); index++) {
-            Ref<GDCubismPartOpacity> param;
-            param.instantiate();
-            param->setup(model, index);
-            this->ary_part_opacity.append(param);
-        }
-    }
-
-    this->setup_property();
-    this->notify_property_list_changed();
+    this->load_model(assets);
 }
-
 
 String GDCubismUserModel::get_assets() const {
     return this->assets;
 }
-
 
 void GDCubismUserModel::set_load_expressions(const bool enable) { this->enable_load_expressions = enable; }
 bool GDCubismUserModel::get_load_expressions() const { return this->enable_load_expressions; }
@@ -303,19 +273,6 @@ bool GDCubismUserModel::is_initialized() const {
     if(this->internal_model == nullptr) return false;
     return this->internal_model->IsInitialized();
 }
-
-
-void GDCubismUserModel::clear() {
-    if(this->internal_model != nullptr) {
-        this->internal_model->clear();
-        CSM_DELETE(this->internal_model);
-        this->internal_model = nullptr;
-    }
-
-    this->setup_property();
-    this->notify_property_list_changed();
-}
-
 
 void GDCubismUserModel::set_parameter_mode(const ParameterMode value) {
     this->parameter_mode = value;
@@ -815,6 +772,65 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     }
 }
 
+void GDCubismUserModel::clear() {
+    if(this->internal_model == nullptr) {
+        return;
+    }
+
+    this->internal_model->clear();
+    CSM_DELETE(this->internal_model);
+    this->internal_model = nullptr;
+}
+
+void GDCubismUserModel::load_model(const String assets) {
+    this->clear();
+
+    if (assets.is_empty()) {
+        return;
+    }
+
+    Ref<FileAccess> f = FileAccess::open(assets, FileAccess::READ);
+    ERR_FAIL_COND_MSG(f.is_null(), "Could not open model path.  Make sure to point to the model3.json");
+
+    this->internal_model = CSM_NEW InternalCubismUserModel(this);
+
+    if(
+        this->internal_model->model_load(assets) == false ||
+        this->internal_model->IsInitialized() == false
+    ) { 
+        this->clear();
+        return; 
+    }
+
+    Csm::CubismModel *model = this->internal_model->GetModel();
+
+    {
+        this->ary_parameter.clear();
+
+        for(Csm::csmInt32 index = 0; index < model->GetParameterCount(); index++) {
+            Ref<GDCubismParameter> param;
+            param.instantiate();
+            param->setup(model, index);
+            this->ary_parameter.append(param);
+        }
+    }
+
+    {
+        this->ary_part_opacity.clear();
+
+        for(Csm::csmInt32 index = 0; index < model->GetPartCount(); index++) {
+            Ref<GDCubismPartOpacity> param;
+            param.instantiate();
+            param->setup(model, index);
+            this->ary_part_opacity.append(param);
+        }
+    }
+
+    this->cubism_effect_dirty = true;
+  
+    this->setup_property();
+    this->notify_property_list_changed();
+}
 
 void GDCubismUserModel::_ready() {
     // Setup SubViewport
@@ -829,6 +845,10 @@ void GDCubismUserModel::_ready() {
     // Memory leak when set_transparent_background is true(* every time & window minimize)
     // https://github.com/godotengine/godot/issues/89651
     this->set_transparent_background(true);
+
+    if (!this->assets.is_empty()) {
+        this->load_model(this->assets);
+    }
 }
 
 
