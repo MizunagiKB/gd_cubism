@@ -153,27 +153,30 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
         }
         const bool visible = model->GetDrawableDynamicFlagIsVisible(index);
         node->set_visible(visible);
-        if (!visible) {
-            continue;
-        }
         Ref<ShaderMaterial> mat = node->get_material();
-
-        this->update_mesh(model, index, false, res, node->get_mesh());
-        this->update_material(model, index, mat);
-        node->set_z_index(renderOrder[index]);
-
+        
+        if (visible) {
+            this->update_mesh(model, index, false, res, node->get_mesh());
+            this->update_material(model, index, mat);
+            node->set_z_index(renderOrder[index]);
+        }
+        
         if (model->GetDrawableMaskCounts()[index] > 0) {
-            AABB bounds = node->get_mesh()->get_aabb();
             SubViewport *viewport = Object::cast_to<SubViewport>(node->get_meta("viewport"));
-            Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
-            Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
-            viewport->set_size(viewport_size);
-            viewport->set_canvas_transform(
-                Transform2D(0, -viewport_offset)
-            );
-            
-            mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
-            mat->set_shader_parameter("mesh_offset", viewport_offset);
+
+            if (!visible) {
+                viewport->set_size(Vector2i(1,1));
+            } else {
+                AABB bounds = node->get_mesh()->get_aabb();
+                Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
+                Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
+                viewport->set_size(viewport_size);
+                viewport->set_canvas_transform(
+                    Transform2D(0, -viewport_offset)
+                );    
+                mat->set_shader_parameter("canvas_size", Vector2(res.vct_canvas_size));
+                mat->set_shader_parameter("mesh_offset", viewport_offset);
+            }
             
             const Array masks = res.dict_mask[node_name];
             
@@ -187,6 +190,12 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
                     continue;
         
                 MeshInstance2D *node = Object::cast_to<MeshInstance2D>(masks[m_index]);
+                node->set_visible(visible);
+
+                if (!visible) {
+                    continue;
+                }
+
                 this->update_mesh(model, j, true, res, node->get_mesh());
                 node->set_z_index(renderOrder[index]);
             }
