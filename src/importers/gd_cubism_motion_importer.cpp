@@ -35,9 +35,8 @@ Ref<Animation> GDCubismMotionImporter::parse_motion(const String &p_source_file)
     anim->set_step(1.0 / fps);
 
     // parse motion curves
-    uint32_t curve_count = meta.get("CurveCount", 0);
     Array curves = motion["Curves"];
-    for (uint32_t c_idx = 0; c_idx < curve_count; c_idx++) {
+    for (uint32_t c_idx = 0; c_idx < curves.size(); c_idx++) {
         Dictionary curve = curves[c_idx];
     
         // TODO only support parameter type curves for now
