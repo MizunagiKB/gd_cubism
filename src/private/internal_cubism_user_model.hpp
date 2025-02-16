@@ -44,11 +44,12 @@ class InternalCubismUserModel : public Csm::CubismUserModel {
     };
 
 public:
-    InternalCubismUserModel(GDCubismUserModel *owner_viewport);
+    InternalCubismUserModel(GDCubismUserModel *owner_viewport, Node *parent_node);
     virtual ~InternalCubismUserModel();
 
 public:
     GDCubismUserModel *_owner_viewport = nullptr;
+    Node* _parent_node = nullptr;
 
 private:
     InternalCubismRendererResource _renderer_resource;

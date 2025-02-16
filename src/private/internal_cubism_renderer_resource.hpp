@@ -20,7 +20,6 @@
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
-using namespace Live2D::Cubism::Framework::Rendering;
 using namespace godot;
 
 
@@ -34,28 +33,34 @@ class GDCubismUserModel;
 // ------------------------------------------------------------------- class(s)
 class InternalCubismRendererResource {
 public:
-    InternalCubismRendererResource(GDCubismUserModel *owner_viewport);
+    InternalCubismRendererResource(GDCubismUserModel *owner_viewport, Node *parent_node);
     ~InternalCubismRendererResource();
 
     void clear();
 
     SubViewport* request_viewport();
     MeshInstance2D* request_mesh_instance();
-    ShaderMaterial* request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index);
-    ShaderMaterial* request_mask_material();
+
+    void pro_proc(const Csm::csmInt32 viewport_count, const Csm::csmInt32 mesh_instance_count);
+    void epi_proc();
+
+    void dispose_node(const bool node_release);
 
     // Shader
     Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }
 
 public:
-    GDCubismUserModel *_owner_viewport;
+    const GDCubismUserModel *_owner_viewport;
+    Node *_parent_node;
 
-    TypedArray<Node> managed_nodes;
     Array ary_texture;
     Array ary_shader;
     Dictionary dict_mesh;
-    Dictionary dict_mask;
-    
+    Csm::csmInt32 sub_viewport_counter;
+    TypedArray<SubViewport> ary_sub_viewport;
+    Csm::csmInt32 mesh_instance_counter;
+    TypedArray<MeshInstance2D> ary_mesh_instance;
+
     // Adjust Parameters
     Vector2 adjust_pos;
     float adjust_scale;

@@ -39,42 +39,30 @@ private:
 
 public:
     virtual void _cubism_init(InternalCubismUserModel* model) override {
-        if(this->_initialized == true) return;
+        Csm::ICubismModelSetting* _model_setting = model->_model_setting;
+        this->_breath = Csm::CubismBreath::Create();
 
-        if(this->_breath == nullptr) {
-            Csm::ICubismModelSetting* _model_setting = model->_model_setting;
-            this->_breath = Csm::CubismBreath::Create();
+        Csm::csmVector<Csm::CubismBreath::BreathParameterData> param;
 
-            Csm::csmVector<Csm::CubismBreath::BreathParameterData> param;
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleX), 0.0f, 15.0f, 6.5345f, 0.5f));
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleY), 0.0f, 8.0f, 3.5345f, 0.5f));
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleZ), 0.0f, 10.0f, 5.5345f, 0.5f));
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamBodyAngleX), 0.0f, 4.0f, 15.5345f, 0.5f));
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamBreath), 0.5f, 0.5f, 3.2345f, 0.5f));
 
-            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleX), 0.0f, 15.0f, 6.5345f, 0.5f));
-            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleY), 0.0f, 8.0f, 3.5345f, 0.5f));
-            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleZ), 0.0f, 10.0f, 5.5345f, 0.5f));
-            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamBodyAngleX), 0.0f, 4.0f, 15.5345f, 0.5f));
-            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamBreath), 0.5f, 0.5f, 3.2345f, 0.5f));
-
-            this->_breath->SetParameters(param);
-        }
-
-        this->_initialized = true;
+        this->_breath->SetParameters(param);
     }
 
     virtual void _cubism_term(InternalCubismUserModel* model) override {
-        if(this->_initialized == false) return;
-
         if(this->_breath != nullptr) {
             Csm::CubismBreath::Delete(this->_breath);
             this->_breath = nullptr;
         }
-
-        this->_initialized = false;
     }
 
     virtual void _cubism_process(InternalCubismUserModel* model, const float delta) override {
-        if(this->_initialized == false) return;
-        if(this->_active == false) return;
         if(this->_breath == nullptr) return;
-
+        if(this->_active == false) return;
         this->_breath->UpdateParameters(model->GetModel(), delta);
     }
 };

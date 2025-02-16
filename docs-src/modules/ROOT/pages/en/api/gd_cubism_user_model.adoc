@@ -171,7 +171,7 @@ By adjusting this parameter, you can freely change the rendering size of the Liv
 [[id-property-assets]]
 String assets [default: ""]::
 By specifying a file with the *.model3.json extension, you can load the Live2D model. As soon as you specify a file, it will be loaded immediately. +
-if you want to switch the Live2D model, you can do so by simply specifying a new file.
+Since the _clear_ function is called internally, if you want to switch the Live2D model, you can do so by simply specifying a new file.
 
 
 [[id-property-auto_scale]]
@@ -340,8 +340,7 @@ Please specify a value of 0.0 or more for delta.
 
 [[id-method-clear]]
 void clear()::
-This function was removed to improve operational consistency. +
-For similar operations, please set the _assets_ property to "".
+Destroys the currently held Live2D model.
 
 
 [[id-method-csm_get_latest_moc_version]]

@@ -34,7 +34,7 @@ def build():
     env.Command(
         source="./docs-site/antora-playbook.yml",
         target="./docs",
-        action=["npx antora --fetch $SOURCE"],
+        action=["antora --fetch $SOURCE"],
     )
     env.Command(target="./docs/.nojekyll", source=None, action="touch ./docs/.nojekyll")
 

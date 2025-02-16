@@ -167,7 +167,7 @@ GDCubismは自身が持つSubViewport内にLive2Dモデルの描画を行いま�
 String assets [default: ""]::
 *.model3.json 拡張子のファイルを指定することでLive2Dモデルを読み込みます。
 ファイルを指定すると即座にファイルが読み込まれます。 +
-Live2Dモデルを切り替えたい場合は新しいファイルを指定するだけで切り替える事が出来ます。
+内部で _clear_ 関数を呼び出しているため、Live2Dモデルを切り替えたい場合は新しいファイルを指定するだけで切り替える事が出来ます。
 
 
 [[id-property-auto_scale]]
@@ -336,8 +336,7 @@ deltaには 0.0 以上の値を指定してください。
 
 [[id-method-clear]]
 void clear()::
-この関数は操作の一貫性向上を目的に削除されました。 +
-同様の操作を行うには _assets_ プロパティに "" をセットしてください。
+現在保持しているLive2Dモデルを破棄します。
 
 
 [[id-method-csm_get_latest_moc_version]]

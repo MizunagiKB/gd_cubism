@@ -5,8 +5,6 @@
 
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
-#include <godot_cpp/classes/image_texture.hpp>
-#include <godot_cpp/classes/image.hpp>
 
 #ifdef GD_CUBISM_USE_RENDERER_2D
     #include <private/internal_cubism_renderer_2d.hpp>
@@ -26,11 +24,12 @@ using namespace Live2D::Cubism::Framework;
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
-InternalCubismUserModel::InternalCubismUserModel(GDCubismUserModel *owner_viewport)
+InternalCubismUserModel::InternalCubismUserModel(GDCubismUserModel *owner_viewport, Node *parent_node)
     : CubismUserModel()
     , _moc3_file_format_version(GDCubismUserModel::moc3FileFormatVersion::CSM_MOC_VERSION_UNKNOWN)
-    , _renderer_resource(owner_viewport)
+    , _renderer_resource(owner_viewport, parent_node)
     , _owner_viewport(owner_viewport)
+    , _parent_node(parent_node)
     , _model_pathname("")
     , _model_setting(nullptr) {
 
@@ -43,9 +42,7 @@ InternalCubismUserModel::~InternalCubismUserModel() {
 }
 
 
-bool InternalCubismUserModel::model_load(
-    const String &model_pathname
-) {
+bool InternalCubismUserModel::model_load(const String &model_pathname) {
 
     this->_model_pathname = model_pathname;
     this->_updating = true;
@@ -111,9 +108,12 @@ bool InternalCubismUserModel::model_load(
     this->_model->SaveParameters();
 
     // Motion
-    if(this->_owner_viewport->enable_load_motions == true) {
+    if(this->_owner_viewport->enable_load_motions== true) {
         this->motion_load();
     }
+
+    // GDCubismEffect
+    this->effect_init();
 
     this->CreateRenderer();
 
@@ -138,9 +138,16 @@ bool InternalCubismUserModel::model_load(
         this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
         this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
+        this->_renderer_resource.pro_proc(
+            renderer->calc_viewport_count(),
+            renderer->calc_mesh_instance_count()
+        );
+
         renderer->IsPremultipliedAlpha(false);
         renderer->DrawModel();
-        renderer->build_model(this->_renderer_resource, this->_owner_viewport);
+        renderer->update(this->_renderer_resource, false, true);
+
+        this->_renderer_resource.epi_proc();
     }
     // ------------------------------------------------------------------------
 
@@ -150,7 +157,7 @@ bool InternalCubismUserModel::model_load(
 
 void InternalCubismUserModel::model_load_resource()
 {
-    ResourceLoader *res_loader = ResourceLoader::get_singleton();
+    ResourceLoader *res_loader = memnew(ResourceLoader);
 
     this->_renderer_resource.ary_texture.clear();
 
@@ -161,18 +168,12 @@ void InternalCubismUserModel::model_load_resource()
         String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetTextureFileName(index));
         String texture_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
 
-        Ref<Texture2D> tex;
-        // allow dynamically loading image textures for models provided from disk or user data
-        if (!res_loader->exists(texture_pathname)) {
-            Ref<Image> img = Image::load_from_file(texture_pathname);
-            tex = ImageTexture::create_from_image(img);
-            tex->take_over_path(texture_pathname);
-        } else {
-            tex = res_loader->load(texture_pathname);
-        }
+        Ref<Texture2D> tex = res_loader->load(texture_pathname);
 
         this->_renderer_resource.ary_texture.append(tex);
     }
+
+    memdelete(res_loader);
 }
 
 
@@ -237,9 +238,16 @@ void InternalCubismUserModel::update_node() {
     this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
     this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
 
+    this->_renderer_resource.pro_proc(
+        renderer->calc_viewport_count(),
+        renderer->calc_mesh_instance_count()
+    );
+
     renderer->IsPremultipliedAlpha(false);
     renderer->DrawModel();
     renderer->update(this->_renderer_resource);
+
+    this->_renderer_resource.epi_proc();
 }
 
 

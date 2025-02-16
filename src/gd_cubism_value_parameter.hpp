@@ -48,9 +48,6 @@ private:
 protected:
     static void _bind_methods() {
 
-        ClassDB::bind_method(D_METHOD("get_type"), &GDCubismParameter::get_type);
-        ADD_PROPERTY(PropertyInfo(Variant::INT, "type", PROPERTY_HINT_ENUM, "Normal,BlendShape"), String(), "get_type");
-
         ClassDB::bind_method(D_METHOD("get_minimum_value"), &GDCubismParameter::get_minimum_value);
         ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "minimum_value"), String(), "get_minimum_value");
         ClassDB::bind_method(D_METHOD("get_maximum_value"), &GDCubismParameter::get_maximum_value);
@@ -89,7 +86,6 @@ public:
         : GDCubismValueAbs(GDCubismValueAbs::ValueType::PARAMETER) {}
 
     void reset() { this->set_value(this->default_value); this->hold = false; }
-    GDCubismParameter::Type get_type() const { return this->type; }
     float get_minimum_value() const { return this->minimum_value; }
     float get_maximum_value() const { return this->maximum_value; }
     float get_default_value() const { return this->default_value; }

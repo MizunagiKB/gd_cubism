@@ -3,7 +3,7 @@
 	<brief_description>
 	</brief_description>
 	<description>
-		By placing it as a child element of [GDCubismUserModel], you can extend your own functions.
+		By placing it as a child element of xref:./gd_cubism_user_model.adoc[], you can extend your own functions.
 	</description>
 	<tutorials>
 	</tutorials>
@@ -21,7 +21,7 @@
 				Called at the start of using the Live2D model.
 				Normally it is only called once, but there is a possibility that a signal will occur again under the following conditions.
 				- When a new Live2D model is loaded.
-				- When [code]GDCubismEffect*[/code] is added or removed as a child element of the Live2D model.
+				- When _GDCubismEffect*_ is added or removed as a child element of the Live2D model.
 			</description>
 		</signal>
 		<signal name="cubism_process">
@@ -44,7 +44,7 @@
 				Called at the end of using the Live2D model.
 				Normally it is only called once, but there is a possibility that a signal will occur again under the following conditions.
 				- When a new Live2D model is loaded.
-				- When [code]GDCubismEffect*[/code] is added or removed as a child element of the Live2D model.
+				- When _GDCubismEffect*_ is added or removed as a child element of the Live2D model.
 			</description>
 		</signal>
 	</signals>
