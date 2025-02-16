@@ -35,17 +35,21 @@ class GDCubismPartOpacity : public GDCubismValueAbs {
 protected:
     static void _bind_methods() {}
 
-private:
+public:
     void setup(Csm::CubismModel *model, Csm::csmInt32 index) override {
         Core::csmModel *csm_model = model->GetModel();
 
+        this->idx = index;
         this->id = String(Core::csmGetPartIds(csm_model)[index]);
         this->value = Core::csmGetPartOpacities(csm_model)[index];
-        this->raw_value = &(Core::csmGetPartOpacities(csm_model)[index]);
         this->changed = false;
     }
 
-public:
+    void apply(Csm::CubismModel *model) override {
+        if (this->idx < 0) return;
+        model->SetPartOpacity(this->idx, this->value);
+    }
+
     GDCubismPartOpacity()
         : GDCubismValueAbs(GDCubismValueAbs::ValueType::PART_OPACITY) {}
 };

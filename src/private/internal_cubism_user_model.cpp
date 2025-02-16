@@ -7,6 +7,8 @@
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/image_texture.hpp>
 #include <godot_cpp/classes/image.hpp>
+#include <godot_cpp/classes/json.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 #ifdef GD_CUBISM_USE_RENDERER_2D
     #include <private/internal_cubism_renderer_2d.hpp>
@@ -14,7 +16,8 @@
     #include <private/internal_cubism_renderer_3d.hpp>
 #endif // GD_CUBISM_USE_RENDERER_2D
 #include <private/internal_cubism_user_model.hpp>
-
+#include <gd_cubism_user_model.hpp>
+#include <gd_cubism_effect.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -28,11 +31,7 @@ using namespace Live2D::Cubism::Framework;
 // ------------------------------------------------------------------- class(s)
 InternalCubismUserModel::InternalCubismUserModel(GDCubismUserModel *owner_viewport)
     : CubismUserModel()
-    , _moc3_file_format_version(GDCubismUserModel::moc3FileFormatVersion::CSM_MOC_VERSION_UNKNOWN)
-    , _renderer_resource(owner_viewport)
-    , _owner_viewport(owner_viewport)
-    , _model_pathname("")
-    , _model_setting(nullptr) {
+    , _owner_viewport(owner_viewport) {
 
     _debugMode = false;
 }
@@ -43,141 +42,116 @@ InternalCubismUserModel::~InternalCubismUserModel() {
 }
 
 
-bool InternalCubismUserModel::model_load(
-    const String &model_pathname
-) {
-
-    this->_model_pathname = model_pathname;
+bool InternalCubismUserModel::model_bind() {
+    String _model_pathname = this->_owner_viewport->get_scene_file_path();
+    String _model_dir = _model_pathname.get_base_dir();
     this->_updating = true;
     this->_initialized = false;
-    this->_model_setting = nullptr;
-
-    PackedByteArray buffer = FileAccess::get_file_as_bytes(this->_model_pathname);
+    UtilityFunctions::print("binding model " + _model_pathname);
+    
+    PackedByteArray buffer = FileAccess::get_file_as_bytes(_model_pathname);
     if(buffer.size() == 0) return false;
 
-    this->clear();
+    Dictionary model_settings = JSON::parse_string(FileAccess::get_file_as_string(_model_pathname));
+    if (model_settings.is_empty()) {
+        return false;
+    }
 
-    this->_model_setting = CSM_NEW CubismModelSettingJson(buffer.ptr(), buffer.size());
+	Dictionary file_refs = model_settings.get("FileReferences", Dictionary());
 
     // setup Live2D model
-    if (strcmp(this->_model_setting->GetModelFileName(), "") == 0) {
-        return false;
-    } else {
-        String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetModelFileName());
-        String moc3_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
-
-        buffer = FileAccess::get_file_as_bytes(moc3_pathname);
+    {
+        String model_file = file_refs.get("Moc", "");    
+        String moc3_pathname = _model_dir.path_join(model_file);
+        PackedByteArray buffer = FileAccess::get_file_as_bytes(moc3_pathname);
         this->LoadModel(buffer.ptr(), buffer.size());
 
-        const Live2D::Cubism::Core::csmVersion version = Live2D::Cubism::Core::csmGetMocVersion(buffer.ptr(), buffer.size());
-        this->_moc3_file_format_version = static_cast<GDCubismUserModel::moc3FileFormatVersion>(version);
-    }
+        if(this->_modelMatrix == nullptr) {
+            this->clear();
+            return false;
+        }
 
-    // Expression
-    if(this->_owner_viewport->enable_load_expressions == true) {
-        this->expression_load();
+        this->_model->SaveParameters();
     }
-
     // Physics
-    this->physics_load();
+    {
+        String path = file_refs.get("Physics", "");
+        if (!path.is_empty()) {
+            PackedByteArray buffer = FileAccess::get_file_as_bytes(_model_dir.path_join(path));
+            if(buffer.size() > 0) {
+                this->LoadPhysics(buffer.ptr(), buffer.size());
+            }
+        }
+    }
     // Pose
-    this->pose_load();
+    {
+        String path = file_refs.get("Pose", "");
+        if (!path.is_empty()) {
+            PackedByteArray buffer = FileAccess::get_file_as_bytes(_model_dir.path_join(path));
+            if(buffer.size() > 0) {
+                this->LoadPose(buffer.ptr(), buffer.size());
+            }
+        }
+    }
     //UserData
-    this->userdata_load();
+    {
+        String path = file_refs.get("UserData", "");
+        if (!path.is_empty()) {
+            PackedByteArray buffer = FileAccess::get_file_as_bytes(_model_dir.path_join(path));
+            if(buffer.size() > 0) {
+                this->LoadUserData(buffer.ptr(), buffer.size());
+            }
+        }
+    }
 
+    Array parameter_groups = model_settings.get("Groups", Array());
     // EyeBlink(Parameters)
     {
-        Csm::csmInt32 param_count = this->_model_setting->GetEyeBlinkParameterCount();
-        for(Csm::csmInt32 i = 0; i < param_count; ++i)
-        {
-            this->_list_eye_blink.PushBack(this->_model_setting->GetEyeBlinkParameterId(i));
+        for (uint32_t i = 0; i < parameter_groups.size(); i++) {
+            Dictionary group = parameter_groups[i];
+            if (group.get("Target", "") == "Parameter" && group.get("Name", "") == "EyeBlink") {
+                this->_list_eye_blink = group.get("Ids", Array());
+                break;
+            }
         }
     }
 
     // LipSync(Parameters)
     {
-        Csm::csmInt32 param_count = this->_model_setting->GetLipSyncParameterCount();
-        for(Csm::csmInt32 i = 0; i < param_count; ++i)
-        {
-            this->_list_lipsync.PushBack(this->_model_setting->GetLipSyncParameterId(i));
+        for (uint32_t i = 0; i < parameter_groups.size(); i++) {
+            Dictionary group = parameter_groups[i];
+            if (group.get("Target", "") == "Parameter" && group.get("Name", "") == "LipSync") {
+                this->_list_eye_blink = group.get("Ids", Array());
+                break;
+            }
         }
     }
 
-    if(this->_model_setting == nullptr || this->_modelMatrix == nullptr) {
-        this->clear();
-        return false;
+    // Hit Areas
+    {
+        Array hit_areas = model_settings.get("HitAreas", Array());
+        for (uint32_t i = 0; i < hit_areas.size(); i++) {
+            Dictionary dict_hit_area;
+            Dictionary hit_area = hit_areas[i];
+            
+            dict_hit_area["id"] = hit_area["Id"];
+            dict_hit_area["name"] = hit_area["Name"];
+            ary_hit_areas.append(dict_hit_area);
+        }
     }
-
-    this->_model->SaveParameters();
-
-    // Motion
+    
     this->CreateRenderer();
-
-    // Resource(Texture)
-    this->model_load_resource();
-
-    this->stop();
-
+		
     this->_updating = false;
     this->_initialized = true;
-
-    // ------------------------------------------------------------------------
-    // The process to make the mesh available immediately after initialization.
-    // The process is almost the same as the InternalCubismUserModel::update_node() function.
-    {
-        #ifdef GD_CUBISM_USE_RENDERER_2D
-        InternalCubismRenderer2D* renderer = this->GetRenderer<InternalCubismRenderer2D>();
-        #else
-        #endif // GD_CUBISM_USE_RENDERER_2D
-
-        renderer->IsPremultipliedAlpha(false);
-        renderer->DrawModel();
-        renderer->build_model(this->_renderer_resource, this->_owner_viewport);
-    }
-    // ------------------------------------------------------------------------
 
     return true;
 }
 
-
-void InternalCubismUserModel::model_load_resource()
-{
-    ResourceLoader *res_loader = ResourceLoader::get_singleton();
-
-    this->_renderer_resource.ary_texture.clear();
-
-    for (csmInt32 index = 0; index < this->_model_setting->GetTextureCount(); index++)
-    {
-        if (strcmp(this->_model_setting->GetTextureFileName(index), "") == 0) continue;
-
-        String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetTextureFileName(index));
-        String texture_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
-
-        Ref<Texture2D> tex;
-        // allow dynamically loading image textures for models provided from disk or user data
-        if (!res_loader->exists(texture_pathname)) {
-            Ref<Image> img = Image::load_from_file(texture_pathname);
-            tex = ImageTexture::create_from_image(img);
-            tex->take_over_path(texture_pathname);
-        } else {
-            tex = res_loader->load(texture_pathname);
-        }
-
-        this->_renderer_resource.ary_texture.append(tex);
-    }
-}
-
-
 void InternalCubismUserModel::pro_update(const float delta) {
     if(this->IsInitialized() == false) return;
-    if(this->_model_setting == nullptr) return;
-    if(this->_model == nullptr) return;
 
     this->effect_batch(delta, EFFECT_CALL_PROLOGUE);
-
-    if(this->_expressionManager != nullptr) {
-        this->_expressionManager->UpdateMotion(this->_model, delta);
-    }
 
     this->_model->GetModelOpacity();
 }
@@ -185,8 +159,6 @@ void InternalCubismUserModel::pro_update(const float delta) {
 
 void InternalCubismUserModel::efx_update(const float delta) {
     if(this->IsInitialized() == false) return;
-    if(this->_model_setting == nullptr) return;
-    if(this->_model == nullptr) return;
 
     if(this->_owner_viewport->check_cubism_effect_dirty() == true) {
         this->effect_term();
@@ -200,8 +172,6 @@ void InternalCubismUserModel::efx_update(const float delta) {
 
 void InternalCubismUserModel::epi_update(const float delta) {
     if(this->IsInitialized() == false) return;
-    if(this->_model_setting == nullptr) return;
-    if(this->_model == nullptr) return;
 
     if(this->_physics != nullptr) { this->_physics->Evaluate(this->_model, delta); }
     if(this->_pose != nullptr) { this->_pose->UpdateParameters(this->_model, delta); }
@@ -221,7 +191,7 @@ void InternalCubismUserModel::update_node() {
 
     renderer->IsPremultipliedAlpha(false);
     renderer->DrawModel();
-    renderer->update(this->_renderer_resource);
+    renderer->update(this->_owner_viewport->ary_meshes);
 }
 
 
@@ -229,127 +199,10 @@ void InternalCubismUserModel::clear() {
 
     this->DeleteRenderer();
 
-    this->_renderer_resource.clear();
-
-    {
-        this->expression_stop();
-        for(csmMap<csmString,CubismExpressionMotion*>::const_iterator i = this->_map_expression.Begin(); i != this->_map_expression.End(); i++) {
-            ACubismMotion::Delete(i->Second);
-        }
-        this->_map_expression.Clear();
-    }
-
-    {
-        for(csmMap<csmString,CubismMotion*>::const_iterator i = this->_map_motion.Begin(); i != this->_map_motion.End(); i++) {
-            ACubismMotion::Delete(i->Second);
-        }
-        this->_map_motion.Clear();
-    }
-
     this->effect_term();
 
-    this->_list_eye_blink.Clear();
-    this->_list_lipsync.Clear();
-
-    if(this->_model_setting != nullptr) {
-        this->_initialized = false;
-
-        CSM_DELETE(this->_model_setting);
-        this->_model_setting = nullptr;
-    }
-}
-
-
-void InternalCubismUserModel::stop() {
-    this->expression_stop();
-}
-
-
-void InternalCubismUserModel::expression_set(const char* expression_id) {
-    csmString id = expression_id;
-
-    ACubismMotion* motion = this->_map_expression[csmString(expression_id)];
-
-    if(motion != nullptr) {
-        this->_expressionManager->StartMotionPriority(
-            motion,
-            false,
-            GDCubismUserModel::Priority::PRIORITY_FORCE
-        );
-    }
-}
-
-
-void InternalCubismUserModel::expression_stop() {
-    if(this->_expressionManager == nullptr) return;
-    this->_expressionManager->StopAllMotions();
-}
-
-
-void InternalCubismUserModel::expression_load() {
-    if(this->_model_setting == nullptr) return;
-    if(this->_model_setting->GetExpressionCount() == 0) return;
-
-    for (csmInt32 i = 0; i < this->_model_setting->GetExpressionCount(); i++)
-    {
-        csmString name = this->_model_setting->GetExpressionName(i);
-
-        String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetExpressionFileName(i));
-        String expression_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
-
-        PackedByteArray buffer = FileAccess::get_file_as_bytes(expression_pathname);
-        CubismExpressionMotion* motion = static_cast<CubismExpressionMotion*>(this->LoadExpression(
-            buffer.ptr(),
-            buffer.size(),
-            this->_model_setting->GetExpressionName(i)
-        ));
-
-        if(this->_map_expression[name] != nullptr) {
-            ACubismMotion::Delete(this->_map_expression[name]);
-            this->_map_expression[name] = nullptr;
-        }
-
-        this->_map_expression[name] = motion;
-    }
-}
-
-
-void InternalCubismUserModel::physics_load() {
-    if(strcmp(this->_model_setting->GetPhysicsFileName(), "") == 0) return;
-
-    String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetPhysicsFileName());
-    String physics_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
-
-    PackedByteArray buffer = FileAccess::get_file_as_bytes(physics_pathname);
-    if(buffer.size() > 0) {
-        this->LoadPhysics(buffer.ptr(), buffer.size());
-    }
-}
-
-
-void InternalCubismUserModel::pose_load() {
-    if(strcmp(this->_model_setting->GetPoseFileName(), "") == 0) return;
-
-    String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetPoseFileName());
-    String pose_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
-
-    PackedByteArray buffer = FileAccess::get_file_as_bytes(pose_pathname);
-    if(buffer.size() > 0) {
-        this->LoadPose(buffer.ptr(), buffer.size());
-    }
-}
-
-
-void InternalCubismUserModel::userdata_load() {
-    if(strcmp(this->_model_setting->GetUserDataFile(), "") == 0) return;
-
-    String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetUserDataFile());
-    String userdata_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
-
-    PackedByteArray buffer = FileAccess::get_file_as_bytes(userdata_pathname);
-    if(buffer.size() > 0) {
-        this->LoadUserData(buffer.ptr(), buffer.size());
-    }
+    this->_list_eye_blink.clear();
+    this->_list_lipsync.clear();
 }
 
 
@@ -387,6 +240,40 @@ void InternalCubismUserModel::effect_batch(const float delta, const EFFECT_CALL 
             case EFFECT_CALL_EPILOGUE:  (*i)->_cubism_epilogue(this, delta);    break;
         }
     }
+}
+
+
+Vector2 InternalCubismUserModel::get_size(const Csm::CubismModel *model)
+{
+    Live2D::Cubism::Core::csmVector2 vct_size;
+    Live2D::Cubism::Core::csmVector2 vct_origin;
+    Csm::csmFloat32 ppunit;
+
+    Live2D::Cubism::Core::csmReadCanvasInfo(model->GetModel(), &vct_size, &vct_origin, &ppunit);
+
+    return Vector2(vct_size.X, vct_size.Y);
+}
+
+Vector2 InternalCubismUserModel::get_origin(const Csm::CubismModel *model)
+{
+    Live2D::Cubism::Core::csmVector2 vct_size;
+    Live2D::Cubism::Core::csmVector2 vct_origin;
+    Csm::csmFloat32 ppunit;
+
+    Live2D::Cubism::Core::csmReadCanvasInfo(model->GetModel(), &vct_size, &vct_origin, &ppunit);
+
+    return Vector2(vct_origin.X, vct_origin.Y);
+}
+
+float InternalCubismUserModel::get_ppunit(const Csm::CubismModel *model)
+{
+    Live2D::Cubism::Core::csmVector2 vct_size;
+    Live2D::Cubism::Core::csmVector2 vct_origin;
+    Csm::csmFloat32 ppunit;
+
+    Live2D::Cubism::Core::csmReadCanvasInfo(model->GetModel(), &vct_size, &vct_origin, &ppunit);
+
+    return ppunit;
 }
 
 

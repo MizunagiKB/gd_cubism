@@ -11,13 +11,13 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/shader.hpp>
 #include <godot_cpp/classes/node2d.hpp>
+#include <godot_cpp/classes/animation_library.hpp>
 
 #include <CubismFramework.hpp>
 #include <Math/CubismVector2.hpp>
 #include <Motion/ACubismMotion.hpp>
 #include <Motion/CubismMotionQueueEntry.hpp>
 
-#include <gd_cubism_effect.hpp>
 #include <gd_cubism_motion_entry.hpp>
 
 
@@ -92,13 +92,17 @@ public:
         PRIORITY_FORCE = 3
     };
 
-    String assets;
     InternalCubismUserModel *internal_model;
-    bool enable_load_expressions;
 
-    Array ary_shader;
+    AnimationLibrary *ani_lib;
+
+    Array ary_meshes;
+    Dictionary dict_mesh;
+    Dictionary dict_mask;
+
     Array ary_parameter;
     Array ary_part_opacity;
+    Array hit_areas;
 
     Csm::csmMap<String,anim_expression> dict_anim_expression;
     String curr_anim_expression_key;
@@ -107,78 +111,76 @@ public:
     bool cubism_effect_dirty;
 
 protected:
-    static void _bind_methods();
-    void _notification(int p_what);
+    static void _bind_methods() {
+        // csm
+        ClassDB::bind_method(D_METHOD("csm_get_version"), &GDCubismUserModel::csm_get_version);
 
-private:
-    void load_model(const String asset_path);
-    void clear();
+        ClassDB::bind_method(D_METHOD("get_canvas_info"), &GDCubismUserModel::get_canvas_info);
+
+        // HitArea
+        ClassDB::bind_method(D_METHOD("get_hit_areas"), &GDCubismUserModel::get_hit_areas);
+
+        // Parameter
+        ClassDB::bind_method(D_METHOD("get_parameters"), &GDCubismUserModel::get_parameters);
+        ClassDB::bind_method(D_METHOD("set_parameters"), &GDCubismUserModel::set_parameters);
+        ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "parameters"), "set_parameters", "get_parameters");
+
+        // PartOpacity
+        ClassDB::bind_method(D_METHOD("get_part_opacities"), &GDCubismUserModel::get_part_opacities);
+
+        // Meshes
+        ClassDB::bind_method(D_METHOD("get_meshes"), &GDCubismUserModel::get_meshes);
+        ClassDB::bind_method(D_METHOD("get_masks"), &GDCubismUserModel::get_masks);
+
+        // Animations
+        ClassDB::bind_method(D_METHOD("get_animations"), &GDCubismUserModel::get_animations);
+        ClassDB::bind_method(D_METHOD("set_animations"), &GDCubismUserModel::set_animations);
+        ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "animations", PROPERTY_HINT_RESOURCE_TYPE, "AnimationLibrary"), "set_animations", "get_animations");
+
+        ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
+
+        // moc3FileFormatVersion
+        BIND_ENUM_CONSTANT(CSM_MOC_VERSION_UNKNOWN);
+        BIND_ENUM_CONSTANT(CSM_MOC_VERSION_30);
+        BIND_ENUM_CONSTANT(CSM_MOC_VERSION_33);
+        BIND_ENUM_CONSTANT(CSM_MOC_VERSION_40);
+        BIND_ENUM_CONSTANT(CSM_MOC_VERSION_42);
+        BIND_ENUM_CONSTANT(CSM_MOC_VERSION_50);
+
+        // Priority
+        BIND_ENUM_CONSTANT(PRIORITY_NONE);
+        BIND_ENUM_CONSTANT(PRIORITY_IDLE);
+        BIND_ENUM_CONSTANT(PRIORITY_NORMAL);
+        BIND_ENUM_CONSTANT(PRIORITY_FORCE);
+    }
+    void _notification(int p_what);
 
 public:
     Dictionary csm_get_version();
-    moc3FileFormatVersion csm_get_latest_moc_version();
-    moc3FileFormatVersion csm_get_moc_version();
-
-    void set_assets(const String assets);
-    String get_assets() const;
-
-    void set_load_expressions(const bool enable);
-    bool get_load_expressions() const;
-    void set_load_motions(const bool enable);
-    bool get_load_motions() const;
 
     Dictionary get_canvas_info() const;
 
     bool is_initialized() const;
 
-    void set_speed_scale(const float speed);
-    float get_speed_scale() const;
+    Array get_hit_areas() const { return this->hit_areas; }
 
-    Array get_expressions() const;
-    void start_expression(const String expression_id);
-    void stop_expression();
+    Array get_parameters() const { return this->ary_parameter; };
+    void set_parameters(const Array parameters) { this->ary_parameter = parameters; }
+    
+    AnimationLibrary* get_animations() const { return this->ani_lib; };
+    void set_animations(AnimationLibrary* library) { this->ani_lib = library; }
+    
+    Array get_part_opacities() const {
+        return this->ary_part_opacity;
+    }
+    void set_part_opacities(const Array opacities) { this->ary_part_opacity = opacities; }
 
-    Array get_hit_areas() const;
+    Dictionary get_mesh_dict() const;
 
-    Array get_parameters() const;
-    Array get_part_opacities() const;
+    Dictionary get_masks() const;
 
-    Dictionary get_meshes() const;
-
-    void set_shader(const GDCubismShader e, Ref<Shader> shader) { this->ary_shader[e] = shader; }
-    Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }
-
-    // NormAdd
-    void set_shader_add(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_ADD, shader); }
-    Ref<Shader> get_shader_add() const { return this->get_shader(GD_CUBISM_SHADER_NORM_ADD); }
-    // NormMix
-    void set_shader_mix(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_MIX, shader); }
-    Ref<Shader> get_shader_mix() const { return this->get_shader(GD_CUBISM_SHADER_NORM_MIX); }
-    // NormMul
-    void set_shader_mul(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_NORM_MUL, shader); }
-    Ref<Shader> get_shader_mul() const { return this->get_shader(GD_CUBISM_SHADER_NORM_MUL); }
-    // Mask
-    void set_shader_mask(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK, shader); }
-    Ref<Shader> get_shader_mask() const { return this->get_shader(GD_CUBISM_SHADER_MASK); }
-    // MaskAdd
-    void set_shader_mask_add(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_ADD, shader); }
-    Ref<Shader> get_shader_mask_add() const { return this->get_shader(GD_CUBISM_SHADER_MASK_ADD); }
-    void set_shader_mask_add_inv(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_ADD_INV, shader); }
-    Ref<Shader> get_shader_mask_add_inv() const { return this->get_shader(GD_CUBISM_SHADER_MASK_ADD_INV); }    
-    // MaskMix
-    void set_shader_mask_mix(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MIX, shader); }
-    Ref<Shader> get_shader_mask_mix() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MIX); }
-    void set_shader_mask_mix_inv(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MIX_INV, shader); }
-    Ref<Shader> get_shader_mask_mix_inv() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MIX_INV); }    
-    // MaskMul
-    void set_shader_mask_mul(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MUL, shader); }
-    Ref<Shader> get_shader_mask_mul() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MUL); }
-    void set_shader_mask_mul_inv(Ref<Shader> shader) { this->set_shader(GD_CUBISM_SHADER_MASK_MUL_INV, shader); }
-    Ref<Shader> get_shader_mask_mul_inv() const { return this->get_shader(GD_CUBISM_SHADER_MASK_MUL_INV); }    
-
-    // for Signal
-    static void on_motion_finished(Csm::ACubismMotion* motion);
-
+    Array get_meshes() const;
+    
     void _update(const float delta);
 
     void advance(const float delta);
@@ -187,8 +189,6 @@ public:
     void cubism_effect_dirty_reset();
 
     // Properties
-    void setup_property();
-
     bool _set(const StringName &p_name, const Variant &p_value);
     bool _get(const StringName &p_name, Variant &r_ret) const;
     bool _property_can_revert(const StringName &p_name) const;
@@ -199,7 +199,6 @@ public:
     void _enter_tree() override;
     void _exit_tree() override;
     void _process(double delta) override;
-    void _physics_process(double delta) override;
 
     void _on_append_child_act(GDCubismEffect* node);
     void _on_remove_child_act(GDCubismEffect* node);

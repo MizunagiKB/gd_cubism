@@ -8,6 +8,8 @@
 #include <CubismFramework.hpp>
 
 #include <importers/gd_cubism_motion_importer.hpp>
+#include <importers/gd_cubism_expression_importer.hpp>
+#include <importers/gd_cubism_model_importer.hpp>
 #include <private/internal_cubism_allocator.hpp>
 #include <gd_cubism_effect.hpp>
 #include <gd_cubism_effect_breath.hpp>
@@ -20,6 +22,8 @@
 #include <gd_cubism_value_parameter.hpp>
 #include <gd_cubism_value_part_opacity.hpp>
 #include <gd_cubism_user_model.hpp>
+#include <gd_cubism_expression.hpp>
+#include <gd_cubism_expression_controller.hpp>
 #include <register_types.hpp>
 #include <plugin.hpp>
 
@@ -43,6 +47,8 @@ void output(const char *message) {
 void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
         ClassDB::register_class<GDCubismMotionImporter>();
+        ClassDB::register_class<GDCubismExpressionImporter>();
+        ClassDB::register_class<GDCubismModelImporter>();
         ClassDB::register_class<GDCubismPlugin>();
         EditorPlugins::add_by_type<GDCubismPlugin>();
     }
@@ -72,9 +78,12 @@ void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     GDREGISTER_CLASS(GDCubismParameter);
     GDREGISTER_CLASS(GDCubismPartOpacity);
 
+    GDREGISTER_CLASS(GDCubismExpression);
+
     ClassDB::register_class<GDCubismMotionQueueEntryHandle>();
     ClassDB::register_class<GDCubismMotionEntry>();
     ClassDB::register_class<GDCubismUserModel>();
+    ClassDB::register_class<GDCubismExpressionController>();
 }
 
 void uninitialize_gd_cubism_module(ModuleInitializationLevel p_level) {

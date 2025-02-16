@@ -14,15 +14,17 @@
 #include <CubismFramework.hpp>
 #include <CubismModelSettingJson.hpp>
 
-#include <private/internal_cubism_renderer_resource.hpp>
-
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
+using namespace godot;
+
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
+class GDCubismUserModel;
+class GDCubismEffect;
 class GDCubismEffectBreath;
 class GDCubismEffectCustom;
 class GDCubismEffectEyeBlink;
@@ -47,39 +49,28 @@ public:
     InternalCubismUserModel(GDCubismUserModel *owner_viewport);
     virtual ~InternalCubismUserModel();
 
+    static Vector2 get_size(const Csm::CubismModel *model);
+    static Vector2 get_origin(const Csm::CubismModel *model);
+    static float get_ppunit(const Csm::CubismModel *model);
+
 public:
     GDCubismUserModel *_owner_viewport = nullptr;
-
+    
 private:
-    InternalCubismRendererResource _renderer_resource;
-    GDCubismUserModel::moc3FileFormatVersion _moc3_file_format_version;
-    String _model_pathname;
-    Csm::ICubismModelSetting* _model_setting;
-    Csm::csmVector<Csm::CubismIdHandle> _list_eye_blink;
-    Csm::csmVector<Csm::CubismIdHandle> _list_lipsync;
+    Array _list_eye_blink;
+    Array _list_lipsync;
+    Array ary_hit_areas;
     Csm::csmMap<Csm::csmString,Csm::CubismExpressionMotion*> _map_expression;
-    Csm::csmMap<Csm::csmString,Csm::CubismMotion*> _map_motion;
 
 public:
-    bool model_load(const String &model_pathname);
-    void model_load_resource();
+    bool model_bind();
     void pro_update(const float delta);
     void efx_update(const float delta);
     void epi_update(const float delta);
     void update_node();
     void clear();
 
-    void stop();
-
-    void expression_set(const char* expression_id);
-    void expression_stop();
-
 private:
-    void expression_load();
-    void physics_load();
-    void pose_load();
-    void userdata_load();
-
     void effect_init();
     void effect_term();
     void effect_batch(const float delta, const EFFECT_CALL efx_call);
