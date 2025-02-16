@@ -111,10 +111,6 @@ bool InternalCubismUserModel::model_load(
     this->_model->SaveParameters();
 
     // Motion
-    if(this->_owner_viewport->enable_load_motions == true) {
-        this->motion_load();
-    }
-
     this->CreateRenderer();
 
     // Resource(Texture)
@@ -178,12 +174,6 @@ void InternalCubismUserModel::pro_update(const float delta) {
     if(this->_model == nullptr) return;
 
     this->effect_batch(delta, EFFECT_CALL_PROLOGUE);
-
-    if(this->_owner_viewport->parameter_mode == GDCubismUserModel::ParameterMode::FULL_PARAMETER) {
-        this->_model->LoadParameters();
-        this->_motionManager->UpdateMotion(this->_model, delta);
-        this->_model->SaveParameters();
-    }
 
     if(this->_expressionManager != nullptr) {
         this->_expressionManager->UpdateMotion(this->_model, delta);
@@ -250,7 +240,6 @@ void InternalCubismUserModel::clear() {
     }
 
     {
-        this->motion_stop();
         for(csmMap<csmString,CubismMotion*>::const_iterator i = this->_map_motion.Begin(); i != this->_map_motion.End(); i++) {
             ACubismMotion::Delete(i->Second);
         }
@@ -273,7 +262,6 @@ void InternalCubismUserModel::clear() {
 
 void InternalCubismUserModel::stop() {
     this->expression_stop();
-    this->motion_stop();
 }
 
 
@@ -295,45 +283,6 @@ void InternalCubismUserModel::expression_set(const char* expression_id) {
 void InternalCubismUserModel::expression_stop() {
     if(this->_expressionManager == nullptr) return;
     this->_expressionManager->StopAllMotions();
-}
-
-
-CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in, void* custom_data) {
-
-    if (priority == GDCubismUserModel::Priority::PRIORITY_FORCE) {
-        this->_motionManager->SetReservePriority(priority);
-    } else if (!this->_motionManager->ReserveMotion(priority)) {
-        return InvalidMotionQueueEntryHandleValue;
-    }
-
-    csmString name = Utils::CubismString::GetFormatedString("%s_%d", group, no);
-
-    CubismMotion* motion = this->_map_motion[name];
-
-    if(motion == nullptr ) return InvalidMotionQueueEntryHandleValue;
-
-    motion->IsLoop(loop);
-    motion->IsLoopFadeIn(loop_fade_in);
-    motion->SetFinishedMotionHandler(GDCubismUserModel::on_motion_finished);
-    #ifdef CUBISM_MOTION_CUSTOMDATA
-    motion->SetFinishedMotionCustomData(custom_data);
-    #endif // CUBISM_MOTION_CUSTOMDATA
-
-    return this->_motionManager->StartMotionPriority(motion, false, priority);
-}
-
-
-void InternalCubismUserModel::motion_stop() {
-    if(this->_motionManager == nullptr) return;
-    this->_motionManager->StopAllMotions();
-}
-
-
-void InternalCubismUserModel::MotionEventFired(const csmString& eventValue) {
-    if(this->_owner_viewport != nullptr) {
-        String value; value.parse_utf8(eventValue.GetRawString());
-        this->_owner_viewport->emit_signal("motion_event", value);
-    }
 }
 
 
@@ -400,54 +349,6 @@ void InternalCubismUserModel::userdata_load() {
     PackedByteArray buffer = FileAccess::get_file_as_bytes(userdata_pathname);
     if(buffer.size() > 0) {
         this->LoadUserData(buffer.ptr(), buffer.size());
-    }
-}
-
-
-void InternalCubismUserModel::motion_load() {
-    if(this->_model_setting == nullptr) return;
-    if(this->_model_setting->GetMotionGroupCount() == 0) return;
-
-    for (csmInt32 ig = 0; ig < this->_model_setting->GetMotionGroupCount(); ig++)
-    {
-        //PreloadMotionGroup(group);
-        const csmChar* group = this->_model_setting->GetMotionGroupName(ig);
-        const csmInt32 motion_count = this->_model_setting->GetMotionCount(group);
-
-        if(motion_count == 0) continue;
-
-        for (csmInt32 im = 0; im < motion_count; im++)
-        {
-            csmString name = Utils::CubismString::GetFormatedString("%s_%d", group, im);
-
-            String gd_filename; gd_filename.parse_utf8(this->_model_setting->GetMotionFileName(group, im));
-            String motion_pathname = this->_model_pathname.get_base_dir().path_join(gd_filename);
-
-            PackedByteArray buffer = FileAccess::get_file_as_bytes(motion_pathname);
-            CubismMotion* motion = static_cast<CubismMotion*>(this->LoadMotion(
-                buffer.ptr(),
-                buffer.size(),
-                name.GetRawString()
-            ));
-
-            csmFloat32 fade_time_sec = this->_model_setting->GetMotionFadeInTimeValue(group, im);
-            if (fade_time_sec >= 0.0f) {
-                motion->SetFadeInTime(fade_time_sec);
-            }
-
-            fade_time_sec = this->_model_setting->GetMotionFadeOutTimeValue(group, im);
-            if (fade_time_sec >= 0.0f) {
-                motion->SetFadeOutTime(fade_time_sec);
-            }
-            static_cast<CubismMotion*>(motion)->SetEffectIds(this->_list_eye_blink, this->_list_lipsync);
-
-            if(this->_map_motion[name] != nullptr) {
-                ACubismMotion::Delete(this->_map_motion[name]);
-                this->_map_motion[name] = nullptr;
-            }
-
-            this->_map_motion[name] = motion;
-        }
     }
 }
 

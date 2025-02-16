@@ -92,37 +92,16 @@ public:
         PRIORITY_FORCE = 3
     };
 
-    enum ParameterMode {
-        FULL_PARAMETER = 0,
-        NONE_PARAMETER = 1
-    };
-
-    enum MotionProcessCallback {
-        PHYSICS = 0,
-        IDLE = 1,
-        MANUAL = 2
-    };
-
     String assets;
     InternalCubismUserModel *internal_model;
     bool enable_load_expressions;
-    bool enable_load_motions;
-
-    float speed_scale;
-
-    ParameterMode parameter_mode;
-    MotionProcessCallback playback_process_mode;
 
     Array ary_shader;
     Array ary_parameter;
     Array ary_part_opacity;
 
-    Csm::csmBool anim_loop;
-    Csm::csmBool anim_loop_fade_in;
     Csm::csmMap<String,anim_expression> dict_anim_expression;
     String curr_anim_expression_key;
-    Csm::csmMap<String,anim_motion> dict_anim_motion;
-    String curr_anim_motion_key;
 
     Csm::csmVector<GDCubismEffect*> _list_cubism_effect;
     bool cubism_effect_dirty;
@@ -152,20 +131,8 @@ public:
 
     bool is_initialized() const;
 
-    void set_parameter_mode(const ParameterMode value);
-    GDCubismUserModel::ParameterMode get_parameter_mode() const;
-
-    void set_process_callback(const MotionProcessCallback value);
-    GDCubismUserModel::MotionProcessCallback get_process_callback() const;
-
     void set_speed_scale(const float speed);
     float get_speed_scale() const;
-
-    Dictionary get_motions() const;
-    Ref<GDCubismMotionQueueEntryHandle> start_motion(const String str_group, const int32_t no, const Priority priority);
-    Ref<GDCubismMotionQueueEntryHandle> start_motion_loop(const String str_group, const int32_t no, const Priority priority, const bool loop, const bool loop_fade_in);
-    Array get_cubism_motion_queue_entries() const;
-    void stop_motion();
 
     Array get_expressions() const;
     void start_expression(const String expression_id);
@@ -240,9 +207,6 @@ public:
 
 VARIANT_ENUM_CAST(GDCubismUserModel::moc3FileFormatVersion);
 VARIANT_ENUM_CAST(GDCubismUserModel::Priority);
-VARIANT_ENUM_CAST(GDCubismUserModel::ParameterMode);
-VARIANT_ENUM_CAST(GDCubismUserModel::MotionProcessCallback);
-
 
 // ------------------------------------------------------------------ method(s)
 
