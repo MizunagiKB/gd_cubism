@@ -151,7 +151,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
         if (node == nullptr) {
             continue;
         }
-        const bool visible = model->GetDrawableDynamicFlagIsVisible(index);
+        const bool visible = model->GetDrawableDynamicFlagIsVisible(index) && model->GetDrawableOpacity(index) > 0.0f;
         node->set_visible(visible);
         Ref<ShaderMaterial> mat = node->get_material();
         
