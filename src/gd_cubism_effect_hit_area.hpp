@@ -56,8 +56,7 @@ protected:
 
 private:
     Vector2 _target;
-    bool _initialized = false;
-    bool _target_update;
+    bool _target_update = false;
     bool _monitoring = true;
     Dictionary _dict_monitoring;
 
@@ -148,18 +147,25 @@ public:
 
     bool get_monitoring() const { return this->_monitoring; }
 
-    virtual void _cubism_init(InternalCubismUserModel* internal_model) override {
-        if(internal_model == nullptr) return;
+    virtual void _cubism_init(InternalCubismUserModel* model) override {
+        if(this->_initialized == true) return;
+
         this->_dict_monitoring.clear();
         this->_target_update = false;
+
         this->_initialized = true;
     }
 
-    virtual void _cubism_term(InternalCubismUserModel* internal_model) override {
+    virtual void _cubism_term(InternalCubismUserModel* model) override {
+        if(this->_initialized == false) return;
+
+        this->_dict_monitoring.clear();
+
         this->_initialized = false;
     }
 
     virtual void _cubism_process(InternalCubismUserModel* model, const float delta) override {
+        if(this->_initialized == false) return;
         if(this->_active == false) return;
 
         Csm::ICubismModelSetting* setting = model->_model_setting;
@@ -191,9 +197,7 @@ public:
                 this->_dict_monitoring[id] = false;
             }
         }
-    }
 
-    virtual void _cubism_epilogue(InternalCubismUserModel* model, const float delta) override {
         this->_target_update = false;
     }
 };

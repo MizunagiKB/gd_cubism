@@ -8,7 +8,7 @@
 	</tutorials>
 	<members>
 		<member name="active" type="bool" setter="set_active" getter="get_active" default="true">
-			When this value is _true_, the __cubism_prologue_, __cubism_process_, __cubism_epilogue_ functions are called.
+			When this value is [code]true[/code], the [code]_cubism_prologue[/code], [code]_cubism_process[/code], [code]_cubism_epilogue[/code] functions are called.
 		</member>
 	</members>
 </class>

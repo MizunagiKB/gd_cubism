@@ -31,6 +31,12 @@ docs-site/node_modules
 docs-site/package-lock.json
 docs-site/package.json
 
+# for Node
+node_modules
+package-lock.json
+package.json
+
+
 # for Experimental
 thirdparty/CubismNativeFramework
 thirdparty/CubismSdkForNative*

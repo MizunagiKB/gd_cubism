@@ -28,6 +28,7 @@ class GDCubismEffect : public Node {
 
 protected:
     bool _active = true;
+    bool _initialized = false;
 
 protected:
     static void _bind_methods();

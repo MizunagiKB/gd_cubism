@@ -16,12 +16,6 @@
 				Please specify a value of 0.0 or more for delta.
 			</description>
 		</method>
-		<method name="clear">
-			<return type="void" />
-			<description>
-				Destroys the currently held Live2D model.
-			</description>
-		</method>
 		<method name="csm_get_latest_moc_version">
 			<return type="int" enum="GDCubismUserModel.moc3FileFormatVersion" />
 			<description>
@@ -69,10 +63,10 @@
 		<method name="get_hit_areas" qualifiers="const">
 			<return type="Array" />
 			<description>
-			Gets information about [i]HitArea[/i] set in Live2D model.
+				Gets information about [i]HitArea[/i] set in Live2D model.
 			The elements of array are [Dictionary], and have elements id and name.
 			id points to mesh element, so it can be used as a key for [method GDCubismUserModel.get_meshes].
-			
+
 			You can implement interaction with Live2D model using this function and information obtained from [method GDCubismUserModel.get_meshes].
 			If you don't need advanced processing, you can easily use it by using [GDCubismEffectHitArea] class.
 			</description>
@@ -171,7 +165,7 @@
 	<members>
 		<member name="adjust_position" type="Vector2" setter="set_adjust_position" getter="get_adjust_position" default="Vector2(0, 0)">
 			Changes the rendering position of the Live2D model.
-			GDCubism performs the rendering of the Live2D model within its own SubViewport.
+			GDCubism performs the rendering of the Live2D model within its own [SubViewport].
 			By adjusting this parameter, you can close-up a part of the Live2D model or use it when the auto_scale rendered result is not drawn well.
 		</member>
 		<member name="adjust_scale" type="float" setter="set_adjust_scale" getter="get_adjust_scale" default="1.0">
@@ -181,7 +175,7 @@
 		</member>
 		<member name="assets" type="String" setter="set_assets" getter="get_assets" default="&quot;&quot;">
 			By specifying a file with the [code]*.model3.json[/code] extension, you can load the Live2D model. As soon as you specify a file, it will be loaded immediately.
-			Since the [method GDCubismUserModel.clear] function is called internally, if you want to switch the Live2D model, you can do so by simply specifying a new file.
+			if you want to switch the Live2D model, you can do so by simply specifying a new file.
 		</member>
 		<member name="auto_scale" type="bool" setter="set_auto_scale" getter="get_auto_scale" default="true">
 			[GDCubismUserModel] tries to render the Live2D model to fit within the [SubViewport] size specified for itself. Therefore, there may be results that the creator of the Live2D model did not intend.
@@ -194,7 +188,7 @@
 			If set to [code]false[/code], it will not load [i]Motions[/i] when loading the Live2D Model.
 		</member>
 		<member name="mask_viewport_size" type="Vector2i" setter="set_mask_viewport_size" getter="get_mask_viewport_size" default="Vector2i(0, 0)">
-		Specify the resolution for the mask image required for the Live2D model.
+			Specify the resolution for the mask image required for the Live2D model.
 		If either x or y is set to 0, the same size as the Viewport set in [GDCubismUserModel] will be used.
 
 		Reducing the resolution can help conserve GPU memory.
@@ -390,7 +384,7 @@
 			void fragment() {
 			    vec4 color_tex = texture(tex_main, UV);
 			    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
-				
+
 			    // premul alpha    
 			    color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
 			    vec4 color_for_mask = color_tex * color_base;
@@ -467,7 +461,7 @@
 			void fragment() {
 			    vec4 color_tex = texture(tex_main, UV);
 			    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
-				
+
 			    // premul alpha    
 			    color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
 			    vec4 color_for_mask = color_tex * color_base;
@@ -612,14 +606,15 @@
 		</constant>
 		<constant name="FULL_PARAMETER" value="0" enum="ParameterMode">
 			Specify this when playing the [i]Motion[/i] specified by the [method GDCubismUserModel.start_motion] function.
-			When this is specified, operations by gd_cubism_parameter cannot be performed.
+			When this is specified, operations by [GDCubismParameter] cannot be performed.
 		</constant>
 		<constant name="NONE_PARAMETER" value="1" enum="ParameterMode">
-			Specify this when using the gd_cubism_parameter.adoc obtained by the [method GDCubismUserModel.get_parameters] function to operate the Live2D model.
+			Specify this when using the [GDCubismParameter] obtained by the [method GDCubismUserModel.get_parameters] function to operate the Live2D model.
 			When this is specified, motion playback cannot be performed by the [method GDCubismUserModel.start_motion] function.
 		</constant>
 		<constant name="PHYSICS" value="0" enum="MotionProcessCallback">
-			The animation update process is performed within the [code]_physics_process[/code] function. Use this when you want to interact with physical simulation.
+			The animation update process is performed within the [code]_physics_process[/code] function.
+			Use this when you want to interact with physical simulation.
 		</constant>
 		<constant name="IDLE" value="1" enum="MotionProcessCallback">
 			The animation update process is performed within the [code]_process[/code] function.
