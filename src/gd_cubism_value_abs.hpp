@@ -74,7 +74,11 @@ public:
     int32_t get_idx() const { return this->idx; }
     void set_idx(int32_t idx) { this->idx = idx; }
     
-    void set_value(const float value) { this->value = value; this->changed = true; }
+    virtual void set_value(const float value) {
+        this->changed = true; 
+        this->value = value;
+    }
+
     float get_value() const { return this->value; }
 
     void sync(Csm::CubismModel *model) {

@@ -149,7 +149,7 @@ bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
     for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++) {
         Ref<GDCubismParameter> p = Object::cast_to<GDCubismParameter>(this->ary_parameter[index]);
         if(p != nullptr && p->id == p_name) {
-            p->value = p_value;
+            p->set_value(p_value);
             return true;
         }
     }
@@ -157,7 +157,7 @@ bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
     for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++) {
         Ref<GDCubismPartOpacity> p = Object::cast_to<GDCubismPartOpacity>(this->ary_part_opacity[index]);
         if(p != nullptr && p->id == p_name) {
-            p->value = p_value;
+            p->set_value(p_value);
             return true;
         }
     }
@@ -170,7 +170,7 @@ bool GDCubismUserModel::_get(const StringName &p_name, Variant &r_ret) const {
     for(int64_t index = 0; index < this->ary_parameter.size(); index++) {
         Ref<GDCubismParameter> p = Object::cast_to<GDCubismParameter>(this->ary_parameter[index]);
         if(p != nullptr && p->id == p_name) {
-            r_ret = p->value;
+            r_ret = p->get_value();
             return true;
         }
     }
@@ -178,7 +178,7 @@ bool GDCubismUserModel::_get(const StringName &p_name, Variant &r_ret) const {
     for(int64_t index = 0; index < this->ary_part_opacity.size(); index++) {
         Ref<GDCubismPartOpacity> p = Object::cast_to<GDCubismPartOpacity>(this->ary_part_opacity[index]);
         if(p != nullptr && p->id == p_name) {
-            r_ret = p->value;
+            r_ret = p->get_value();
             return true;
         }
     }
@@ -201,7 +201,7 @@ bool GDCubismUserModel::_property_get_revert(const StringName &p_name, Variant &
     for(int64_t index = 0; index < this->ary_parameter.size(); index++) {
         GDCubismParameter *p = Object::cast_to<GDCubismParameter>(this->ary_parameter[index]);
         if(p->id == p_name) {
-            r_property = p->default_value;
+            r_property = p->get_default_value();
             return true;
         }
     }
@@ -218,8 +218,8 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
         Ref<GDCubismParameter> param = this->ary_parameter[index];
 
         Array ary_value;
-        ary_value.append(param->minimum_value);
-        ary_value.append(param->maximum_value);
+        ary_value.append(param->get_minimum_value());
+        ary_value.append(param->get_maximum_value());
 
         PropertyInfo pinfo(
             Variant::FLOAT,

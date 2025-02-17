@@ -107,6 +107,11 @@ public:
     void set_maximum_value(float v) { this->maximum_value = v; }
     void set_default_value(float v) { this->default_value = v; }
 
+    void set_value(const float value) override {
+        this->changed = true; 
+        this->value = Math::clamp(value, this->get_minimum_value(), this->get_maximum_value());
+    }
+
     void set_hold(const bool value) { this->hold = value; }
     bool get_hold() const { return this->hold; }
 
