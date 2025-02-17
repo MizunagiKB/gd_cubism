@@ -10,6 +10,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/shader_material.hpp>
 #include <godot_cpp/classes/canvas_group.hpp>
+#include <godot_cpp/classes/animation_player.hpp>
 
 #include <importers/gd_cubism_model_importer.hpp>
 #include <importers/gd_cubism_motion_importer.hpp>
@@ -120,7 +121,7 @@ void GDCubismModelImporter::build_model(InternalCubismRenderer2D* renderer, GDCu
     const Vector2 vct_size = InternalCubismUserModel::get_size(model);
     const Vector2 vct_origin = InternalCubismUserModel::get_origin(model);
 
-    CanvasGroup *meshes = memnew(CanvasGroup);
+    Node2D *meshes = memnew(Node2D);
     meshes->set_name("Meshes");
     meshes->set_position(-vct_origin);
     target_node->add_child(meshes);
@@ -152,6 +153,9 @@ void GDCubismModelImporter::build_model(InternalCubismRenderer2D* renderer, GDCu
         node->set_z_index(renderOrder[index]);
         node->set_meta("index", index);
 		
+        const bool visible = model->GetDrawableDynamicFlagIsVisible(index) && model->GetDrawableOpacity(index) > 0.0f;
+        node->set_visible(visible);
+
         meshes->add_child(node);
         node->set_owner(target_node);
 
@@ -332,37 +336,41 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
 		renderer->IsPremultipliedAlpha(false);
 		renderer->DrawModel();
 		GDCubismModelImporter::build_model(renderer, model, textures, shaders);
-
-		Rendering::CubismRenderer::Delete(renderer);
 	}
 
 	// Load Animations
-	if (include_motions) {
-		AnimationLibrary *animations = memnew(AnimationLibrary);
-        ResourceLoader *res_loader = ResourceLoader::get_singleton();
-		Array motion_files = walk_files(assets.get_base_dir(), "motion3.json");
-		for (int i = 0; i < motion_files.size(); i++) {
-			String motion = motion_files[i];
-            UtilityFunctions::print(motion);
-            Ref<Animation> anim;
-            if (res_loader->exists(motion)) {
-                anim = res_loader->load(motion);
-            } else {
-                anim = GDCubismMotionImporter::parse_motion(motion);
-                anim->take_over_path(motion);
-            }
-			animations->add_animation(motion.get_file(), anim);
-		}
-        model->set_animations(animations);
-	} else {
-        model->set_animations(memnew(AnimationLibrary));
-    }
+    {
+        AnimationPlayer *anim_player = memnew(AnimationPlayer);
+        AnimationLibrary *animations = memnew(AnimationLibrary);
+        anim_player->add_animation_library("", animations);
+        model->add_child(anim_player);
+        anim_player->set_callback_mode_process(AnimationPlayer::ANIMATION_CALLBACK_MODE_PROCESS_MANUAL);
+        anim_player->set_owner(model);
+        anim_player->set_name("MotionController");
+        anim_player->set_root_node(NodePath(".."));
 
-	model->notify_property_list_changed();
+        if (include_motions) {
+            ResourceLoader *res_loader = ResourceLoader::get_singleton();
+            Array motion_files = walk_files(assets.get_base_dir(), "motion3.json");
+            for (int i = 0; i < motion_files.size(); i++) {
+                String motion = motion_files[i];
+                UtilityFunctions::print(motion);
+                Ref<Animation> anim = res_loader->load(motion);
+                if (anim.is_null()) {
+                    anim = GDCubismMotionImporter::parse_motion(motion);
+                }
+                if (anim.is_valid()) {
+                    animations->add_animation(motion.get_file(), anim);
+                }
+            }
+        }
+    }
 
 	model->set_name(assets.get_file());
 	model->set_scene_file_path(assets);
-    
+
+    CSM_DELETE(internal_model);
+
     return model;
 }
 
@@ -378,8 +386,6 @@ static void get_expressions(GDCubismUserModel *model) {
 
 Error GDCubismModelImporter::_import(const String &p_source_file, const String &p_save_path, const Dictionary &p_options, const TypedArray<String> &p_platform_variants, const TypedArray<String> &p_gen_files) const {
     ERR_FAIL_COND_V(!p_source_file.ends_with(".model3.json"), Error::FAILED);
-
-	UtilityFunctions::print("loading model");
 
 	ResourceLoader* res_loader = ResourceLoader::get_singleton();
 	Array shaders;
@@ -408,8 +414,6 @@ Error GDCubismModelImporter::_import(const String &p_source_file, const String &
 
 	PackedScene *p = memnew(PackedScene);
 	ERR_FAIL_COND_V(p->pack(m) != OK, Error::FAILED);
-
-	UtilityFunctions::print("model packed");
 
     String filename = p_save_path + String(".") + this->_get_save_extension();
     return ResourceSaver::get_singleton()->save(p, filename);

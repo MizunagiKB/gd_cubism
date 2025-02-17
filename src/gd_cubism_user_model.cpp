@@ -105,6 +105,10 @@ Dictionary GDCubismUserModel::get_mesh_dict() const {
 }
 
 void GDCubismUserModel::_update(const float delta) {
+    if (this->get_animation_player() != nullptr) {
+        this->get_animation_player()->advance(delta);
+    }
+    
     this->internal_model->pro_update(delta);
 
     this->internal_model->efx_update(delta);
@@ -290,11 +294,8 @@ void GDCubismUserModel::_ready() {
 
             Ref<ShaderMaterial> mat = mesh->get_material();
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
-        }
-            
+        }   
     }
-    
-    this->notify_property_list_changed();
 }
 
 

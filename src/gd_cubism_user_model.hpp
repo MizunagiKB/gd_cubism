@@ -12,6 +12,8 @@
 #include <godot_cpp/classes/shader.hpp>
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/animation_library.hpp>
+#include <godot_cpp/classes/animation_player.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 #include <CubismFramework.hpp>
 #include <Math/CubismVector2.hpp>
@@ -67,7 +69,6 @@ public:
     }
 };
 
-
 class GDCubismUserModel : public Node2D {
     GDCLASS(GDCubismUserModel, Node2D);
 
@@ -122,7 +123,7 @@ protected:
         // Parameter
         ClassDB::bind_method(D_METHOD("get_parameters"), &GDCubismUserModel::get_parameters);
         ClassDB::bind_method(D_METHOD("set_parameters"), &GDCubismUserModel::set_parameters);
-        ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "parameters"), "set_parameters", "get_parameters");
+        ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "parameters", PROPERTY_HINT_RESOURCE_TYPE, "GDCubismParameter"), "set_parameters", "get_parameters");
 
         // PartOpacity
         ClassDB::bind_method(D_METHOD("get_part_opacities"), &GDCubismUserModel::get_part_opacities);
@@ -133,8 +134,8 @@ protected:
 
         // Animations
         ClassDB::bind_method(D_METHOD("get_animations"), &GDCubismUserModel::get_animations);
-        ClassDB::bind_method(D_METHOD("set_animations"), &GDCubismUserModel::set_animations);
-        ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "animations", PROPERTY_HINT_RESOURCE_TYPE, "AnimationLibrary"), "set_animations", "get_animations");
+
+        ClassDB::bind_method(D_METHOD("get_animation_player"), &GDCubismUserModel::get_animation_player);
 
         ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
 
@@ -164,10 +165,18 @@ public:
     Array get_hit_areas() const { return this->hit_areas; }
 
     Array get_parameters() const { return this->ary_parameter; };
-    void set_parameters(const Array parameters) { this->ary_parameter = parameters; }
+    void set_parameters(const Array parameters) { 
+        UtilityFunctions::print(parameters);
+        this->ary_parameter = parameters; 
+    }
     
-    AnimationLibrary* get_animations() const { return this->ani_lib; };
-    void set_animations(AnimationLibrary* library) { this->ani_lib = library; }
+    Ref<AnimationLibrary> get_animations() { 
+        return this->get_animation_player()->get_animation_library("");
+    }
+
+    AnimationPlayer* get_animation_player() {
+        return Object::cast_to<AnimationPlayer>(this->get_node_or_null("MotionController")); 
+    }
     
     Array get_part_opacities() const {
         return this->ary_part_opacity;
