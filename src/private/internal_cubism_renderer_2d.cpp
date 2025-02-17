@@ -12,6 +12,7 @@
 #include <private/internal_cubism_user_model.hpp>
 
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <godot_cpp/classes/viewport_texture.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -88,67 +89,56 @@ void InternalCubismRenderer2D::update(Array meshes)
 
     const float ppunit = InternalCubismUserModel::get_ppunit(model);
 
-    for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
+    for (int i = 0; i < meshes.size(); i++)
     {
-        if (model->GetDrawableVertexCount(index) == 0)
-            continue;
-        if (model->GetDrawableVertexIndexCount(index) == 0)
-            continue;
+        MeshInstance2D *node = Object::cast_to<MeshInstance2D>(meshes[i]);
+        if (node == nullptr) continue;
         
-        MeshInstance2D *node = Object::cast_to<MeshInstance2D>(meshes[index]);
-        if (node == nullptr) {
-            continue;
-        }
+        int32_t index = node->get_meta("index", -1);
+        if (index < 0) continue;
+
         const bool visible = model->GetDrawableDynamicFlagIsVisible(index) && model->GetDrawableOpacity(index) > 0.0f;
         node->set_visible(visible);
         Ref<ShaderMaterial> mat = node->get_material();
         
-        if (visible) {
-            this->update_mesh(model, index, false, node->get_mesh());
-            this->update_material(model, index, mat);
-            node->set_z_index(renderOrder[index]);
+        this->update_mesh(model, index, false, node->get_mesh());
+        this->update_material(model, index, mat);
+        node->set_z_index(renderOrder[index]);
+        
+        if (!node->has_meta("viewport")) continue;
+
+        NodePath path_to_viewport = node->get_meta("viewport");
+        SubViewport *viewport = Object::cast_to<SubViewport>(node->get_node_or_null(path_to_viewport));
+        if (viewport == nullptr) continue;
+
+        if (!visible) {
+            viewport->set_size(Vector2i(1,1));
+        } else {
+            AABB bounds = node->get_mesh()->get_aabb();
+            Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
+            Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
+            viewport->set_size(viewport_size);
+            viewport->set_canvas_transform(
+                Transform2D(0, -viewport_offset)
+            );
+
+            mat->set_shader_parameter("tex_mask", viewport->get_texture());
+            mat->set_shader_parameter("mesh_offset", viewport_offset);
         }
         
-        if (model->GetDrawableMaskCounts()[index] > 0) {
-            NodePath path_to_viewport = node->get_meta("viewport");
-            SubViewport *viewport = Object::cast_to<SubViewport>(node->get_node_or_null(path_to_viewport));
-            if (viewport == nullptr) {
-                continue;
-            }
-            if (!visible) {
-                viewport->set_size(Vector2i(1,1));
-            } else {
-                AABB bounds = node->get_mesh()->get_aabb();
-                Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
-                Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
-                viewport->set_size(viewport_size);
-                viewport->set_canvas_transform(
-                    Transform2D(0, -viewport_offset)
-                );
-                mat->set_shader_parameter("mesh_offset", viewport_offset);
-            }
-            
-            const Array masks = viewport->get_children();
-            
-            for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
-            {
-                Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
-
-                if (model->GetDrawableVertexCount(j) == 0)
-                    continue;
-                if (model->GetDrawableVertexIndexCount(j) == 0)
-                    continue;
+        const Array masks = viewport->get_children();
         
-                MeshInstance2D *node = Object::cast_to<MeshInstance2D>(masks[m_index]);
-                node->set_visible(visible);
+        for (int j = 0; j < masks.size(); j++)
+        {
+            MeshInstance2D *node = Object::cast_to<MeshInstance2D>(masks[j]);
+            int32_t m_idx = node->get_meta("index", -1);
+            if (m_idx < 0) continue;
+            
+            // masks are always drawn
+            node->set_visible(true);
 
-                if (!visible) {
-                    continue;
-                }
-
-                this->update_mesh(model, j, true, node->get_mesh());
-                node->set_z_index(renderOrder[index]);
-            }
+            this->update_mesh(model, m_idx, true, node->get_mesh());
+            node->set_z_index(renderOrder[m_idx]);
         }
     }
 }

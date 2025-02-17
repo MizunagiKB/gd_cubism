@@ -98,7 +98,6 @@ public:
 
     Array ary_meshes;
     Dictionary dict_mesh;
-    Dictionary dict_mask;
 
     Array ary_parameter;
     Array ary_part_opacity;
@@ -130,7 +129,7 @@ protected:
 
         // Meshes
         ClassDB::bind_method(D_METHOD("get_meshes"), &GDCubismUserModel::get_meshes);
-        ClassDB::bind_method(D_METHOD("get_masks"), &GDCubismUserModel::get_masks);
+        ClassDB::bind_method(D_METHOD("get_mesh_dictionary"), &GDCubismUserModel::get_mesh_dict);
 
         // Animations
         ClassDB::bind_method(D_METHOD("get_animations"), &GDCubismUserModel::get_animations);
@@ -176,8 +175,6 @@ public:
     void set_part_opacities(const Array opacities) { this->ary_part_opacity = opacities; }
 
     Dictionary get_mesh_dict() const;
-
-    Dictionary get_masks() const;
 
     Array get_meshes() const;
     

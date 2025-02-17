@@ -6,15 +6,15 @@
 #include <godot_cpp/classes/json.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/ref.hpp>
-#include <godot_cpp/classes/sprite2d.hpp>
-#include <godot_cpp/classes/window.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/mesh.hpp>
 #include <godot_cpp/classes/sub_viewport.hpp>
+#include <godot_cpp/classes/viewport_texture.hpp>
 #include <godot_cpp/classes/canvas_item.hpp>
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/classes/mesh_instance2d.hpp>
+#include <godot_cpp/classes/shader_material.hpp>
 
 #include <CubismFramework.hpp>
 #include <Model/CubismModel.hpp>
@@ -98,10 +98,6 @@ bool GDCubismUserModel::is_initialized() const {
 
 Array GDCubismUserModel::get_meshes() const {
     return this->ary_meshes;
-}
-
-Dictionary GDCubismUserModel::get_masks() const {
-    return this->dict_mask;
 }
 
 Dictionary GDCubismUserModel::get_mesh_dict() const { 
@@ -276,16 +272,26 @@ void GDCubismUserModel::_ready() {
         this->internal_model = internal_model;
     }
     
-    for (int i = 0; i < this->get_child_count(); i++) {
-        SubViewport *v = Object::cast_to<SubViewport>(this->get_child(i));
-        if (v != nullptr) {
-            this->dict_mask[v->get_name()] = v->get_children();
-        }
-        MeshInstance2D *mesh = Object::cast_to<MeshInstance2D>(this->get_child(i));
-        if (mesh != nullptr) {
+    Node *meshes = this->get_node_or_null(NodePath("Meshes"));
+    if (meshes != nullptr) {
+        for (int i = 0; i < meshes->get_child_count(); i++) {
+            MeshInstance2D *mesh = Object::cast_to<MeshInstance2D>(meshes->get_child(i));
+            if (mesh == nullptr) continue;
+
             this->ary_meshes.append(mesh);
             this->dict_mesh[mesh->get_name()] = mesh;
+
+            // reconnect masks to their viewports, which have a tendency to not save properly in packecscenes
+            if (!mesh->has_meta("viewport")) continue;
+
+            NodePath viewport_path = mesh->get_meta("viewport");
+            SubViewport *viewport = Object::cast_to<SubViewport>(mesh->get_node_or_null(viewport_path));
+            if (viewport == nullptr) continue;
+
+            Ref<ShaderMaterial> mat = mesh->get_material();
+            mat->set_shader_parameter("tex_mask", viewport->get_texture());
         }
+            
     }
     
     this->notify_property_list_changed();

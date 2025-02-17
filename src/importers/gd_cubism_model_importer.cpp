@@ -3,7 +3,6 @@
 #include <godot_cpp/classes/image.hpp>
 #include <godot_cpp/classes/image_texture.hpp>
 #include <godot_cpp/classes/sub_viewport.hpp>
-#include <godot_cpp/classes/viewport_texture.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/dir_access.hpp>
 #include <godot_cpp/classes/json.hpp>
@@ -114,10 +113,19 @@ void GDCubismModelImporter::build_model(InternalCubismRenderer2D* renderer, GDCu
     const Csm::csmInt32 *maskCount = model->GetDrawableMaskCounts();
 
     const Vector2 vct_size = InternalCubismUserModel::get_size(model);
+    const Vector2 vct_origin = InternalCubismUserModel::get_origin(model);
 
-	target_node->ary_meshes.resize(model->GetDrawableCount());
+    Node2D *meshes = memnew(Node2D);
+    meshes->set_name("Meshes");
+    meshes->set_position(-vct_origin);
+    target_node->add_child(meshes);
+    meshes->set_owner(target_node);
 
-	UtilityFunctions::print("preparing meshes");
+    Node *masks = memnew(Node);
+    masks->set_name("Masks");
+    target_node->add_child(masks);
+    masks->set_owner(target_node);
+
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
     {
         if (model->GetDrawableVertexCount(index) == 0)
@@ -137,83 +145,71 @@ void GDCubismModelImporter::build_model(InternalCubismRenderer2D* renderer, GDCu
         node->set_texture(textures[model->GetDrawableTextureIndex(index)]);
         mat->set_shader_parameter("tex_main", textures[model->GetDrawableTextureIndex(index)]);
         node->set_z_index(renderOrder[index]);
-		target_node->dict_mesh[node_name] = node;
-        
-        // build mask
-        if (model->GetDrawableMaskCounts()[index] > 0)
-        {
-            TypedArray<MeshInstance2D> masks;
-            masks.resize(model->GetDrawableMaskCounts()[index]);
-            
-            SubViewport* viewport = memnew(SubViewport);
-            {
-                viewport->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
-                viewport->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
-                // set_update_mode must be specified
-                viewport->set_update_mode(SubViewport::UpdateMode::UPDATE_WHEN_VISIBLE);
-                viewport->set_disable_input(true);
-                // Memory leak when set_use_own_world_3d is true
-                // https://github.com/godotengine/godot/issues/81476
-                viewport->set_use_own_world_3d(SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG);
-                // Memory leak when set_transparent_background is true(* every time & window minimize)
-                // https://github.com/godotengine/godot/issues/89651
-                viewport->set_transparent_background(true);
-
-                // canvas transform only available after the viewport canvas has been initialized
-                // on load the mask will not be the right size or offset, but will be corrected immediately on first update
-                AABB bounds = node->get_mesh()->get_aabb();
-                Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
-                Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
-                viewport->set_size(viewport_size);
-                mat->set_shader_parameter("tex_mask", viewport->get_texture());
-                mat->set_shader_parameter("canvas_size", vct_size);
-                mat->set_shader_parameter("mesh_offset", viewport_offset);
-
-                target_node->add_child(viewport);
-                viewport->set_owner(target_node);
-
-                viewport->set_name(node_name + "__mask");
-                target_node->dict_mask[node_name] = masks;
-
-                node->set_meta("viewport", NodePath("../" + viewport->get_name()));
-
-                for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
-                {
-                    Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
-                    
-                    if (model->GetDrawableVertexCount(j) == 0)
-                        continue;
-                    if (model->GetDrawableVertexIndexCount(j) == 0)
-                        continue;
-            
-                    CubismIdHandle handle = model->GetDrawableId(j);
-                    String mask_name(handle->GetString().GetRawString());
-
-                    MeshInstance2D *node = GDCubismModelImporter::request_mesh_instance();
-                    ShaderMaterial *mat = GDCubismModelImporter::request_mask_material(shaders);
-                    renderer->update_mesh(model, j, true, node->get_mesh());
-
-                    node->set_name(mask_name);
-                    node->set_material(mat);
-                    mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
-                    mat->set_shader_parameter("tex_main", textures[model->GetDrawableTextureIndex(index)]);
-                    node->set_z_index(renderOrder[index]);
-                    node->set_visible(true);
-
-                    masks[m_index] = node;
-
-                    viewport->add_child(node);
-                    node->set_owner(target_node);
-                }
-            }
-        }
-
-        target_node->ary_meshes[index] = node;
-        target_node->add_child(node);
+        node->set_meta("index", index);
+		
+        meshes->add_child(node);
         node->set_owner(target_node);
-    }
 
-	UtilityFunctions::print("done building model");
+        // build mask
+        if (model->GetDrawableMaskCounts()[index] == 0) continue;
+        
+        SubViewport* viewport = memnew(SubViewport);
+        viewport->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
+        viewport->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
+        // set_update_mode must be specified
+        viewport->set_update_mode(SubViewport::UpdateMode::UPDATE_WHEN_VISIBLE);
+        viewport->set_disable_input(true);
+        // Memory leak when set_use_own_world_3d is true
+        // https://github.com/godotengine/godot/issues/81476
+        viewport->set_use_own_world_3d(SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG);
+        // Memory leak when set_transparent_background is true(* every time & window minimize)
+        // https://github.com/godotengine/godot/issues/89651
+        viewport->set_transparent_background(true);
+
+        // canvas transform only available after the viewport canvas has been initialized
+        // on load the mask will not be the right size or offset, but will be corrected immediately on first update
+        AABB bounds = node->get_mesh()->get_aabb();
+        Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
+        Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
+        viewport->set_size(viewport_size);
+        mat->set_shader_parameter("canvas_size", vct_size);
+        mat->set_shader_parameter("mesh_offset", viewport_offset);
+
+        viewport->set_name(node_name);
+        masks->add_child(viewport);
+        viewport->set_owner(target_node);
+
+        node->set_meta("viewport", NodePath("../../Masks/" + node_name));
+
+        for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
+        {
+            Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
+            
+            if (model->GetDrawableVertexCount(j) == 0)
+                continue;
+            if (model->GetDrawableVertexIndexCount(j) == 0)
+                continue;
+    
+            CubismIdHandle handle = model->GetDrawableId(j);
+            String mask_name(handle->GetString().GetRawString());
+
+            MeshInstance2D *node = GDCubismModelImporter::request_mesh_instance();
+            ShaderMaterial *mat = GDCubismModelImporter::request_mask_material(shaders);
+            renderer->update_mesh(model, j, true, node->get_mesh());
+
+            node->set_name(mask_name);
+            node->set_material(mat);
+            mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
+            mat->set_shader_parameter("tex_main", textures[model->GetDrawableTextureIndex(j)]);
+            node->set_z_index(renderOrder[j]);
+            node->set_meta("index", j);
+            node->set_meta("mask_index", m_index);
+            node->set_visible(true);
+
+            viewport->add_child(node);
+            node->set_owner(target_node);
+        }
+    }
 }
 
 static Array walk_files(String dir, String extension) {
@@ -294,7 +290,6 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
 	// Resource(Texture)
 	Array textures;
 	{
-		UtilityFunctions::print("loading textures");
 		ResourceLoader *res_loader = ResourceLoader::get_singleton();
 
 		Array texture_files = file_refs.get("Textures", Array());
@@ -335,12 +330,19 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
 	// Load Animations
 	if (include_motions) {
 		AnimationLibrary *animations = memnew(AnimationLibrary);
-
+        ResourceLoader *res_loader = ResourceLoader::get_singleton();
 		Array motion_files = walk_files(assets.get_base_dir(), "motion3.json");
 		for (int i = 0; i < motion_files.size(); i++) {
 			String motion = motion_files[i];
-			Ref<Animation> anim = GDCubismMotionImporter::parse_motion(motion);
-			animations->add_animation(anim->get_name(), anim);
+            UtilityFunctions::print(motion);
+            Ref<Animation> anim;
+            if (res_loader->exists(motion)) {
+                anim = res_loader->load(motion);
+            } else {
+                anim = GDCubismMotionImporter::parse_motion(motion);
+                anim->take_over_path(motion);
+            }
+			animations->add_animation(motion.get_file(), anim);
 		}
         model->set_animations(animations);
 	} else {
@@ -349,8 +351,6 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
 
 	model->notify_property_list_changed();
 
-	UtilityFunctions::print("model finished");
-		
 	model->set_name(assets.get_file());
 	model->set_scene_file_path(assets);
     
@@ -376,18 +376,18 @@ Error GDCubismModelImporter::_import(const String &p_source_file, const String &
 	Array shaders;
     shaders.resize(GD_CUBISM_SHADER_MAX);
 
-    shaders[GD_CUBISM_SHADER_NORM_ADD] = p_options["add_shader"];
-    shaders[GD_CUBISM_SHADER_NORM_MIX] = p_options["mix_shader"];
-    shaders[GD_CUBISM_SHADER_NORM_MUL] = p_options["mul_shader"];
+    shaders[GD_CUBISM_SHADER_NORM_ADD] = p_options["shader_add"];
+    shaders[GD_CUBISM_SHADER_NORM_MIX] = p_options["shader_mix"];
+    shaders[GD_CUBISM_SHADER_NORM_MUL] = p_options["shader_mul"];
 
     shaders[GD_CUBISM_SHADER_MASK] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask.gdshader");
 
-    shaders[GD_CUBISM_SHADER_MASK_ADD] = p_options["mask_add_shader"];
-    shaders[GD_CUBISM_SHADER_MASK_ADD_INV] = p_options["add_mask_mix_shader"];
-    shaders[GD_CUBISM_SHADER_MASK_MIX] = p_options["mask_mix_shader"];
-    shaders[GD_CUBISM_SHADER_MASK_MIX_INV] = p_options["inv_mask_mix_shader"];
-    shaders[GD_CUBISM_SHADER_MASK_MUL] = p_options["mask_mul_shader"];
-    shaders[GD_CUBISM_SHADER_MASK_MUL_INV] = p_options["inv_mask_mul_shader"];
+    shaders[GD_CUBISM_SHADER_MASK_ADD] = p_options["shader_mask_add"];
+    shaders[GD_CUBISM_SHADER_MASK_ADD_INV] = p_options["shader_mask_mix"];
+    shaders[GD_CUBISM_SHADER_MASK_MIX] = p_options["shader_mask_mix"];
+    shaders[GD_CUBISM_SHADER_MASK_MIX_INV] = p_options["shader_inv_mask_mix"];
+    shaders[GD_CUBISM_SHADER_MASK_MUL] = p_options["shader_mask_mul"];
+    shaders[GD_CUBISM_SHADER_MASK_MUL_INV] = p_options["shader_inv_mask_mul"];
 
     GDCubismUserModel *m = GDCubismModelImporter::load_model(
         p_source_file,
@@ -423,63 +423,63 @@ TypedArray<Dictionary> GDCubismModelImporter::_get_import_options(const String &
 
     {
         Dictionary shader;
-        shader["name"] = "mix_shader";
+        shader["name"] = "shader_mix";
         shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader");
         shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
         options.append(shader);
     }
     {
         Dictionary shader;
-        shader["name"] = "add_shader";
+        shader["name"] = "shader_add";
         shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader");
         shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
         options.append(shader);
     }
     {
         Dictionary shader;
-        shader["name"] = "mul_shader";
+        shader["name"] = "shader_mul";
         shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader");
         shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
         options.append(shader);
     }
     {
         Dictionary shader;
-        shader["name"] = "mask_mix_shader";
+        shader["name"] = "shader_mask_mix";
         shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader");
         shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
         options.append(shader);
     }
     {
         Dictionary shader;
-        shader["name"] = "mask_add_shader";
+        shader["name"] = "shader_mask_add";
         shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_add.gdshader");
         shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
         options.append(shader);
     }
     {
         Dictionary shader;
-        shader["name"] = "Mask_mul_shader";
+        shader["name"] = "shader_mask_mul";
         shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader");
         shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
         options.append(shader);
     }
     {
         Dictionary shader;
-        shader["name"] = "inv_mask_mix_shader";
+        shader["name"] = "shader_inv_mask_mix";
         shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader");
         shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
         options.append(shader);
     }
     {
         Dictionary shader;
-        shader["name"] = "inv_mask_add_shader";
+        shader["name"] = "shader_inv_mask_add";
         shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_add_inv.gdshader");
         shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
         options.append(shader);
     }
     {
         Dictionary shader;
-        shader["name"] = "inv_mask_mul_shader";
+        shader["name"] = "shader_inv_mask_mul";
         shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader");
         shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
         options.append(shader);
