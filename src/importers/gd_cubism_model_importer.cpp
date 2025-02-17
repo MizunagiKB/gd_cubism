@@ -9,6 +9,7 @@
 #include <godot_cpp/classes/packed_scene.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/shader_material.hpp>
+#include <godot_cpp/classes/canvas_group.hpp>
 
 #include <importers/gd_cubism_model_importer.hpp>
 #include <importers/gd_cubism_motion_importer.hpp>
@@ -25,6 +26,7 @@ using namespace godot;
 
 MeshInstance2D* GDCubismModelImporter::request_mesh_instance() {
     ArrayMesh* mesh = memnew(ArrayMesh);
+    mesh->set_local_to_scene(true);
     MeshInstance2D* node = memnew(MeshInstance2D);
     node->set_mesh(mesh);
     return node;
@@ -90,9 +92,12 @@ ShaderMaterial* GDCubismModelImporter::request_shader_material(const Csm::Cubism
     }
 
     Ref<Shader> shader = Object::cast_to<Shader>(shaders[e]);
-
+    // TODO change to using canvas item uniforms once Godot 4.4 is stable
+    shader->set_local_to_scene(true);
+    
     mat->set_shader(shader);
     mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
+    mat->set_local_to_scene(true);
 
     return mat;
 }
@@ -115,7 +120,7 @@ void GDCubismModelImporter::build_model(InternalCubismRenderer2D* renderer, GDCu
     const Vector2 vct_size = InternalCubismUserModel::get_size(model);
     const Vector2 vct_origin = InternalCubismUserModel::get_origin(model);
 
-    Node2D *meshes = memnew(Node2D);
+    CanvasGroup *meshes = memnew(CanvasGroup);
     meshes->set_name("Meshes");
     meshes->set_position(-vct_origin);
     target_node->add_child(meshes);
@@ -269,21 +274,25 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
 
 	// Load Parameters
     {
+        model->ary_parameter.resize(internal_model->GetModel()->GetParameterCount());
         for(Csm::csmInt32 index = 0; index < internal_model->GetModel()->GetParameterCount(); index++) {
             Ref<GDCubismParameter> param;
             param.instantiate();
             param->setup(internal_model->GetModel(), index);
-            model->ary_parameter.append(param);
+            param->set_local_to_scene(true);
+            model->ary_parameter[index] = param;
         }
     }
 
 	// Load Parts
     {
+        model->ary_part_opacity.resize(internal_model->GetModel()->GetPartCount());
         for(Csm::csmInt32 index = 0; index < internal_model->GetModel()->GetPartCount(); index++) {
             Ref<GDCubismPartOpacity> param;
             param.instantiate();
             param->setup(internal_model->GetModel(), index);
-            model->ary_part_opacity.append(param);
+            param->set_local_to_scene(true);
+            model->ary_part_opacity[index] = param;
         }
     }
 
