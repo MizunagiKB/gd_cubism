@@ -6,6 +6,7 @@
 
 #include <godot_cpp/classes/shader_material.hpp>
 #include <godot_cpp/classes/viewport_texture.hpp>
+#include <godot_cpp/classes/rendering_server.hpp>
 
 #include <CubismFramework.hpp>
 #include <Model/CubismModel.hpp>
@@ -14,8 +15,6 @@
 #include <private/internal_cubism_renderer_2d.hpp>
 #include <private/internal_cubism_renderer_resource.hpp>
 #include <private/internal_cubism_user_model.hpp>
-
-#include <godot_cpp/variant/utility_functions.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -69,9 +68,10 @@ void InternalCubismRenderer2D::update_mesh(
     const Csm::csmInt32 index,
     const bool maskmode,
     const InternalCubismRendererResource &res,
-    const Ref<ArrayMesh> ary_mesh
+    const MeshInstance2D *node
 ) const
 {
+    Ref<ArrayMesh> ary_mesh = node->get_mesh();
     ary_mesh->clear_surfaces();
 
     Array ary;
@@ -93,6 +93,12 @@ void InternalCubismRenderer2D::update_mesh(
         model->GetDrawableVertexIndexCount(index));
 
     ary_mesh->add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, ary);
+
+    AABB bounds = ary_mesh->get_aabb();
+    RenderingServer::get_singleton()->canvas_item_set_custom_rect(
+        node->get_canvas_item(), true,
+        Rect2(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y)
+    );
 }
 
 Vector2 InternalCubismRenderer2D::get_size(const Csm::CubismModel *model) const
@@ -156,7 +162,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
         Ref<ShaderMaterial> mat = node->get_material();
         
         if (visible) {
-            this->update_mesh(model, index, false, res, node->get_mesh());
+            this->update_mesh(model, index, false, res, node);
             this->update_material(model, index, mat);
             node->set_z_index(renderOrder[index]);
         }
@@ -196,7 +202,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res)
                     continue;
                 }
 
-                this->update_mesh(model, j, true, res, node->get_mesh());
+                this->update_mesh(model, j, true, res, node);
                 node->set_z_index(renderOrder[index]);
             }
         }
@@ -226,7 +232,7 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
         MeshInstance2D* node = res.request_mesh_instance();
         ShaderMaterial* mat = res.request_shader_material(model, index);
         node->set_material(mat);        
-        this->update_mesh(model, index, false, res, node->get_mesh());
+        this->update_mesh(model, index, false, res, node);
         node->set_name(node_name);
 
         // build mask
@@ -263,7 +269,7 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
 
                     MeshInstance2D *node = res.request_mesh_instance();
                     ShaderMaterial *mat = res.request_mask_material();
-                    this->update_mesh(model, j, true, res, node->get_mesh());
+                    this->update_mesh(model, j, true, res, node);
 
                     node->set_name(mask_name);
                     node->set_material(mat);
