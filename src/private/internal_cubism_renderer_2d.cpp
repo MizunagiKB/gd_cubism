@@ -13,6 +13,7 @@
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/viewport_texture.hpp>
+#include <godot_cpp/classes/rendering_server.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -52,11 +53,13 @@ void InternalCubismRenderer2D::update_mesh(
     const Csm::CubismModel *model,
     const Csm::csmInt32 index,
     const bool maskmode,
-    const Ref<ArrayMesh> ary_mesh
+    const MeshInstance2D *node
 ) const
 {
     const Vector2 vct_origin = InternalCubismUserModel::get_origin(model);
     const float pp_unit = InternalCubismUserModel::get_ppunit(model);
+    
+    Ref<ArrayMesh> ary_mesh = node->get_mesh();
     
     ary_mesh->clear_surfaces();
 
@@ -79,6 +82,12 @@ void InternalCubismRenderer2D::update_mesh(
         model->GetDrawableVertexIndexCount(index));
 
     ary_mesh->add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, ary);
+
+    AABB bounds = ary_mesh->get_aabb();
+    RenderingServer::get_singleton()->canvas_item_set_custom_rect(
+        node->get_canvas_item(), true,
+        Rect2(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y)
+    );
 }
 
 void InternalCubismRenderer2D::update(Array meshes)
@@ -101,10 +110,17 @@ void InternalCubismRenderer2D::update(Array meshes)
         node->set_visible(visible);
         Ref<ShaderMaterial> mat = node->get_material();
         
-        this->update_mesh(model, index, false, node->get_mesh());
+        this->update_mesh(model, index, false, node);
         this->update_material(model, index, mat);
         node->set_z_index(renderOrder[index]);
         
+        AABB bounds = node->get_mesh()->get_aabb();
+        Vector2i mask_size = Vector2i(bounds.size.x, bounds.size.y);
+        RenderingServer::get_singleton()->canvas_item_set_custom_rect(
+            node->get_canvas_item(), true,
+            Rect2(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y)
+        );
+
         if (!node->has_meta("viewport")) continue;
 
         NodePath path_to_viewport = node->get_meta("viewport");
@@ -137,7 +153,7 @@ void InternalCubismRenderer2D::update(Array meshes)
             // masks are always drawn
             node->set_visible(true);
 
-            this->update_mesh(model, m_idx, true, node->get_mesh());
+            this->update_mesh(model, m_idx, true, node);
             node->set_z_index(renderOrder[m_idx]);
         }
     }

@@ -46,7 +46,7 @@ public:
         const Csm::CubismModel *model,
         const Csm::csmInt32 index,
         const bool makemask,
-        const Ref<ArrayMesh> ary_mesh
+        const MeshInstance2D *node
     ) const;
 
     virtual void Initialize(Csm::CubismModel *model, Csm::csmInt32 maskBufferCount);

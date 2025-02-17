@@ -145,7 +145,7 @@ void GDCubismModelImporter::build_model(InternalCubismRenderer2D* renderer, GDCu
         MeshInstance2D* node = GDCubismModelImporter::request_mesh_instance();
         ShaderMaterial* mat = GDCubismModelImporter::request_shader_material(model, index, shaders);
         node->set_material(mat);
-		renderer->update_mesh(model, index, false, node->get_mesh());
+		renderer->update_mesh(model, index, false, node);
         renderer->update_material(model, index, mat);
         node->set_name(node_name);
         node->set_texture(textures[model->GetDrawableTextureIndex(index)]);
@@ -204,7 +204,7 @@ void GDCubismModelImporter::build_model(InternalCubismRenderer2D* renderer, GDCu
 
             MeshInstance2D *node = GDCubismModelImporter::request_mesh_instance();
             ShaderMaterial *mat = GDCubismModelImporter::request_mask_material(shaders);
-            renderer->update_mesh(model, j, true, node->get_mesh());
+            renderer->update_mesh(model, j, true, node);
 
             node->set_name(mask_name);
             node->set_material(mat);
