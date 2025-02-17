@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/animation.hpp>
 #include <godot_cpp/classes/mesh_instance2d.hpp>
 #include <godot_cpp/classes/shader_material.hpp>
+#include <godot_cpp/classes/resource_loader.hpp>
 #include <gd_cubism_user_model.hpp>
 #include <private/internal_cubism_user_model.hpp>
 #include <private/internal_cubism_renderer_2d.hpp>
@@ -42,20 +43,9 @@ public:
         exts.append("json");
         return exts; 
     }
-    TypedArray<Dictionary> _get_import_options(const String &p_path, int32_t p_preset_index) const { 
-        TypedArray<Dictionary> options;
-
-        Dictionary include_expressions;
-		include_expressions["name"] = "include_expressions";
-		include_expressions["default_value"] = true;
-		options.append(include_expressions);
-
-		Dictionary include_motions;
-		include_expressions["name"] = "include_motions";
-		include_expressions["default_value"] = true;
-		options.append(include_motions);
-        
-        return options; 
+    TypedArray<Dictionary> _get_import_options(const String &p_path, int32_t p_preset_index) const override;
+    bool _get_option_visibility(const String &p_path, const StringName &p_option_name, const Dictionary &p_options) const override {
+        return true;
     }
     String _get_save_extension() const { return "tscn"; }
     String _get_resource_type() const { return "PackedScene"; }

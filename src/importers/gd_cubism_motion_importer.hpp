@@ -33,6 +33,9 @@ public:
         TypedArray<Dictionary> options;
         return options; 
     }
+    bool _get_option_visibility(const String &p_path, const StringName &p_option_name, const Dictionary &p_options) const override {
+        return true;
+    }
     String _get_save_extension() const { return "anim"; }
     String _get_resource_type() const { return "Animation"; }
     double _get_priority() const { return 1.0; }

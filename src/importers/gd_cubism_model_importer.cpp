@@ -1,6 +1,5 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/resource_saver.hpp>
-#include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/image.hpp>
 #include <godot_cpp/classes/image_texture.hpp>
 #include <godot_cpp/classes/sub_viewport.hpp>
@@ -377,20 +376,25 @@ Error GDCubismModelImporter::_import(const String &p_source_file, const String &
 	Array shaders;
     shaders.resize(GD_CUBISM_SHADER_MAX);
 
-    shaders[GD_CUBISM_SHADER_NORM_ADD] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader");
-    shaders[GD_CUBISM_SHADER_NORM_MIX] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader");
-    shaders[GD_CUBISM_SHADER_NORM_MUL] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader");
+    shaders[GD_CUBISM_SHADER_NORM_ADD] = p_options["add_shader"];
+    shaders[GD_CUBISM_SHADER_NORM_MIX] = p_options["mix_shader"];
+    shaders[GD_CUBISM_SHADER_NORM_MUL] = p_options["mul_shader"];
 
     shaders[GD_CUBISM_SHADER_MASK] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask.gdshader");
 
-    shaders[GD_CUBISM_SHADER_MASK_ADD] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_add.gdshader");
-    shaders[GD_CUBISM_SHADER_MASK_ADD_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_add_inv.gdshader");
-    shaders[GD_CUBISM_SHADER_MASK_MIX] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader");
-    shaders[GD_CUBISM_SHADER_MASK_MIX_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader");
-    shaders[GD_CUBISM_SHADER_MASK_MUL] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader");
-    shaders[GD_CUBISM_SHADER_MASK_MUL_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader");
+    shaders[GD_CUBISM_SHADER_MASK_ADD] = p_options["mask_add_shader"];
+    shaders[GD_CUBISM_SHADER_MASK_ADD_INV] = p_options["add_mask_mix_shader"];
+    shaders[GD_CUBISM_SHADER_MASK_MIX] = p_options["mask_mix_shader"];
+    shaders[GD_CUBISM_SHADER_MASK_MIX_INV] = p_options["inv_mask_mix_shader"];
+    shaders[GD_CUBISM_SHADER_MASK_MUL] = p_options["mask_mul_shader"];
+    shaders[GD_CUBISM_SHADER_MASK_MUL_INV] = p_options["inv_mask_mul_shader"];
 
-    GDCubismUserModel *m = GDCubismModelImporter::load_model(p_source_file, false, false, shaders);
+    GDCubismUserModel *m = GDCubismModelImporter::load_model(
+        p_source_file,
+        p_options["include_expressions"],
+        p_options["include_motions"], 
+        shaders
+    );
 	ERR_FAIL_COND_V(m == nullptr, Error::FAILED);
 
 	PackedScene *p = memnew(PackedScene);
@@ -400,4 +404,86 @@ Error GDCubismModelImporter::_import(const String &p_source_file, const String &
 
     String filename = p_save_path + String(".") + this->_get_save_extension();
     return ResourceSaver::get_singleton()->save(p, filename);
+}
+
+TypedArray<Dictionary> GDCubismModelImporter::_get_import_options(const String &p_path, int32_t p_preset_index) const { 
+    TypedArray<Dictionary> options;
+
+    ResourceLoader *res_loader = ResourceLoader::get_singleton();
+
+    Dictionary include_expressions;
+    include_expressions["name"] = "include_expressions";
+    include_expressions["default_value"] = true;
+    options.append(include_expressions);
+
+    Dictionary include_motions;
+    include_motions["name"] = "include_motions";
+    include_motions["default_value"] = true;
+    options.append(include_motions);
+
+    {
+        Dictionary shader;
+        shader["name"] = "mix_shader";
+        shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader");
+        shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
+        options.append(shader);
+    }
+    {
+        Dictionary shader;
+        shader["name"] = "add_shader";
+        shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader");
+        shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
+        options.append(shader);
+    }
+    {
+        Dictionary shader;
+        shader["name"] = "mul_shader";
+        shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader");
+        shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
+        options.append(shader);
+    }
+    {
+        Dictionary shader;
+        shader["name"] = "mask_mix_shader";
+        shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader");
+        shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
+        options.append(shader);
+    }
+    {
+        Dictionary shader;
+        shader["name"] = "mask_add_shader";
+        shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_add.gdshader");
+        shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
+        options.append(shader);
+    }
+    {
+        Dictionary shader;
+        shader["name"] = "Mask_mul_shader";
+        shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader");
+        shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
+        options.append(shader);
+    }
+    {
+        Dictionary shader;
+        shader["name"] = "inv_mask_mix_shader";
+        shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader");
+        shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
+        options.append(shader);
+    }
+    {
+        Dictionary shader;
+        shader["name"] = "inv_mask_add_shader";
+        shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_add_inv.gdshader");
+        shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
+        options.append(shader);
+    }
+    {
+        Dictionary shader;
+        shader["name"] = "inv_mask_mul_shader";
+        shader["default_value"] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader");
+        shader["property_hint"] = PropertyHint::PROPERTY_HINT_RESOURCE_TYPE;
+        options.append(shader);
+    }
+    
+    return options; 
 }
