@@ -4,10 +4,10 @@
 shader_type canvas_item;
 render_mode blend_premul_alpha, unshaded;
 
-uniform vec4 color_base;
-uniform vec4 color_screen;
-uniform vec4 color_multiply;
-uniform vec4 channel;
+uniform vec4 color_base : source_color;
+uniform vec4 color_screen : source_color;
+uniform vec4 color_multiply : source_color;
+uniform vec4 channel : source_color;
 uniform sampler2D tex_main : filter_linear_mipmap;
 uniform sampler2D tex_mask : filter_linear_mipmap;
 
@@ -17,7 +17,6 @@ uniform vec2 mesh_offset;
 varying vec2 MASK_UV;
 
 void vertex() {
-    UV.y = 1.0 - UV.y;
     vec2 mask_size = vec2(textureSize(tex_mask, 0));
     vec2 mask_vtx = VERTEX - mesh_offset;
     MASK_UV = mask_vtx / mask_size;

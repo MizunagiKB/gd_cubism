@@ -26,9 +26,9 @@ using namespace godot;
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
-PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t &size);
-PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size);
-PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit, const Vector2 &vct_adjust);
+PackedInt32Array make_Indices(const csmUint16 *ptr, const int32_t &size);
+PackedVector2Array make_UVs(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size);
+PackedVector2Array make_Vertices(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit, const Vector2 &vct_adjust);
 const Vector4 make_vector4(const Live2D::Cubism::Core::csmVector4 &src_vec4);
 
 // ----------------------------------------------------------- class:forward(s)
@@ -78,17 +78,17 @@ void InternalCubismRenderer2D::update_mesh(
 
     ary.resize(Mesh::ARRAY_MAX);
 
-    ary[Mesh::ARRAY_VERTEX] = make_PackedArrayVector3(
+    ary[Mesh::ARRAY_VERTEX] = make_Vertices(
         model->GetDrawableVertexPositions(index),
         model->GetDrawableVertexCount(index),
         res.CALCULATED_PPUNIT_C,
         res.CALCULATED_ORIGIN_C);
 
-    ary[Mesh::ARRAY_TEX_UV] = make_PackedArrayVector2(
+    ary[Mesh::ARRAY_TEX_UV] = make_UVs(
         model->GetDrawableVertexUvs(index),
         model->GetDrawableVertexCount(index));
 
-    ary[Mesh::ARRAY_INDEX] = make_PackedArrayInt32(
+    ary[Mesh::ARRAY_INDEX] = make_Indices(
         model->GetDrawableVertexIndices(index),
         model->GetDrawableVertexIndexCount(index));
 
@@ -321,7 +321,7 @@ void InternalCubismRenderer2D::SaveProfile() {}
 void InternalCubismRenderer2D::RestoreProfile() {}
 
 // ------------------------------------------------------------------ method(s)
-PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t &size)
+PackedInt32Array make_Indices(const csmUint16 *ptr, const int32_t &size)
 {
     PackedInt32Array ary;
     ary.resize(size);
@@ -332,18 +332,18 @@ PackedInt32Array make_PackedArrayInt32(const csmUint16 *ptr, const int32_t &size
     return ary;
 }
 
-PackedVector2Array make_PackedArrayVector2(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size)
+PackedVector2Array make_UVs(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size)
 {
     PackedVector2Array ary;
     ary.resize(size);
     for (int i = 0; i < size; i++)
     {
-        ary.set(i, Vector2(ptr[i].X, ptr[i].Y));
+        ary.set(i, Vector2(ptr[i].X, 1.0 - ptr[i].Y));
     }
     return ary;
 }
 
-PackedVector2Array make_PackedArrayVector3(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit, const Vector2 &vct_adjust)
+PackedVector2Array make_Vertices(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit, const Vector2 &vct_adjust)
 {
     PackedVector2Array ary;
     ary.resize(size);
