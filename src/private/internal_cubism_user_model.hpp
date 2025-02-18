@@ -12,11 +12,12 @@
 #include <Motion/CubismMotionQueueManager.hpp>
 #include <Utils/CubismString.hpp>
 #include <CubismFramework.hpp>
-#include <CubismModelSettingJson.hpp>
+#include <ICubismModelSetting.hpp>
 
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
+using namespace Live2D::Cubism::Framework;
 using namespace godot;
 
 // -------------------------------------------------------------------- enum(s)
@@ -57,6 +58,7 @@ public:
     GDCubismUserModel *_owner_viewport = nullptr;
     
 private:
+    ICubismModelSetting *model_settings;
     Array _list_eye_blink;
     Array _list_lipsync;
     Array ary_hit_areas;
@@ -64,6 +66,10 @@ private:
 
 public:
     bool model_bind();
+    ICubismModelSetting* get_model_settings() {
+        if (!this->IsInitialized()) return nullptr;
+        return this->model_settings;
+    };
     void pro_update(const float delta);
     void efx_update(const float delta);
     void epi_update(const float delta);

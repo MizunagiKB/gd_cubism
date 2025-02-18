@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
+#include <CubismModelSettingJson.hpp>
 
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
@@ -47,22 +48,15 @@ bool InternalCubismUserModel::model_bind() {
     String _model_dir = _model_pathname.get_base_dir();
     this->_updating = true;
     this->_initialized = false;
-    UtilityFunctions::print("binding model " + _model_pathname);
     
     PackedByteArray buffer = FileAccess::get_file_as_bytes(_model_pathname);
     if(buffer.size() == 0) return false;
 
-    Dictionary model_settings = JSON::parse_string(FileAccess::get_file_as_string(_model_pathname));
-    if (model_settings.is_empty()) {
-        return false;
-    }
-
-	Dictionary file_refs = model_settings.get("FileReferences", Dictionary());
+    ICubismModelSetting *model_settings = CSM_NEW CubismModelSettingJson(buffer.ptr(), buffer.size());
 
     // setup Live2D model
     {
-        String model_file = file_refs.get("Moc", "");    
-        String moc3_pathname = _model_dir.path_join(model_file);
+        String moc3_pathname = _model_dir.path_join(model_settings->GetModelFileName());
         PackedByteArray buffer = FileAccess::get_file_as_bytes(moc3_pathname);
         this->LoadModel(buffer.ptr(), buffer.size());
 
@@ -75,7 +69,7 @@ bool InternalCubismUserModel::model_bind() {
     }
     // Physics
     {
-        String path = file_refs.get("Physics", "");
+        String path = model_settings->GetPhysicsFileName();
         if (!path.is_empty()) {
             PackedByteArray buffer = FileAccess::get_file_as_bytes(_model_dir.path_join(path));
             if(buffer.size() > 0) {
@@ -85,7 +79,7 @@ bool InternalCubismUserModel::model_bind() {
     }
     // Pose
     {
-        String path = file_refs.get("Pose", "");
+        String path = model_settings->GetPoseFileName();
         if (!path.is_empty()) {
             PackedByteArray buffer = FileAccess::get_file_as_bytes(_model_dir.path_join(path));
             if(buffer.size() > 0) {
@@ -95,7 +89,7 @@ bool InternalCubismUserModel::model_bind() {
     }
     //UserData
     {
-        String path = file_refs.get("UserData", "");
+        String path = model_settings->GetUserDataFile();
         if (!path.is_empty()) {
             PackedByteArray buffer = FileAccess::get_file_as_bytes(_model_dir.path_join(path));
             if(buffer.size() > 0) {
@@ -104,41 +98,32 @@ bool InternalCubismUserModel::model_bind() {
         }
     }
 
-    Array parameter_groups = model_settings.get("Groups", Array());
     // EyeBlink(Parameters)
     {
-        for (uint32_t i = 0; i < parameter_groups.size(); i++) {
-            Dictionary group = parameter_groups[i];
-            if (group.get("Target", "") == "Parameter" && group.get("Name", "") == "EyeBlink") {
-                this->_list_eye_blink = group.get("Ids", Array());
-                break;
-            }
+        for (uint32_t i = 0; i < model_settings->GetEyeBlinkParameterCount(); i++) {
+            this->_list_eye_blink.append(model_settings->GetEyeBlinkParameterId(i));
         }
     }
 
     // LipSync(Parameters)
     {
-        for (uint32_t i = 0; i < parameter_groups.size(); i++) {
-            Dictionary group = parameter_groups[i];
-            if (group.get("Target", "") == "Parameter" && group.get("Name", "") == "LipSync") {
-                this->_list_eye_blink = group.get("Ids", Array());
-                break;
-            }
+        for (uint32_t i = 0; i < model_settings->GetLipSyncParameterCount(); i++) {
+            this->_list_lipsync.append(model_settings->GetLipSyncParameterId(i));
         }
     }
 
     // Hit Areas
     {
-        Array hit_areas = model_settings.get("HitAreas", Array());
-        for (uint32_t i = 0; i < hit_areas.size(); i++) {
+        for (uint32_t i = 0; i < model_settings->GetHitAreasCount(); i++) {
             Dictionary dict_hit_area;
-            Dictionary hit_area = hit_areas[i];
             
-            dict_hit_area["id"] = hit_area["Id"];
-            dict_hit_area["name"] = hit_area["Name"];
+            dict_hit_area["id"] = model_settings->GetHitAreaId(i);
+            dict_hit_area["name"] = model_settings->GetHitAreaName(i);
             ary_hit_areas.append(dict_hit_area);
         }
     }
+
+    this->model_settings = model_settings;
     
     this->CreateRenderer();
 		
