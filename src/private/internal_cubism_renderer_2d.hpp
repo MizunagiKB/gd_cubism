@@ -51,7 +51,7 @@ private:
         const Csm::csmInt32 index,
         const bool makemask,
         const InternalCubismRendererResource &res,
-        const Ref<ArrayMesh> ary_mesh) const;
+        const MeshInstance2D *node) const;
 
 public:
     Vector2 get_size(const Csm::CubismModel *model) const;
