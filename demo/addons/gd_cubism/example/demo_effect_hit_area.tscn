@@ -19,7 +19,6 @@ gui_disable_input = true
 render_target_update_mode = 4
 
 [node name="GDCubismEffectHitArea" type="GDCubismEffectHitArea" parent="Sprite2D/GDCubismUserModel"]
-monitoring = false
 
 [node name="Canvas" type="Control" parent="Sprite2D"]
 layout_mode = 3
