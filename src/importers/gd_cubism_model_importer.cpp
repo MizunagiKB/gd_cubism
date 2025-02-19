@@ -278,25 +278,33 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
 
 	// Load Parameters
     {
-        model->ary_parameter.resize(internal_model->GetModel()->GetParameterCount());
+        Node* parameters = memnew(Node);
+        
+        model->add_child(parameters);
+        parameters->set_name("Parameters");
+        parameters->set_owner(model);
+        
         for(Csm::csmInt32 index = 0; index < internal_model->GetModel()->GetParameterCount(); index++) {
-            Ref<GDCubismParameter> param;
-            param.instantiate();
-            param->setup(internal_model->GetModel(), index);
-            param->set_local_to_scene(true);
-            model->ary_parameter[index] = param;
+            GDCubismParameter* param = memnew(GDCubismParameter);
+            parameters->add_child(param);
+            param->setup(internal_model->GetModel());
+            param->set_owner(model);
         }
     }
 
 	// Load Parts
     {
-        model->ary_part_opacity.resize(internal_model->GetModel()->GetPartCount());
+        Node* parts = memnew(Node);
+        
+        model->add_child(parts);
+        parts->set_name("Parts");
+        parts->set_owner(model);
+        
         for(Csm::csmInt32 index = 0; index < internal_model->GetModel()->GetPartCount(); index++) {
-            Ref<GDCubismPartOpacity> param;
-            param.instantiate();
-            param->setup(internal_model->GetModel(), index);
-            param->set_local_to_scene(true);
-            model->ary_part_opacity[index] = param;
+            GDCubismPartOpacity* param = memnew(GDCubismPartOpacity);
+            parts->add_child(param);
+            param->setup(internal_model->GetModel());
+            param->set_owner(model);
         }
     }
 

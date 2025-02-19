@@ -113,15 +113,17 @@ void GDCubismUserModel::_update(const float delta) {
 
     this->internal_model->efx_update(delta);
 
-    for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++ ) {
-        GDCubismParameter *param = Object::cast_to<GDCubismParameter>(this->ary_parameter[index]);
+    Array ary_parameter = this->get_parameters();
+    for(Csm::csmInt32 index = 0; index < ary_parameter.size(); index++ ) {
+        GDCubismParameter *param = Object::cast_to<GDCubismParameter>(ary_parameter[index]);
         if(param != nullptr) {
             param->sync(this->internal_model->GetModel());
         }
     }
 
-    for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++ ) {
-        GDCubismPartOpacity *param = Object::cast_to<GDCubismPartOpacity>(this->ary_part_opacity[index]);
+    Array ary_part_opacity = this->get_part_opacities();
+    for(Csm::csmInt32 index = 0; index < ary_part_opacity.size(); index++ ) {
+        GDCubismPartOpacity *param = Object::cast_to<GDCubismPartOpacity>(ary_part_opacity[index]);
         if(param != nullptr) {
             param->sync(this->internal_model->GetModel());
         }
@@ -150,17 +152,19 @@ void GDCubismUserModel::cubism_effect_dirty_reset() {
 }
 
 bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
-    for(Csm::csmInt32 index = 0; index < this->ary_parameter.size(); index++) {
-        Ref<GDCubismParameter> p = Object::cast_to<GDCubismParameter>(this->ary_parameter[index]);
-        if(p != nullptr && p->id == p_name) {
+    Array ary_parameter = this->get_parameters();
+    for(Csm::csmInt32 index = 0; index < ary_parameter.size(); index++) {
+        GDCubismParameter *p = Object::cast_to<GDCubismParameter>(ary_parameter[index]);
+        if(p != nullptr && p->get_name() == p_name) {
             p->set_value(p_value);
             return true;
         }
     }
 
-    for(Csm::csmInt32 index = 0; index < this->ary_part_opacity.size(); index++) {
-        Ref<GDCubismPartOpacity> p = Object::cast_to<GDCubismPartOpacity>(this->ary_part_opacity[index]);
-        if(p != nullptr && p->id == p_name) {
+    Array ary_part_opacity = this->get_part_opacities();
+    for(Csm::csmInt32 index = 0; index < ary_part_opacity.size(); index++) {
+        GDCubismPartOpacity *p = Object::cast_to<GDCubismPartOpacity>(ary_part_opacity[index]);
+        if(p != nullptr && p->get_name() == p_name) {
             p->set_value(p_value);
             return true;
         }
@@ -171,17 +175,19 @@ bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
 
 
 bool GDCubismUserModel::_get(const StringName &p_name, Variant &r_ret) const {
-    for(int64_t index = 0; index < this->ary_parameter.size(); index++) {
-        Ref<GDCubismParameter> p = Object::cast_to<GDCubismParameter>(this->ary_parameter[index]);
-        if(p != nullptr && p->id == p_name) {
+    Array ary_parameter = this->get_parameters();
+    for(int64_t index = 0; index < ary_parameter.size(); index++) {
+        GDCubismParameter *p = Object::cast_to<GDCubismParameter>(ary_parameter[index]);
+        if (p != nullptr && p->get_name() == p_name) {
             r_ret = p->get_value();
             return true;
         }
     }
 
-    for(int64_t index = 0; index < this->ary_part_opacity.size(); index++) {
-        Ref<GDCubismPartOpacity> p = Object::cast_to<GDCubismPartOpacity>(this->ary_part_opacity[index]);
-        if(p != nullptr && p->id == p_name) {
+    Array ary_part_opacity = this->get_part_opacities();
+    for(int64_t index = 0; index < ary_part_opacity.size(); index++) {
+        GDCubismPartOpacity *p = Object::cast_to<GDCubismPartOpacity>(ary_part_opacity[index]);
+        if (p != nullptr && p->get_name() == p_name) {
             r_ret = p->get_value();
             return true;
         }
@@ -192,9 +198,10 @@ bool GDCubismUserModel::_get(const StringName &p_name, Variant &r_ret) const {
 
 
 bool GDCubismUserModel::_property_can_revert(const StringName &p_name) const {
-    for(int64_t index = 0; index < this->ary_parameter.size(); index++) {
-        GDCubismParameter *p = Object::cast_to<GDCubismParameter>(this->ary_parameter[index]);
-        if(p->id == p_name) return true;
+    Array ary_parameter = this->get_parameters();
+    for(int64_t index = 0; index < ary_parameter.size(); index++) {
+        GDCubismParameter *p = Object::cast_to<GDCubismParameter>(ary_parameter[index]);
+        if (p->get_name() == p_name) return true;
     }
 
     return false;
@@ -202,9 +209,10 @@ bool GDCubismUserModel::_property_can_revert(const StringName &p_name) const {
 
 
 bool GDCubismUserModel::_property_get_revert(const StringName &p_name, Variant &r_property) const {
-    for(int64_t index = 0; index < this->ary_parameter.size(); index++) {
-        GDCubismParameter *p = Object::cast_to<GDCubismParameter>(this->ary_parameter[index]);
-        if(p->id == p_name) {
+    Array ary_parameter = this->get_parameters();
+    for(int64_t index = 0; index < ary_parameter.size(); index++) {
+        GDCubismParameter *p = Object::cast_to<GDCubismParameter>(ary_parameter[index]);
+        if (p->get_name() == p_name) {
             r_property = p->get_default_value();
             return true;
         }
@@ -213,13 +221,21 @@ bool GDCubismUserModel::_property_get_revert(const StringName &p_name, Variant &
     return false;
 }
 
+void GDCubismUserModel::_validate_property(PropertyInfo &p_property) const {
+	String name = p_property.name;
+	// Test hiding the "mouse_filter" property from the editor.
+	if (name == "parameters") {
+		p_property.usage = PROPERTY_USAGE_NO_EDITOR;
+	}
+}
 
 void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     // Property - Parameter
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_PARAMETER_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
-    for(int64_t index = 0; index < this->ary_parameter.size(); index++) {
-        Ref<GDCubismParameter> param = this->ary_parameter[index];
+    Array ary_parameter = this->get_parameters();
+    for(int64_t index = 0; index < ary_parameter.size(); index++) {
+        GDCubismParameter *param = Object::cast_to<GDCubismParameter>(ary_parameter[index]);
 
         Array ary_value;
         ary_value.append(param->get_minimum_value());
@@ -227,7 +243,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
         PropertyInfo pinfo(
             Variant::FLOAT,
-            param->id,
+            param->get_name(),
             PROPERTY_HINT_RANGE,
             String("{0},{1}").format(ary_value),
             PROPERTY_USAGE_DEFAULT
@@ -239,8 +255,9 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
     // Property - PartOpacity
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_PART_OPACITY_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
-    for(int64_t index = 0; index < this->ary_part_opacity.size(); index++) {
-        Ref<GDCubismPartOpacity> param = this->ary_part_opacity[index];
+    Array ary_part_opacity = this->get_part_opacities();
+    for(int64_t index = 0; index < ary_part_opacity.size(); index++) {
+        GDCubismPartOpacity *param = Object::cast_to<GDCubismPartOpacity>(ary_part_opacity[index]);
 
         Array ary_value;
         ary_value.append(0.0);
@@ -248,7 +265,7 @@ void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
 
         PropertyInfo pinfo(
             Variant::FLOAT,
-            param->id,
+            param->get_name(),
             PROPERTY_HINT_RANGE,
             String("{0},{1}").format(ary_value),
             PROPERTY_USAGE_DEFAULT
@@ -295,6 +312,14 @@ void GDCubismUserModel::_ready() {
             Ref<ShaderMaterial> mat = mesh->get_material();
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
         }   
+    }
+
+    Array ary_parameter = this->get_parameters();
+    for(Csm::csmInt32 index = 0; index < ary_parameter.size(); index++ ) {
+        GDCubismParameter *param = Object::cast_to<GDCubismParameter>(ary_parameter[index]);
+        if(param != nullptr) {
+            param->apply(this->internal_model->GetModel());
+        }
     }
 }
 

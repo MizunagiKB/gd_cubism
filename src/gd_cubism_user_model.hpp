@@ -100,8 +100,6 @@ public:
     Array ary_meshes;
     Dictionary dict_mesh;
 
-    Array ary_parameter;
-    Array ary_part_opacity;
     Array hit_areas;
 
     Csm::csmMap<String,anim_expression> dict_anim_expression;
@@ -122,8 +120,6 @@ protected:
 
         // Parameter
         ClassDB::bind_method(D_METHOD("get_parameters"), &GDCubismUserModel::get_parameters);
-        ClassDB::bind_method(D_METHOD("set_parameters"), &GDCubismUserModel::set_parameters);
-        ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "parameters", PROPERTY_HINT_RESOURCE_TYPE, "GDCubismParameter"), "set_parameters", "get_parameters");
 
         // PartOpacity
         ClassDB::bind_method(D_METHOD("get_part_opacities"), &GDCubismUserModel::get_part_opacities);
@@ -164,11 +160,11 @@ public:
 
     Array get_hit_areas() const { return this->hit_areas; }
 
-    Array get_parameters() const { return this->ary_parameter; };
-    void set_parameters(const Array parameters) { 
-        UtilityFunctions::print(parameters);
-        this->ary_parameter = parameters; 
-    }
+    Array get_parameters() const { 
+        Node* parameters = this->get_node_or_null(NodePath("Parameters"));
+        if (parameters == nullptr) return Array();
+        return parameters->get_children();
+    };
     
     Ref<AnimationLibrary> get_animations() { 
         return this->get_animation_player()->get_animation_library("");
@@ -179,9 +175,10 @@ public:
     }
     
     Array get_part_opacities() const {
-        return this->ary_part_opacity;
+        Node* parameters = this->get_node_or_null(NodePath("Parts"));
+        if (parameters == nullptr) return Array();
+        return parameters->get_children();
     }
-    void set_part_opacities(const Array opacities) { this->ary_part_opacity = opacities; }
 
     Dictionary get_mesh_dict() const;
 
@@ -199,6 +196,7 @@ public:
     bool _get(const StringName &p_name, Variant &r_ret) const;
     bool _property_can_revert(const StringName &p_name) const;
     bool _property_get_revert(const StringName &p_name, Variant &r_property) const;
+    void _validate_property(PropertyInfo &p_property) const;
     void _get_property_list(List<godot::PropertyInfo> *p_list);
 
     void _ready() override;

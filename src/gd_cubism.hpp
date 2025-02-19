@@ -41,7 +41,7 @@ enum GDCubismShader {
 // ------------------------------------------------------------------- const(s)
 const static int MAX_PRINTLOG_LENGTH = 256;
 
-const static char* PROP_PARAMETER_GROUP = "Parameter";
+const static char* PROP_PARAMETER_GROUP = "Parameters";
 const static char* PROP_PART_OPACITY_GROUP = "PartOpacity";
 
 const static char* SIGNAL_EFFECT_HIT_AREA_ENTERED = "hit_area_entered";
