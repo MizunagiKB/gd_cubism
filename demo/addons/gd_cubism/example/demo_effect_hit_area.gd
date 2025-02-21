@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const DEFAULT_ASSET: String = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro_t02.model3.json"
+const DEFAULT_ASSET: String = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro.model3.json"
 
 var pressed: bool = false
 var local_pos: Vector2 = Vector2.ZERO
@@ -80,4 +80,3 @@ func _on_canvas_draw():
 
 func _on_item_list_item_selected(index):
     id_mesh = $Control/ItemList.get_item_text(index)
-
