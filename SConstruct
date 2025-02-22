@@ -77,13 +77,15 @@ if env["platform"] == "windows":
     if arch == "x86_32":
         arch = "x86"
 
+    dllsuffix = "" if env["target"] == "template_release" else "d"
+
     o_cubism_lib = (
         Path(CUBISM_NATIVE_CORE_DIR)
         .joinpath("lib")
         .joinpath(env["platform"])
         .joinpath(arch)
         .joinpath(env["MSVC_VERSION"].replace(".", ""))
-        .joinpath("Live2DCubismCore_MT.lib")
+        .joinpath("Live2DCubismCore_MD{:s}.lib".format(dllsuffix))
     )
     env.Append(
         LIBPATH=[
@@ -98,7 +100,7 @@ if env["platform"] == "windows":
     )
 
     print("                       libs = {:s}".format(str(o_cubism_lib)))
-    env.Append(LIBS=["Live2DCubismCore_MT"])
+    env.Append(LIBS=["Live2DCubismCore_MD{:s}".format(dllsuffix)])
 
 elif env["platform"] == "macos":
     o_cubism_lib = (
