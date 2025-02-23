@@ -26,6 +26,7 @@
 #include <gd_cubism_value_parameter.hpp>
 #include <gd_cubism_value_part_opacity.hpp>
 #include <gd_cubism_user_model.hpp>
+#include <gd_cubism_expression.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -109,23 +110,23 @@ void GDCubismUserModel::_update(const float delta) {
         this->get_animation_player()->advance(delta);
     }
     
-    this->internal_model->pro_update(delta);
-
-    this->internal_model->efx_update(delta);
-
     Array ary_parameter = this->get_parameters();
     for(Csm::csmInt32 index = 0; index < ary_parameter.size(); index++ ) {
         GDCubismParameter *param = Object::cast_to<GDCubismParameter>(ary_parameter[index]);
         if(param != nullptr) {
-            param->sync(this->internal_model->GetModel());
+            param->apply(this->internal_model->GetModel());
         }
     }
+
+    this->internal_model->pro_update(delta);
+
+    this->internal_model->efx_update(delta);
 
     Array ary_part_opacity = this->get_part_opacities();
     for(Csm::csmInt32 index = 0; index < ary_part_opacity.size(); index++ ) {
         GDCubismPartOpacity *param = Object::cast_to<GDCubismPartOpacity>(ary_part_opacity[index]);
         if(param != nullptr) {
-            param->sync(this->internal_model->GetModel());
+            param->apply(this->internal_model->GetModel());
         }
     }
 
@@ -150,6 +151,23 @@ bool GDCubismUserModel::check_cubism_effect_dirty() const {
 void GDCubismUserModel::cubism_effect_dirty_reset() {
     this->cubism_effect_dirty = false;
 }
+
+void GDCubismUserModel::set_active_expression(const String exp) {
+    this->curr_anim_expression_key = exp;
+    if (!this->is_initialized()) return;
+    if (exp == "") {
+        this->internal_model->set_expression(nullptr);
+        return;
+    }
+
+    Ref<GDCubismExpression> r = Object::cast_to<GDCubismExpression>(this->dict_anim_expression[exp]);
+    if (r.is_valid()) {
+        if (r->internal_expression == nullptr) { r->initialize(); }
+        if (r->internal_expression == nullptr) { return; }
+        UtilityFunctions::print("activating expression ", exp, r);
+        this->internal_model->set_expression(r->internal_expression);
+    }
+};
 
 bool GDCubismUserModel::_set(const StringName &p_name, const Variant &p_value) {
     Array ary_parameter = this->get_parameters();
@@ -218,6 +236,11 @@ bool GDCubismUserModel::_property_get_revert(const StringName &p_name, Variant &
         }
     }
 
+    if (p_name == StringName("active_expression")) {
+        r_property = "";
+        return true;
+    }
+
     return false;
 }
 
@@ -227,9 +250,30 @@ void GDCubismUserModel::_validate_property(PropertyInfo &p_property) const {
 	if (name == "parameters") {
 		p_property.usage = PROPERTY_USAGE_NO_EDITOR;
 	}
+    if (name == "active_expression") {
+        p_property.hint = PROPERTY_HINT_ENUM;
+        Array choices = this->get_expressions().keys().duplicate();
+        p_property.hint_string = String(",").join(choices);
+    }
+    if (name == "expressions") {
+        p_property.usage = PROPERTY_USAGE_NO_EDITOR;
+    }
 }
 
 void GDCubismUserModel::_get_property_list(List<godot::PropertyInfo> *p_list) {
+    // Expressions
+    {
+        Array expressions = this->dict_anim_expression.keys().duplicate();
+        expressions.insert(0, "");
+        PropertyInfo pinfo(
+            Variant::STRING,
+            "active_expression",
+            PROPERTY_HINT_ENUM,
+            String(",").join(expressions),
+            PROPERTY_USAGE_DEFAULT
+        );
+    }
+
     // Property - Parameter
     p_list->push_back(PropertyInfo(Variant::STRING, PROP_PARAMETER_GROUP, PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
 
@@ -315,11 +359,23 @@ void GDCubismUserModel::_ready() {
     }
 
     Array ary_parameter = this->get_parameters();
-    for(Csm::csmInt32 index = 0; index < ary_parameter.size(); index++ ) {
-        GDCubismParameter *param = Object::cast_to<GDCubismParameter>(ary_parameter[index]);
+    for(int i = 0; i < ary_parameter.size(); i++ ) {
+        GDCubismParameter *param = Object::cast_to<GDCubismParameter>(ary_parameter[i]);
         if(param != nullptr) {
             param->apply(this->internal_model->GetModel());
         }
+    }
+
+    Array ary_expressions = this->get_expressions().values();
+    UtilityFunctions::print(ary_expressions);
+    for (int i = 0; i < ary_expressions.size(); i++) {
+        GDCubismExpression *exp = Object::cast_to<GDCubismExpression>(ary_expressions[i]);
+        if (exp != nullptr) {
+            exp->initialize();
+        }
+    }
+    if (!this->get_active_expression().is_empty()) {
+        this->set_active_expression(this->get_active_expression());
     }
 }
 

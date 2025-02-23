@@ -23,7 +23,6 @@
 #include <gd_cubism_value_part_opacity.hpp>
 #include <gd_cubism_user_model.hpp>
 #include <gd_cubism_expression.hpp>
-#include <gd_cubism_expression_controller.hpp>
 #include <register_types.hpp>
 #include <plugin.hpp>
 
@@ -83,7 +82,6 @@ void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     ClassDB::register_class<GDCubismMotionQueueEntryHandle>();
     ClassDB::register_class<GDCubismMotionEntry>();
     ClassDB::register_class<GDCubismUserModel>();
-    ClassDB::register_class<GDCubismExpressionController>();
 }
 
 void uninitialize_gd_cubism_module(ModuleInitializationLevel p_level) {

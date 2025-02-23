@@ -4,7 +4,6 @@
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/json.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-#include <gd_cubism_expression.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -16,10 +15,16 @@ using namespace godot;
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
 
+Ref<GDCubismExpression> GDCubismExpressionImporter::parse_expression(const String &p_source_file) {
+    Ref<GDCubismExpression> resource = memnew(GDCubismExpression);
+    resource->set_path(p_source_file);
+    return resource;
+}
+
 Error GDCubismExpressionImporter::_import(const String &p_source_file, const String &p_save_path, const Dictionary &p_options, const TypedArray<String> &p_platform_variants, const TypedArray<String> &p_gen_files) const {
     ERR_FAIL_COND_V(!p_source_file.ends_with(".exp3.json"), Error::FAILED);
 
-	auto resource = memnew(GDCubismExpression);
+	auto resource = GDCubismExpressionImporter::parse_expression(p_source_file);
     
     String filename = p_save_path + String(".") + this->_get_save_extension();
     return ResourceSaver::get_singleton()->save(resource, filename);

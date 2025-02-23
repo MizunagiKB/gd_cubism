@@ -99,10 +99,9 @@ public:
 
     Array ary_meshes;
     Dictionary dict_mesh;
-
     Array hit_areas;
-
-    Csm::csmMap<String,anim_expression> dict_anim_expression;
+    
+    Dictionary dict_anim_expression;
     String curr_anim_expression_key;
 
     Csm::csmVector<GDCubismEffect*> _list_cubism_effect;
@@ -134,6 +133,14 @@ protected:
         ClassDB::bind_method(D_METHOD("get_animation_player"), &GDCubismUserModel::get_animation_player);
 
         ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
+
+        // Expressions
+        ClassDB::bind_method(D_METHOD("get_active_expression"), &GDCubismUserModel::get_active_expression);
+        ClassDB::bind_method(D_METHOD("set_active_expression"), &GDCubismUserModel::set_active_expression);
+        ADD_PROPERTY(PropertyInfo(Variant::STRING, "active_expression"), "set_active_expression", "get_active_expression");
+        ClassDB::bind_method(D_METHOD("get_expressions"), &GDCubismUserModel::get_expressions);
+        ClassDB::bind_method(D_METHOD("set_expressions"), &GDCubismUserModel::set_expressions);
+        ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "expressions"), "set_expressions", "get_expressions");
 
         // moc3FileFormatVersion
         BIND_ENUM_CONSTANT(CSM_MOC_VERSION_UNKNOWN);
@@ -179,6 +186,18 @@ public:
         if (parameters == nullptr) return Array();
         return parameters->get_children();
     }
+
+    String get_active_expression() const { 
+        return this->curr_anim_expression_key;
+    };
+    void set_active_expression(const String exp);
+
+    Dictionary get_expressions() const { 
+        return this->dict_anim_expression;
+    };
+    void set_expressions(const Dictionary exps) {
+        this->dict_anim_expression = exps;
+    };
 
     Dictionary get_mesh_dict() const;
 

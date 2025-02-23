@@ -14,10 +14,11 @@
 
 #include <importers/gd_cubism_model_importer.hpp>
 #include <importers/gd_cubism_motion_importer.hpp>
+#include <importers/gd_cubism_expression_importer.hpp>
 #include <private/internal_cubism_renderer_2d.hpp>
 #include <gd_cubism_value_parameter.hpp>
 #include <gd_cubism_value_part_opacity.hpp>
-#include <gd_cubism_expression_controller.hpp>
+#include <gd_cubism_expression.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -362,7 +363,6 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
             Array motion_files = walk_files(assets.get_base_dir(), "motion3.json");
             for (int i = 0; i < motion_files.size(); i++) {
                 String motion = motion_files[i];
-                UtilityFunctions::print(motion);
                 Ref<Animation> anim = res_loader->load(motion);
                 if (anim.is_null()) {
                     anim = GDCubismMotionImporter::parse_motion(motion);
@@ -374,22 +374,31 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
         }
     }
 
+    // Load Expressions
+    {
+        if (include_expressions) {
+            ResourceLoader *res_loader = ResourceLoader::get_singleton();
+            Array files = walk_files(assets.get_base_dir(), "exp3.json");
+            for (int i = 0; i < files.size(); i++) {
+                String f = files[i];
+                UtilityFunctions::print(f);
+                Ref<GDCubismExpression> e = res_loader->load(f);
+                if (e.is_null()) {
+                    e = GDCubismExpressionImporter::parse_expression(f);
+                }
+                if (e.is_valid()) {
+                    model->dict_anim_expression[f.get_file()] = e;
+                }
+            }
+        }
+    }
+
 	model->set_name(assets.get_file());
 	model->set_scene_file_path(assets);
 
     CSM_DELETE(internal_model);
 
     return model;
-}
-
-static void get_expressions(GDCubismUserModel *model) {
-    TypedArray<GDCubismExpression> ary_expression;
-
-	GDCubismExpressionController *controller = memnew(GDCubismExpressionController);
-
-	controller->set_expression_library(ary_expression);
-
-	model->add_child(controller);
 }
 
 Error GDCubismModelImporter::_import(const String &p_source_file, const String &p_save_path, const Dictionary &p_options, const TypedArray<String> &p_platform_variants, const TypedArray<String> &p_gen_files) const {

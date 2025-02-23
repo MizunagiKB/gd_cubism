@@ -60,20 +60,17 @@ protected:
     float minimum_value = 0.0;
     float maximum_value = 1.0;
     float default_value = 0.0;
-    bool changed = true;
     const ValueType _value_type = UNKONWN;
 
 private:
     virtual void setup(Csm::CubismModel *model) {}
-    virtual void apply(Csm::CubismModel *model) {}
-
+    
 public:
     GDCubismValueAbs() {}
     GDCubismValueAbs(const ValueType value_type)
         : _value_type(value_type) {}
     
     virtual void set_value(const float value) {
-        this->changed = true; 
         this->value = value;
     }
     virtual void reset() {
@@ -93,12 +90,7 @@ public:
         return String(this->get_name()) + ":" + String::num_real(this->get_value());
     }
 
-    void sync(Csm::CubismModel *model) {
-        if (this->changed == true) {
-            this->apply(model);
-            this->changed = false;
-        }
-    }
+    virtual void apply(Csm::CubismModel *model) {}
 };
 
 

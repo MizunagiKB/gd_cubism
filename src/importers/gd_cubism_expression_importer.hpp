@@ -5,6 +5,7 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/global_constants.hpp>
 #include <godot_cpp/classes/editor_import_plugin.hpp>
+#include <gd_cubism_expression.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -17,6 +18,8 @@ protected:
     static void _bind_methods() {}
 
 public:
+    static Ref<GDCubismExpression> parse_expression(const String &p_source_file);
+
     String _get_importer_name() const { return "gdcubism.expression"; }
     String _get_visible_name() const { return "Cubism Expression"; }
     int32_t _get_preset_count() const { return 0; }

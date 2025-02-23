@@ -23,7 +23,7 @@ public:
 
 	CubismExpressionMotion *internal_expression;
 
-	void _setup_local_to_scene() override;
+	void initialize();
 
 protected:
     static void _bind_methods() {

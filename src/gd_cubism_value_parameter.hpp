@@ -65,7 +65,6 @@ public:
         int32_t index = this->get_index();
         this->set_name(String(Core::csmGetParameterIds(csm_model)[index]));
         this->value = Core::csmGetParameterValues(csm_model)[index];
-        this->changed = false;
 
         this->type = static_cast<Type>(Core::csmGetParameterTypes(csm_model)[index]);
         this->minimum_value = Core::csmGetParameterMinimumValues(csm_model)[index];
