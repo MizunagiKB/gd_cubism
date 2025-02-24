@@ -18,11 +18,20 @@ using namespace godot;
 Ref<GDCubismExpression> GDCubismExpressionImporter::parse_expression(const String &p_source_file) {
     Ref<GDCubismExpression> resource = memnew(GDCubismExpression);
     resource->set_path(p_source_file);
+
+    String name = p_source_file.get_file();
+    String clean_name = name.to_lower().left(-10).replace(" ", "_");
+
+    resource->set_name(clean_name);
+
+    Dictionary data = JSON::parse_string(FileAccess::get_file_as_string(p_source_file));
+    resource->set_parameters(data["Parameters"]);
+
     return resource;
 }
 
 Error GDCubismExpressionImporter::_import(const String &p_source_file, const String &p_save_path, const Dictionary &p_options, const TypedArray<String> &p_platform_variants, const TypedArray<String> &p_gen_files) const {
-    ERR_FAIL_COND_V(!p_source_file.ends_with(".exp3.json"), Error::FAILED);
+    ERR_FAIL_COND_V(!p_source_file.ends_with(EXPRESSION_FILE_EXTENSION), Error::FAILED);
 
 	auto resource = GDCubismExpressionImporter::parse_expression(p_source_file);
     

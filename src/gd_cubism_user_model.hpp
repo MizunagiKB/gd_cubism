@@ -21,12 +21,17 @@
 #include <Motion/CubismMotionQueueEntry.hpp>
 
 #include <gd_cubism_motion_entry.hpp>
-
+#include <gd_cubism_expression_controller.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
+const static char* MESHES_NODE = "Meshes";
+const static char* PARAMETERS_NODE = "Parameters";
+const static char* EXPRESSION_CONTROLLER_NODE = "ExpressionController";
+const static char* MOTION_CONTROLLER_NODE = "MotionController";
+
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
 class InternalCubismUserModel;
@@ -100,9 +105,6 @@ public:
     Array ary_meshes;
     Dictionary dict_mesh;
     Array hit_areas;
-    
-    Dictionary dict_anim_expression;
-    String curr_anim_expression_key;
 
     Csm::csmVector<GDCubismEffect*> _list_cubism_effect;
     bool cubism_effect_dirty;
@@ -135,12 +137,8 @@ protected:
         ClassDB::bind_method(D_METHOD("advance", "delta"), &GDCubismUserModel::advance);
 
         // Expressions
-        ClassDB::bind_method(D_METHOD("get_active_expression"), &GDCubismUserModel::get_active_expression);
-        ClassDB::bind_method(D_METHOD("set_active_expression"), &GDCubismUserModel::set_active_expression);
-        ADD_PROPERTY(PropertyInfo(Variant::STRING, "active_expression"), "set_active_expression", "get_active_expression");
         ClassDB::bind_method(D_METHOD("get_expressions"), &GDCubismUserModel::get_expressions);
-        ClassDB::bind_method(D_METHOD("set_expressions"), &GDCubismUserModel::set_expressions);
-        ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "expressions"), "set_expressions", "get_expressions");
+        ClassDB::bind_method(D_METHOD("get_expression_controller"), &GDCubismUserModel::get_expression_controller);
 
         // moc3FileFormatVersion
         BIND_ENUM_CONSTANT(CSM_MOC_VERSION_UNKNOWN);
@@ -168,17 +166,27 @@ public:
     Array get_hit_areas() const { return this->hit_areas; }
 
     Array get_parameters() const { 
-        Node* parameters = this->get_node_or_null(NodePath("Parameters"));
+        Node* parameters = this->get_node_or_null(NodePath(PARAMETERS_NODE));
         if (parameters == nullptr) return Array();
         return parameters->get_children();
     };
     
-    Ref<AnimationLibrary> get_animations() { 
+    Ref<AnimationLibrary> get_animations() const {
         return this->get_animation_player()->get_animation_library("");
     }
 
-    AnimationPlayer* get_animation_player() {
-        return Object::cast_to<AnimationPlayer>(this->get_node_or_null("MotionController")); 
+    AnimationPlayer* get_animation_player() const {
+        return Object::cast_to<AnimationPlayer>(this->get_node_or_null(MOTION_CONTROLLER_NODE)); 
+    }
+
+    Array get_expressions() const {
+        GDCubismExpressionController* controller = this->get_expression_controller();
+        if (controller == nullptr) return Array();
+        return controller->get_expression_library().keys();
+    }
+
+    GDCubismExpressionController* get_expression_controller() const {
+        return Object::cast_to<GDCubismExpressionController>(this->get_node_or_null(EXPRESSION_CONTROLLER_NODE));
     }
     
     Array get_part_opacities() const {
@@ -186,18 +194,6 @@ public:
         if (parameters == nullptr) return Array();
         return parameters->get_children();
     }
-
-    String get_active_expression() const { 
-        return this->curr_anim_expression_key;
-    };
-    void set_active_expression(const String exp);
-
-    Dictionary get_expressions() const { 
-        return this->dict_anim_expression;
-    };
-    void set_expressions(const Dictionary exps) {
-        this->dict_anim_expression = exps;
-    };
 
     Dictionary get_mesh_dict() const;
 

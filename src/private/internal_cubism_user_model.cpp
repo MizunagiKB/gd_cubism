@@ -32,8 +32,7 @@ using namespace Live2D::Cubism::Framework;
 // ------------------------------------------------------------------- class(s)
 InternalCubismUserModel::InternalCubismUserModel(GDCubismUserModel *owner_viewport)
     : CubismUserModel()
-    , _owner_viewport(owner_viewport)
-    , _expression(nullptr) {
+    , _owner_viewport(owner_viewport) {
 
     _debugMode = false;
 }
@@ -134,20 +133,10 @@ bool InternalCubismUserModel::model_bind() {
     return true;
 }
 
-void InternalCubismUserModel::set_expression(CubismExpressionMotion *exp) {
-    if (this->IsInitialized() == false) return;
-    this->_expressionManager->StartMotionPriority(exp, false, GDCubismUserModel::Priority::PRIORITY_FORCE);
-    this->_expression = exp;
-}
-
 void InternalCubismUserModel::pro_update(const float delta) {
     if(this->IsInitialized() == false) return;
 
     this->effect_batch(delta, EFFECT_CALL_PROLOGUE);
-    
-    if(this->_expressionManager != nullptr) {
-        this->_expressionManager->UpdateMotion(this->_model, delta);
-    }
 
     this->_model->GetModelOpacity();
 }

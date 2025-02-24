@@ -19,6 +19,7 @@
 #include <gd_cubism_value_parameter.hpp>
 #include <gd_cubism_value_part_opacity.hpp>
 #include <gd_cubism_expression.hpp>
+#include <gd_cubism_expression_controller.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -123,7 +124,7 @@ void GDCubismModelImporter::build_model(InternalCubismRenderer2D* renderer, GDCu
     const Vector2 vct_origin = InternalCubismUserModel::get_origin(model);
 
     Node2D *meshes = memnew(Node2D);
-    meshes->set_name("Meshes");
+    meshes->set_name(MESHES_NODE);
     meshes->set_position(-vct_origin);
     target_node->add_child(meshes);
     meshes->set_owner(target_node);
@@ -282,7 +283,7 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
         Node* parameters = memnew(Node);
         
         model->add_child(parameters);
-        parameters->set_name("Parameters");
+        parameters->set_name(PARAMETERS_NODE);
         parameters->set_owner(model);
         
         for(Csm::csmInt32 index = 0; index < internal_model->GetModel()->GetParameterCount(); index++) {
@@ -355,7 +356,7 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
         model->add_child(anim_player);
         anim_player->set_callback_mode_process(AnimationPlayer::ANIMATION_CALLBACK_MODE_PROCESS_MANUAL);
         anim_player->set_owner(model);
-        anim_player->set_name("MotionController");
+        anim_player->set_name(MOTION_CONTROLLER_NODE);
         anim_player->set_root_node(NodePath(".."));
 
         if (include_motions) {
@@ -376,18 +377,23 @@ GDCubismUserModel* GDCubismModelImporter::load_model(const String &assets, bool 
 
     // Load Expressions
     {
+        GDCubismExpressionController *controller = memnew(GDCubismExpressionController);
+        model->add_child(controller);
+        controller->set_name(EXPRESSION_CONTROLLER_NODE);
+        controller->set_owner(model);
         if (include_expressions) {
             ResourceLoader *res_loader = ResourceLoader::get_singleton();
-            Array files = walk_files(assets.get_base_dir(), "exp3.json");
+            Array files = walk_files(assets.get_base_dir(), EXPRESSION_FILE_EXTENSION);
+            Dictionary expressions = controller->get_expression_library();
             for (int i = 0; i < files.size(); i++) {
                 String f = files[i];
-                UtilityFunctions::print(f);
                 Ref<GDCubismExpression> e = res_loader->load(f);
                 if (e.is_null()) {
                     e = GDCubismExpressionImporter::parse_expression(f);
                 }
                 if (e.is_valid()) {
-                    model->dict_anim_expression[f.get_file()] = e;
+                    UtilityFunctions::print(f);
+                    expressions[e->get_name()] = e;
                 }
             }
         }

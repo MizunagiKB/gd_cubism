@@ -62,7 +62,6 @@ private:
     Array _list_eye_blink;
     Array _list_lipsync;
     Array ary_hit_areas;
-    CubismExpressionMotion *_expression;
 
 public:
     bool model_bind();
@@ -70,7 +69,6 @@ public:
         if (!this->IsInitialized()) return nullptr;
         return this->model_settings;
     };
-    void set_expression(CubismExpressionMotion *exp);
     void pro_update(const float delta);
     void efx_update(const float delta);
     void epi_update(const float delta);

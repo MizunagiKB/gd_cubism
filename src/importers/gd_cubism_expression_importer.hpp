@@ -11,6 +11,8 @@
 // --------------------------------------------------------------- namespace(s)
 using namespace godot;
 
+static const char* EXPRESSION_FILE_EXTENSION = ".exp3.json";
+
 class GDCubismExpressionImporter : public EditorImportPlugin {
     GDCLASS(GDCubismExpressionImporter, EditorImportPlugin);
 
