@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-// SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 #ifndef GD_CUBISM_MOTION_IMPORTER_REGISTER_TYPES_H
 #define GD_CUBISM_MOTION_IMPORTER_REGISTER_TYPES_H
 

@@ -1,11 +1,12 @@
+// SPDX-License-Identifier: MIT
 #ifndef GD_CUBISM_MOTION_IMPORTER
 #define GD_CUBISM_MOTION_IMPORTER
-
 // ----------------------------------------------------------------- include(s)
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/global_constants.hpp>
 #include <godot_cpp/classes/editor_import_plugin.hpp>
 #include <godot_cpp/classes/animation.hpp>
+
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
