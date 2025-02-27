@@ -6,12 +6,12 @@
 #include <godot_cpp/classes/editor_plugin.hpp>
 #include <godot_cpp/classes/animation.hpp>
 
-#include <importers/gd_cubism_motion_importer.hpp>
+#include <gd_cubism_motion_importer.hpp>
 
 using namespace godot;
 
-class GDCubismPlugin : public EditorPlugin {
-    GDCLASS(GDCubismPlugin, EditorPlugin);
+class GDCubismMotionImporterEditorPlugin : public EditorPlugin {
+    GDCLASS(GDCubismMotionImporterEditorPlugin, EditorPlugin);
 
 protected:
     static void _bind_methods() {};

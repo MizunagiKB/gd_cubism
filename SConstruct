@@ -4,9 +4,21 @@ import sys
 import os
 from glob import glob
 from pathlib import Path
+from SCons.Script import Variables, BoolVariable
 
 
-env = SConscript("godot-cpp/SConstruct")
+vars = Variables()
+vars.Add(BoolVariable("WITH_GDCUBISM_EXT", "Build GDCubism Extensions", False))                                                                     
+
+env = SConscript("godot-cpp/SConstruct", variables=vars)
+
+vars.Update(env)
+
+
+# -----------------------------------------------------------------------------
+if env["WITH_GDCUBISM_EXT"] is True:
+    SConscript("src_ext/SConstruct", exports="env")
+
 
 print("")
 print("--- GDCubism ---")
@@ -197,7 +209,6 @@ print("")
 
 sources = glob("src/*.cpp")
 sources += glob("src/private/*.cpp")
-sources += glob("src/importers/*.cpp")
 
 env.Append(CPPPATH=[os.path.join(CUBISM_NATIVE_FRAMEWORK_DIR, "src")])
 
@@ -232,7 +243,7 @@ if env["target"] in ["editor", "template_debug"]:
         print("Not including class reference as we're targeting a pre-4.3 baseline.")
 
 
-(extension_path,) = glob("demo/addons/*/*.gdextension")
+(extension_path,) = glob("demo/addons/gd_cubism/*.gdextension")
 
 # Find the addon path (e.g. project/addons/example).
 addon_path = Path(extension_path).parent
@@ -271,4 +282,5 @@ else:
         source=sources,
     )
 
-Default(library)
+
+env.Default(library)

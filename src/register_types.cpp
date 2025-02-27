@@ -7,7 +7,6 @@
 
 #include <CubismFramework.hpp>
 
-#include <importers/gd_cubism_motion_importer.hpp>
 #include <private/internal_cubism_allocator.hpp>
 #include <gd_cubism_effect.hpp>
 #include <gd_cubism_effect_breath.hpp>
@@ -21,7 +20,7 @@
 #include <gd_cubism_value_part_opacity.hpp>
 #include <gd_cubism_user_model.hpp>
 #include <register_types.hpp>
-#include <plugin.hpp>
+
 
 // --------------------------------------------------------------- namespace(s)
 using namespace godot;
@@ -41,15 +40,10 @@ void output(const char *message) {
 }
 
 void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
-    if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
-        ClassDB::register_class<GDCubismMotionImporter>();
-        ClassDB::register_class<GDCubismPlugin>();
-        EditorPlugins::add_by_type<GDCubismPlugin>();
-    }
-
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
         return;
     }
+
     option.LogFunction = output;
 
     #ifdef DEBUG_ENABLED
@@ -78,10 +72,6 @@ void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
 }
 
 void uninitialize_gd_cubism_module(ModuleInitializationLevel p_level) {
-    if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
-        EditorPlugins::remove_by_type<GDCubismPlugin>();
-    }
-    
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
 	}
