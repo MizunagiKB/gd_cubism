@@ -1,11 +1,9 @@
+#include <importers/gd_cubism_motion_importer.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/resource_saver.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/json.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-
-#include <gd_cubism_motion_importer.hpp>
-
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
