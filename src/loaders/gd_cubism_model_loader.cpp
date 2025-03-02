@@ -27,16 +27,15 @@ using namespace godot;
 
 
 static MeshInstance2D* request_mesh_instance() {
-    ArrayMesh* mesh = memnew(ArrayMesh);
+    Ref<ArrayMesh> mesh;
+	mesh.instantiate();
     mesh->set_local_to_scene(true);
     MeshInstance2D* node = memnew(MeshInstance2D);
     node->set_mesh(mesh);
     return node;
 }
 
-static ShaderMaterial* request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index, Array shaders) {
-    ShaderMaterial* mat = memnew(ShaderMaterial);
-    
+static Ref<ShaderMaterial> request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index, Array shaders) {
     GDCubismShader e = GD_CUBISM_SHADER_NORM_MIX;
     if (model->GetDrawableMaskCounts()[index] == 0)
     {
@@ -96,7 +95,10 @@ static ShaderMaterial* request_shader_material(const Csm::CubismModel *model, co
     Ref<Shader> shader = Object::cast_to<Shader>(shaders[e]);
     // TODO change to using canvas item uniforms once Godot 4.4 is stable
     shader->set_local_to_scene(true);
-    
+
+	Ref<ShaderMaterial> mat;
+	mat.instantiate();
+        
     mat->set_shader(shader);
     mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
     mat->set_local_to_scene(true);
@@ -144,7 +146,7 @@ static void build_model(InternalCubismRenderer2D* renderer, GDCubismUserModel* t
         String node_name(handle->GetString().GetRawString());
 
         MeshInstance2D* node = request_mesh_instance();
-        ShaderMaterial* mat = request_shader_material(model, index, shaders);
+        Ref<ShaderMaterial> mat = request_shader_material(model, index, shaders);
         node->set_material(mat);
 		renderer->update_mesh(model, index, false, node);
         renderer->update_material(model, index, mat);
@@ -338,14 +340,12 @@ GDCubismUserModel* GDCubismModelLoader::load_model(const String &assets, const b
 
 	// Prepare Meshes
 	{
-		UtilityFunctions::print("preparing model");
 		internal_model->CreateRenderer();
 		InternalCubismRenderer2D* renderer = internal_model->GetRenderer<InternalCubismRenderer2D>();
 		
 		renderer->IsPremultipliedAlpha(false);
 		renderer->DrawModel();
 		build_model(renderer, model, textures, shaders);
-        UtilityFunctions::print("model ready");
 	}
 
 	// Load Animations
@@ -365,7 +365,6 @@ GDCubismUserModel* GDCubismModelLoader::load_model(const String &assets, const b
             Array motion_files = walk_files(assets.get_base_dir(), MOTION_FILE_EXTENSION);
             for (int i = 0; i < motion_files.size(); i++) {
                 String motion = motion_files[i];
-                UtilityFunctions::print(motion);
                 Ref<Animation> anim = res_loader->load(motion, "Animation");
                 if (anim.is_valid()) {
                     animations->add_animation(motion.get_file(), anim);
@@ -388,7 +387,6 @@ GDCubismUserModel* GDCubismModelLoader::load_model(const String &assets, const b
                 String f = files[i];
                 Ref<GDCubismExpression> e = res_loader->load(f, "GDCubismExpression");
                 if (e.is_valid()) {
-                    UtilityFunctions::print(f);
                     expressions[e->get_name()] = e;
                 }
             }

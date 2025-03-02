@@ -38,7 +38,7 @@ private:
     static void ready_mask(const MeshInstance2D *node);
 
 public:
-    void update(const Array meshes);
+    void update(const Array meshes, int32_t viewport_size = 0);
     
     void update_material(const Csm::CubismModel *model, const Csm::csmInt32 index, const Ref<ShaderMaterial> mat) const;
 

@@ -90,7 +90,7 @@ void InternalCubismRenderer2D::update_mesh(
     );
 }
 
-void InternalCubismRenderer2D::update(Array meshes)
+void InternalCubismRenderer2D::update(Array meshes, int32_t viewport_size)
 {
     const CubismModel *model = this->GetModel();
     const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
@@ -115,7 +115,19 @@ void InternalCubismRenderer2D::update(Array meshes)
         node->set_z_index(renderOrder[index]);
         
         AABB bounds = node->get_mesh()->get_aabb();
-        Vector2i mask_size = Vector2i(bounds.size.x, bounds.size.y);
+        Vector2 mask_size = Vector2(bounds.size.x, bounds.size.y);
+        double scalar = 1.0;
+        if (viewport_size > 0) {
+            const float MASK_LIMIT = viewport_size;
+            if (mask_size.x > MASK_LIMIT || mask_size.y > MASK_LIMIT) {
+                scalar = MASK_LIMIT / Math::max(mask_size.x, mask_size.y);
+                Vector2 ratio = Vector2(
+                    Math::min(1.0f, mask_size.x / mask_size.y),
+                    Math::min(1.0f, mask_size.y / mask_size.x)
+                );
+                mask_size = Vector2(MASK_LIMIT, MASK_LIMIT) * ratio;
+            }
+        }
         RenderingServer::get_singleton()->canvas_item_set_custom_rect(
             node->get_canvas_item(), true,
             Rect2(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y)
@@ -131,14 +143,15 @@ void InternalCubismRenderer2D::update(Array meshes)
             viewport->set_size(Vector2i(1,1));
         } else {
             AABB bounds = node->get_mesh()->get_aabb();
-            Vector2i viewport_size = Vector2i(bounds.size.x, bounds.size.y);
+            Vector2i viewport_size = Vector2i(mask_size.x, mask_size.y);
             Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
+            Transform2D transform = Transform2D(0, -viewport_offset);
+            transform.scale(Size2(scalar, scalar));
             viewport->set_size(viewport_size);
-            viewport->set_canvas_transform(
-                Transform2D(0, -viewport_offset)
-            );
+            viewport->set_canvas_transform(transform);
 
             mat->set_shader_parameter("tex_mask", viewport->get_texture());
+            mat->set_shader_parameter("mask_scale", scalar);
             mat->set_shader_parameter("mesh_offset", viewport_offset);
         }
         

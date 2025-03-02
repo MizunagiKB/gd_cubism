@@ -106,6 +106,8 @@ public:
     Dictionary dict_mesh;
     Array hit_areas;
 
+    int32_t mask_viewport_size = 0;
+
     Csm::csmVector<GDCubismEffect*> _list_cubism_effect;
     bool cubism_effect_dirty;
 
@@ -139,6 +141,11 @@ protected:
         // Expressions
         ClassDB::bind_method(D_METHOD("get_expressions"), &GDCubismUserModel::get_expressions);
         ClassDB::bind_method(D_METHOD("get_expression_controller"), &GDCubismUserModel::get_expression_controller);
+
+        // 
+        ClassDB::bind_method(D_METHOD("set_mask_viewport_size", "value"), &GDCubismUserModel::set_mask_viewport_size);
+        ClassDB::bind_method(D_METHOD("get_mask_viewport_size"), &GDCubismUserModel::get_mask_viewport_size);
+        ADD_PROPERTY(PropertyInfo(Variant::INT, "mask_viewport_size", PROPERTY_HINT_RANGE, "0, 4096"), "set_mask_viewport_size", "get_mask_viewport_size");
 
         // moc3FileFormatVersion
         BIND_ENUM_CONSTANT(CSM_MOC_VERSION_UNKNOWN);
@@ -213,6 +220,9 @@ public:
     bool _property_get_revert(const StringName &p_name, Variant &r_property) const;
     void _validate_property(PropertyInfo &p_property) const;
     void _get_property_list(List<godot::PropertyInfo> *p_list);
+
+    void set_mask_viewport_size(const int32_t size) { this->mask_viewport_size = size; }
+    int32_t get_mask_viewport_size() const { return this->mask_viewport_size; }
 
     void _ready() override;
     void _enter_tree() override;

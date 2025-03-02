@@ -175,7 +175,7 @@ void InternalCubismUserModel::update_node() {
 
     renderer->IsPremultipliedAlpha(false);
     renderer->DrawModel();
-    renderer->update(this->_owner_viewport->ary_meshes);
+    renderer->update(this->_owner_viewport->ary_meshes, this->_owner_viewport->mask_viewport_size);
 }
 
 
