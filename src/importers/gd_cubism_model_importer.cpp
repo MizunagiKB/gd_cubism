@@ -60,10 +60,16 @@ Error GDCubismModelImporter::_import(const String &p_source_file, const String &
 
 	Ref<PackedScene> p;
 	p.instantiate();
-	ERR_FAIL_COND_V(p->pack(m) != OK, Error::FAILED);
+    if (p->pack(m) != OK) {
+        p.unref();
+        memdelete(m);
+        return Error::FAILED;
+    }
 
     String filename = p_save_path + String(".") + this->_get_save_extension();
-    return ResourceSaver::get_singleton()->save(p, filename);
+    auto result = ResourceSaver::get_singleton()->save(p, filename);
+    memdelete(m);
+    return result;
 }
 
 TypedArray<Dictionary> GDCubismModelImporter::_get_import_options(const String &p_path, int32_t p_preset_index) const { 

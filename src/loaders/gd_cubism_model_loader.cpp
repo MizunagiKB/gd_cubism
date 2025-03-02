@@ -106,17 +106,16 @@ static Ref<ShaderMaterial> request_shader_material(const Csm::CubismModel *model
     return mat;
 }
 
-static ShaderMaterial* request_mask_material(Array shaders) {
-    ShaderMaterial* mat = memnew(ShaderMaterial);
-
+static Ref<ShaderMaterial> request_mask_material(Array shaders) {
+    Ref<ShaderMaterial> mat;
     Ref<Shader> shader = Object::cast_to<Shader>(shaders[GD_CUBISM_SHADER_MASK]);
+	mat.instantiate();
     mat->set_shader(shader);
     
     return mat;
 }
 
-static void build_model(InternalCubismRenderer2D* renderer, GDCubismUserModel* target_node, Array textures, Array shaders)
-{
+static void build_model(InternalCubismRenderer2D* renderer, GDCubismUserModel* target_node, Array textures, Array shaders) {
 	const CubismModel *model = renderer->GetModel();
     const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
     const Csm::csmInt32 *maskCount = model->GetDrawableMaskCounts();
@@ -206,7 +205,7 @@ static void build_model(InternalCubismRenderer2D* renderer, GDCubismUserModel* t
             String mask_name(handle->GetString().GetRawString());
 
             MeshInstance2D *node = request_mesh_instance();
-            ShaderMaterial *mat = request_mask_material(shaders);
+            Ref<ShaderMaterial> mat = request_mask_material(shaders);
             renderer->update_mesh(model, j, true, node);
 
             node->set_name(mask_name);
@@ -252,8 +251,6 @@ static Array walk_files(String dir, String extension) {
 
 
 GDCubismUserModel* GDCubismModelLoader::load_model(const String &assets, const bool include_expressions, const bool include_motions, Array shaders) {
-	GDCubismUserModel *model = memnew(GDCubismUserModel);
-
     Ref<FileAccess> f = FileAccess::open(assets, FileAccess::READ);
     ERR_FAIL_COND_V_MSG(f.is_null(), nullptr, "Could not open model path.  Make sure to point to the model3.json");
 
@@ -269,6 +266,7 @@ GDCubismUserModel* GDCubismModelLoader::load_model(const String &assets, const b
 
 	PackedByteArray buffer = FileAccess::get_file_as_bytes(model_path);
 	
+	GDCubismUserModel *model = memnew(GDCubismUserModel);
 	InternalCubismUserModel *internal_model = CSM_NEW InternalCubismUserModel(model);
 	internal_model->LoadModel(buffer.ptr(), buffer.size());
 
@@ -276,6 +274,8 @@ GDCubismUserModel* GDCubismModelLoader::load_model(const String &assets, const b
 		CSM_DELETE(internal_model);
 		internal_model = nullptr;
 	
+		memdelete(model);
+
 		return nullptr;
 	}
 
@@ -419,7 +419,7 @@ Variant GDCubismModelLoader::_load(const String &p_path, const String &p_origina
     shaders[GD_CUBISM_SHADER_MASK_MUL] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader");
     shaders[GD_CUBISM_SHADER_MASK_MUL_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader");
 
-    GDCubismUserModel *m = GDCubismModelLoader::load_model(
+    GDCubismUserModel *m = this->load_model(
         p_path,
         true,
         true, 
@@ -430,7 +430,11 @@ Variant GDCubismModelLoader::_load(const String &p_path, const String &p_origina
 
 	Ref<PackedScene> p;
 	p.instantiate();
-	ERR_FAIL_COND_V(p->pack(m) != OK, Error::FAILED);
-
+	if (p->pack(m) != OK) {
+		p.unref();
+		memdelete(m);
+		return Error::FAILED;
+	}
+	memdelete(m);
 	return p;
 }
