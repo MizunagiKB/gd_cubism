@@ -7,6 +7,7 @@
 
 #include <CubismFramework.hpp>
 
+#include <loaders/gd_cubism_motion_loader.hpp>
 #include <importers/gd_cubism_motion_importer.hpp>
 #include <private/internal_cubism_allocator.hpp>
 #include <gd_cubism_effect.hpp>
@@ -28,6 +29,8 @@ using namespace godot;
 
 static InternalCubismAllocator allocator;
 static Csm::CubismFramework::Option option;
+
+static Ref<GDCubismMotionLoader> motionLoader;
 
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
@@ -72,9 +75,15 @@ void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     GDREGISTER_CLASS(GDCubismParameter);
     GDREGISTER_CLASS(GDCubismPartOpacity);
 
+    ClassDB::register_class<GDCubismMotionLoader>();
     ClassDB::register_class<GDCubismMotionQueueEntryHandle>();
     ClassDB::register_class<GDCubismMotionEntry>();
     ClassDB::register_class<GDCubismUserModel>();
+
+    motionLoader.instantiate();
+
+    // until Godot supports multi-dot extensions, prioritize our format loaders for json so it doesn't accidentally prefer a more generic one
+    ResourceLoader::get_singleton()->add_resource_format_loader(motionLoader, true);
 }
 
 void uninitialize_gd_cubism_module(ModuleInitializationLevel p_level) {
@@ -85,6 +94,9 @@ void uninitialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
 	}
+
+    ResourceLoader::get_singleton()->remove_resource_format_loader(motionLoader);
+    motionLoader.unref();
     
     Csm::CubismFramework::Dispose();
 }
