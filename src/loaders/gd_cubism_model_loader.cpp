@@ -26,7 +26,7 @@ using namespace Live2D::Cubism::Framework;
 using namespace godot;
 
 
-static MeshInstance2D* request_mesh_instance() {
+MeshInstance2D* request_mesh_instance() {
     Ref<ArrayMesh> mesh;
 	mesh.instantiate();
     mesh->set_local_to_scene(true);
@@ -35,7 +35,7 @@ static MeshInstance2D* request_mesh_instance() {
     return node;
 }
 
-static Ref<ShaderMaterial> request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index, Array shaders) {
+Ref<ShaderMaterial> request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index, Array shaders) {
     GDCubismShader e = GD_CUBISM_SHADER_NORM_MIX;
     if (model->GetDrawableMaskCounts()[index] == 0)
     {
@@ -106,7 +106,7 @@ static Ref<ShaderMaterial> request_shader_material(const Csm::CubismModel *model
     return mat;
 }
 
-static Ref<ShaderMaterial> request_mask_material(Array shaders) {
+Ref<ShaderMaterial> request_mask_material(Array shaders) {
     Ref<ShaderMaterial> mat;
     Ref<Shader> shader = Object::cast_to<Shader>(shaders[GD_CUBISM_SHADER_MASK]);
 	mat.instantiate();
@@ -115,7 +115,7 @@ static Ref<ShaderMaterial> request_mask_material(Array shaders) {
     return mat;
 }
 
-static void build_model(InternalCubismRenderer2D* renderer, GDCubismUserModel* target_node, Array textures, Array shaders) {
+void build_model(InternalCubismRenderer2D* renderer, GDCubismUserModel* target_node, Array textures, Array shaders) {
 	const CubismModel *model = renderer->GetModel();
     const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
     const Csm::csmInt32 *maskCount = model->GetDrawableMaskCounts();
@@ -223,7 +223,7 @@ static void build_model(InternalCubismRenderer2D* renderer, GDCubismUserModel* t
     }
 }
 
-static Array walk_files(String dir, String extension) {
+Array walk_files(String dir, String extension) {
 	Array files;
 
 	// pick files

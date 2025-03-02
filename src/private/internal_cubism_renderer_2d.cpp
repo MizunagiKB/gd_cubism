@@ -14,6 +14,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/viewport_texture.hpp>
 #include <godot_cpp/classes/rendering_server.hpp>
+#include <godot_cpp/classes/engine.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -90,7 +91,7 @@ void InternalCubismRenderer2D::update_mesh(
     );
 }
 
-void InternalCubismRenderer2D::update(Array meshes, int32_t viewport_size)
+void InternalCubismRenderer2D::update(Array meshes, int32_t mask_viewport_size)
 {
     const CubismModel *model = this->GetModel();
     const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
@@ -114,23 +115,12 @@ void InternalCubismRenderer2D::update(Array meshes, int32_t viewport_size)
         this->update_material(model, index, mat);
         node->set_z_index(renderOrder[index]);
         
+        // adjust real bounds to prevent the mesh being culled
         AABB bounds = node->get_mesh()->get_aabb();
-        Vector2 mask_size = Vector2(bounds.size.x, bounds.size.y);
-        double scalar = 1.0;
-        if (viewport_size > 0) {
-            const float MASK_LIMIT = viewport_size;
-            if (mask_size.x > MASK_LIMIT || mask_size.y > MASK_LIMIT) {
-                scalar = MASK_LIMIT / Math::max(mask_size.x, mask_size.y);
-                Vector2 ratio = Vector2(
-                    Math::min(1.0f, mask_size.x / mask_size.y),
-                    Math::min(1.0f, mask_size.y / mask_size.x)
-                );
-                mask_size = Vector2(MASK_LIMIT, MASK_LIMIT) * ratio;
-            }
-        }
+        Rect2 canvas_bounds = Rect2(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y);
         RenderingServer::get_singleton()->canvas_item_set_custom_rect(
             node->get_canvas_item(), true,
-            Rect2(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y)
+            canvas_bounds
         );
 
         if (!node->has_meta("viewport")) continue;
@@ -139,21 +129,46 @@ void InternalCubismRenderer2D::update(Array meshes, int32_t viewport_size)
         SubViewport *viewport = Object::cast_to<SubViewport>(node->get_node_or_null(path_to_viewport));
         if (viewport == nullptr) continue;
 
-        if (!visible) {
-            viewport->set_size(Vector2i(1,1));
-        } else {
-            AABB bounds = node->get_mesh()->get_aabb();
-            Vector2i viewport_size = Vector2i(mask_size.x, mask_size.y);
-            Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
-            Transform2D transform = Transform2D(0, -viewport_offset);
-            transform.scale(Size2(scalar, scalar));
-            viewport->set_size(viewport_size);
-            viewport->set_canvas_transform(transform);
+        // detect if the canvas item is going to be culled
+        // only cull viewports when not looking at the model in the editor
+        Rect2 bounds_in_viewport = node->get_global_transform_with_canvas().xform(canvas_bounds);
+        const bool is_culled = 
+            !Engine::get_singleton()->is_editor_hint() &&
+            !(
+                node->get_viewport_rect().intersects(bounds_in_viewport) 
+                || node->get_viewport_rect().encloses(bounds_in_viewport)
+            );
 
-            mat->set_shader_parameter("tex_mask", viewport->get_texture());
-            mat->set_shader_parameter("mask_scale", scalar);
-            mat->set_shader_parameter("mesh_offset", viewport_offset);
+        if (!visible || is_culled){
+            viewport->set_size(Vector2i(2,2));
+            continue;
         }
+
+        // optimize mask viewport size by scaling it relative to the viewport transform
+        // maximum resolution should be equal to raw size from mesh dimensions, or the upper bound defined on the model
+        Vector2 mask_size = Math::min(bounds_in_viewport.size, canvas_bounds.size);
+        Vector2 vp_scale = Vector2(mask_size) / Vector2(canvas_bounds.size);
+        double scalar = 1.0;
+        if (mask_viewport_size > 0) {
+            if (mask_size.x > mask_viewport_size || mask_size.y > mask_viewport_size) {
+                scalar = mask_viewport_size / Math::max(mask_size.x, mask_size.y);
+                Vector2 ratio = Vector2(
+                    Math::min(1.0f, mask_size.x / mask_size.y),
+                    Math::min(1.0f, mask_size.y / mask_size.x)
+                );
+                mask_size = Vector2(mask_viewport_size, mask_viewport_size) * ratio;
+            }
+        }
+        
+        Vector2 viewport_offset = Vector2(bounds.position.x, bounds.position.y);
+        Transform2D transform = Transform2D(0, -viewport_offset);
+        transform.scale(Size2(scalar, scalar) * vp_scale);
+        viewport->set_size(mask_size);
+        viewport->set_canvas_transform(transform);
+
+        mat->set_shader_parameter("tex_mask", viewport->get_texture());
+        mat->set_shader_parameter("mask_scale", scalar * vp_scale.x);
+        mat->set_shader_parameter("mesh_offset", viewport_offset);
         
         const Array masks = viewport->get_children();
         
