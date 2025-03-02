@@ -59,8 +59,6 @@ void GDCubismExpressionController::queue_expression(float fade) {
 	_queue[0] = _queue[1];
 	_queue[1] = x;
 	this->fade_time = 0;
-
-	UtilityFunctions::print(x);
 }
 
 void GDCubismExpressionController::deactivate_expression(String expression_name, float fade) {
@@ -118,10 +116,6 @@ void GDCubismExpressionController::update(CubismModel *model, float delta) {
 			((Dictionary)next["rpl"]).get(p_name, v),
 			progress
 		);
-
-		if (add != 0.0 || mul != 1.0) {
-			UtilityFunctions::print("applying expressions");
-		}
 		
 		model->SetParameterValue(
 			p,

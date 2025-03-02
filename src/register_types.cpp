@@ -7,8 +7,10 @@
 
 #include <CubismFramework.hpp>
 
+#include <loaders/gd_cubism_expression_loader.hpp>
+#include <loaders/gd_cubism_motion_loader.hpp>
+#include <loaders/gd_cubism_model_loader.hpp>
 #include <importers/gd_cubism_motion_importer.hpp>
-#include <importers/gd_cubism_expression_importer.hpp>
 #include <importers/gd_cubism_model_importer.hpp>
 #include <private/internal_cubism_allocator.hpp>
 #include <gd_cubism_effect.hpp>
@@ -32,6 +34,10 @@ using namespace godot;
 
 static InternalCubismAllocator allocator;
 static Csm::CubismFramework::Option option;
+    
+static Ref<GDCubismMotionLoader> motionLoader;
+static Ref<GDCubismExpressionLoader> expressionLoader;
+static Ref<GDCubismModelLoader> modelLoader;
 
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
@@ -46,9 +52,8 @@ void output(const char *message) {
 
 void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
-        ClassDB::register_class<GDCubismMotionImporter>();
-        ClassDB::register_class<GDCubismExpressionImporter>();
         ClassDB::register_class<GDCubismModelImporter>();
+        ClassDB::register_class<GDCubismMotionImporter>();    
         ClassDB::register_class<GDCubismPlugin>();
         EditorPlugins::add_by_type<GDCubismPlugin>();
     }
@@ -84,6 +89,19 @@ void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     ClassDB::register_class<GDCubismMotionQueueEntryHandle>();
     ClassDB::register_class<GDCubismMotionEntry>();
     ClassDB::register_class<GDCubismUserModel>();
+
+    ClassDB::register_class<GDCubismMotionLoader>();
+    ClassDB::register_class<GDCubismExpressionLoader>();
+    ClassDB::register_class<GDCubismModelLoader>();    
+        
+    expressionLoader.instantiate();
+    motionLoader.instantiate();
+    modelLoader.instantiate();
+    
+    ResourceLoader::get_singleton()->add_resource_format_loader(expressionLoader, true);
+    ResourceLoader::get_singleton()->add_resource_format_loader(motionLoader, true);
+    ResourceLoader::get_singleton()->add_resource_format_loader(modelLoader, true);
+
 }
 
 void uninitialize_gd_cubism_module(ModuleInitializationLevel p_level) {
@@ -94,6 +112,14 @@ void uninitialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
 	}
+    
+    ResourceLoader::get_singleton()->remove_resource_format_loader(expressionLoader);
+    ResourceLoader::get_singleton()->remove_resource_format_loader(motionLoader);
+    ResourceLoader::get_singleton()->remove_resource_format_loader(modelLoader);
+
+    expressionLoader.unref();
+    motionLoader.unref();
+    modelLoader.unref();
     
     Csm::CubismFramework::Dispose();
 }

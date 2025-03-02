@@ -5,10 +5,6 @@
 #include <godot_cpp/classes/global_constants.hpp>
 #include <godot_cpp/classes/editor_plugin.hpp>
 
-#include <importers/gd_cubism_motion_importer.hpp>
-#include <importers/gd_cubism_expression_importer.hpp>
-#include <importers/gd_cubism_model_importer.hpp>
-
 using namespace godot;
 
 class GDCubismPlugin : public EditorPlugin {
@@ -16,10 +12,6 @@ class GDCubismPlugin : public EditorPlugin {
 
 protected:
     static void _bind_methods() {};
-
-    GDCubismMotionImporter *motionImporter;
-    GDCubismModelImporter *modelImporter;
-    GDCubismExpressionImporter *expressionImporter;
 
 public:
     void _enter_tree() override;

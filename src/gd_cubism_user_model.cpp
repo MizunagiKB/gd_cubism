@@ -119,7 +119,9 @@ void GDCubismUserModel::_update(const float delta) {
     }
 
     if (this->get_expression_controller() != nullptr) {
-        this->get_expression_controller()->update(this->internal_model->GetModel(), delta);
+        if (this->get_animation_player() == nullptr || !this->get_animation_player()->is_playing()) {
+            this->get_expression_controller()->update(this->internal_model->GetModel(), delta);
+        }
     }
 
     this->internal_model->pro_update(delta);

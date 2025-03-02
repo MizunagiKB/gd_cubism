@@ -22,18 +22,9 @@ class GDCubismModelImporter : public EditorImportPlugin {
 
 protected:
     static void _bind_methods() {
-        ClassDB::bind_static_method("GDCubismModelImporter", D_METHOD("load_model", "model_file", "include_expressions", "include_motions", "shaders"), &GDCubismModelImporter::load_model);
     }
 
-private:
-    static MeshInstance2D* request_mesh_instance();
-    static ShaderMaterial* request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index, Array shaders);
-    static ShaderMaterial* request_mask_material(Array shaders);
-    static void build_model(InternalCubismRenderer2D* renderer, GDCubismUserModel* target_node, Array textures, Array shaders);
-
 public:
-    static GDCubismUserModel* load_model(const String &p_source_file, const bool include_expressions, const bool include_motions, Array shaders);
-
     String _get_importer_name() const { return "gdcubism.model"; }
     String _get_visible_name() const { return "Cubism Model (2D)"; }
     int32_t _get_preset_count() const { return 0; }
