@@ -115,6 +115,8 @@ public:
     Vector2i mask_viewport_size;
 
     ParameterMode parameter_mode;
+    bool physics_evaluate;
+    bool pose_update;
     MotionProcessCallback playback_process_mode;
 
     Array ary_shader;
@@ -158,6 +160,12 @@ public:
 
     void set_parameter_mode(const ParameterMode value);
     GDCubismUserModel::ParameterMode get_parameter_mode() const;
+
+    void set_physics_evaluate(const bool enable) { this->physics_evaluate = enable; }
+    bool get_physics_evaluate() const { return this->physics_evaluate; }
+
+    void set_pose_update(const bool enable) { this->pose_update = enable; }
+    bool get_pose_update() const { return this->pose_update; }
 
     void set_process_callback(const MotionProcessCallback value);
     GDCubismUserModel::MotionProcessCallback get_process_callback() const;
