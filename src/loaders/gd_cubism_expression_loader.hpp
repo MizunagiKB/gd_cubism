@@ -22,11 +22,29 @@ class GDCubismExpressionLoader : public ResourceFormatLoader {
 protected:
     static void _bind_methods() {}
 
-public:
+public:    
+    PackedStringArray _get_recognized_extensions() const override {
+        PackedStringArray ext;
+        ext.append(EXPRESSION_FILE_EXTENSION);
+        return ext;
+    }
+
     bool _recognize_path(const String &p_path, const StringName &p_type) const override {
         return p_path.ends_with(EXPRESSION_FILE_EXTENSION) && ClassDB::is_parent_class(p_type, "GDCubismExpression");
     }
 
+    bool _handles_type(const StringName &p_type) const override {
+        return p_type == StringName("GDCubismExpression");
+    }
+
+    String _get_resource_type(const String &p_path) const override {
+        return "GDCubismExpression";
+    }
+
+    bool _exists(const String &p_path) const override {
+        return FileAccess::file_exists(p_path);
+    }
+    
     Variant _load(const String &p_path, const String &p_original_path, bool p_use_sub_threads, int32_t p_cache_mode) const override {
         String buffer = FileAccess::get_file_as_string(p_original_path);
         ERR_FAIL_COND_V(buffer.is_empty(), Error::FAILED);

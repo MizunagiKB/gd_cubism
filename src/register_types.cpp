@@ -10,7 +10,6 @@
 #include <loaders/gd_cubism_expression_loader.hpp>
 #include <loaders/gd_cubism_motion_loader.hpp>
 #include <loaders/gd_cubism_model_loader.hpp>
-#include <importers/gd_cubism_motion_importer.hpp>
 #include <importers/gd_cubism_model_importer.hpp>
 #include <private/internal_cubism_allocator.hpp>
 #include <gd_cubism_effect.hpp>
@@ -53,7 +52,6 @@ void output(const char *message) {
 void initialize_gd_cubism_module(ModuleInitializationLevel p_level) {
     if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
         ClassDB::register_class<GDCubismModelImporter>();
-        ClassDB::register_class<GDCubismMotionImporter>();    
         ClassDB::register_class<GDCubismPlugin>();
         EditorPlugins::add_by_type<GDCubismPlugin>();
     }
