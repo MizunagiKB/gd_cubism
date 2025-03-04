@@ -23,8 +23,6 @@
 // ------------------------------------------------------------------- class(s)
 InternalCubismRendererResource::InternalCubismRendererResource(GDCubismUserModel *owner_viewport)
     : _owner_viewport(owner_viewport)
-    , adjust_pos(0.0, 0.0)
-    , adjust_scale(1.0)
 {
     ResourceLoader* res_loader = memnew(ResourceLoader);
 

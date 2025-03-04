@@ -134,10 +134,6 @@ bool InternalCubismUserModel::model_load(
         #else
         #endif // GD_CUBISM_USE_RENDERER_2D
 
-        // Update Adjust Parameter(s)
-        this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
-        this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
-
         renderer->IsPremultipliedAlpha(false);
         renderer->DrawModel();
         renderer->build_model(this->_renderer_resource, this->_owner_viewport);
@@ -238,13 +234,9 @@ void InternalCubismUserModel::update_node() {
     #else
     #endif // GD_CUBISM_USE_RENDERER_2D
 
-    // Update Adjust Parameter(s)
-    this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
-    this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
-
     renderer->IsPremultipliedAlpha(false);
     renderer->DrawModel();
-    renderer->update(this->_renderer_resource);
+    renderer->update(this->_renderer_resource, this->_owner_viewport->mask_viewport_size);
 }
 
 

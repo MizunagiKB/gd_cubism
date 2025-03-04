@@ -51,14 +51,14 @@ private:
         const Csm::csmInt32 index,
         const bool makemask,
         const InternalCubismRendererResource &res,
-        const Ref<ArrayMesh> ary_mesh) const;
+        const MeshInstance2D *node) const;
 
 public:
     Vector2 get_size(const Csm::CubismModel *model) const;
     Vector2 get_origin(const Csm::CubismModel *model) const;
     float get_ppunit(const Csm::CubismModel *model) const;
 
-    void update(InternalCubismRendererResource &res);
+    void update(InternalCubismRendererResource &res, int32_t viewport_size = 0);
     void build_model(InternalCubismRendererResource &res, Node *target_node);
 
     virtual void Initialize(Csm::CubismModel *model, Csm::csmInt32 maskBufferCount);
