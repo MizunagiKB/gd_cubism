@@ -186,6 +186,17 @@ public partial class GDCubismUserModelCS : GodotObject
     }
 
     /// <value>
+    ///     Property <c>PhysicsEvaluate</c>
+    ///     <br />
+    ///     Setting this parameter to `false` disables physical calculations.
+    /// </value>
+    public bool PhysicsEvaluate
+    {
+        set { this.InternalObject.Call("set_physics_evaluate", value); }
+        get { return (bool)this.InternalObject.Call("get_physics_evaluate"); }
+    }
+
+    /// <value>
     ///     Property <c>PlaybackProcessMode</c>
     ///     <br />
     ///     Specifies the playback method for the currently held Live2D model.
@@ -198,6 +209,18 @@ public partial class GDCubismUserModelCS : GodotObject
             int value = (int)this.InternalObject.Call("get_process_callback");
             return (MotionProcessCallbackEnum)Enum.ToObject(typeof(MotionProcessCallbackEnum), value);
         }
+    }
+
+    /// <value>
+    ///     Property <c>PoseUpdate</c>
+    ///     <br />
+    ///     Setting this parameter to `false` disables transparency calculations between drawing parts specified in the pose group.
+    ///     If you want to manually handle all transparency calculations, set this parameter to `false`.
+    /// </value>
+    public bool PoseUpdate
+    {
+        set { this.InternalObject.Call("set_pose_update", value); }
+        get { return (bool)this.InternalObject.Call("get_pose_update"); }
     }
 
     public Shader ShaderAdd

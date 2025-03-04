@@ -35,7 +35,9 @@ This is a _SubViewport_ subclass for loading the Live2D model, generating the _T
 >|bool <|<<id-property-load_motions,load_motions>> |[default: true]
 >|Vector2i <|<<id-property-mask_viewport_size,mask_viewport_size>> |[default: Vector2i(0, 0)]
 >|ParameterMode <|<<id-property-parameter_mode,parameter_mode>> |[default: 0]
+>|bool <|<<physics_evaluate>> |[default: true]
 >|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
+>|bool <|<<pose_update>> |[default: true]
 >|Shader <|<<id-property-shader_add,shader_add>> |
 >|Shader <|<<id-property-shader_mask,shader_mask>> |
 >|Shader <|<<id-property-shader_mask_add,shader_mask_add>> |
@@ -209,9 +211,21 @@ Since GDCubism assumes the same aspect ratio as the Viewport for rendering, usin
 ParameterMode parameter_mode [default: 0]::
 Specifies the control method for the currently held Live2D model.
 
+
+[[id-property-physics_evaluate]]
+bool physics_evaluate [default: true]::
+Setting this parameter to `false` disables physical calculations.
+
+
 [[id-property-playback_process_mode]]
 MotionProcessCallback playback_process_mode [default: 1]::
 Specifies the playback method for the currently held Live2D model.
+
+
+[[id-property-pose_update]]
+bool pose_update [default: true]::
+Setting this parameter to `false` disables transparency calculations between drawing parts specified in the pose group. +
+If you want to manually handle all transparency calculations, set this parameter to `false`.
 
 
 [[id-property-shader_add]]
