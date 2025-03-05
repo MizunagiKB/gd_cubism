@@ -36,7 +36,7 @@ Variant GDCubismMotionLoader::_load(const String& p_path, const String& p_origin
         String property = curve["Id"];
         Array segments = curve["Segments"];
 
-        ERR_FAIL_COND_V_MSG(segments.size() < 2, nullptr, "Invalid Segment, must have at least one point");
+        ERR_FAIL_COND_V_MSG(segments.size() < 2, Error::FAILED, "Invalid Segment, must have at least one point");
 
         int32_t track = anim->add_track(Animation::TYPE_BEZIER);
         anim->track_set_path(track, NodePath(".:" + property));
@@ -50,7 +50,7 @@ Variant GDCubismMotionLoader::_load(const String& p_path, const String& p_origin
         for (uint32_t s_idx = 2, last_key = anim->track_get_key_count(track) - 1; s_idx < segments.size();) {
 
             int32_t type = segments[s_idx];
-            ERR_FAIL_COND_V_MSG(type < 0 || type > 3, nullptr, "Invalid Motion Segment Type");
+            ERR_FAIL_COND_V_MSG(type < 0 || type > 3, Error::FAILED, "Invalid Motion Segment Type");
 
             real_t p0_t = segments[s_idx - 2];
             real_t p0_v = segments[s_idx - 1];
@@ -134,6 +134,7 @@ Variant GDCubismMotionLoader::_load(const String& p_path, const String& p_origin
 
     double duration = meta.get("Duration", 1.0);
     anim->set_length(duration);
+    anim->set_path(p_path);
 
     return anim;
 }
