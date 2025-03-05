@@ -28,7 +28,7 @@ using namespace godot;
 // ------------------------------------------------------------------ static(s)
 PackedInt32Array make_Indices(const csmUint16 *ptr, const int32_t &size);
 PackedVector2Array make_UVs(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size);
-PackedVector2Array make_Vertices(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit, const Vector2 &vct_adjust);
+PackedVector2Array make_Vertices(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit);
 const Vector4 make_vector4(const Live2D::Cubism::Core::csmVector4 &src_vec4);
 
 // ----------------------------------------------------------- class:forward(s)
@@ -81,8 +81,7 @@ void InternalCubismRenderer2D::update_mesh(
     ary[Mesh::ARRAY_VERTEX] = make_Vertices(
         model->GetDrawableVertexPositions(index),
         model->GetDrawableVertexCount(index),
-        res.CALCULATED_PPUNIT_C,
-        res.CALCULATED_ORIGIN_C);
+        res.CALCULATED_PPUNIT_C);
 
     ary[Mesh::ARRAY_TEX_UV] = make_UVs(
         model->GetDrawableVertexUvs(index),
@@ -378,13 +377,13 @@ PackedVector2Array make_UVs(const Live2D::Cubism::Core::csmVector2 *ptr, const i
     return ary;
 }
 
-PackedVector2Array make_Vertices(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit, const Vector2 &vct_adjust)
+PackedVector2Array make_Vertices(const Live2D::Cubism::Core::csmVector2 *ptr, const int32_t &size, const Csm::csmFloat32 &ppunit)
 {
     PackedVector2Array ary;
     ary.resize(size);
     for (int i = 0; i < size; i++)
     {
-        ary.set(i, (Vector2(ptr[i].X, ptr[i].Y * -1.0) * ppunit) + vct_adjust);
+        ary.set(i, Vector2(ptr[i].X, ptr[i].Y * -1.0) * ppunit);
     }
     return ary;
 }
