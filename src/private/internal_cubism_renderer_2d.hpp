@@ -16,9 +16,6 @@
 
 #include <Rendering/CubismRenderer.hpp>
 
-#include <private/internal_cubism_renderer_resource.hpp>
-#include <gd_cubism_user_model.hpp>
-
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
 using namespace Live2D::Cubism::Framework::Rendering;
@@ -40,26 +37,17 @@ public:
 private:
     static void ready_mask(const MeshInstance2D *node);
 
-    void update_material(const Csm::CubismModel *model, const Csm::csmInt32 index, const Ref<ShaderMaterial> mat) const;
+public:
+    void update(const Array meshes, int32_t viewport_size = 0);
     
-    void make_ArrayMesh_prepare(
-        const Csm::CubismModel *model,
-        InternalCubismRendererResource &res);
+    void update_material(const Csm::CubismModel *model, const Csm::csmInt32 index, const Ref<ShaderMaterial> mat) const;
 
     void update_mesh(
         const Csm::CubismModel *model,
         const Csm::csmInt32 index,
         const bool makemask,
-        const InternalCubismRendererResource &res,
-        const MeshInstance2D *node) const;
-
-public:
-    Vector2 get_size(const Csm::CubismModel *model) const;
-    Vector2 get_origin(const Csm::CubismModel *model) const;
-    float get_ppunit(const Csm::CubismModel *model) const;
-
-    void update(InternalCubismRendererResource &res, int32_t viewport_size = 0);
-    void build_model(InternalCubismRendererResource &res, Node *target_node);
+        const MeshInstance2D *node
+    ) const;
 
     virtual void Initialize(Csm::CubismModel *model, Csm::csmInt32 maskBufferCount);
     void DoDrawModel();

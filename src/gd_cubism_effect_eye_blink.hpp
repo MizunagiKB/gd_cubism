@@ -35,9 +35,8 @@ public:
         if(this->_initialized == true) return;
 
         if(this->_eye_blink == nullptr) {
-            Csm::ICubismModelSetting* _model_setting = model->_model_setting;
-            if(_model_setting->GetEyeBlinkParameterCount() > 0) {
-                this->_eye_blink = Csm::CubismEyeBlink::Create(_model_setting);
+            if(model->_list_eye_blink.size() > 0) {
+                this->_eye_blink = Csm::CubismEyeBlink::Create(model->get_model_settings());
             }
         }
 

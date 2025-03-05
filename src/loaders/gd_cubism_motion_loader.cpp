@@ -6,8 +6,8 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 
 Variant GDCubismMotionLoader::_load(const String& p_path, const String& p_original_path, bool p_use_sub_threads, int32_t p_cache_mode) const {
-    String buffer = FileAccess::get_file_as_string(p_path);
-    ERR_FAIL_COND_V(buffer.is_empty(), Error::FAILED);
+    String buffer = FileAccess::get_file_as_string(p_original_path);
+    ERR_FAIL_COND_V_MSG(buffer.is_empty(), "File contents are empty", Error::FAILED);
 
     Dictionary motion = JSON::parse_string(buffer);
     Dictionary meta = motion["Meta"];
@@ -40,7 +40,7 @@ Variant GDCubismMotionLoader::_load(const String& p_path, const String& p_origin
 
         int32_t track = anim->add_track(Animation::TYPE_BEZIER);
         anim->track_set_path(track, NodePath(".:" + property));
-        anim->track_set_interpolation_loop_wrap(track, true);
+        anim->track_set_interpolation_loop_wrap(track, false);
 
         // first key is always the starting time and value
         anim->bezier_track_insert_key(track, segments[0], segments[1]);
@@ -63,8 +63,6 @@ Variant GDCubismMotionLoader::_load(const String& p_path, const String& p_origin
                 // tangents
                 Vector2 out_t = Vector2(p1_t - p0_t, p1_v - p0_v);
                 Vector2 in_t = out_t * Vector2(-1, 1);
-
-                UtilityFunctions::print(out_t, in_t);
 
                 anim->bezier_track_set_key_out_handle(track, last_key, out_t);
 
