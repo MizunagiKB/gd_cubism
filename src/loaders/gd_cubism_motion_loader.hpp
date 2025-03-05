@@ -30,15 +30,19 @@ public:
     }
 
     bool _recognize_path(const String &p_path, const StringName &p_type) const override {
-        return p_path.ends_with(MOTION_FILE_EXTENSION) && ClassDB::is_parent_class(p_type, "Animation");
+        return p_path.ends_with(MOTION_FILE_EXTENSION);
     }
 
     bool _handles_type(const StringName &p_type) const override {
-        return p_type == StringName("Animation");
+        return ClassDB::is_parent_class(p_type, "Animation");
     }
 
     String _get_resource_type(const String &p_path) const override {
-        return "Animation";
+        if (p_path.ends_with(MOTION_FILE_EXTENSION)) {
+            return "Animation";
+        }
+            
+        return "";
     }
 
     bool _exists(const String &p_path) const override {
