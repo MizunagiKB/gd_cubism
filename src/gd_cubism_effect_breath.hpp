@@ -42,7 +42,6 @@ public:
         if(this->_initialized == true) return;
 
         if(this->_breath == nullptr) {
-            Csm::ICubismModelSetting* _model_setting = model->_model_setting;
             this->_breath = Csm::CubismBreath::Create();
 
             Csm::csmVector<Csm::CubismBreath::BreathParameterData> param;

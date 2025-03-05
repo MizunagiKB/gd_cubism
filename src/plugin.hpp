@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 #ifndef GD_CUBISM_PLUGIN
 #define GD_CUBISM_PLUGIN
-// ----------------------------------------------------------------- include(s)
+
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/global_constants.hpp>
 #include <godot_cpp/classes/editor_plugin.hpp>

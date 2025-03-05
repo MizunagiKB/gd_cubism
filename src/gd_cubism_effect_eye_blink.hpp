@@ -33,12 +33,11 @@ private:
 public:
     virtual void _cubism_init(InternalCubismUserModel* model) override {
         if(this->_initialized == true) return;
+        if(this->_eye_blink != nullptr) return;
 
-        if(this->_eye_blink == nullptr) {
-            Csm::ICubismModelSetting* _model_setting = model->_model_setting;
-            if(_model_setting->GetEyeBlinkParameterCount() > 0) {
-                this->_eye_blink = Csm::CubismEyeBlink::Create(_model_setting);
-            }
+        ICubismModelSetting *model_settings = model->get_model_settings();
+        if (model_settings->GetEyeBlinkParameterCount() > 0) {
+            this->_eye_blink = Csm::CubismEyeBlink::Create(model_settings);
         }
 
         this->_initialized = true;
