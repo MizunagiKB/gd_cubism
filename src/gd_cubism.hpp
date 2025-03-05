@@ -54,6 +54,11 @@ const static char* PROP_PART_OPACITY_GROUP = "PartOpacity";
 
 const static char* SIGNAL_EFFECT_HIT_AREA_ENTERED = "hit_area_entered";
 const static char* SIGNAL_EFFECT_HIT_AREA_EXITED = "hit_area_exited";
+
+const static char* MOTION_FILE_EXTENSION = "motion3.json";
+const static char* EXPRESSION_FILE_EXTENSION = "exp3.json";
+const static char* MODEL_FILE_EXTENSION = "model3.json";
+
 #ifdef CUBISM_MOTION_CUSTOMDATA
 const static char* SIGNAL_MOTION_FINISHED = "motion_finished";
 #endif //CUBISM_MOTION_CUSTOMDATA
