@@ -14,6 +14,8 @@
 #include <private/internal_cubism_user_model.hpp>
 #include <gd_cubism_effect.hpp>
 
+#include <godot_cpp/classes/array_mesh.hpp>
+
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -118,7 +120,7 @@ public:
         if(model == nullptr) return Dictionary();
         if(model->is_initialized() == false) return Dictionary();
 
-        const Dictionary dict_mesh = model->get_meshes();
+        Dictionary dict_mesh = model->get_mesh_dict();
         if(dict_mesh.is_empty() == true) return Dictionary();
 
         MeshInstance2D* p_mesh_inst = cast_to<MeshInstance2D>(dict_mesh[id]);
@@ -169,9 +171,8 @@ public:
         if(this->_initialized == false) return;
         if(this->_active == false) return;
 
-        Csm::ICubismModelSetting* setting = model->_model_setting;
         Array ary = model->_owner_viewport->get_hit_areas();
-        Dictionary dict_mesh = model->_owner_viewport->get_meshes();
+        Dictionary dict_mesh = model->_owner_viewport->get_mesh_dict();
 
         for(int64_t i = 0; i < ary.size(); i++) {
             const String id = static_cast<Dictionary>(ary[i]).get("id", String());
