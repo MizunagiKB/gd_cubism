@@ -121,8 +121,9 @@ public:
         const Dictionary dict_mesh = model->get_meshes();
         if(dict_mesh.is_empty() == true) return Dictionary();
 
-        Ref<ArrayMesh> ref_ary_mesh = dict_mesh[id];
-        if(ref_ary_mesh.is_null() == true) return Dictionary();
+        MeshInstance2D* p_mesh_inst = cast_to<MeshInstance2D>(dict_mesh[id]);
+        Ref<ArrayMesh> ref_ary_mesh =  static_cast<ArrayMesh*>(p_mesh_inst->get_mesh().ptr());
+        if(ref_ary_mesh.is_valid() != true) return Dictionary();
         if(ref_ary_mesh->surface_get_array_index_len(0) < 3) return Dictionary();
 
         Dictionary dict_result;
@@ -176,7 +177,9 @@ public:
             const String id = static_cast<Dictionary>(ary[i]).get("id", String());
             if(dict_mesh.has(id) != true) continue;
 
-            Ref<ArrayMesh> ref_ary_mesh = dict_mesh[id];
+            MeshInstance2D* p_mesh_inst = cast_to<MeshInstance2D>(dict_mesh[id]);
+            Ref<ArrayMesh> ref_ary_mesh =  static_cast<ArrayMesh*>(p_mesh_inst->get_mesh().ptr());
+            if(ref_ary_mesh.is_valid() != true) continue;
             if(ref_ary_mesh->surface_get_array_index_len(0) < 3) continue;
 
             Rect2 check_rect = this->build_rect2(ref_ary_mesh);

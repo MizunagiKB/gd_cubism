@@ -35,7 +35,7 @@ func check_cross(ary_check: Array, vtx: Vector2) -> bool:
     return (((vb.x - va.x) * (vtx.y - va.y)) - ((vb.y - va.y) * (vtx.x - va.x))) > 0
 
 
-func convex_hull(ary_vertex: Array) -> Array:
+func convex_hull(ary_vertex: Array[Vector2]) -> Array:
     ary_vertex.sort()
 
     var ary_result: Array
@@ -64,46 +64,59 @@ func convex_hull(ary_vertex: Array) -> Array:
 # ---------------------------------------------------------------------- ported
 
 
+func recalc_model_position(model: GDCubismUserModel):
+    if model.assets == "":
+        return
+
+    var canvas_info: Dictionary = model.get_canvas_info()
+
+    if canvas_info.is_empty() != true:
+        var vct_viewport_size = Vector2(get_viewport_rect().size)
+        var scale: float = vct_viewport_size.y / max(canvas_info.size_in_pixels.x, canvas_info.size_in_pixels.y)
+        model.position = vct_viewport_size / 2.0
+        model.scale = Vector2(scale, scale)
+
+
 func _ready():
+    if $GDCubismUserModel.assets == "":
+        $GDCubismUserModel.assets = DEFAULT_ASSET
 
-    if $Sprite2D/GDCubismUserModel.assets == "":
-        $Sprite2D/GDCubismUserModel.assets = DEFAULT_ASSET
+    recalc_model_position($GDCubismUserModel)
 
-    $Sprite2D.position = Vector2(get_viewport_rect().size / 2)
+    ary_character_expression = $GDCubismUserModel.get_expressions()
 
-    ary_character_expression = $Sprite2D/GDCubismUserModel.get_expressions()
-
-    var dict_motion = $Sprite2D/GDCubismUserModel.get_motions()
+    var dict_motion = $GDCubismUserModel.get_motions()
     for group in dict_motion.keys():
         for no in range(dict_motion[group]):
             ary_character_motion.append({"group": group, "no": no})
 
 
 func _process(delta):
-
     if order_window_position == true:
         DisplayServer.window_set_position(Vector2i(window_position))
         order_window_position = false
 
-    var dict_mesh = $Sprite2D/GDCubismUserModel.get_meshes()
+    var dict_mesh = $GDCubismUserModel.get_meshes()
     var ary: PackedVector2Array
+
     for name in CONVEX_MESH_SRC:
-        ary += dict_mesh[name].surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
+        ary += dict_mesh[name].get_mesh().surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
+
     var ary_polygon = convex_hull(ary)
 
     if ary_polygon.size() > 2:
         var region: PackedVector2Array
         var adjust: Vector2 = get_viewport_rect().size
-        adjust -= Vector2($Sprite2D/GDCubismUserModel.size.x, $Sprite2D/GDCubismUserModel.size.y)
-        adjust *= 0.5
+
         for v in ary_polygon:
-            region.append(v + adjust)
+            v *= $GDCubismUserModel.scale
+            v += $GDCubismUserModel.position
+            region.append(v)
 
         $Polygon2D.polygon = PackedVector2Array(region)
 
 
 func _input(event):
-
     if event is InputEventKey:
         if event.is_pressed() == true:
 
@@ -112,7 +125,7 @@ func _input(event):
 
             if event.keycode == KEY_SPACE:
                 var motion = ary_character_motion[randi_range(0, ary_character_motion.size() - 1)]
-                $Sprite2D/GDCubismUserModel.start_motion_loop(
+                $GDCubismUserModel.start_motion_loop(
                     motion.group,
                     motion.no,
                     GDCubismUserModel.PRIORITY_FORCE,
@@ -133,7 +146,7 @@ func _input(event):
             if event.keycode >= KEY_0 and event.keycode <= KEY_9:
                 var index: int = event.keycode - KEY_0
                 if index < ary_character_expression.size():
-                    $Sprite2D/GDCubismUserModel.start_expression(
+                    $GDCubismUserModel.start_expression(
                         ary_character_expression[index]
                     )
 
@@ -149,4 +162,3 @@ func _input(event):
         if mouse_button_pressed == true:
             order_window_position = true
             window_position += Vector2i(event.relative)
-

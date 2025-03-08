@@ -1,6 +1,9 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 extends Node2D
 
 
+const DEFAULT_ASSET: String = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro.model3.json"
 enum E_PARAM_MODE {
     PROCESS,
     SIGNAL
@@ -12,13 +15,29 @@ var l_eye: GDCubismParameter
 var r_eye: GDCubismParameter
 
 
+func recalc_model_position(model: GDCubismUserModel):
+    if model.assets == "":
+        return
+
+    var canvas_info: Dictionary = model.get_canvas_info()
+
+    if canvas_info.is_empty() != true:
+        var vct_viewport_size = Vector2(get_viewport_rect().size)
+        var scale: float = vct_viewport_size.y / max(canvas_info.size_in_pixels.x, canvas_info.size_in_pixels.y)
+        model.position = vct_viewport_size / 2.0
+        model.scale = Vector2(scale, scale)
+
+
 func _ready():
-    pass
+    if $GDCubismUserModel.assets == "":
+        $GDCubismUserModel.assets = DEFAULT_ASSET
 
 
 func _process(delta):
+    recalc_model_position($GDCubismUserModel)
+
     if param_mode == E_PARAM_MODE.PROCESS:
-        var model: GDCubismUserModel = $Sprite2D/GDCubismUserModel
+        var model: GDCubismUserModel = $GDCubismUserModel
 
         for _o in model.get_parameters():
             var o: GDCubismParameter = _o

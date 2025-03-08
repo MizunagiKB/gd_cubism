@@ -134,10 +134,6 @@ bool InternalCubismUserModel::model_load(
         #else
         #endif // GD_CUBISM_USE_RENDERER_2D
 
-        // Update Adjust Parameter(s)
-        this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
-        this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
-
         renderer->IsPremultipliedAlpha(false);
         renderer->DrawModel();
         renderer->build_model(this->_renderer_resource, this->_owner_viewport);
@@ -217,8 +213,13 @@ void InternalCubismUserModel::epi_update(const float delta) {
     if(this->_model_setting == nullptr) return;
     if(this->_model == nullptr) return;
 
-    if(this->_physics != nullptr) { this->_physics->Evaluate(this->_model, delta); }
-    if(this->_pose != nullptr) { this->_pose->UpdateParameters(this->_model, delta); }
+    if(this->_owner_viewport->physics_evaluate == true) {
+        if(this->_physics != nullptr) { this->_physics->Evaluate(this->_model, delta); }
+    }
+
+    if(this->_owner_viewport->pose_update == true) {
+        if(this->_pose != nullptr) { this->_pose->UpdateParameters(this->_model, delta); }
+    }
 
     this->_model->Update();
     this->effect_batch(delta, EFFECT_CALL_EPILOGUE);
@@ -233,13 +234,9 @@ void InternalCubismUserModel::update_node() {
     #else
     #endif // GD_CUBISM_USE_RENDERER_2D
 
-    // Update Adjust Parameter(s)
-    this->_renderer_resource.adjust_scale = this->_owner_viewport->adjust_scale;
-    this->_renderer_resource.adjust_pos = this->_owner_viewport->adjust_pos;
-
     renderer->IsPremultipliedAlpha(false);
     renderer->DrawModel();
-    renderer->update(this->_renderer_resource);
+    renderer->update(this->_renderer_resource, this->_owner_viewport->mask_viewport_size);
 }
 
 

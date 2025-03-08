@@ -112,7 +112,7 @@ private:
 
     Csm::csmMap<E_PARAM, Csm::csmInt32> _map_param_idx;
 
-    bool _need_update = false;
+    bool _need_update = true;
 
 private:
     Csm::csmInt32 find_idx(Csm::CubismModel* _model, const Csm::csmString name) const {
