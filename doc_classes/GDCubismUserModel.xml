@@ -200,8 +200,15 @@
 		<member name="parameter_mode" type="int" setter="set_parameter_mode" getter="get_parameter_mode" enum="GDCubismUserModel.ParameterMode" default="0">
 			Specifies the control method for the currently held Live2D model.
 		</member>
+		<member name="physics_evaluate" type="int" setter="set_physics_evaluate" getter="get_physics_evaluate" enum="GDCubismUserModel.PhysicsEvaluate" default="true">
+			Setting this parameter to [code]false[/code] disables physical calculations.
+		</member>
 		<member name="playback_process_mode" type="int" setter="set_process_callback" getter="get_process_callback" enum="GDCubismUserModel.MotionProcessCallback" default="1">
 			Specifies the playback method for the currently held Live2D model.
+		</member>
+		<member name="pose_update" type="int" setter="set_pose_update" getter="get_pose_update" enum="GDCubismUserModel.PoseUpdate" default="true">
+			Setting this parameter to [code]false[/code] disables transparency calculations between drawing parts specified in the pose group.
+			If you want to manually handle all transparency calculations, set this parameter to [code]false[/code].
 		</member>
 		<member name="shader_add" type="Shader" setter="set_shader_add" getter="get_shader_add">
 			Specifies the [i]shader[/i] used to render the Live2D model.

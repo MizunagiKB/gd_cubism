@@ -217,8 +217,13 @@ void InternalCubismUserModel::epi_update(const float delta) {
     if(this->_model_setting == nullptr) return;
     if(this->_model == nullptr) return;
 
-    if(this->_physics != nullptr) { this->_physics->Evaluate(this->_model, delta); }
-    if(this->_pose != nullptr) { this->_pose->UpdateParameters(this->_model, delta); }
+    if(this->_owner_viewport->physics_evaluate == true) {
+        if(this->_physics != nullptr) { this->_physics->Evaluate(this->_model, delta); }
+    }
+
+    if(this->_owner_viewport->pose_update == true) {
+        if(this->_pose != nullptr) { this->_pose->UpdateParameters(this->_model, delta); }
+    }
 
     this->_model->Update();
     this->effect_batch(delta, EFFECT_CALL_EPILOGUE);

@@ -41,6 +41,8 @@ GDCubismUserModel::GDCubismUserModel()
     , adjust_pos(0.0, 0.0)
     , mask_viewport_size(0, 0)
     , parameter_mode(ParameterMode::FULL_PARAMETER)
+    , physics_evaluate(true)
+    , pose_update(true)
     , playback_process_mode(MotionProcessCallback::IDLE)
     , anim_loop(DEFAULT_PROP_ANIM_LOOP)
     , anim_loop_fade_in(DEFAULT_PROP_ANIM_LOOP_FADE_IN)
@@ -80,6 +82,14 @@ void GDCubismUserModel::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_parameter_mode", "value"), &GDCubismUserModel::set_parameter_mode);
     ClassDB::bind_method(D_METHOD("get_parameter_mode"), &GDCubismUserModel::get_parameter_mode);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "parameter_mode", PROPERTY_HINT_ENUM, "FullParameter,NoneParameter"), "set_parameter_mode", "get_parameter_mode");
+
+    ClassDB::bind_method(D_METHOD("set_physics_evaluate", "enable"), &GDCubismUserModel::set_physics_evaluate);
+    ClassDB::bind_method(D_METHOD("get_physics_evaluate"), &GDCubismUserModel::get_physics_evaluate);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "physics_evaluate"), "set_physics_evaluate", "get_physics_evaluate");
+
+    ClassDB::bind_method(D_METHOD("set_pose_update", "enable"), &GDCubismUserModel::set_pose_update);
+    ClassDB::bind_method(D_METHOD("get_pose_update"), &GDCubismUserModel::get_pose_update);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "pose_update"), "set_pose_update", "get_pose_update");
 
     ClassDB::bind_method(D_METHOD("set_process_callback", "value"), &GDCubismUserModel::set_process_callback);
     ClassDB::bind_method(D_METHOD("get_process_callback"), &GDCubismUserModel::get_process_callback);
