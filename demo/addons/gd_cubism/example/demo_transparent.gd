@@ -78,7 +78,6 @@ func recalc_model_position(model: GDCubismUserModel):
 
 
 func _ready():
-
     if $GDCubismUserModel.assets == "":
         $GDCubismUserModel.assets = DEFAULT_ASSET
 
@@ -93,7 +92,6 @@ func _ready():
 
 
 func _process(delta):
-
     if order_window_position == true:
         DisplayServer.window_set_position(Vector2i(window_position))
         order_window_position = false
@@ -119,7 +117,6 @@ func _process(delta):
 
 
 func _input(event):
-
     if event is InputEventKey:
         if event.is_pressed() == true:
 

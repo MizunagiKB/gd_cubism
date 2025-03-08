@@ -18,8 +18,8 @@ func _on_cubism_process(model: GDCubismUserModel, delta: float):
     if dict_mesh.has(art_mesh_name) == false:
         return
 
-    var ary_mesh: ArrayMesh = dict_mesh[art_mesh_name]
-    var ary_surface: Array = ary_mesh.surface_get_arrays(0)
+    var ary_mesh: MeshInstance2D = dict_mesh[art_mesh_name]
+    var ary_surface: Array = ary_mesh.mesh.surface_get_arrays(0)
     var mesh_vertex: PackedVector2Array = ary_surface[ArrayMesh.ARRAY_VERTEX]
 
     if first_time == true:
@@ -34,6 +34,6 @@ func _on_cubism_process(model: GDCubismUserModel, delta: float):
     var calc_vct = (to - fr)
     var scale: float = calc_vct.length() / base_vct.length()
 
-    $Sprite2D.position = fr
+    $Sprite2D.position = model.to_global(fr)
     $Sprite2D.rotation = base_vct.normalized().cross(calc_vct.normalized())
     $Sprite2D.scale = base_scale * scale

@@ -27,7 +27,6 @@ func recalc_model_position(model: GDCubismUserModel):
 
 
 func _ready():
-
     if $GDCubismUserModel.assets == "":
         $GDCubismUserModel.assets = DEFAULT_ASSET
 
@@ -37,7 +36,6 @@ func _ready():
 
 
 func _process(delta):
-
     recalc_model_position($GDCubismUserModel)
 
     if pressed == true:
@@ -56,17 +54,14 @@ func _process(delta):
 
 
 func _input(event):
-
     if event as InputEventMouseButton:
         pressed = event.is_pressed()
 
     if event as InputEventMouseMotion:
-        local_pos = event.position - $GDCubismUserModel.position
-        local_pos = local_pos * (Vector2.ONE / $GDCubismUserModel.scale)
+        local_pos = $GDCubismUserModel.to_local(event.position)
 
 
 func mark_hit_area(dict_hit_area: Dictionary, color_box: Color, color_tri: Color):
-
     if dict_hit_area.is_empty() == false:
         var r: Rect2 = Rect2(
             (dict_hit_area.rect.position - adjust_pos) * $GDCubismUserModel.scale,
@@ -75,11 +70,11 @@ func mark_hit_area(dict_hit_area: Dictionary, color_box: Color, color_tri: Color
         $Canvas.draw_rect(r, color_box, false, 5)
 
         if dict_hit_area.has("vertices") == true:
-            var v: Array[Vector2]
-            v.resize(3)
-            v[0] = dict_hit_area.vertices[0] * $GDCubismUserModel.scale
-            v[1] = dict_hit_area.vertices[1] * $GDCubismUserModel.scale
-            v[2] = dict_hit_area.vertices[2] * $GDCubismUserModel.scale
+            var v: Array[Vector2] = [
+                dict_hit_area.vertices[0] * $GDCubismUserModel.scale,
+                dict_hit_area.vertices[1] * $GDCubismUserModel.scale,
+                dict_hit_area.vertices[2] * $GDCubismUserModel.scale
+            ]
             $Canvas.draw_line(v[0] - adjust_pos, v[1] - adjust_pos, color_tri, 3)
             $Canvas.draw_line(v[1] - adjust_pos, v[2] - adjust_pos, color_tri, 3)
             $Canvas.draw_line(v[2] - adjust_pos, v[0] - adjust_pos, color_tri, 3)
