@@ -1,0 +1,163 @@
+name: Build Project
+on: push
+env:
+  project: gd_cubism
+  extension: libgd_cubism
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - identifier: windows-debug
+            name: Windows Debug
+            runner: windows-latest
+            target: template_debug
+            platform: windows
+            arch: x86_64
+          - identifier: windows-release
+            name: Windows Release
+            runner: windows-latest
+            target: template_release
+            platform: windows
+            arch: x86_64
+#          - identifier: macos-debug
+#            name: MacOS Debug
+#            runner: macos-latest
+#            target: template_debug
+#            platform: macos
+#            arch: arm64
+#          - identifier: macos-release
+#            name: MacOS Release
+#            runner: macos-latest
+#            target: template_release
+#            platform: macos
+#            arch: arm64
+          - identifier: linux-debug
+            name: Linux Debug
+            runner: ubuntu-latest
+            target: template_debug
+            platform: linux
+            arch: x86_64
+          - identifier: linux-release
+            name: Linux Release
+            runner: ubuntu-latest
+            target: template_release
+            platform: linux
+            arch: x86_64
+          - identifier: android-arm32-debug
+            name: Android Debug (ARM32)
+            runner: ubuntu-latest
+            target: template_debug
+            platform: android
+            arch: arm32
+          - identifier: android-arm32-release
+            name: Android Release (ARM32)
+            runner: ubuntu-latest
+            target: template_release
+            platform: android
+            arch: arm32
+          - identifier: android-arm64-debug
+            name: Android Debug (ARM64)
+            runner: ubuntu-latest
+            target: template_release
+            platform: android
+            arch: arm64
+          - identifier: android-arm64-release
+            name: Android Release (ARM64)
+            runner: ubuntu-latest
+            target: template_debug
+            platform: android
+            arch: arm64
+          - identifier: ios-debug
+            name: iOS Debug
+            runner: macos-latest
+            target: template_debug
+            platform: ios
+            arch: universal
+          - identifier: ios-release
+            name: iOS Release
+            runner: macos-latest
+            target: template_release
+            platform: ios
+            arch: universal
+          
+    env:
+      SCONS_CACHE: ${{ github.workspace }}/.scons_cache
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: 'true'
+    - name: Cache Scons Builds
+      id: cache
+      uses: actions/cache@v4
+      with:
+        key: ${{ matrix.identifier }}-${{ github.ref }}-${{ github.sha }}
+        restore-keys: |
+            ${{ matrix.identifier }}-${{ github.ref }}-${{ github.sha }}
+            ${{ matrix.identifier }}-${{ github.ref }}
+            ${{ matrix.identifier }}
+        path: ${{ env.SCONS_CACHE }}
+    - name: Cache SDK
+      id: sdk_cache
+      uses: actions/cache@v4
+      with:
+        key: "cubism-sdk"
+        path: |
+          ${{ github.workspace }}/thirdparty
+    - name: Install cmake
+      uses: lukka/get-cmake@fix-issue-123
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install Android SDK
+      if: matrix.platform == 'android'
+      uses: android-actions/setup-android@v3
+    - name: Install Android NDK
+      if: matrix.platform == 'android'
+      run: |
+        sdkmanager "ndk;23.2.8568313"
+    - name: Install scons
+      run: pip install scons==4.8.1
+    - name: Download Cubism Library
+      if: steps.sdk_cache.outputs.cache-hit != 'true'
+      run: |
+        curl -o sdk.zip https://cubism.live2d.com/sdk-native/bin/CubismSdkForNative-5-r.1.zip
+        unzip -o sdk.zip -d thirdparty
+        rm sdk.zip
+    - name: Build extension
+      run: scons target='${{ matrix.target }}' platform='${{ matrix.platform }}' arch='${{ matrix.arch }}' -j2
+    - name: save artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.project }}.${{ matrix.platform }}.${{matrix.arch}}.${{ matrix.target }}
+        path: |
+          demo/addons/${{ env.project }}/bin/*
+      
+  package:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: load artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+        pattern: ${{ env.project }}.*
+        merge-multiple: true
+    - name: prepare for packaging
+      run: |
+        mkdir -p release/addons/${{ env.project }}
+        mkdir -p release/addons/${{ env.project }}/bin
+        cp -r demo/addons/${{ env.project }}/res demo/addons/${{ env.project }}/gd_cubism.gdextension README.en.adoc LICENSE.en.adoc release/addons/${{ env.project }}
+        cp artifacts/* release/addons/${{ env.project }}/bin
+    - name: save artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.project }}
+        path: release
+        
