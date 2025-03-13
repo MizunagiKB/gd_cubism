@@ -1,8 +1,18 @@
 name: Build Project
-on: push
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      distribute:
+        description: 'Agree to Live2D Proprietary Software License Agreement - https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html'
+        required: true
+        default: false
+        type: boolean
+      
 env:
   project: gd_cubism
   extension: libgd_cubism
+  distribute: false
 jobs:
   build:
     name: Build ${{ matrix.name }}
@@ -70,18 +80,18 @@ jobs:
             target: template_debug
             platform: android
             arch: arm64
-          - identifier: ios-debug
-            name: iOS Debug
-            runner: macos-latest
-            target: template_debug
-            platform: ios
-            arch: universal
-          - identifier: ios-release
-            name: iOS Release
-            runner: macos-latest
-            target: template_release
-            platform: ios
-            arch: universal
+#          - identifier: ios-debug
+#            name: iOS Debug
+#            runner: macos-latest
+#            target: template_debug
+#            platform: ios
+#            arch: universal
+#          - identifier: ios-release
+#            name: iOS Release
+#           runner: macos-latest
+#            target: template_release
+#            platform: ios
+#            arch: universal
           
     env:
       SCONS_CACHE: ${{ github.workspace }}/.scons_cache
@@ -112,7 +122,7 @@ jobs:
     - name: Install Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.13'
     - name: Install Android SDK
       if: matrix.platform == 'android'
       uses: android-actions/setup-android@v3
@@ -132,6 +142,7 @@ jobs:
       run: scons target='${{ matrix.target }}' platform='${{ matrix.platform }}' arch='${{ matrix.arch }}' -j2
     - name: save artifact
       uses: actions/upload-artifact@v4
+      if: inputs.distribute == true
       with:
         name: ${{ env.project }}.${{ matrix.platform }}.${{matrix.arch}}.${{ matrix.target }}
         path: |
@@ -140,6 +151,7 @@ jobs:
   package:
     needs: [build]
     runs-on: ubuntu-latest
+    if: inputs.distribute == true
     steps:
     - name: Checkout
       uses: actions/checkout@v4
