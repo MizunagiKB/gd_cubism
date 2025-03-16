@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 using System;
+using System.ComponentModel.DataAnnotations;
 using Godot;
 
 
@@ -8,7 +9,7 @@ using Godot;
 #pragma warning disable IDE1006
 
 
-public partial class viewer : Control
+public partial class Viewer : Control
 {
     const int MIX_RENDER_SIZE = 32;
     const int MAX_RENDER_SIZE = 2048;
@@ -18,15 +19,31 @@ public partial class viewer : Control
     GDCubismUserModelCS cubism_model;
     Godot.Collections.Dictionary last_motion;
 
+    private void recalc_model_position(GDCubismUserModelCS model)
+    {
+        if(model.Assets == "") return;
+
+        Godot.Collections.Dictionary canvas_info = model.GetCanvasInfo();
+
+        if(canvas_info.Count > 0)
+        {
+            Vector2 vct_viewport_size = new(GetViewportRect().Size.X, GetViewportRect().Size.Y);
+            Vector2 size_in_pixels = (Vector2)canvas_info["size_in_pixels"];
+            float scale = vct_viewport_size.Y / Math.Max(size_in_pixels.X, size_in_pixels.Y);
+            model.GetInternalObject().Position = new(vct_viewport_size.X * 0.5f, vct_viewport_size.Y * 0.5f);
+            model.GetInternalObject().Scale = new(scale, scale);
+       }
+    }
+
     public void Setup(String pathname)
     {
         this.cubism_model.Assets = pathname;
 
+        this.recalc_model_position(this.cubism_model);
+
         int idx = 0;
         Godot.Collections.Dictionary<String, int> dict_motion = this.cubism_model.GetMotions();
-
         GetNode<ItemList>("UI/ItemListMotion").Clear();
-
         foreach (var (k, item_count) in dict_motion)
         {
             for (int v = 0; v < item_count; v++)
@@ -42,20 +59,12 @@ public partial class viewer : Control
 
         GetNode<ItemList>("UI/ItemListExpression").Clear();
         Godot.Collections.Array<String> ary_item = this.cubism_model.GetExpressions();
-
         foreach (var item in ary_item)
         {
             GetNode<ItemList>("UI/ItemListExpression").AddItem($"{item}");
         }
 
         this.cubism_model.PlaybackProcessMode = GDCubismUserModelCS.MotionProcessCallbackEnum.Idle;
-        ViewportTexture tex = this.cubism_model.GetTexture();
-        GetNode<Sprite2D>("Sprite2D").Texture = tex;
-        GetNode<Sprite2D>("Sprite2D").Material = new CanvasItemMaterial
-        {
-            BlendMode = CanvasItemMaterial.BlendModeEnum.PremultAlpha,
-            LightMode = CanvasItemMaterial.LightModeEnum.Unshaded
-        };
     }
 
     public void Model3Search(String dirname)
@@ -87,34 +96,16 @@ public partial class viewer : Control
     public override void _Ready()
     {
         this.cubism_model = new GDCubismUserModelCS();
+        this.AddChild(this.cubism_model.GetInternalObject());
 
         if (ENABLE_MOTION_FINISHED == true)
         {
             this.cubism_model.MotionFinished += this._on_motion_finished;
         }
-        this.AddChild(this.cubism_model.GetInternalObject());
 
         GetNode<OptionButton>("UI/OptModel").Clear();
         GetNode<OptionButton>("UI/OptModel").AddItem("");
         Model3Search("res://addons/gd_cubism/example/res/live2d");
-    }
-
-    public override void _Process(double delta)
-    {
-        Vector2 vct_resolution = new(GetWindow().Size.X, GetWindow().Size.Y);
-        float texture_height = Mathf.Floor(vct_resolution.Y / RENDER_SIZE_STEP) * RENDER_SIZE_STEP;
-        texture_height = Mathf.Clamp(texture_height, MIX_RENDER_SIZE, MAX_RENDER_SIZE);
-
-        this.cubism_model.Size = new((int)texture_height, (int)texture_height);
-
-        Vector2 vct_viewport_size = new(GetViewportRect().Size.X, GetViewportRect().Size.Y);
-        GetNode<Sprite2D>("Sprite2D").Position = vct_viewport_size / 2.0f;
-
-        Vector2I vct_size = this.cubism_model.Size;
-        GetNode<Sprite2D>("Sprite2D").Scale = new Vector2(
-            vct_viewport_size.Y / vct_size.Y,
-            vct_viewport_size.Y / vct_size.Y
-        );
     }
 
     private void _on_motion_finished()
