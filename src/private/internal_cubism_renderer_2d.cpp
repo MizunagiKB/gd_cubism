@@ -66,13 +66,43 @@ void InternalCubismRenderer2D::make_ArrayMesh_prepare(
 void InternalCubismRenderer2D::update_mesh(
     const Csm::CubismModel *model,
     const Csm::csmInt32 index,
-    const bool maskmode,
     const InternalCubismRendererResource &res,
-    const MeshInstance2D *node
+    const Ref<ArrayMesh> ary_mesh
 ) const
 {
-    Ref<ArrayMesh> ary_mesh = node->get_mesh();
-    ary_mesh->clear_surfaces();
+    auto pp_unit = res.CALCULATED_PPUNIT_C;
+
+    if (ary_mesh->get_surface_count() > 0) {
+        int size = model->GetDrawableVertexCount(index);
+        PackedByteArray ary;
+        ary.resize(size * 8);
+
+        auto ptr = model->GetDrawableVertexPositions(index);
+
+        float left = __DBL_MAX__;
+        float right = __DBL_MIN__;
+        float top = __DBL_MAX__;
+        float bottom = __DBL_MIN__;
+        for (int i = 0, n = 0; i < size; i++, n += 8)
+        {
+            float x = ptr[i].X * pp_unit;
+            float y = ptr[i].Y * -1.0 * pp_unit;
+            left = Math::min(x, left);
+            right = Math::max(x, right);
+            top = Math::min(y, top);
+            bottom = Math::max(y, bottom);
+            
+            ary.encode_float(n, x);
+            ary.encode_float(n + 4, y);
+        }
+
+        ary_mesh->surface_update_vertex_region(0, 0, ary);
+
+        // aabb does not get automatically updated when directly updating the vertex region
+        AABB aabb = AABB(Vector3(left, top, 0), Vector3(right - left, bottom - top, 0));
+        ary_mesh->set_custom_aabb(aabb);
+        return;
+    }
 
     Array ary;
 
@@ -81,7 +111,7 @@ void InternalCubismRenderer2D::update_mesh(
     ary[Mesh::ARRAY_VERTEX] = make_Vertices(
         model->GetDrawableVertexPositions(index),
         model->GetDrawableVertexCount(index),
-        res.CALCULATED_PPUNIT_C);
+        pp_unit);
 
     ary[Mesh::ARRAY_TEX_UV] = make_UVs(
         model->GetDrawableVertexUvs(index),
@@ -92,12 +122,6 @@ void InternalCubismRenderer2D::update_mesh(
         model->GetDrawableVertexIndexCount(index));
 
     ary_mesh->add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, ary);
-
-    AABB bounds = ary_mesh->get_aabb();
-    RenderingServer::get_singleton()->canvas_item_set_custom_rect(
-        node->get_canvas_item(), true,
-        Rect2(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y)
-    );
 }
 
 Vector2 InternalCubismRenderer2D::get_size(const Csm::CubismModel *model) const
@@ -159,15 +183,14 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, int32
         const bool visible = model->GetDrawableDynamicFlagIsVisible(index) && model->GetDrawableOpacity(index) > 0.0f;
         node->set_visible(visible);
         Ref<ShaderMaterial> mat = node->get_material();
-        
-        if (visible) {
-            this->update_mesh(model, index, false, res, node);
-            this->update_material(model, index, mat);
-            node->set_z_index(renderOrder[index]);
-        }
+        Ref<ArrayMesh> ary_mesh = node->get_mesh();
+
+        this->update_mesh(model, index, res, ary_mesh);
+        this->update_material(model, index, mat);
+        node->set_z_index(renderOrder[index]);
         
         // adjust real bounds to prevent the mesh being culled
-        AABB bounds = node->get_mesh()->get_aabb();
+        AABB bounds = ary_mesh->get_custom_aabb();
         Rect2 canvas_bounds = Rect2(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y);
         RenderingServer::get_singleton()->canvas_item_set_custom_rect(
             node->get_canvas_item(), true,
@@ -218,28 +241,6 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, int32
         mat->set_shader_parameter("tex_mask", viewport->get_texture());
         mat->set_shader_parameter("mask_scale", scalar * vp_scale.x);
         mat->set_shader_parameter("mesh_offset", viewport_offset);
-
-        const Array masks = res.dict_mask[node_name];
-        
-        for (Csm::csmInt32 m_index = 0; m_index < model->GetDrawableMaskCounts()[index]; m_index++)
-        {
-            Csm::csmInt32 j = model->GetDrawableMasks()[index][m_index];
-
-            if (model->GetDrawableVertexCount(j) == 0)
-                continue;
-            if (model->GetDrawableVertexIndexCount(j) == 0)
-                continue;
-    
-            MeshInstance2D *node = Object::cast_to<MeshInstance2D>(masks[m_index]);
-            node->set_visible(visible);
-
-            if (!visible) {
-                continue;
-            }
-
-            this->update_mesh(model, j, true, res, node);
-            node->set_z_index(renderOrder[index]);
-        }
     }
 }
 
@@ -253,6 +254,9 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
         model,
         res);
 
+    Array meshes;
+    meshes.resize(model->GetDrawableCount());
+
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
     {
         if (model->GetDrawableVertexCount(index) == 0)
@@ -264,9 +268,16 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
         String node_name(handle->GetString().GetRawString());
 
         MeshInstance2D* node = res.request_mesh_instance();
+        // share drawable mesh between nodes and masks so we only have to update once
+        if (meshes[index]) {
+            node->set_mesh(meshes[index]);
+        } else {
+            meshes[index] = node->get_mesh();
+            this->update_mesh(model, index, res, node->get_mesh());
+        }
+        
         ShaderMaterial* mat = res.request_shader_material(model, index);
         node->set_material(mat);        
-        this->update_mesh(model, index, false, res, node);
         node->set_name(node_name);
 
         // build mask
@@ -301,9 +312,14 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
                     CubismIdHandle handle = model->GetDrawableId(j);
                     String mask_name(handle->GetString().GetRawString());
 
-                    MeshInstance2D *node = res.request_mesh_instance();
+                    MeshInstance2D* node = res.request_mesh_instance();
+                    if (meshes[j]) {
+                        node->set_mesh(meshes[j]);
+                    } else {
+                        meshes[j] = node->get_mesh();
+                        this->update_mesh(model, j, res, node->get_mesh());
+                    }
                     ShaderMaterial *mat = res.request_mask_material();
-                    this->update_mesh(model, j, true, res, node);
 
                     node->set_name(mask_name);
                     node->set_material(mat);
