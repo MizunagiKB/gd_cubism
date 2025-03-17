@@ -11,9 +11,6 @@ using Godot;
 
 public partial class Viewer : Control
 {
-    const int MIX_RENDER_SIZE = 32;
-    const int MAX_RENDER_SIZE = 2048;
-    const int RENDER_SIZE_STEP = 256;
     const bool ENABLE_MOTION_FINISHED = true;
 
     GDCubismUserModelCS cubism_model;
