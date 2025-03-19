@@ -73,34 +73,34 @@ void InternalCubismRenderer2D::update_mesh(
     auto pp_unit = res.CALCULATED_PPUNIT_C;
 
     if (ary_mesh->get_surface_count() > 0) {
-        int size = model->GetDrawableVertexCount(index);
+        const int size = model->GetDrawableVertexCount(index);
+        const auto ptr = model->GetDrawableVertexPositions(index);
+
         PackedByteArray ary;
-        ary.resize(size * 8);
+        ary.resize(size * sizeof(Vector2));
 
-        auto ptr = model->GetDrawableVertexPositions(index);
+        Vector3 vct_min(__DBL_MAX__, __DBL_MAX__, 0.0);
+        Vector3 vct_max(__DBL_MIN__, __DBL_MIN__, 0.0);
 
-        float left = __DBL_MAX__;
-        float right = __DBL_MIN__;
-        float top = __DBL_MAX__;
-        float bottom = __DBL_MIN__;
-        for (int i = 0, n = 0; i < size; i++, n += 8)
+        for (int i = 0, n = 0; i < size; i++, n += sizeof(Vector2))
         {
             float x = ptr[i].X * pp_unit;
             float y = ptr[i].Y * -1.0 * pp_unit;
-            left = Math::min(x, left);
-            right = Math::max(x, right);
-            top = Math::min(y, top);
-            bottom = Math::max(y, bottom);
+            vct_min.x = Math::min(vct_min.x, x);
+            vct_min.y = Math::min(vct_min.y, y);
+            vct_max.x = Math::max(vct_max.x, x);
+            vct_max.y = Math::max(vct_max.y, y);
             
-            ary.encode_float(n, x);
-            ary.encode_float(n + 4, y);
+            ary.encode_float(n + offsetof(Vector2, x), x);
+            ary.encode_float(n + offsetof(Vector2, y), y);
         }
 
         ary_mesh->surface_update_vertex_region(0, 0, ary);
 
         // aabb does not get automatically updated when directly updating the vertex region
-        AABB aabb = AABB(Vector3(left, top, 0), Vector3(right - left, bottom - top, 0));
+        AABB aabb = AABB(vct_min, vct_max - vct_min);
         ary_mesh->set_custom_aabb(aabb);
+
         return;
     }
 
@@ -122,6 +122,7 @@ void InternalCubismRenderer2D::update_mesh(
         model->GetDrawableVertexIndexCount(index));
 
     ary_mesh->add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, ary);
+    ary_mesh->set_custom_aabb(ary_mesh->get_aabb());
 }
 
 Vector2 InternalCubismRenderer2D::get_size(const Csm::CubismModel *model) const
