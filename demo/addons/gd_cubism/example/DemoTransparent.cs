@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
+using System;
 using Godot;
-using Godot.Collections;
-
 
 #pragma warning disable CA1050
 #pragma warning disable IDE1006
 
 
-public partial class demo_transparent : Node2D
+public partial class DemoTransparent : Node2D
 {
-    private const System.String DEFAULT_ASSET = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro_t02.model3.json";
+    private const System.String DEFAULT_ASSET = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro.model3.json";
     private System.String[] CONVEX_MESH_SRC = {
         "ArtMesh121",
         "ArtMesh122",
@@ -26,8 +25,8 @@ public partial class demo_transparent : Node2D
     private Vector2 mouse_position;
 
     private bool enable_transparent = false;
-    private Array<System.String> ary_character_expression;
-    private Array ary_character_motion = new();
+    private Godot.Collections.Array<System.String> ary_character_expression = new();
+    private Godot.Collections.Array ary_character_motion = new();
 
     private GDCubismUserModelCS model;
     private Polygon2D polygon_2d;
@@ -38,18 +37,19 @@ public partial class demo_transparent : Node2D
     // * https://tjkendev.github.io/procon-library/
     // * https://tjkendev.github.io/procon-library/cpp/geometry/graham_scan.html
 
-    private static bool check_cross(Array<Vector2> ary_check, Vector2 vtx)
+    private static bool check_cross(Godot.Collections.Array<Vector2> ary_check, Vector2 vtx)
     {
         Vector2 va = ary_check[^2];
         Vector2 vb = ary_check[^1];
 
         return (((vb.X - va.X) * (vtx.Y - va.Y)) - ((vb.Y - va.Y) * (vtx.X - va.X))) > 0;
     }
-    private static Array<Vector2> convex_hull(Array<Vector2> ary_vertex)
+
+    private static Godot.Collections.Array<Vector2> convex_hull(Godot.Collections.Array<Vector2> ary_vertex)
     {
-        //ary_vertex
         ary_vertex.Sort();
-        Array<Vector2> ary_result = new();
+
+        Godot.Collections.Array<Vector2> ary_result = new();
         int n = ary_vertex.Count;
 
         foreach (Vector2 vtx in ary_vertex)
@@ -64,7 +64,6 @@ public partial class demo_transparent : Node2D
         int t = ary_result.Count;
 
         int i = n - 2;
-
         while (i >= 0)
         {
             Vector2 vtx = ary_vertex[i];
@@ -82,25 +81,40 @@ public partial class demo_transparent : Node2D
         return ary_result;
     }
 
+    private void recalc_model_position(GDCubismUserModelCS model)
+    {
+        if(model.Assets == "") return;
+
+        Godot.Collections.Dictionary canvas_info = model.GetCanvasInfo();
+
+        if(canvas_info.Count > 0)
+        {
+            Vector2 vct_viewport_size = new(GetViewportRect().Size.X, GetViewportRect().Size.Y);
+            Vector2 size_in_pixels = (Vector2)canvas_info["size_in_pixels"];
+            float scale = vct_viewport_size.Y / Math.Max(size_in_pixels.X, size_in_pixels.Y);
+            model.GetInternalObject().Position = new(vct_viewport_size.X * 0.5f, vct_viewport_size.Y * 0.5f);
+            model.GetInternalObject().Scale = new(scale, scale);
+       }
+    }
+
     public override void _Ready()
     {
-        this.model = new(GetNode<SubViewport>("Sprite2D/GDCubismUserModel"));
+        this.model = new(GetNode<Node2D>("GDCubismUserModel"));
         if (this.model.Assets == "") model.Assets = DEFAULT_ASSET;
 
+        this.recalc_model_position(this.model);
         this.polygon_2d = GetNode<Polygon2D>("Polygon2D");
-
-        GetNode<Sprite2D>("Sprite2D").Position = new(GetViewportRect().Size.X / 2, GetViewportRect().Size.Y / 2);
 
         this.ary_character_expression = model.GetExpressions();
 
-        Dictionary<System.String, int> dict_motion = model.GetMotions();
+        Godot.Collections.Dictionary<System.String, int> dict_motion = model.GetMotions();
 
         foreach (var (k, item_count) in dict_motion)
         {
             for (int no = 0; no < item_count; no++)
             {
                 this.ary_character_motion.Add(
-                    new Dictionary { { "group", k }, { "no", no } }
+                    new Godot.Collections.Dictionary { { "group", k }, { "no", no } }
                 );
             }
         }
@@ -114,26 +128,28 @@ public partial class demo_transparent : Node2D
             this.order_window_position = false;
         }
 
-        Dictionary dict_mesh = model.GetMeshes();
-        Array<Vector2> ary = new();
+        Godot.Collections.Dictionary dict_mesh = model.GetMeshes();
+        Godot.Collections.Array<Vector2> ary = new();
+
         foreach (System.String name in CONVEX_MESH_SRC)
         {
-            var ary_vtx = (Array<Vector2>)((ArrayMesh)dict_mesh[name]).SurfaceGetArrays(0)[0];
+            Godot.Collections.Array<Vector2> ary_vtx = (Godot.Collections.Array<Vector2>)((MeshInstance2D)dict_mesh[name]).Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex];
             ary += ary_vtx;
         }
-        var ary_polygon = convex_hull(ary);
+
+        Godot.Collections.Array<Vector2> ary_polygon = convex_hull(ary);
 
         if (ary_polygon.Count > 2)
         {
             Vector2[] region = System.Array.Empty<Vector2>();
-            Vector2 adjust = GetViewportRect().Size;
-            adjust -= new Vector2(model.Size.X, model.Size.Y);
-            adjust *= new Vector2(0.5f, 0.5f);
 
-            foreach (Vector2 v in ary_polygon)
+            foreach (Vector2 _v in ary_polygon)
             {
+                Vector2 v = _v;
+                v *= this.model.GetInternalObject().Scale;
+                v += this.model.GetInternalObject().Position;
                 System.Array.Resize(ref region, region.Length + 1);
-                region[^1] = v + adjust;
+                region[^1] = v;
             }
 
             this.polygon_2d.Polygon = region;
@@ -142,10 +158,8 @@ public partial class demo_transparent : Node2D
 
     public override void _Input(InputEvent @event)
     {
-
         if (@event is InputEventKey inputKey)
         {
-
             if (inputKey.IsPressed() == true)
             {
                 if (inputKey.Keycode == Key.Escape)
@@ -157,7 +171,7 @@ public partial class demo_transparent : Node2D
                 {
                     var random = new RandomNumberGenerator();
 
-                    Dictionary motion = (Dictionary)ary_character_motion[random.RandiRange(0, ary_character_motion.Count - 1)];
+                    Godot.Collections.Dictionary motion = (Godot.Collections.Dictionary)ary_character_motion[random.RandiRange(0, ary_character_motion.Count - 1)];
                     this.model.StartMotionLoop(
                         (System.String)motion["group"],
                         (int)motion["no"],
@@ -166,6 +180,7 @@ public partial class demo_transparent : Node2D
                         true
                     );
                 }
+
                 if (inputKey.Keycode == Key.Tab)
                 {
                     if (this.enable_transparent == true)
@@ -218,4 +233,3 @@ public partial class demo_transparent : Node2D
         }
     }
 }
-

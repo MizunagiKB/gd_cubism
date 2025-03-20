@@ -49,9 +49,8 @@ private:
     void update_mesh(
         const Csm::CubismModel *model,
         const Csm::csmInt32 index,
-        const bool makemask,
         const InternalCubismRendererResource &res,
-        const MeshInstance2D *node) const;
+        const Ref<ArrayMesh> mesh) const;
 
 public:
     Vector2 get_size(const Csm::CubismModel *model) const;
