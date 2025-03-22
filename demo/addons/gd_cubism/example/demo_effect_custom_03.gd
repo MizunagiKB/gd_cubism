@@ -1,7 +1,13 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
-extends GDCubismEffectCustom
+extends Node2D
 
+
+
+const DEFAULT_ASSET: String = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro.model3.json";
+
+var cubism_model: GDCubismUserModel
+var cubism_efx: GDCubismEffectCustom
 
 @export var param_mouth_name: String = "ParamMouthA"
 @export var min_db: float = 60.0
@@ -31,6 +37,36 @@ func array_avg() -> float:
     for v in ary_volume_history:
         sum_v += v
     return sum_v / ary_volume_history.size()
+
+
+func recalc_model_position(model: GDCubismUserModel) -> void:
+    if model.assets == "":
+        return
+
+    var canvas_info: Dictionary = model.get_canvas_info()
+
+    if canvas_info.is_empty() != true:
+        var vct_viewport_size = Vector2(get_viewport_rect().size)
+        var scale: float = vct_viewport_size.y / max(canvas_info.size_in_pixels.x, canvas_info.size_in_pixels.y)
+        model.position = vct_viewport_size / 2.0
+        model.scale = Vector2(scale, scale)
+
+
+func _ready() -> void:
+    self.cubism_efx = $GDCubismUserModel/GDCubismEffectCustom
+    # self.cubism_efx.connect("cubism_prologue", self._on_cubism_prologue)
+    # self.cubism_efx.connect("cubism_epilogue", self._on_cubism_epilogue)
+    # self.cubism_efx.connect("cubism_init", self._on_cubism_init)
+    # self.cubism_efx.connect("cubism_term", self._on_cubism_term)
+    self.cubism_efx.connect("cubism_process", self._on_cubism_process)
+
+    self.cubism_model = $GDCubismUserModel
+    if self.cubism_model.assets == "":
+        self.cubism_model.assets = DEFAULT_ASSET
+
+
+func _process(delta: float) -> void:
+    self.recalc_model_position(self.cubism_model)
 
 
 func _on_cubism_init(model: GDCubismUserModel):
