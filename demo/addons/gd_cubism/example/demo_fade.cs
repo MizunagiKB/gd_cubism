@@ -7,7 +7,7 @@ using Godot;
 #pragma warning disable IDE1006
 
 
-public partial class demo_face : Node2D
+public partial class demo_fade : Node2D
 {
     const System.String DEFAULT_ASSET = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro.model3.json";
 
