@@ -6,7 +6,6 @@
 script = ExtResource("1_v15iy")
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="."]
-position = Vector2(640, 360)
 
 [node name="GDCubismEffectHitArea" type="GDCubismEffectHitArea" parent="GDCubismUserModel"]
 
