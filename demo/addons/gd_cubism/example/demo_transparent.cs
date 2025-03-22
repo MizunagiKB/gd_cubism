@@ -3,13 +3,16 @@
 using System;
 using Godot;
 
-#pragma warning disable CA1050
+
 #pragma warning disable IDE1006
 
 
-public partial class DemoTransparent : Node2D
+public partial class demo_transparent : Node2D
 {
     private const System.String DEFAULT_ASSET = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro.model3.json";
+
+    private GDCubismUserModelCS cubism_model;
+
     private System.String[] CONVEX_MESH_SRC = {
         "ArtMesh121",
         "ArtMesh122",
@@ -28,7 +31,6 @@ public partial class DemoTransparent : Node2D
     private Godot.Collections.Array<System.String> ary_character_expression = new();
     private Godot.Collections.Array ary_character_motion = new();
 
-    private GDCubismUserModelCS model;
     private Polygon2D polygon_2d;
 
 
@@ -99,15 +101,15 @@ public partial class DemoTransparent : Node2D
 
     public override void _Ready()
     {
-        this.model = new(GetNode<Node2D>("GDCubismUserModel"));
-        if (this.model.Assets == "") model.Assets = DEFAULT_ASSET;
+        this.cubism_model = new(GetNode<Node2D>("GDCubismUserModel"));
+        if (this.cubism_model.Assets == "") this.cubism_model.Assets = DEFAULT_ASSET;
 
-        this.recalc_model_position(this.model);
+        this.recalc_model_position(this.cubism_model);
         this.polygon_2d = GetNode<Polygon2D>("Polygon2D");
 
-        this.ary_character_expression = model.GetExpressions();
+        this.ary_character_expression = this.cubism_model.GetExpressions();
 
-        Godot.Collections.Dictionary<System.String, int> dict_motion = model.GetMotions();
+        Godot.Collections.Dictionary<System.String, int> dict_motion = this.cubism_model.GetMotions();
 
         foreach (var (k, item_count) in dict_motion)
         {
@@ -128,7 +130,7 @@ public partial class DemoTransparent : Node2D
             this.order_window_position = false;
         }
 
-        Godot.Collections.Dictionary dict_mesh = model.GetMeshes();
+        Godot.Collections.Dictionary dict_mesh = this.cubism_model.GetMeshes();
         Godot.Collections.Array<Vector2> ary = new();
 
         foreach (System.String name in CONVEX_MESH_SRC)
@@ -146,8 +148,8 @@ public partial class DemoTransparent : Node2D
             foreach (Vector2 _v in ary_polygon)
             {
                 Vector2 v = _v;
-                v *= this.model.GetInternalObject().Scale;
-                v += this.model.GetInternalObject().Position;
+                v *= this.cubism_model.GetInternalObject().Scale;
+                v += this.cubism_model.GetInternalObject().Position;
                 System.Array.Resize(ref region, region.Length + 1);
                 region[^1] = v;
             }
@@ -172,7 +174,7 @@ public partial class DemoTransparent : Node2D
                     var random = new RandomNumberGenerator();
 
                     Godot.Collections.Dictionary motion = (Godot.Collections.Dictionary)ary_character_motion[random.RandiRange(0, ary_character_motion.Count - 1)];
-                    this.model.StartMotionLoop(
+                    this.cubism_model.StartMotionLoop(
                         (System.String)motion["group"],
                         (int)motion["no"],
                         GDCubismUserModelCS.PriorityEnum.PriorityForce,
@@ -203,7 +205,7 @@ public partial class DemoTransparent : Node2D
                     long index = inputKey.Keycode - Key.Key0;
                     if (index < this.ary_character_expression.Count)
                     {
-                        model.StartExpression(this.ary_character_expression[(int)index]);
+                        this.cubism_model.StartExpression(this.ary_character_expression[(int)index]);
                     }
                 }
             }
