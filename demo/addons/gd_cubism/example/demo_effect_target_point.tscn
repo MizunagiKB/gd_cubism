@@ -2,11 +2,9 @@
 
 [ext_resource type="Script" path="res://addons/gd_cubism/example/demo_effect_target_point.gd" id="1_j4tk3"]
 
-[node name="demo_effect_custom_03" type="Node2D"]
+[node name="demo_effect_target_point" type="Node2D"]
 script = ExtResource("1_j4tk3")
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="."]
-position = Vector2(640, 360)
-scale = Vector2(0.075, 0.075)
 
 [node name="GDCubismEffectTargetPoint" type="GDCubismEffectTargetPoint" parent="GDCubismUserModel"]
