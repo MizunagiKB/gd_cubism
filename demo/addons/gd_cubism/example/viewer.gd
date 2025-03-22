@@ -2,10 +2,10 @@
 # SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 extends Control
 
+
 const ENABLE_MOTION_FINISHED := true
 
 var cubism_model: GDCubismUserModel
-var ary_param: Array
 var last_motion = null
 
 

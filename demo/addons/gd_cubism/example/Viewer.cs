@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 using System;
-using System.ComponentModel.DataAnnotations;
 using Godot;
 
 
-#pragma warning disable CA1050
 #pragma warning disable IDE1006
 
 
-public partial class Viewer : Control
+public partial class viewer : Control
 {
     const bool ENABLE_MOTION_FINISHED = true;
 
