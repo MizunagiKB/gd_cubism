@@ -22,6 +22,9 @@ using namespace godot;
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
+class InternalCubismUserModel;
+
+
 // ------------------------------------------------------------------- class(s)
 class GDCubismEffect : public Node {
     GDCLASS(GDCubismEffect, Node);
