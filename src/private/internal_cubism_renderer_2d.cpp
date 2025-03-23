@@ -219,7 +219,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, int32
 
         // optimize mask viewport size by scaling it relative to the viewport transform
         // maximum resolution should be equal to raw size from mesh dimensions, or the upper bound defined on the model
-        Vector2 mask_size = Math::min(bounds_in_viewport.size, canvas_bounds.size);
+        Vector2 mask_size = Math::min(canvas_bounds.size * node->get_global_scale(), canvas_bounds.size);
         Vector2 vp_scale = Vector2(mask_size) / Vector2(canvas_bounds.size);
         double scalar = 1.0;
         if (mask_viewport_size > 0) {
