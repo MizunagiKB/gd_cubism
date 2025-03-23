@@ -14,7 +14,8 @@ public partial class demo_fade : Node2D
     GDCubismUserModelCS cubism_model;
     GDCubismUserModelCS cubism_model_sv;
 
-    Sprite2D ref_sprite;
+    double color_h;
+
 
     private void recalc_model_position(GDCubismUserModelCS model)
     {
@@ -46,26 +47,21 @@ public partial class demo_fade : Node2D
             this.cubism_model_sv.Assets = DEFAULT_ASSET;
         }
 
-        GetNode<CheckBox>("CheckBox").ButtonPressed = this.cubism_model.PoseUpdate;
+        this.color_h = GetNode<HSlider>("HSlider").Value;
     }
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
-    }
-
-    private void _on_h_slider_value_changed(float value)
-    {
-        GetNode<Sprite2D>("Sprite2D").Modulate = new(1.0f, 1.0f, 1.0f, value / 100.0f);
-
-        foreach (var o in this.cubism_model.GetPartOpacities())
+        this.color_h += (delta * 0.25);
+        
+        if (this.color_h > 360.0)
         {
-            o.Value = value / 100.0f;
+            this.color_h -= 360.0;
         }
-    }
 
-    private void _on_check_box_toggled(bool toggled_on)
-    {
-        this.cubism_model.PoseUpdate = toggled_on;
+        Color color = Color.FromHsv((float)this.color_h, 1.0f, 1.0f, (float)GetNode<HSlider>("HSlider").Value / 100.0f);
+
+        this.cubism_model.GetInternalObject().Modulate = color;
+        GetNode<Sprite2D>("Sprite2D").Modulate = color;
     }
 }
