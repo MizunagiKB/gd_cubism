@@ -35,14 +35,14 @@ GDCubismUserModel::GDCubismUserModel()
     , enable_load_expressions(true)
     , enable_load_motions(true)
     , speed_scale(1.0)
-    , mask_viewport_size(0)
     , parameter_mode(ParameterMode::FULL_PARAMETER)
     , physics_evaluate(true)
     , pose_update(true)
     , playback_process_mode(MotionProcessCallback::IDLE)
     , anim_loop(DEFAULT_PROP_ANIM_LOOP)
     , anim_loop_fade_in(DEFAULT_PROP_ANIM_LOOP_FADE_IN)
-    , cubism_effect_dirty(false) {
+    , cubism_effect_dirty(false)
+    , mask_viewport_size(0) {
 
     this->ary_shader.resize(GD_CUBISM_SHADER_MAX);
 }
@@ -97,7 +97,7 @@ void GDCubismUserModel::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_mask_viewport_size", "value"), &GDCubismUserModel::set_mask_viewport_size);
     ClassDB::bind_method(D_METHOD("get_mask_viewport_size"), &GDCubismUserModel::get_mask_viewport_size);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "mask_viewport_size", PROPERTY_HINT_RANGE, "0, 4096"), "set_mask_viewport_size", "get_mask_viewport_size");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "mask_viewport_size", PROPERTY_HINT_RANGE, "0,4096"), "set_mask_viewport_size", "get_mask_viewport_size");
 
     ClassDB::bind_method(D_METHOD("set_shader_add"), &GDCubismUserModel::set_shader_add);
     ClassDB::bind_method(D_METHOD("get_shader_add"), &GDCubismUserModel::get_shader_add);
