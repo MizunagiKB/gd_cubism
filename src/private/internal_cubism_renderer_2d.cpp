@@ -85,20 +85,20 @@ void InternalCubismRenderer2D::update_mesh(
         for (int i = 0, n = 0; i < size; i++, n += sizeof(Vector2))
         {
             float x = ptr[i].X * pp_unit;
-            float y = ptr[i].Y * -1.0 * pp_unit;
-            vct_min.x = Math::min(vct_min.x, x);
-            vct_min.y = Math::min(vct_min.y, y);
-            vct_max.x = Math::max(vct_max.x, x);
-            vct_max.y = Math::max(vct_max.y, y);
+            float y = ptr[i].Y * pp_unit;
+            vct_min.x = Math::min(vct_min.x, x); // left
+            vct_min.y = Math::min(vct_min.y, y); // top
+            vct_max.x = Math::max(vct_max.x, x); // right
+            vct_max.y = Math::max(vct_max.y, y); // bottom
             
             ary.encode_float(n + offsetof(Vector2, x), x);
-            ary.encode_float(n + offsetof(Vector2, y), y);
+            ary.encode_float(n + offsetof(Vector2, y), -y);
         }
 
         ary_mesh->surface_update_vertex_region(0, 0, ary);
 
         // aabb does not get automatically updated when directly updating the vertex region
-        AABB aabb = AABB(vct_min, vct_max - vct_min);
+        AABB aabb(Vector3(vct_min.x, -vct_max.y, 0), vct_max - vct_min);
         ary_mesh->set_custom_aabb(aabb);
 
         return;
