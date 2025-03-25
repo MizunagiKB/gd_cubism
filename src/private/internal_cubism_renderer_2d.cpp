@@ -16,6 +16,7 @@
 #include <private/internal_cubism_renderer_2d.hpp>
 #include <private/internal_cubism_renderer_resource.hpp>
 #include <private/internal_cubism_user_model.hpp>
+#include <cfloat>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -80,8 +81,8 @@ void InternalCubismRenderer2D::update_mesh(
         PackedByteArray ary;
         ary.resize(size * sizeof(Vector2));
 
-        Vector3 vct_min(__DBL_MAX__, __DBL_MAX__, 0.0);
-        Vector3 vct_max(__DBL_MIN__, __DBL_MIN__, 0.0);
+        Vector3 vct_min(DBL_MAX, DBL_MAX, 0.0);
+        Vector3 vct_max(DBL_MIN, DBL_MIN, 0.0);
 
         for (int i = 0, n = 0; i < size; i++, n += sizeof(Vector2))
         {
@@ -169,6 +170,13 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, int32
         model,
         res);
 
+    // get the model's global transform to preform optimizations against
+    auto mesh_0 = Object::cast_to<MeshInstance2D>(res.dict_mesh.values()[0]);
+
+    const Vector2 model_scale = Math::min(mesh_0->get_global_scale(), Vector2(1.0, 1.0));
+    const Transform2D viewport_transform = mesh_0->get_global_transform_with_canvas();
+    const Rect2 viewport_bounds = mesh_0->get_viewport_rect();
+
     // update meshes
     for (Csm::csmInt32 index = 0; index < model->GetDrawableCount(); index++)
     {
@@ -218,9 +226,25 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, int32
                 aabb = aabb.merge(mesh->get_custom_aabb());
             }
         }
-        aabb = aabb.grow(4.0);
+        aabb = aabb.grow(4.0);  // adds padding around the mask for safety
+        Rect2 bounds(aabb.position.x, aabb.position.y, aabb.size.x, aabb.size.y);
 
-        Vector2 mask_size = Vector2(aabb.size.x, aabb.size.y);
+        // detect if the canvas item is going to be culled
+        // only cull viewports when not looking at the model in the editor
+        Rect2 bounds_in_viewport = viewport_transform.xform(bounds);
+        const bool is_culled = 
+            !Engine::get_singleton()->is_editor_hint() &&
+            !(
+                viewport_bounds.intersects(bounds_in_viewport) 
+                || viewport_bounds.encloses(bounds_in_viewport)
+            );
+
+        if (is_culled){
+            mask->set_size(Vector2i(2,2));
+            continue;
+        }
+
+        Vector2 mask_size = bounds.size;
         double scalar = 1.0;
         if (mask_viewport_size > 0) {
             if (mask_size.x > mask_viewport_size || mask_size.y > mask_viewport_size) {
@@ -233,7 +257,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, int32
             }
         }
 
-        Vector2 viewport_offset = Vector2(aabb.position.x, aabb.position.y);
+        Vector2 viewport_offset = bounds.position;
         Transform2D transform = Transform2D(0, -viewport_offset);
         transform.scale(Vector2(scalar, scalar));
         mask->set_size(mask_size);
