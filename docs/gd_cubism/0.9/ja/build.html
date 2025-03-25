@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Build :: GDCubism</title>
+    <link rel="canonical" href="https://mizunagikb.github.io/gd_cubism/gd_cubism/0.9/ja/build.html">
+    <meta name="generator" content="Antora 3.1.10">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://mizunagikb.github.io/gd_cubism">GDCubism</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" aria-controls="topbar-nav" aria-expanded="false" aria-label="Toggle main menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="gd_cubism" data-version="0.9">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
+    <h3 class="title"><a href="index.html">GDCubism</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">ja</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Cubism for Godot Engine</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="license.html">License</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="build.html">Build</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="usage.html">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect.html">GDCubismEffect</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_breath.html">GDCubismEffectBreath</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_custom.html">GDCubismEffectCustom</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_eye_blink.html">GDCubismEffectEyeBlink</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_hit_area.html">GDCubismEffectHitArea</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_effect_target_point.html">GDCubismEffectTargetPoint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_motion_entry.html">GDCubismMotionQueueEntry</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_motion_queue_entry_handle.html">GDCubismMotionQueueEntryHandle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_parameter.html">GDCubismParameter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_part_opacity.html">GDCubismPartOpacity</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_user_model.html">GDCubismUserModel</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="api/gd_cubism_value_abs.html">GDCubismValueAbs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">en</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../en/index.html">Cubism for Godot Engine</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../en/license.html">License</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../en/build.html">Build</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../en/usage.html">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect.html">GDCubismEffect</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_breath.html">GDCubismEffectBreath</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_custom.html">GDCubismEffectCustom</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_eye_blink.html">GDCubismEffectEyeBlink</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_hit_area.html">GDCubismEffectHitArea</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_effect_target_point.html">GDCubismEffectTargetPoint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_motion_entry.html">GDCubismMotionQueueEntry</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_motion_queue_entry_handle.html">GDCubismMotionQueueEntryHandle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_parameter.html">GDCubismParameter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_part_opacity.html">GDCubismPartOpacity</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_user_model.html">GDCubismUserModel</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../en/api/gd_cubism_value_abs.html">GDCubismValueAbs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">GDCubism</span>
+    <span class="version">0.9</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <div class="title"><a href="index.html">GDCubism</a></div>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">0.9</a>
+        </li>
+        <li class="version">
+          <a href="../../0.8/ja/index.html">0.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.7/ja/index.html">0.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.6/ja/index.html">0.6</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">GDCubism</a></li>
+    <li>ja</li>
+    <li><a href="build.html">Build</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">0.9</button>
+  <div class="version-menu">
+    <a class="version is-current" href="build.html">0.9</a>
+    <a class="version" href="../../0.8/ja/build.html">0.8</a>
+    <a class="version" href="../../0.7/ja/build.html">0.7</a>
+    <a class="version" href="../../0.6/ja/build.html">0.6</a>
+  </div>
+</div>
+<div class="edit-this-page"><a href="https://github.com/MizunagiKB/gd_cubism/edit/0.9/docs-src/modules/ROOT/pages/ja/build.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Build</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="#">Japanese</a> / <a href="../en/build.html" class="xref page">English</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ビルド方法"><a class="anchor" href="#_ビルド方法"></a>ビルド方法</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ソースコードの取得と準備"><a class="anchor" href="#_ソースコードの取得と準備"></a>ソースコードの取得と準備</h3>
+<div class="paragraph">
+<p>まずgd_cubismをgit cloneしてください。</p>
+</div>
+<div class="paragraph">
+<p>最新のバージョンでしたらそのまま使用してください。もし機能拡張やバグ修正が行われたものを試したい場合は適宜ブランチを切り替えてください。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone https://github.com/MizunagiKB/gd_cubism.git
+cd gd_cubism
+git submodule update --init</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cubismsdkfornativeの入手と配置"><a class="anchor" href="#_cubismsdkfornativeの入手と配置"></a>CubismSdkForNativeの入手と配置</h4>
+<div class="paragraph">
+<p>次にビルドに必要なSDKをLive2Dのオフィシャルサイトから入手してください。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Live2D Official website - <a href="https://www.live2d.com/" class="bare">https://www.live2d.com/</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Cubism SDK for Native には Cusism SDK 以外に Cubism Native Framework が含まれています。</p>
+</div>
+<div class="paragraph">
+<p>ダウンロードしたファイルを以下のフォルダ構成になる様に展開してください。（ダウンロードしたものを thirdparty フォルダに配置してファイルを展開すればこの形になります）</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">./thirdparty
+└── CubismSdkForNative-5-r.1
+     ├── CHANGELOG.md
+     ├── Core
+     │   ├── CHANGELOG.md
+     │   ├── LICENSE.md
+     │   ├── README.ja.md
+     │   ├── README.md
+     │   ├── RedistributableFiles.txt
+     │   ├── dll
+     │   ├── include
+     │   └── lib
+     ├── Framework
+     │   ├── CHANGELOG.md
+     │   ├── CMakeLists.txt
+     │   ├── LICENSE.md
+     │   ├── README.ja.md
+     │   ├── README.md
+     │   ├── TRANSLATION.md
+     │   └── src
+     ├── LICENSE.md
+     ├── NOTICE.ja.md
+     ├── NOTICE.md
+     ├── README.ja.md
+     ├── README.md
+     ├── Samples
+     │   ├── Cocos2d-x
+     │   ├── D3D11
+     │   ├── D3D9
+     │   ├── Metal
+     │   ├── OpenGL
+     │   ├── Resources
+     │   └── Vulkan
+     ├── cubism-info.yml
+     ├── logor.png
+     └── logos.png</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_不具合対応について"><a class="anchor" href="#_不具合対応について"></a>不具合対応について</h4>
+<div class="paragraph">
+<p>Godot Engine のバージョンと環境によっては、Window非表示状態でメモリリークが発生する不具合が発生しています。</p>
+</div>
+<div class="paragraph">
+<p>この不具合は Vulkan レンダラーを使用している <em>Forward+</em>, <em>mobile</em> で発生しており、一部の問題は対策されているものの macOS 環境においては解消されていません。</p>
+</div>
+<div class="paragraph">
+<p>この問題に対応するため、 scons 実行時に <strong>COUNTERMEASURES_90017_90030</strong> を指定できる様にしました。</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">COUNTERMEASURES_90017_90030=1 (default)</dt>
+<dd>
+<p>Window非表示状態のときLive2Dモデルの描画処理を呼び出しません。</p>
+</dd>
+<dt class="hdlist1">COUNTERMEASURES_90017_90030=0</dt>
+<dd>
+<p>Windowの表示状態に関わらず、常にLive2Dモデルの描画処理を呼び出します。</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>不具合の内容については以下のIssueを参照してください。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/godotengine/godot/issues/89651" class="bare">https://github.com/godotengine/godot/issues/89651</a></p>
+</li>
+<li>
+<p><a href="https://github.com/godotengine/godot/issues/90017" class="bare">https://github.com/godotengine/godot/issues/90017</a></p>
+</li>
+<li>
+<p><a href="https://github.com/godotengine/godot/issues/90030" class="bare">https://github.com/godotengine/godot/issues/90030</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cubismeditor_との挙動の違いについて"><a class="anchor" href="#_cubismeditor_との挙動の違いについて"></a>CubismEditor との挙動の違いについて</h4>
+<div class="paragraph">
+<p>GDCubism が内部で使用している CubismNativeFramework は、 Cubism Editor で作成された Live2D モデルを再生可能な様に作成されているものの、描画のプライオリティやモーションに差異が生まれる事があります。</p>
+</div>
+<div class="paragraph">
+<p>Cubism SDK for Native のドキュメントには、Cubism Editor との動作の違いやデータ作成上のヒントが記載されています。</p>
+</div>
+<div class="paragraph">
+<p>ドキュメントの内容は主に Unity や Cubism SDK for Native 向けでそのまま使用できない場所もありますが、参考にしてみてください。</p>
+</div>
+<div class="ulist">
+<div class="title">Cubism Editor 5</div>
+<ul>
+<li>
+<p><a href="https://docs.live2d.com/cubism-sdk-manual/cubism-5-new-functions/">Cubism 5 新機能のSDK対応について</a></p>
+</li>
+<li>
+<p><a href="https://docs.live2d.com/cubism-sdk-manual/cubism-4-new-functions/">Cubism 4 新機能のSDK対応について</a></p>
+</li>
+<li>
+<p><a href="https://docs.live2d.com/cubism-sdk-manual/cubism-4-2-new-functions/">Cubism 4.2 新機能のSDK対応について</a></p>
+</li>
+<li>
+<p><a href="https://docs.live2d.com/cubism-sdk-manual/compatibility-with-cubism-5/">Cubism 5 機能のSDK互換性について</a></p>
+</li>
+<li>
+<p><a href="https://docs.live2d.com/cubism-sdk-manual/compatibility-with-cubism-4-2/">Cubism 4.2 機能のSDK互換性について</a></p>
+</li>
+<li>
+<p><a href="https://docs.live2d.com/cubism-sdk-manual/update-sdk-to-cubism5/">旧バージョンのプロジェクトをCubism 5 SDKへ移行</a></p>
+</li>
+<li>
+<p><a href="https://docs.live2d.com/cubism-sdk-manual/update-sdk-to-cubism4/">旧バージョンのプロジェクトをCubism 4 SDKへ移行</a></p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Cubism Editor 5 / プラットフォーム比較</div>
+<ul>
+<li>
+<p><a href="https://docs.live2d.com/cubism-sdk-manual/sdk-type-for-motiopn/">ワークフローによるモーション作成の違いについて</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cubismnativeframeworkのカスタマイズ"><a class="anchor" href="#_cubismnativeframeworkのカスタマイズ"></a>CubismNativeFrameworkのカスタマイズ</h4>
+<div class="paragraph">
+<p>GDCubismはCubismSdkForNativeに同梱されているCubismNativeFrameworkを使用していますが、最新のFrameworkや独自に拡張したい場合は、以下の方法で変更可能です。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">pushd thirdparty
+git clone https://github.com/Live2D/CubismNativeFramework.git
+popd</code></pre>
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+ビルドはCubismSdkForNativeにあるFrameworkよりカスタムビルドの方が優先されます。
+不要になりましたら削除を行ってください。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_windows版のビルド"><a class="anchor" href="#_windows版のビルド"></a>Windows版のビルド</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>ビルドには以下のものが必要となります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://visualstudio.microsoft.com/ja/vs/community/">VisualStudio Community</a>, version 2019 or lator.</p>
+</li>
+<li>
+<p><a href="https://www.python.org/downloads/windows/">Python 3.8+</a></p>
+</li>
+<li>
+<p><a href="https://scons.org/pages/download.html">SCons 3.0+</a> build system.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>SCons 4.8 を使用すると VS Project が正常に生成出来ず、ビルドに失敗するという報告を受けています。 この問題は Godot Engine 側にあり、将来のバージョンで解消されると思いますが、現状は SCons を 4.7 で使用してください。
+<a href="https://github.com/godotengine/godot/pull/94117" class="bare">https://github.com/godotengine/godot/pull/94117</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># scons をインストールする時にバージョン指定をする事で対応可能です。
+# 4.8 以上が導入されている場合もこの方法で 4.7 にする事が出来ます。
+pip install scons==4.7</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Visual Studioのインストールに関する注意事項</div>
+<div class="paragraph">
+<p>Visual Studio をインストールする場合は、ワークロードのリストから C&#43;&#43; を有効化しなければなりません。</p>
+</div>
+<div class="paragraph">
+<p>もし間違って C&#43;&#43; サポート無しで Visual Studio をインストールしてしまったなら、再度インストーラーを実行してください。変更 (Modify)ボタンが表示されるはずです。プログラムの追加と削除からインストーラーを起動しても、修復オプションしか表示されず、 C&#43;&#43; ツールはインストールできません。</p>
+</div>
+<div class="paragraph">
+<p><a href="https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_windows.html#development-in-visual-studio">Godot Engine 4.1 documentation</a></p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>環境が準備できたら以下の手順でビルドを行ってください。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">scons platform=windows vsproj=yes arch=x86_64 target=template_debug
+scons platform=windows vsproj=yes arch=x86_64 target=template_release</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ビルドが完了すると以下のファイルが <em>demo/addons/gd_cubism/bin</em> 以下に生成されます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>libgd_cubism.windows.debug.x86_64.dll</p>
+</li>
+<li>
+<p>libgd_cubism.windows.release.x86_64.dll</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_macos版のビルド"><a class="anchor" href="#_macos版のビルド"></a>macOS版のビルド</h3>
+<div class="paragraph">
+<p>ビルドには以下のものが必要となります。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://apps.apple.com/us/app/xcode/id497799835">Xcode</a></p>
+</li>
+<li>
+<p><a href="https://www.python.org/downloads/windows/">Python 3.8+</a></p>
+</li>
+<li>
+<p><a href="https://scons.org/pages/download.html">SCons 3.0+</a> build system.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>SCons 4.8 を使用するとビルドに失敗するという報告を受けています。 この問題は Godot Engine 側にあり、将来のバージョンで解消されると思いますが、現状は SCons を 4.7 で使用してください。
+<a href="https://github.com/godotengine/godot/pull/94117" class="bare">https://github.com/godotengine/godot/pull/94117</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># scons をインストールする時にバージョン指定をする事で対応可能です。
+# 4.8 以上が導入されている場合もこの方法で 4.7 にする事が出来ます。
+pip install scons==4.7</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>準備できたら以下の手順でビルドを行ってください。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># for x86_64(intel mac)
+scons platform=macos arch=x86_64 target=template_debug
+scons platform=macos arch=x86_64 target=template_release
+# for arm64(Apple Silicon mac)
+scons platform=macos arch=arm64 target=template_debug
+scons platform=macos arch=arm64 target=template_release</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ビルドが完了すると以下のファイルが <em>demo/addons/gd_cubism/bin</em> 以下に生成されます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>libgd_cubism.macos.debug.framework</p>
+</li>
+<li>
+<p>libgd_cubism.macos.release.framework</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_universalバイナリとしてビルドする場合"><a class="anchor" href="#_universalバイナリとしてビルドする場合"></a>universalバイナリとしてビルドする場合</h4>
+<div class="paragraph">
+<p>universalバイナリとしてビルドする場合は、sconsを実行する前に以下の様にリンクファイルを生成してください。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">pushd thirdparty/CubismSdkForNative-5-r.1/Core/lib/macos
+mkdir universal
+lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output universal/libLive2DCubismCore.a
+popd
+
+# for universal
+scons platform=macos arch=universal target=template_debug
+scons platform=macos arch=universal target=template_release</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_linux版のビルド"><a class="anchor" href="#_linux版のビルド"></a>Linux版のビルド</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>ビルドには以下のものが必要となります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>GCC 7+, Clang 6+.</p>
+</li>
+<li>
+<p><a href="https://www.python.org/downloads/windows/">Python 3.8+</a>.</p>
+</li>
+<li>
+<p><a href="https://scons.org/pages/download.html">SCons 3.0+</a> build system.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Linuxの場合、ディストリビューション毎に必要なパッケージが追加で必要となる場合があります。どのディストリビューションで何が必要になるかは Godot Engine のドキュメントを参考にしてください。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_linuxbsd.html">Compiling for Linux, *BSD</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>環境が準備できたら以下の手順でビルドを行ってください。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">scons platform=linux arch=x86_64 target=template_debug
+scons platform=linux arch=x86_64 target=template_release</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ビルドが完了すると以下のファイルが <em>demo/addons/gd_cubism/bin</em> 以下に生成されます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>libgd_cubism.linux.debug.x86_64.so</p>
+</li>
+<li>
+<p>libgd_cubism.linux.release.x86_64.so</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_その他のビルドについて"><a class="anchor" href="#_その他のビルドについて"></a>その他のビルドについて</h3>
+<div class="paragraph">
+<p>以下の二つはビルドが行えることのみを確認しており、動作確認まではしていません。</p>
+</div>
+<div class="paragraph">
+<p>それぞれの環境で動かしてみる場合の参考にご利用ください。</p>
+</div>
+<div class="sect3">
+<h4 id="_ios版のビルド"><a class="anchor" href="#_ios版のビルド"></a>iOS版のビルド</h4>
+<div class="paragraph">
+<p>ビルドには以下のものが必要となります。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://apps.apple.com/us/app/xcode/id497799835">Xcode</a></p>
+</li>
+<li>
+<p><a href="https://www.python.org/downloads/windows/">Python 3.8+</a></p>
+</li>
+<li>
+<p><a href="https://scons.org/pages/download.html">SCons 3.0+</a> build system.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Xcodeはコマンドラインのみで使用している場合、iphoneos向けのビルドが開始されない場合があります。</p>
+</div>
+<div class="paragraph">
+<p>この場合はXcodeのパスを以下の様に指定し直すことでビルドが行われる様になります。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo xcode-select --switch /Applications/Xcode.app</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>準備できたら以下の手順でビルドを行ってください。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># for arm64
+scons platform=ios arch=arm64 target=template_debug
+scons platform=ios arch=arm64 target=template_release
+# for universol
+scons platform=ios arch=universal target=template_debug
+scons platform=ios arch=universal target=template_release</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ビルドが完了すると以下のファイルが <em>demo/addons/gd_cubism/bin</em> 以下に生成されます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>libgd_cubism.ios.debug.arm64.dylib</p>
+</li>
+<li>
+<p>libgd_cubism.ios.release.arm64.dylib</p>
+</li>
+<li>
+<p>libgd_cubism.ios.debug.universal.dylib</p>
+</li>
+<li>
+<p>libgd_cubism.ios.release.universal.dylib</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_android版のビルド"><a class="anchor" href="#_android版のビルド"></a>Android版のビルド</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>ビルドには以下のものが必要となります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.python.org/downloads/windows/">Python 3.8+</a>.</p>
+</li>
+<li>
+<p><a href="https://scons.org/pages/download.html">SCons 3.0+</a> build system.</p>
+</li>
+<li>
+<p><a href="https://developer.android.com/studio">Android Studio</a></p>
+</li>
+<li>
+<p><a href="https://www.azul.com/downloads/?package=jdk#zulu">Azul Zulu: 21.28.85</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>ここでは Windows10 環境に Android Studio を導入しているという前提で話をします。</p>
+</div>
+<div class="paragraph">
+<p>Android Studio を起動して、 SDKManager を起動します。 SDKManager は Android Studio 起動時の Welcome to Android Studio と表示されている画面にある More Actions から選択できます。</p>
+</div>
+<div class="paragraph">
+<p>SDKManagerが起動したら、以下のものにチェックを入れてダウンロードします。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>SDK Platforms</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Android API 34</p>
+</li>
+<li>
+<p>Android 10("Q")</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>SDK Tools</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Android SDK Build-Tools 34</p>
+</li>
+<li>
+<p>NDK (Side by side)</p>
+</li>
+<li>
+<p>Android SDK Command-line Tools (latest)</p>
+</li>
+<li>
+<p>CMake</p>
+</li>
+<li>
+<p>Android Emulator</p>
+</li>
+<li>
+<p>Android SDK Platform-Tools</p>
+</li>
+<li>
+<p>Android SDK Tools (Obsolete)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>環境が準備できたら以下の手順でビルドを行ってください。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">scons platform=android target=template_debug arch=armv7
+scons platform=android target=template_release arch=armv7
+scons platform=android target=template_debug arch=arm64v8
+scons platform=android target=template_release arch=arm64v8</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ビルドが開始されていない場合は、以下の環境変数を設定してみてください。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ANDROID_SDK_ROOT &#8230;&#8203; SDKManager で選択したものがインストールされている場所</p>
+</li>
+<li>
+<p>ANDROID_HOME &#8230;&#8203; SDKManager で選択したものがインストールされている場所</p>
+</li>
+<li>
+<p>ANDROID_NDK_HOME &#8230;&#8203; SDKManager でインストールした NDK の場所</p>
+</li>
+<li>
+<p>ANDROID_NDK_ROOT &#8230;&#8203; SDKManager でインストールした NDK の場所</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">example</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set ANDROID_SDK_ROOT=D:\Android\sdk
+set ANDROID_HOME=D:\Android\sdk
+set ANDROID_NDK_HOME=%ANDROID_SDK_ROOT%\ndk\26.0.10792818
+set ANDROID_NDK_ROOT=%ANDROID_SDK_ROOT%\ndk\26.0.10792818</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ビルドが完了すると以下のファイルが <em>demo/addons/gd_cubism/bin</em> 以下に生成されます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>libgd_cubism.android.debug.arm32.so</p>
+</li>
+<li>
+<p>libgd_cubism.android.release.arm32.so</p>
+</li>
+<li>
+<p>libgd_cubism.android.debug.arm64.so</p>
+</li>
+<li>
+<p>libgd_cubism.android.release.arm64.so</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+</footer>
+<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/vendor/lunr-languages.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>

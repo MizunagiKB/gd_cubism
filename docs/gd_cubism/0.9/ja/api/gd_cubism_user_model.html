@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>GDCubismUserModel :: GDCubism</title>
+    <link rel="canonical" href="https://mizunagikb.github.io/gd_cubism/gd_cubism/0.9/ja/api/gd_cubism_user_model.html">
+    <meta name="generator" content="Antora 3.1.10">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://mizunagikb.github.io/gd_cubism">GDCubism</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" aria-controls="topbar-nav" aria-expanded="false" aria-label="Toggle main menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="gd_cubism" data-version="0.9">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
+    <h3 class="title"><a href="../index.html">GDCubism</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">ja</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Cubism for Godot Engine</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../license.html">License</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../build.html">Build</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../usage.html">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_effect.html">GDCubismEffect</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_effect_breath.html">GDCubismEffectBreath</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_effect_custom.html">GDCubismEffectCustom</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_effect_eye_blink.html">GDCubismEffectEyeBlink</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_effect_hit_area.html">GDCubismEffectHitArea</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_effect_target_point.html">GDCubismEffectTargetPoint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_motion_entry.html">GDCubismMotionQueueEntry</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_motion_queue_entry_handle.html">GDCubismMotionQueueEntryHandle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_parameter.html">GDCubismParameter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_part_opacity.html">GDCubismPartOpacity</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="gd_cubism_user_model.html">GDCubismUserModel</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gd_cubism_value_abs.html">GDCubismValueAbs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">en</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../en/index.html">Cubism for Godot Engine</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../en/license.html">License</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../en/build.html">Build</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../en/usage.html">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">API</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect.html">GDCubismEffect</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_breath.html">GDCubismEffectBreath</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_custom.html">GDCubismEffectCustom</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_eye_blink.html">GDCubismEffectEyeBlink</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_hit_area.html">GDCubismEffectHitArea</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_effect_target_point.html">GDCubismEffectTargetPoint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_motion_entry.html">GDCubismMotionQueueEntry</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_motion_queue_entry_handle.html">GDCubismMotionQueueEntryHandle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_parameter.html">GDCubismParameter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_part_opacity.html">GDCubismPartOpacity</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_user_model.html">GDCubismUserModel</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../en/api/gd_cubism_value_abs.html">GDCubismValueAbs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">GDCubism</span>
+    <span class="version">0.9</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <div class="title"><a href="../index.html">GDCubism</a></div>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">0.9</a>
+        </li>
+        <li class="version">
+          <a href="../../../0.8/ja/index.html">0.8</a>
+        </li>
+        <li class="version">
+          <a href="../../../0.7/ja/index.html">0.7</a>
+        </li>
+        <li class="version">
+          <a href="../../../0.6/ja/index.html">0.6</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">GDCubism</a></li>
+    <li>ja</li>
+    <li>API</li>
+    <li><a href="gd_cubism_user_model.html">GDCubismUserModel</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">0.9</button>
+  <div class="version-menu">
+    <a class="version is-current" href="gd_cubism_user_model.html">0.9</a>
+    <a class="version" href="../../../0.8/ja/api/gd_cubism_user_model.html">0.8</a>
+    <a class="version" href="../../../0.7/ja/api/gd_cubism_user_model.html">0.7</a>
+    <a class="version" href="../../../0.6/ja/api/gd_cubism_user_model.html">0.6</a>
+  </div>
+</div>
+<div class="edit-this-page"><a href="https://github.com/MizunagiKB/gd_cubism/edit/0.9/docs-src/modules/ROOT/pages/ja/api/gd_cubism_user_model.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">GDCubismUserModel</h1>
+<div class="sect1">
+<h2 id="_desc"><a class="anchor" href="#_desc"></a>Desc</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Live2Dモデルを読み込み、表示に必要な <em>Texture</em> を生成したり操作を行うための <em>SubVieport</em> 継承クラスです。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_properties"><a class="anchor" href="#_properties"></a>Properties</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Vector2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-adjust_position">adjust_position</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: Vector2(0, 0)]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">float</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-adjust_scale">adjust_scale</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: 1.0]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-assets">assets</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: ""]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-auto_scale">auto_scale</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-load_expressions">load_expressions</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-load_motions">load_motions</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Vector2i</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-mask_viewport_size">[id-property-mask_viewport_size]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: Vector2i(0, 0)]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ParameterMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-parameter_mode">parameter_mode</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: 0]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#physics_evaluate">[physics_evaluate]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">MotionProcessCallback</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-playback_process_mode">playback_process_mode</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: 1]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#pose_update">[pose_update]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: true]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_add">shader_add</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_mask">shader_mask</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_mask_add">shader_mask_add</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_mask_add_inv">shader_mask_add_inv</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_mask_mix">shader_mask_mix</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_mask_mix_inv">shader_mask_mix_inv</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_mask_mul">shader_mask_mul</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_mask_mul_inv">shader_mask_mul_inv</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_mix">shader_mix</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Shader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-shader_mul">shader_mul</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">float</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#id-property-speed_scale">speed_scale</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[default: 1.0]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_methods"><a class="anchor" href="#_methods"></a>Methods</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">advance(delta: float)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clear()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">moc3FileFormatVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">csm_get_latest_moc_version()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">moc3FileFormatVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">csm_get_moc_version()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Dictionary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">csm_get_version()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Dictionary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_canvas_info()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_cubism_motion_queue_entries()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_expressions()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_hit_areas()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Dictionary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_meshes()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Dictionary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_motions()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_parameters()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get_part_opacities()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">start_expression(expression_id: String)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">GDCubismMotionQueueEntryHandle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">start_motion(group: String, no: int, priority: Priority)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">GDCubismMotionQueueEntryHandle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">start_motion_loop(group: String, no: int, priority: Priority, loop: bool, loop_fade_in: bool)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stop_expression()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stop_motion()</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_signals"><a class="anchor" href="#_signals"></a>Signals</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">motion_event(value: String)</dt>
+<dd>
+<p><em>Motion</em> に埋め込まれたイベント時刻のタイミングで呼び出されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gdscript hljs" data-lang="gdscript">func _on_motion_event(value: String):
+    print(value)
+
+func _ready():
+    $GDCubismUserModel.motion_event.connect(_on_motion_event)</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">motion_finished()</dt>
+<dd>
+<p><em>Motion</em> が再生終了したタイミングで呼び出されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gdscript hljs" data-lang="gdscript">func _on_motion_finished(value: String):
+    print(value)
+
+func _ready():
+    $GDCubismUserModel.motion_event.connect(_on_motion_event)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enumerations"><a class="anchor" href="#_enumerations"></a>Enumerations</h2>
+<div class="sectionbody">
+<div id="id-enum-moc3_file_format_version" class="dlist">
+<dl>
+<dt class="hdlist1">enum moc3FileFormatVersion</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>CSM_MOC_VERSION_UNKNOWN = 0<br>
+不明または読み込み失敗</p>
+</li>
+<li>
+<p>CSM_MOC_VERSION_30 = 1<br>
+moc3 file version 3.0.00 から 3.2.07</p>
+</li>
+<li>
+<p>CSM_MOC_VERSION_33 = 2<br>
+moc3 file version 3.3.00 から 3.3.03</p>
+</li>
+<li>
+<p>CSM_MOC_VERSION_40 = 3<br>
+moc3 file version 4.0.00 から 4.1.05</p>
+</li>
+<li>
+<p>CSM_MOC_VERSION_42 = 4<br>
+moc3 file version 4.2.00 から 4.2.02</p>
+</li>
+<li>
+<p>CSM_MOC_VERSION_50 = 5<br>
+moc3 file version 5.0.00以上</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div id="id-enum-priority" class="dlist">
+<dl>
+<dt class="hdlist1">enum Priority</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>PRIORITY_NONE = 0</p>
+</li>
+<li>
+<p>PRIORITY_IDLE = 1</p>
+</li>
+<li>
+<p>PRIORITY_NORMAL = 2</p>
+</li>
+<li>
+<p>PRIORITY_FORCE = 3<br>
+強制的に切り替わります。</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">enum ParameterMode</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>FULL_PARAMETER = 0<br>
+<a href="#id-method-start_motion"><em>start_motion</em></a> 関数で指定した <em>Motion</em> を再生する時に指定します。<br>
+この指定がされているときは <a href="gd_cubism_parameter.html" class="xref page">GDCubismParameter</a> による操作は行えません。</p>
+</li>
+<li>
+<p>NONE_PARAMETER = 1<br>
+<a href="#id-method-start_motion"><em>get_parameters</em></a> 関数で取得した <a href="gd_cubism_parameter.html" class="xref page">GDCubismParameter</a> を使用して、Live2Dモデルを操作する場合に指定します。<br>
+この指定がされているときは <a href="#id-method-start_motion"><em>start_motion</em></a> 関数でモーション再生は行えません。</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">enum MotionProcessCallback</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>PHYSICS = 0<br>
+アニメーションの更新処理を <em>_physics_process</em> 関数内で行います。物理シミュレーションとインタラクションさせたい時に使用します。</p>
+</li>
+<li>
+<p>IDLE = 1<br>
+アニメーションの更新処理を <em>_process</em> 関数内で行います。</p>
+</li>
+<li>
+<p>MANUAL = 2<br>
+アニメーションの更新処理を行いません。アニメーションを処理するには <a href="#id-method-advance"><em>advance</em></a> 関数を使用します。</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_property_descriptions"><a class="anchor" href="#_property_descriptions"></a>Property Descriptions</h2>
+<div class="sectionbody">
+<div id="id-property-adjust_position" class="dlist">
+<dl>
+<dt class="hdlist1">Vector2 adjust_position [default: Vector2(0, 0)]</dt>
+<dd>
+<p>Live2Dモデルの描画位置を変更します。<br>
+GDCubismは自身が持つSubViewport内にLive2Dモデルの描画を行います。<br>
+このパラメータを調整する事でLive2Dモデルの一部をクローズアップしたり auto_scale された描画結果がうまく描画されない場合に利用してください。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-adjust_scale" class="dlist">
+<dl>
+<dt class="hdlist1">float adjust_scale [default: 1.0]</dt>
+<dd>
+<p>Live2Dモデルの描画サイズを変更します。<br>
+GDCubismは自身が持つSubViewport内にLive2Dモデルの描画を行います。<br>
+このパラメータを調整する事でLive2Dモデルの描画サイズを自由に変更できます。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-assets" class="dlist">
+<dl>
+<dt class="hdlist1">String assets [default: ""]</dt>
+<dd>
+<p>*.model3.json 拡張子のファイルを指定することでLive2Dモデルを読み込みます。
+ファイルを指定すると即座にファイルが読み込まれます。<br>
+Live2Dモデルを切り替えたい場合は新しいファイルを指定するだけで切り替える事が出来ます。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-auto_scale" class="dlist">
+<dl>
+<dt class="hdlist1">bool auto_scale [default: true]</dt>
+<dd>
+<p><em>GDCubismUserModel</em> は、自分自身に指定された <em>SubViewport</em> サイズ内に収まる様にLive2Dモデルを描画しようとします。そのためLive2Dモデルの製作者が意図しない結果になってしまう場合があります。<br>
+<br>
+このチェックを外すことで、スケーリングなしで表示を行います。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-load_expressions" class="dlist">
+<dl>
+<dt class="hdlist1">bool load_expressions [default: true]</dt>
+<dd>
+<p><em>false</em> にすると、 Live2D Modelの読み込み時に <em>Expression</em> の読み込みを行いません。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-load_motions" class="dlist">
+<dl>
+<dt class="hdlist1">bool load_motions [default: true]</dt>
+<dd>
+<p><em>false</em> にすると、 Live2D Modelの読み込み時に <em>Motion</em> の読み込みを行いません。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-mask_viewport_size" class="dlist">
+<dl>
+<dt class="hdlist1">Vector2i mask_viewport_size [default: Vector2i(0, 0)]</dt>
+<dd>
+<p>Live2Dモデルでマスク画像を必要とする場合の解像度を指定します。</p>
+<div class="paragraph">
+<p>x, y のどちらかに 0 が設定されている場合は、 GDCubismUserModel に設定されている Viewport と同じサイズが使用されます。</p>
+</div>
+<div class="paragraph">
+<p>解像度を下げるとGPUメモリの消費を抑える事が出来ます。512x512程度のサイズより小さくしてしまうと、マスクの適用場所によっては描画品質に問題が生じる可能性があります。</p>
+</div>
+<div class="paragraph">
+<p>この画像の縦横比は GDCubismUserModel の Viewport と同じ比率となるようにしてください。1024x512 であれば、512x256 や 128x64 といった数値です。</p>
+</div>
+<div class="paragraph">
+<p>GDCubism は Viewport と同じ比率であることを前提に描画を行うため、正しい比率以外の場合は望ましい結果を得る事が出来ません。</p>
+</div>
+</dd>
+</dl>
+</div>
+<div id="id-property-parameter_mode" class="dlist">
+<dl>
+<dt class="hdlist1">ParameterMode parameter_mode [default: 0]</dt>
+<dd>
+<p>現在保持しているLive2Dモデルのコントロール方法を指定します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-physics_evaluate" class="dlist">
+<dl>
+<dt class="hdlist1">bool physics_evaluate [default: true]</dt>
+<dd>
+<p><em>false</em> にすると、物理計算を行わなくなります。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-playback_process_mode" class="dlist">
+<dl>
+<dt class="hdlist1">MotionProcessCallback playback_process_mode [default: 1]</dt>
+<dd>
+<p>現在保持しているLive2Dモデルの再生方法を指定します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-pose_update" class="dlist">
+<dl>
+<dt class="hdlist1">bool pose_update [default: true]</dt>
+<dd>
+<p><em>false</em> にすると、ポーズグループに指定された描画パーツ同士で透明度の計算を行わなくなります。<br>
+全ての透明度計算を手動で行いたい場合は <em>false</em> にしてください。</p>
+</dd>
+</dl>
+</div>
+<div id="id-property-shader_add" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mask_add</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Add
+shader_type canvas_item;
+render_mode blend_premul_alpha, unshaded;
+
+uniform vec4 color_base;
+uniform vec4 color_screen;
+uniform vec4 color_multiply;
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+void fragment() {
+    vec4 color_tex = texture(tex_main, UV);
+    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
+
+    // premul alpha
+    color_tex.rgb = (color_tex.rgb + color_screen.rgb) - (color_tex.rgb * color_screen.rgb);
+    vec4 color = color_tex * color_base;
+    COLOR = vec4(color.rgb * color.a, 0.0);
+}</code></pre>
+</div>
+</div>
+<div id="id-property-shader_mask" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mask</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Mask
+shader_type canvas_item;
+render_mode blend_mix, unshaded;
+
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+void fragment() {
+    COLOR = channel * texture(tex_main, UV).a;
+}</code></pre>
+</div>
+</div>
+<div id="id-property-shader_mask_add" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mask_add</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Mask + Add
+shader_type canvas_item;
+render_mode blend_premul_alpha, unshaded;
+
+uniform vec4 color_base;
+uniform vec4 color_screen;
+uniform vec4 color_multiply;
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+uniform sampler2D tex_mask : filter_linear_mipmap;
+
+uniform bool auto_scale;
+uniform vec2 canvas_size;
+uniform vec2 mask_size;
+uniform float ratio;
+uniform vec2 adjust_pos;
+uniform float adjust_scale;
+
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+vec2 lookup_mask_uv(vec2 screen_uv) {
+
+    if(auto_scale == false) return screen_uv;
+
+    vec2 r_uv = screen_uv - 0.5;
+    vec2 calc_pos;
+
+    calc_pos.x = (canvas_size.x * adjust_scale) - canvas_size.x;
+    calc_pos.x = calc_pos.x * (adjust_pos.x / canvas_size.x);
+    calc_pos.x = calc_pos.x / canvas_size.x;
+
+    calc_pos.y = (canvas_size.y * adjust_scale) - canvas_size.y;
+    calc_pos.y = calc_pos.y * (adjust_pos.y / canvas_size.y);
+    calc_pos.y = calc_pos.y / canvas_size.y;
+
+    r_uv = r_uv + calc_pos;
+    r_uv = r_uv * (1.0 / adjust_scale);
+
+    return r_uv + 0.5;
+}
+
+void fragment() {
+    vec4 color_tex = texture(tex_main, UV);
+    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
+
+    // premul alpha
+    color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
+    vec4 color_for_mask = color_tex * color_base;
+    color_for_mask.rgb = color_for_mask.rgb * color_for_mask.a;
+
+    vec4 clip_mask = texture(tex_mask, lookup_mask_uv(SCREEN_UV)) * channel;
+
+    float mask_val = clip_mask.r + clip_mask.g + clip_mask.b + clip_mask.a;
+    color_for_mask.rgb = color_for_mask.rgb * mask_val;
+    COLOR = vec4(color_for_mask.rgb, 0.0);
+}</code></pre>
+</div>
+</div>
+<div id="id-property-shader_mask_add_inv" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mask_add_inv</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Mask + AddInv
+shader_type canvas_item;
+render_mode blend_premul_alpha, unshaded;
+
+uniform vec4 color_base;
+uniform vec4 color_screen;
+uniform vec4 color_multiply;
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+uniform sampler2D tex_mask : filter_linear_mipmap;
+
+uniform bool auto_scale;
+uniform vec2 canvas_size;
+uniform vec2 mask_size;
+uniform float ratio;
+uniform vec2 adjust_pos;
+uniform float adjust_scale;
+
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+vec2 lookup_mask_uv(vec2 screen_uv) {
+
+    if(auto_scale == false) return screen_uv;
+
+    vec2 r_uv = screen_uv - 0.5;
+    vec2 calc_pos;
+
+    calc_pos.x = (canvas_size.x * adjust_scale) - canvas_size.x;
+    calc_pos.x = calc_pos.x * (adjust_pos.x / canvas_size.x);
+    calc_pos.x = calc_pos.x / canvas_size.x;
+
+    calc_pos.y = (canvas_size.y * adjust_scale) - canvas_size.y;
+    calc_pos.y = calc_pos.y * (adjust_pos.y / canvas_size.y);
+    calc_pos.y = calc_pos.y / canvas_size.y;
+
+    r_uv = r_uv + calc_pos;
+    r_uv = r_uv * (1.0 / adjust_scale);
+
+    return r_uv + 0.5;
+}
+
+void fragment() {
+    vec4 color_tex = texture(tex_main, UV);
+    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
+
+    // premul alpha
+    color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
+    vec4 color_for_mask = color_tex * color_base;
+    color_for_mask.rgb = color_for_mask.rgb * color_for_mask.a;
+
+    vec4 clip_mask = texture(tex_mask, lookup_mask_uv(SCREEN_UV)) * channel;
+
+    float mask_val = clip_mask.r + clip_mask.g + clip_mask.b + clip_mask.a;
+    color_for_mask.rgb = color_for_mask.rgb * (1.0 - mask_val);
+    COLOR = vec4(color_for_mask.rgb, 0.0);
+}</code></pre>
+</div>
+</div>
+<div id="id-property-shader_mask_mix" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mask_mix</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Mask + Mix
+shader_type canvas_item;
+render_mode blend_premul_alpha, unshaded;
+
+uniform vec4 color_base;
+uniform vec4 color_screen;
+uniform vec4 color_multiply;
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+uniform sampler2D tex_mask : filter_linear_mipmap;
+
+uniform bool auto_scale;
+uniform vec2 canvas_size;
+uniform vec2 mask_size;
+uniform float ratio;
+uniform vec2 adjust_pos;
+uniform float adjust_scale;
+
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+vec2 lookup_mask_uv(vec2 screen_uv) {
+
+    if(auto_scale == false) return screen_uv;
+
+    vec2 r_uv = screen_uv - 0.5;
+    vec2 calc_pos;
+
+    calc_pos.x = (canvas_size.x * adjust_scale) - canvas_size.x;
+    calc_pos.x = calc_pos.x * (adjust_pos.x / canvas_size.x);
+    calc_pos.x = calc_pos.x / canvas_size.x;
+
+    calc_pos.y = (canvas_size.y * adjust_scale) - canvas_size.y;
+    calc_pos.y = calc_pos.y * (adjust_pos.y / canvas_size.y);
+    calc_pos.y = calc_pos.y / canvas_size.y;
+
+    r_uv = r_uv + calc_pos;
+    r_uv = r_uv * (1.0 / adjust_scale);
+
+    return r_uv + 0.5;
+}
+
+void fragment() {
+    vec4 color_tex = texture(tex_main, UV);
+    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
+
+    // premul alpha
+    color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
+    vec4 color_for_mask = color_tex * color_base;
+    color_for_mask.rgb = color_for_mask.rgb * color_for_mask.a;
+
+    vec4 clip_mask = texture(tex_mask, lookup_mask_uv(SCREEN_UV)) * channel;
+
+    float mask_val = clip_mask.r + clip_mask.g + clip_mask.b + clip_mask.a;
+    color_for_mask = color_for_mask * mask_val;
+    COLOR = color_for_mask;
+}</code></pre>
+</div>
+</div>
+<div id="id-property-shader_mask_mix_inv" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mask_mix_inv</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Mask + MixInv
+shader_type canvas_item;
+render_mode blend_premul_alpha, unshaded;
+
+uniform vec4 color_base;
+uniform vec4 color_screen;
+uniform vec4 color_multiply;
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+uniform sampler2D tex_mask : filter_linear_mipmap;
+
+uniform bool auto_scale;
+uniform vec2 canvas_size;
+uniform vec2 mask_size;
+uniform float ratio;
+uniform vec2 adjust_pos;
+uniform float adjust_scale;
+
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+vec2 lookup_mask_uv(vec2 screen_uv) {
+
+    if(auto_scale == false) return screen_uv;
+
+    vec2 r_uv = screen_uv - 0.5;
+    vec2 calc_pos;
+
+    calc_pos.x = (canvas_size.x * adjust_scale) - canvas_size.x;
+    calc_pos.x = calc_pos.x * (adjust_pos.x / canvas_size.x);
+    calc_pos.x = calc_pos.x / canvas_size.x;
+
+    calc_pos.y = (canvas_size.y * adjust_scale) - canvas_size.y;
+    calc_pos.y = calc_pos.y * (adjust_pos.y / canvas_size.y);
+    calc_pos.y = calc_pos.y / canvas_size.y;
+
+    r_uv = r_uv + calc_pos;
+    r_uv = r_uv * (1.0 / adjust_scale);
+
+    return r_uv + 0.5;
+}
+
+void fragment() {
+    vec4 color_tex = texture(tex_main, UV);
+    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
+
+    // premul alpha
+    color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
+    vec4 color_for_mask = color_tex * color_base;
+    color_for_mask.rgb = color_for_mask.rgb * color_for_mask.a;
+
+    vec4 clip_mask = texture(tex_mask, lookup_mask_uv(SCREEN_UV)) * channel;
+
+    float mask_val = clip_mask.r + clip_mask.g + clip_mask.b + clip_mask.a;
+    color_for_mask = color_for_mask * (1.0 - mask_val);
+    COLOR = color_for_mask;
+}</code></pre>
+</div>
+</div>
+<div id="id-property-shader_mask_mul" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mask_mul</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Mask + Mul
+shader_type canvas_item;
+render_mode blend_mul, unshaded;
+
+uniform vec4 color_base;
+uniform vec4 color_screen;
+uniform vec4 color_multiply;
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+uniform sampler2D tex_mask : filter_linear_mipmap;
+
+uniform bool auto_scale;
+uniform vec2 canvas_size;
+uniform vec2 mask_size;
+uniform float ratio;
+uniform vec2 adjust_pos;
+uniform float adjust_scale;
+
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+vec2 lookup_mask_uv(vec2 screen_uv) {
+
+    if(auto_scale == false) return screen_uv;
+
+    vec2 r_uv = screen_uv - 0.5;
+    vec2 calc_pos;
+
+    calc_pos.x = (canvas_size.x * adjust_scale) - canvas_size.x;
+    calc_pos.x = calc_pos.x * (adjust_pos.x / canvas_size.x);
+    calc_pos.x = calc_pos.x / canvas_size.x;
+
+    calc_pos.y = (canvas_size.y * adjust_scale) - canvas_size.y;
+    calc_pos.y = calc_pos.y * (adjust_pos.y / canvas_size.y);
+    calc_pos.y = calc_pos.y / canvas_size.y;
+
+    r_uv = r_uv + calc_pos;
+    r_uv = r_uv * (1.0 / adjust_scale);
+
+    return r_uv + 0.5;
+}
+
+void fragment() {
+    vec4 color_tex = texture(tex_main, UV);
+    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
+
+    // premul alpha
+    color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
+    vec4 color_for_mask = color_tex * color_base;
+    color_for_mask.rgb = color_for_mask.rgb * color_for_mask.a;
+
+    vec4 clip_mask = texture(tex_mask, lookup_mask_uv(SCREEN_UV)) * channel;
+
+    float mask_val = clip_mask.r + clip_mask.g + clip_mask.b + clip_mask.a;
+    color_for_mask = color_for_mask * mask_val;
+    COLOR = vec4(
+        color_for_mask.r + (1.0 - color_for_mask.a),
+        color_for_mask.g + (1.0 - color_for_mask.a),
+        color_for_mask.b + (1.0 - color_for_mask.a),
+        1.0
+    );
+}</code></pre>
+</div>
+</div>
+<div id="id-property-shader_mask_mul_inv" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mask_mul_inv</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Mask + MulInv
+shader_type canvas_item;
+render_mode blend_mul, unshaded;
+
+uniform vec4 color_base;
+uniform vec4 color_screen;
+uniform vec4 color_multiply;
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+uniform sampler2D tex_mask : filter_linear_mipmap;
+
+uniform bool auto_scale;
+uniform vec2 canvas_size;
+uniform vec2 mask_size;
+uniform float ratio;
+uniform vec2 adjust_pos;
+uniform float adjust_scale;
+
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+vec2 lookup_mask_uv(vec2 screen_uv) {
+
+    if(auto_scale == false) return screen_uv;
+
+    vec2 r_uv = screen_uv - 0.5;
+    vec2 calc_pos;
+
+    calc_pos.x = (canvas_size.x * adjust_scale) - canvas_size.x;
+    calc_pos.x = calc_pos.x * (adjust_pos.x / canvas_size.x);
+    calc_pos.x = calc_pos.x / canvas_size.x;
+
+    calc_pos.y = (canvas_size.y * adjust_scale) - canvas_size.y;
+    calc_pos.y = calc_pos.y * (adjust_pos.y / canvas_size.y);
+    calc_pos.y = calc_pos.y / canvas_size.y;
+
+    r_uv = r_uv + calc_pos;
+    r_uv = r_uv * (1.0 / adjust_scale);
+
+    return r_uv + 0.5;
+}
+
+void fragment() {
+    vec4 color_tex = texture(tex_main, UV);
+    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
+
+    // premul alpha
+    color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
+    vec4 color_for_mask = color_tex * color_base;
+    color_for_mask.rgb = color_for_mask.rgb * color_for_mask.a;
+
+    vec4 clip_mask = texture(tex_mask, lookup_mask_uv(SCREEN_UV)) * channel;
+
+    float mask_val = clip_mask.r + clip_mask.g + clip_mask.b + clip_mask.a;
+    color_for_mask = color_for_mask * (1.0 - mask_val);
+    COLOR = vec4(
+        color_for_mask.r + (1.0 - color_for_mask.a),
+        color_for_mask.g + (1.0 - color_for_mask.a),
+        color_for_mask.b + (1.0 - color_for_mask.a),
+        1.0
+    );
+}</code></pre>
+</div>
+</div>
+<div id="id-property-shader_mix" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mix</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Mix
+shader_type canvas_item;
+render_mode blend_premul_alpha, unshaded;
+
+uniform vec4 color_base;
+uniform vec4 color_screen;
+uniform vec4 color_multiply;
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+void fragment() {
+    vec4 color_tex = texture(tex_main, UV);
+    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
+
+    // premul alpha
+    color_tex.rgb = (color_tex.rgb + color_screen.rgb) - (color_tex.rgb * color_screen.rgb);
+    vec4 color = color_tex * color_base;
+    COLOR = vec4(color.rgb * color.a, color.a);
+}</code></pre>
+</div>
+</div>
+<div id="id-property-shader_mul" class="dlist">
+<dl>
+<dt class="hdlist1">Shader shader_mul</dt>
+<dd>
+<p>Live2Dモデルの描画に使用する <em>shader</em> を指定します。<br>
+既定では以下の内容の <em>shader</em> が使用されます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-numlines hljs" data-lang="numlines">// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2023 MizunagiKB &lt;mizukb@live.jp&gt;
+// GDCubism shader: Mul
+shader_type canvas_item;
+render_mode blend_premul_alpha, unshaded;
+
+uniform vec4 color_base;
+uniform vec4 color_screen;
+uniform vec4 color_multiply;
+uniform vec4 channel;
+uniform sampler2D tex_main : filter_linear_mipmap;
+
+void vertex() {
+    UV.y = 1.0 - UV.y;
+}
+
+void fragment() {
+    vec4 color_tex = texture(tex_main, UV);
+    color_tex.rgb = color_tex.rgb * color_multiply.rgb;
+
+    // premul alpha
+    color_tex.rgb = (color_tex.rgb + color_screen.rgb) - (color_tex.rgb * color_screen.rgb);
+    vec4 color = color_tex * color_base;
+    COLOR = vec4(color.rgb * color.a, color.a);
+}</code></pre>
+</div>
+</div>
+<div id="id-property-speed_scale" class="dlist">
+<dl>
+<dt class="hdlist1">floats speed_scale [default: 1.0]</dt>
+<dd>
+<p>現在保持しているLive2Dモデルの再生速度を指定します。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_method_descriptions"><a class="anchor" href="#_method_descriptions"></a>Method Descriptions</h2>
+<div class="sectionbody">
+<div id="id-method-advance" class="dlist">
+<dl>
+<dt class="hdlist1">void advance(delta: float)</dt>
+<dd>
+<p>アニメーションを指定した <em>delta</em> 時間（単位は秒数）だけ進めます。</p>
+<div class="paragraph">
+<p>deltaには 0.0 以上の値を指定してください。</p>
+</div>
+</dd>
+</dl>
+</div>
+<div id="id-method-clear" class="dlist">
+<dl>
+<dt class="hdlist1">void clear()</dt>
+<dd>
+<p>この関数は操作の一貫性向上を目的に削除されました。<br>
+同様の操作を行うには <em>assets</em> プロパティに "" をセットしてください。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-csm_get_latest_moc_version" class="dlist">
+<dl>
+<dt class="hdlist1"><a href="#id-enum-moc3_file_format_version">moc3FileFormatVersion</a> csm_get_latest_moc_version()</dt>
+<dd>
+<p>GDCubismUserModelが読み込める最新のファイルバージョンを戻します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-csm_get_moc_version" class="dlist">
+<dl>
+<dt class="hdlist1"><a href="#id-enum-moc3_file_format_version">moc3FileFormatVersion</a> csm_get_moc_version()</dt>
+<dd>
+<p>読み込まれたmoc3ファイルのバージョンを戻します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-csm_get_version" class="dlist">
+<dl>
+<dt class="hdlist1">Dictionary csm_get_version()</dt>
+<dd>
+<p>GDCubism が使用している Cubism Native SDK Core のバージョン番号を <em>Dictionary</em> 形式で戻します。<br></p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">version: int</dt>
+<dd>
+<p><em>csmVersion</em> 関数が戻す値がそのまま格納されています。</p>
+</dd>
+<dt class="hdlist1">major: int</dt>
+<dd>
+<p>versionからメジャーバージョンのみを抜き出した値が格納されています。</p>
+</dd>
+<dt class="hdlist1">minor: int</dt>
+<dd>
+<p>versionからマイナーバージョンのみを抜き出した値が格納されています。</p>
+</dd>
+<dt class="hdlist1">patch: int</dt>
+<dd>
+<p>versionからパッチ番号のみを抜き出した値が格納されています。</p>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+<div id="id-method-get_canvas_info" class="dlist">
+<dl>
+<dt class="hdlist1">Dictionary get_canvas_info()</dt>
+<dd>
+<p><em>Dictionary</em> 形式で以下の情報を戻します。<br></p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">size_in_pixels: Vector2</dt>
+<dd>
+<p>読み込んだLive2Dモデルのキャンバスの幅と高さをピクセル数で戻します。</p>
+</dd>
+<dt class="hdlist1">origin_in_pixels: Vector2</dt>
+<dd>
+<p>読み込んだLive2Dモデルの中心位置をピクセル数で戻します。</p>
+</dd>
+<dt class="hdlist1">pixels_per_unit: float</dt>
+<dd>
+<p>読み込んだLive2Dモデルの <em>pixelsPerUnit</em> を戻します。</p>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+<div id="id-method-get_cubism_motion_queue_entries" class="dlist">
+<dl>
+<dt class="hdlist1">Array get_cubism_motion_queue_entries()</dt>
+<dd>
+<p>現在再生中の <em>Motion</em> 情報を戻します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-get_expressions" class="dlist">
+<dl>
+<dt class="hdlist1">Array get_expressions()</dt>
+<dd>
+<p>現在保持しているLive2Dモデルから <em>Expression</em> 一覧を戻します。</p>
+<div class="paragraph">
+<p>取得した情報は <em>start_expression</em> 関数の引数として使用できます。</p>
+</div>
+</dd>
+</dl>
+</div>
+<div id="id-method-get_hit_areas" class="dlist">
+<dl>
+<dt class="hdlist1">Array get_hit_areas()</dt>
+<dd>
+<p>Live2Dモデルに設定されている <em>HitArea</em> 情報を取得します。<br>
+配列の要素は <em>Dictionary</em> になっており、要素として <em>id</em> と <em>name</em> を持ちます。<br>
+<br>
+<em>id</em> は <em>mesh</em> 要素を指す為、 <em>get_meshes</em> のキーとして利用可能です。<br>
+<br>
+この関数と <em>get_meshes</em> で得られる情報を使用する事で、 Live2Dモデルとのインタラクションを実装できます。<br>
+高度な処理を必要としない場合は、 <em>GDCubismEffectHitArea</em> クラスを使用する事で、簡単に利用する事が可能です。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-get_meshes" class="dlist">
+<dl>
+<dt class="hdlist1">Dictionary get_meshes()</dt>
+<dd>
+<p>現在の Motion 状態で使用されている <em>MeshInstance</em> の <em>ArrayMesh</em> 情報を取得します。<br>
+<br>
+この <em>Dictionary</em> が持つキーは <em>GDCubismUserModel</em> が生成する <em>MeshInstance</em> の名前と同一です。取得できる情報は内部で使用されている <em>ArrayMesh</em> です。
+<br>
+以下の様な形で使用することができます。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gdscript hljs" data-lang="gdscript">var dict_mesh: Dictionary = model.get_meshes()
+var ary_mesh: ArrayMesh = dict_mesh[art_mesh_name]
+var ary_surface: Array = ary_mesh.surface_get_arrays(0)
+
+var mesh_vertex: PackedVector2Array = ary_surface[ArrayMesh.ARRAY_VERTEX]
+var mesh_tex_uv: PackedVector2Array = ary_surface[ArrayMesh.ARRAY_TEX_UV]
+var mesh_index: PackedInt32Array = ary_surface[ArrayMesh.ARRAY_INDEX]</code></pre>
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<em>get_meshes</em> は v0.1 で追加された実験的な関数です。今後仕様が変更されたり削除される可能性がある事に注意してください。
+</td>
+</tr>
+</table>
+</div>
+<div id="id-method-get_motions" class="dlist">
+<dl>
+<dt class="hdlist1">Dictionary get_motions()</dt>
+<dd>
+<p>現在保持しているLive2Dモデルから <em>Motion</em> 一覧を戻します。<br>
+戻される <em>Dictionary</em> は <em>group</em> とその中に含まれるモーション数です。
+<br>
+<br>
+全てのモーションを列挙する場合は、以下の様に記述します。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gdscript hljs" data-lang="gdscript">var dict_motion = $GDCubismUserModel.get_motions()
+for group in dict_motion.keys():
+    for no in dict_motion[group]:
+        print("group: %s, no: %d" % [group, no])</code></pre>
+</div>
+</div>
+<div id="id-method-get_parameters" class="dlist">
+<dl>
+<dt class="hdlist1">Array get_parameters()</dt>
+<dd>
+<p>現在保持しているLive2Dモデルを操作するためのクラスを取得します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-get_part_opacities" class="dlist">
+<dl>
+<dt class="hdlist1">Array get_part_opacities()</dt>
+<dd>
+<p>現在保持しているLive2Dモデルのパーツ透明度を操作するためのクラスを取得します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-start_expression" class="dlist">
+<dl>
+<dt class="hdlist1">void start_expression(expression_id: String)</dt>
+<dd>
+<p>指定した <em>expression_id</em> を再生します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-start_motion" class="dlist">
+<dl>
+<dt class="hdlist1"><a href="gd_cubism_motion_queue_entry_handle.html" class="xref page">GDCubismMotionQueueEntryHandle</a> start_motion(group: String, no: int, priority: <a href="#id-enum-priority">Priority</a>)</dt>
+<dd>
+<p>指定した <em>group</em> と <em>no</em> の <em>Motion</em> を再生します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-start_motion_loop" class="dlist">
+<dl>
+<dt class="hdlist1"><a href="gd_cubism_motion_queue_entry_handle.html" class="xref page">GDCubismMotionQueueEntryHandle</a> start_motion_loop(group: String, no: int, priority: <a href="#id-enum-priority">Priority</a>)</dt>
+<dd>
+<p>指定した <em>group</em> と <em>no</em> の <em>Motion</em> を再生します。<br>
+<br>
+繰り返し再生を行いたい場合に指定します。 <em>loop</em> 引数が <em>false</em> の場合は、 <em>start_motion</em> 関数と同じ動作となります。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-stop_expression" class="dlist">
+<dl>
+<dt class="hdlist1">void stop_expression()</dt>
+<dd>
+<p>現在再生中の <em>Expression</em> を停止します。</p>
+</dd>
+</dl>
+</div>
+<div id="id-method-stop_motion" class="dlist">
+<dl>
+<dt class="hdlist1">void stop_motion()</dt>
+<dd>
+<p>現在再生中の <em>Motion</em> を停止します。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+</footer>
+<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+<script src="../../../../_/js/vendor/lunr.js"></script>
+<script src="../../../../_/js/vendor/lunr-languages.js"></script>
+<script src="../../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../../.." data-snippet-length="100" data-stylesheet="../../../../_/css/search.css"></script>
+<script async src="../../../../search-index.js"></script>
+  </body>
+</html>
