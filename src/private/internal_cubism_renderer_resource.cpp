@@ -23,8 +23,6 @@
 // ------------------------------------------------------------------- class(s)
 InternalCubismRendererResource::InternalCubismRendererResource(GDCubismUserModel *owner_viewport)
     : _owner_viewport(owner_viewport)
-    , adjust_pos(0.0, 0.0)
-    , adjust_scale(1.0)
 {
     ResourceLoader* res_loader = memnew(ResourceLoader);
 
@@ -66,6 +64,7 @@ void InternalCubismRendererResource::clear() {
     this->ary_texture.clear();
     this->dict_mesh.clear();
     this->dict_mask.clear();
+    this->dict_mask_meshes.clear();
 }
 
 MeshInstance2D* InternalCubismRendererResource::request_mesh_instance() {

@@ -4,14 +4,16 @@
 shader_type canvas_item;
 render_mode blend_premul_alpha, unshaded;
 
-uniform vec4 color_base;
-uniform vec4 color_screen;
-uniform vec4 color_multiply;
-uniform vec4 channel;
+uniform vec4 color_base : source_color;
+uniform vec4 color_screen : source_color;
+uniform vec4 color_multiply : source_color;
+uniform vec4 channel : source_color;
 uniform sampler2D tex_main : filter_linear_mipmap;
 
+varying vec4 modulate;
+
 void vertex() {
-    UV.y = 1.0 - UV.y;
+	modulate = COLOR;
 }
 
 void fragment() {
@@ -20,6 +22,6 @@ void fragment() {
 
     // premul alpha
     color_tex.rgb = (color_tex.rgb + color_screen.rgb) - (color_tex.rgb * color_screen.rgb);
-    vec4 color = color_tex * color_base;
+    vec4 color = color_tex * color_base * modulate;
     COLOR = vec4(color.rgb * color.a, 0.0);
 }

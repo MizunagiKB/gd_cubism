@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: MIT
-# SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
+# SPDX-FileCopyrightText: 2025 MizunagiKB <mizukb@live.jp>
 extends Node2D
 
 
 const DEFAULT_ASSET: String = "res://addons/gd_cubism/example/res/live2d/mao_pro_jp/runtime/mao_pro.model3.json"
 
-var pressed: bool = false
+var color_h: float = 0.0
 
 
 func recalc_model_position(model: GDCubismUserModel):
@@ -21,22 +21,21 @@ func recalc_model_position(model: GDCubismUserModel):
         model.scale = Vector2(scale, scale)
 
 
-func _ready():
+func _ready() -> void:
     if $GDCubismUserModel.assets == "":
         $GDCubismUserModel.assets = DEFAULT_ASSET
 
+    if $Sprite2D/SubViewport/GDCubismUserModel.assets == "":
+        $Sprite2D/SubViewport/GDCubismUserModel.assets = DEFAULT_ASSET
 
-func _process(delta):
-    self.recalc_model_position($GDCubismUserModel)
 
+func _process(delta: float) -> void:
+    color_h += (delta * 0.25);
+    
+    if color_h > 360.0:
+        color_h -= 360.0
 
-func _input(event):
-    if event as InputEventMouseButton:
-        pressed = event.is_pressed()
+    var color: Color = Color.from_hsv(color_h, 1.0, 1.0, $HSlider.value / 100.0)
 
-    if event as InputEventMouseMotion:
-        if pressed == true:
-            var calc_pos: Vector2 = $GDCubismUserModel.to_local(event.position) * Vector2(1, -1)
-            $GDCubismUserModel/GDCubismEffectTargetPoint.set_target(calc_pos.normalized())
-        else:
-            $GDCubismUserModel/GDCubismEffectTargetPoint.set_target(Vector2.ZERO)
+    $GDCubismUserModel.modulate = color
+    $Sprite2D.modulate = color

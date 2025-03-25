@@ -22,6 +22,7 @@ endif::env-github,env-vscode[]
 Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり操作を行うための _SubVieport_ 継承クラスです。
 
 
+
 == Properties
 
 [cols="3",frame=none,grid=none]
@@ -32,8 +33,11 @@ Live2Dモデルを読み込み、表示に必要な _Texture_ を生成したり
 >|bool <|<<id-property-auto_scale,auto_scale>> |[default: true]
 >|bool <|<<id-property-load_expressions,load_expressions>> |[default: true]
 >|bool <|<<id-property-load_motions,load_motions>> |[default: true]
+>|Vector2i <|<<id-property-mask_viewport_size>> |[default: Vector2i(0, 0)]
 >|ParameterMode <|<<id-property-parameter_mode,parameter_mode>> |[default: 0]
+>|bool <|<<physics_evaluate>> |[default: true]
 >|MotionProcessCallback <|<<id-property-playback_process_mode,playback_process_mode>> |[default: 1]
+>|bool <|<<pose_update>> |[default: true]
 >|Shader <|<<id-property-shader_add,shader_add>> |
 >|Shader <|<<id-property-shader_mask,shader_mask>> |
 >|Shader <|<<id-property-shader_mask_add,shader_mask_add>> |
@@ -205,9 +209,20 @@ ParameterMode parameter_mode [default: 0]::
 現在保持しているLive2Dモデルのコントロール方法を指定します。
 
 
+[[id-property-physics_evaluate]]
+bool physics_evaluate [default: true]::
+_false_ にすると、物理計算を行わなくなります。
+
+
 [[id-property-playback_process_mode]]
 MotionProcessCallback playback_process_mode [default: 1]::
 現在保持しているLive2Dモデルの再生方法を指定します。
+
+
+[[id-property-pose_update]]
+bool pose_update [default: true]::
+_false_ にすると、ポーズグループに指定された描画パーツ同士で透明度の計算を行わなくなります。 +
+全ての透明度計算を手動で行いたい場合は _false_ にしてください。
 
 
 [[id-property-shader_add]]

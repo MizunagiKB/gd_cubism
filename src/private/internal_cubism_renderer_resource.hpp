@@ -55,19 +55,12 @@ public:
     Array ary_shader;
     Dictionary dict_mesh;
     Dictionary dict_mask;
-    
-    // Adjust Parameters
-    Vector2 adjust_pos;
-    float adjust_scale;
+    Dictionary dict_mask_meshes;
 
     // Render parameters
     Vector2i vct_canvas_size;
-    Vector2i vct_mask_size;
-    float RATIO;
     float CALCULATED_PPUNIT_C;
-    float CALCULATED_PPUNIT_M;
     Vector2 CALCULATED_ORIGIN_C;
-    Vector2 CALCULATED_ORIGIN_M;
 };
 
 

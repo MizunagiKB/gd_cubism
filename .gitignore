@@ -24,6 +24,7 @@ src/gen
 *.obj
 *.exp
 *.lib
+*.csproj.old
 
 # for Antora
 # docs

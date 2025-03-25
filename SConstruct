@@ -197,6 +197,8 @@ print("")
 
 sources = glob("src/*.cpp")
 sources += glob("src/private/*.cpp")
+sources += glob("src/loaders/*.cpp")
+sources += glob("src/importers/*.cpp")
 
 env.Append(CPPPATH=[os.path.join(CUBISM_NATIVE_FRAMEWORK_DIR, "src")])
 

@@ -35,6 +35,10 @@ NOTE: _addons_ フォルダは GDCubism の様に Godot Engine を拡張する�
 
 Live2Dモデルを読み込んで _Sprite2D_ で表示を行う方法について説明します。
 
+[CAUTION]
+====
+この説明は0.8時点での説明となります。0.9からは直接描画を行いますので、描画結果を反映させるテクスチャは不要です。新しい説明は作成中です。
+====
 
 ==== ノードの配置
 
@@ -130,13 +134,13 @@ _demo_ フォルダには、サンプルとして以下のものが収められ�
 ***** ...
 **** motions
 ***** ...
-**** mao_pro_t02.cdi3.json
-**** mao_pro_t02.moc3
-**** mao_pro_t02.model3.json
-**** mao_pro_t02.physics3.json
-**** mao_pro_t02.pose3.json
-*** mao_pro_t02.can3
-*** mao_pro_t02.cmo3
+**** mao_pro.cdi3.json
+**** mao_pro.moc3
+**** mao_pro.model3.json
+**** mao_pro.physics3.json
+**** mao_pro.pose3.json
+*** mao_pro_t05.can3
+*** mao_pro_t05.cmo3
 
 手持ちのモデルで試したい場合は、上を参考にして出力したものを _demo/addons/gd_cubism/example/res/live2d_ 以下に配置してください。
 
@@ -162,13 +166,16 @@ _demo_ フォルダには、サンプルとして以下のものが収められ�
 |_GDCubismEffectCustom_ を使用したサンプルとなります。
 簡易的なリップシンクを行なって、音量にあわせて口を動かしています。
 
-|demo_effect_custom_target_point.tscn
-|_GDCubismEffectTargetPoint_ を使用したサンプルとなります。
-マウスの位置にあわせてLive2Dモデルが視線を向ける動作をします。
-
 |demo_effect_hit_area.tscn
 |_GDCubismEffectHitArea_ を使用したサンプルとなります。
 Live2Dモデルに設定された _HitArea_ の使い方サンプルでもあります。
+
+|demo_effect_target_point.tscn
+|_GDCubismEffectTargetPoint_ を使用したサンプルとなります。
+マウスの位置にあわせてLive2Dモデルが視線を向ける動作をします。
+
+|demo_fade.tscn
+|0.9以前の描画方法に似せるために、 _SubViewport_ を使用するサンプルとなります。
 
 |demo_simple.tscn
 |Nodeの組み合わせのみでLive2Dモデルの表示を行うサンプルとなります。
@@ -203,7 +210,7 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 
 |link:./api/gd_cubism_effect_custom{adocsuffix}[GDCubismEffectCustom]
 |GDCubismEffectCustomCS
-|△
+|○
 
 |link:./api/gd_cubism_effect_eye_blink{adocsuffix}[GDCubismEffectEyeBlink]
 |GDCubismEffectEyeBlinkCS
@@ -211,18 +218,18 @@ GDCubismにはさまざまなクラスが用意されています。使用方法
 
 |link:./api/gd_cubism_effect_hit_area{adocsuffix}[GDCubismEffectHitArea]
 |GDCubismEffectHitAreaCS
-|△
+|○
 
 |link:./api/gd_cubism_effect_target_point{adocsuffix}[GDCubismEffectTargetPoint]
 |GDCubismEffectTargetPointCS
-|△
+|○
 
 |link:./api/gd_cubism_motion_entry{adocsuffix}[GDCubismMotionEntry]
 |GDCubismMotionEntryCS
 |x
 
 |link:./api/gd_cubism_motion_queue_entry_handle{adocsuffix}[GDCubismMotionQueueEntryHandle]
-|GDCubismMotionQueueEntryHadleCS
+|GDCubismMotionQueueEntryHandleCS
 |x
 
 |link:./api/gd_cubism_value_abs{adocsuffix}[GDCubismValueAbs]

@@ -2,20 +2,30 @@
 # SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 extends Control
 
-const MIX_RENDER_SIZE := 32
-const MAX_RENDER_SIZE := 2048
-const RENDER_SIZE_STEP := 256
+
 const ENABLE_MOTION_FINISHED := true
 
 var cubism_model: GDCubismUserModel
-var ary_param: Array
 var last_motion = null
+
+
+func recalc_model_position(model: GDCubismUserModel):
+    if model.assets == "":
+        return
+
+    var canvas_info: Dictionary = model.get_canvas_info()
+
+    if canvas_info.is_empty() != true:
+        var vct_viewport_size = Vector2(get_viewport_rect().size)
+        var scale: float = vct_viewport_size.y / max(canvas_info.size_in_pixels.x, canvas_info.size_in_pixels.y)
+        model.position = vct_viewport_size / 2.0
+        model.scale = Vector2(scale, scale)
 
 
 func setup(pathname: String):
     cubism_model.assets = pathname
-    
-    var canvas_info = cubism_model.get_canvas_info()
+
+    recalc_model_position(cubism_model)
 
     var idx: int = 0
     var dict_motion = cubism_model.get_motions()
@@ -31,11 +41,6 @@ func setup(pathname: String):
         $UI/ItemListExpression.add_item(item)
 
     cubism_model.playback_process_mode = GDCubismUserModel.IDLE
-    $Sprite2D.texture = cubism_model.get_texture()
-    var mat = CanvasItemMaterial.new()
-    mat.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
-    mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
-    $Sprite2D.material = mat
 
 
 func model3_search(dirname: String):
@@ -58,26 +63,14 @@ func model3_search(dirname: String):
 
 func _ready():
     cubism_model = GDCubismUserModel.new()
+    self.add_child(cubism_model)
+
     if ENABLE_MOTION_FINISHED == true:
         cubism_model.motion_finished.connect(_on_motion_finished)
-    $Sprite2D.add_child(cubism_model)
 
     $UI/OptModel.clear()
     $UI/OptModel.add_item("")
     model3_search("res://addons/gd_cubism/example/res/live2d")
-
-
-func _process(delta):
-    var vct_resolution = Vector2(get_window().size)        
-    var texture_height = floor(vct_resolution.y / RENDER_SIZE_STEP) * RENDER_SIZE_STEP
-    texture_height = clampi(texture_height, MIX_RENDER_SIZE, MAX_RENDER_SIZE)
-
-    cubism_model.size = Vector2.ONE * texture_height
-
-    var vct_viewport_size = Vector2(get_viewport_rect().size)
-    $Sprite2D.position = vct_viewport_size / 2
-    $Sprite2D.scale.x = vct_viewport_size.y / cubism_model.size.y
-    $Sprite2D.scale.y = $Sprite2D.scale.x
 
 
 func _on_motion_finished():

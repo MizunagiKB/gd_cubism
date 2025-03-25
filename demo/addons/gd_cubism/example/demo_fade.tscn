@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://rdteqxrmttct"]
+
+[ext_resource type="Script" path="res://addons/gd_cubism/example/demo_fade.gd" id="1_3vqxl"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_nt5uq"]
+viewport_path = NodePath("Sprite2D/SubViewport")
+
+[node name="demo_fade" type="Node2D"]
+script = ExtResource("1_3vqxl")
+metadata/_edit_vertical_guides_ = [640.0, 320.0, 960.0]
+metadata/_edit_horizontal_guides_ = [640.0]
+
+[node name="Label1" type="Label" parent="."]
+offset_top = 640.0
+offset_right = 640.0
+offset_bottom = 704.0
+text = "Direct Rendering"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="GDCubismUserModel" type="GDCubismUserModel" parent="."]
+position = Vector2(320, 360)
+scale = Vector2(0.075, 0.075)
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 640.0
+offset_top = 640.0
+offset_right = 1280.0
+offset_bottom = 703.0
+text = "SubViewport"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(960, 512)
+texture = SubResource("ViewportTexture_nt5uq")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite2D"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(512, 1024)
+
+[node name="GDCubismUserModel" type="GDCubismUserModel" parent="Sprite2D/SubViewport"]
+position = Vector2(256, 360)
+scale = Vector2(0.075, 0.075)
+
+[node name="HSlider" type="HSlider" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 1264.0
+offset_bottom = 48.0
+value = 100.0

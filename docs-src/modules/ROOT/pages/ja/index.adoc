@@ -1,6 +1,6 @@
 = Cubism for Godot Engine
 :encoding: utf-8
-:lang: en
+:lang: ja
 :author: MizunagiKB <mizukb@live.jp>
 :copyright: 2023 MizunagiKB
 :doctype: book
@@ -23,7 +23,16 @@ endif::env-github,env-vscode[]
 
 [NOTE]
 ====
-この GDExtension は Godot Engine 4.3 以上で使用可能です。（4.1, 4.2 で使用したい場合は link:https://github.com/MizunagiKB/gd_cubism/tree/0.7-godot4.1[7.0-godot41] を使用してください）
+この GDExtension は Godot Engine 4.3 以上で使用可能です。（4.1, 4.2 で使用したい場合は link:https://github.com/MizunagiKB/gd_cubism/releases/tag/v0.8.2-godot4.1[v0.8.2-godot4.1] を使用してください）
+====
+
+[IMPORTANT]
+====
+0.9から描画方法が直接描画に変わり、 Godot Engine の処理負荷と GPU メモリの消費を大幅に抑える事に成功しました。
+
+一方でいくつか変更が生じています。最も大きな変更点は _GDCubismUserModel_ が _SubViewport_ ではなくなった点です。
+
+以前と同じ様に扱いたい場合は、 _SubViewport_ の下に _GDCubismUserModel_ を配置してご利用ください。（この変更に関するデモとして `demo_fade.tscn` が追加されています）
 ====
 
 GDCubism 内部ではLive2D社が公開している link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework] を併用しています。

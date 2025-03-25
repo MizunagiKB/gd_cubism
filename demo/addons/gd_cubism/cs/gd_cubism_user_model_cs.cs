@@ -61,64 +61,36 @@ public partial class GDCubismUserModelCS : GodotObject
     public static readonly StringName MotionEventName = "motion_event";
     public static readonly StringName MotionFinishedName = "motion_finished";
 
-    protected SubViewport InternalObject = null;
+    protected Node2D InternalObject = null;
 
     public GDCubismUserModelCS()
     {
-        this.InternalObject = (SubViewport)Godot.ClassDB.Instantiate(NativeName);
+        this.InternalObject = (Node2D)Godot.ClassDB.Instantiate(NativeName);
     }
 
-    public GDCubismUserModelCS(SubViewport o)
+    public GDCubismUserModelCS(Node2D o)
     {
         this.InternalObject = o;
     }
 
-    public SubViewport GetInternalObject()
+    public Node2D GetInternalObject()
     {
         return this.InternalObject;
     }
 
-    public void Attach(SubViewport o)
+    public void Attach(Node2D o)
     {
         this.InternalObject = o;
     }
 
-    public SubViewport Detach()
+    public Node2D Detach()
     {
-        SubViewport o = this.InternalObject;
+        Node2D o = this.InternalObject;
         this.InternalObject = null;
         return o;
     }
 
     // ------------------------------------------------------------ Property(s)
-
-    /// <value>
-    ///     Property <c>AdjustPosition</c>
-    ///     <br />
-    ///     Changes the rendering position of the Live2D model.
-    ///     GDCubism performs the rendering of the Live2D model within its own SubViewport.
-    ///     <br />
-    ///     By adjusting this parameter, you can close-up a part of the Live2D model or use it when the auto_scale rendered result is not drawn well.
-    /// </value>
-    public Vector2 AdjustPosition
-    {
-        set { this.InternalObject.Call("set_adjust_position", value); }
-        get { return (Vector2)this.InternalObject.Call("get_adjust_position"); }
-    }
-
-    /// <value>
-    ///     Property <c>AdjustScale</c>
-    ///     <br />
-    ///     Changes the rendering size of the Live2D model.
-    ///     GDCubism performs the rendering of the Live2D model within its own SubViewport.
-    ///     <br />
-    ///     By adjusting this parameter, you can freely change the rendering size of the Live2D model.
-    /// </value>
-    public float AdjustScale
-    {
-        set { this.InternalObject.Call("set_adjust_scale", value); }
-        get { return (float)this.InternalObject.Call("get_adjust_scale"); }
-    }
 
     /// <value>
     ///     Property <c>Assets</c>
@@ -132,20 +104,6 @@ public partial class GDCubismUserModelCS : GodotObject
     {
         set { this.InternalObject.Call("set_assets", value); }
         get { return (String)this.InternalObject.Call("get_assets"); }
-    }
-
-    /// <value>
-    ///     Property <c>AutoScale</c>
-    ///     <br />
-    ///     <c>GDCubismUserModel</c> attempts to render the Live2D model to fit within the specified <c>SubViewport</c> size.
-    ///     This may result in outcomes that the creator of the Live2D model did not intend.
-    ///     <br />
-    ///     By unchecking this, the display will be performed without scaling.
-    /// </value>
-    public bool AutoScale
-    {
-        set { this.InternalObject.Call("set_auto_scale", value); }
-        get { return (bool)this.InternalObject.Call("get_auto_scale"); }
     }
 
     /// <value>
@@ -171,6 +129,26 @@ public partial class GDCubismUserModelCS : GodotObject
     }
 
     /// <value>
+    ///     Property <c>MaskViewportSize</c>
+    ///     <br />
+    ///     Specify the maximum resolution for any individual mask required for the Live2D model.
+    ///     <br />
+    ///     If set to 0, size of the mask will be relative to the source pixel resolution of the model's canvas.
+    ///     <br />
+    ///     Mask resolution is also dynamically resized relative to the model's scale within its viewport.
+    ///     <br />
+    ///     <br />
+    ///     Reducing the resolution can help conserve GPU memory, however reducing resolution too far can cause visual issues where masks are applied.
+    ///     <br />
+    ///     For many, it's best to leave this at default and rely solely on the automatic scaling.
+    /// </value>
+    public int MaskViewportSize
+    {
+        set { this.InternalObject.Call("set_mask_viewport_size", value); }
+        get { return (int)this.InternalObject.Call("get_mask_viewport_size"); }
+    }
+
+    /// <value>
     ///     Property <c>ParameterMode</c>
     ///     <br />
     ///     Specifies the control method for the currently held Live2D model.
@@ -186,6 +164,17 @@ public partial class GDCubismUserModelCS : GodotObject
     }
 
     /// <value>
+    ///     Property <c>PhysicsEvaluate</c>
+    ///     <br />
+    ///     Setting this parameter to `false` disables physical calculations.
+    /// </value>
+    public bool PhysicsEvaluate
+    {
+        set { this.InternalObject.Call("set_physics_evaluate", value); }
+        get { return (bool)this.InternalObject.Call("get_physics_evaluate"); }
+    }
+
+    /// <value>
     ///     Property <c>PlaybackProcessMode</c>
     ///     <br />
     ///     Specifies the playback method for the currently held Live2D model.
@@ -198,6 +187,18 @@ public partial class GDCubismUserModelCS : GodotObject
             int value = (int)this.InternalObject.Call("get_process_callback");
             return (MotionProcessCallbackEnum)Enum.ToObject(typeof(MotionProcessCallbackEnum), value);
         }
+    }
+
+    /// <value>
+    ///     Property <c>PoseUpdate</c>
+    ///     <br />
+    ///     Setting this parameter to `false` disables transparency calculations between drawing parts specified in the pose group.
+    ///     If you want to manually handle all transparency calculations, set this parameter to `false`.
+    /// </value>
+    public bool PoseUpdate
+    {
+        set { this.InternalObject.Call("set_pose_update", value); }
+        get { return (bool)this.InternalObject.Call("get_pose_update"); }
     }
 
     public Shader ShaderAdd
@@ -483,17 +484,6 @@ public partial class GDCubismUserModelCS : GodotObject
     public void StopMotion()
     {
         this.InternalObject.Call("stop_motion");
-    }
-
-    public Vector2I Size
-    {
-        set { this.InternalObject.Size = (Vector2I)value; }
-        get { return this.InternalObject.Size; }
-    }
-
-    public ViewportTexture GetTexture()
-    {
-        return (ViewportTexture)this.InternalObject.Call("get_texture");
     }
 
     // -------------------------------------------------------------- Signal(s)

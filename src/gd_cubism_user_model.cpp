@@ -6,7 +6,6 @@
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/ref.hpp>
 #include <godot_cpp/classes/sprite2d.hpp>
-#include <godot_cpp/classes/viewport_texture.hpp>
 #include <godot_cpp/classes/window.hpp>
 
 #include <CubismFramework.hpp>
@@ -36,15 +35,14 @@ GDCubismUserModel::GDCubismUserModel()
     , enable_load_expressions(true)
     , enable_load_motions(true)
     , speed_scale(1.0)
-    , auto_scale(true)
-    , adjust_scale(1.0)
-    , adjust_pos(0.0, 0.0)
-    , mask_viewport_size(0, 0)
     , parameter_mode(ParameterMode::FULL_PARAMETER)
+    , physics_evaluate(true)
+    , pose_update(true)
     , playback_process_mode(MotionProcessCallback::IDLE)
     , anim_loop(DEFAULT_PROP_ANIM_LOOP)
     , anim_loop_fade_in(DEFAULT_PROP_ANIM_LOOP_FADE_IN)
-    , cubism_effect_dirty(false) {
+    , cubism_effect_dirty(false)
+    , mask_viewport_size(0) {
 
     this->ary_shader.resize(GD_CUBISM_SHADER_MAX);
 }
@@ -81,6 +79,14 @@ void GDCubismUserModel::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_parameter_mode"), &GDCubismUserModel::get_parameter_mode);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "parameter_mode", PROPERTY_HINT_ENUM, "FullParameter,NoneParameter"), "set_parameter_mode", "get_parameter_mode");
 
+    ClassDB::bind_method(D_METHOD("set_physics_evaluate", "enable"), &GDCubismUserModel::set_physics_evaluate);
+    ClassDB::bind_method(D_METHOD("get_physics_evaluate"), &GDCubismUserModel::get_physics_evaluate);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "physics_evaluate"), "set_physics_evaluate", "get_physics_evaluate");
+
+    ClassDB::bind_method(D_METHOD("set_pose_update", "enable"), &GDCubismUserModel::set_pose_update);
+    ClassDB::bind_method(D_METHOD("get_pose_update"), &GDCubismUserModel::get_pose_update);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "pose_update"), "set_pose_update", "get_pose_update");
+
     ClassDB::bind_method(D_METHOD("set_process_callback", "value"), &GDCubismUserModel::set_process_callback);
     ClassDB::bind_method(D_METHOD("get_process_callback"), &GDCubismUserModel::get_process_callback);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "playback_process_mode", PROPERTY_HINT_ENUM, "Physics,Idle,Manual"), "set_process_callback", "get_process_callback");
@@ -89,21 +95,9 @@ void GDCubismUserModel::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_speed_scale"), &GDCubismUserModel::get_speed_scale);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed_scale", PROPERTY_HINT_RANGE, "0.0,256.0,0.1"), "set_speed_scale", "get_speed_scale");
 
-    ClassDB::bind_method(D_METHOD("set_auto_scale", "value"), &GDCubismUserModel::set_auto_scale);
-    ClassDB::bind_method(D_METHOD("get_auto_scale"), &GDCubismUserModel::get_auto_scale);
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "auto_scale"), "set_auto_scale", "get_auto_scale");
-
-    ClassDB::bind_method(D_METHOD("set_adjust_scale", "value"), &GDCubismUserModel::set_adjust_scale);
-    ClassDB::bind_method(D_METHOD("get_adjust_scale"), &GDCubismUserModel::get_adjust_scale);
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "adjust_scale", PROPERTY_HINT_RANGE, "0.01,16.0,0.01"), "set_adjust_scale", "get_adjust_scale");
-
-    ClassDB::bind_method(D_METHOD("set_adjust_position", "value"), &GDCubismUserModel::set_adjust_position);
-    ClassDB::bind_method(D_METHOD("get_adjust_position"), &GDCubismUserModel::get_adjust_position);
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "adjust_position"), "set_adjust_position", "get_adjust_position");
-
     ClassDB::bind_method(D_METHOD("set_mask_viewport_size", "value"), &GDCubismUserModel::set_mask_viewport_size);
     ClassDB::bind_method(D_METHOD("get_mask_viewport_size"), &GDCubismUserModel::get_mask_viewport_size);
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2I, "mask_viewport_size"), "set_mask_viewport_size", "get_mask_viewport_size");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "mask_viewport_size", PROPERTY_HINT_RANGE, "0,4096"), "set_mask_viewport_size", "get_mask_viewport_size");
 
     ClassDB::bind_method(D_METHOD("set_shader_add"), &GDCubismUserModel::set_shader_add);
     ClassDB::bind_method(D_METHOD("get_shader_add"), &GDCubismUserModel::get_shader_add);
@@ -301,16 +295,6 @@ void GDCubismUserModel::set_speed_scale(const float speed) {
 
 float GDCubismUserModel::get_speed_scale() const {
     return this->speed_scale;
-}
-
-
-void GDCubismUserModel::set_auto_scale(const bool value) {
-    this->auto_scale = value;
-}
-
-
-bool GDCubismUserModel::get_auto_scale() const {
-    return this->auto_scale;
 }
 
 
@@ -833,19 +817,6 @@ void GDCubismUserModel::load_model(const String assets) {
 }
 
 void GDCubismUserModel::_ready() {
-    // Setup SubViewport
-    this->set_disable_3d(SUBVIEWPORT_DISABLE_3D_FLAG);
-    this->set_clear_mode(SubViewport::ClearMode::CLEAR_MODE_ALWAYS);
-    // set_update_mode must be specified
-    this->set_update_mode(SubViewport::UpdateMode::UPDATE_ALWAYS);
-    this->set_disable_input(true);
-    // Memory leak when set_use_own_world_3d is true
-    // https://github.com/godotengine/godot/issues/81476
-    this->set_use_own_world_3d(SUBVIEWPORT_USE_OWN_WORLD_3D_FLAG);
-    // Memory leak when set_transparent_background is true(* every time & window minimize)
-    // https://github.com/godotengine/godot/issues/89651
-    this->set_transparent_background(true);
-
     if (!this->assets.is_empty()) {
         this->load_model(this->assets);
     }
