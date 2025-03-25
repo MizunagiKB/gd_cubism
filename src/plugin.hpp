@@ -41,6 +41,7 @@ protected:
 
 private:
     Rect2 get_cubism_model_rect(GDCubismUserModel *selected_model) const;
+    PackedVector2Array get_cubism_model_vertex(GDCubismUserModel *model) const;
     bool update_selected_info();
 
 public:

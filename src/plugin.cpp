@@ -5,6 +5,7 @@
 #include <godot_cpp/classes/editor_plugin.hpp>
 #include <godot_cpp/classes/editor_selection.hpp>
 #include <godot_cpp/classes/editor_settings.hpp>
+#include <godot_cpp/classes/geometry2d.hpp>
 #include <godot_cpp/classes/input_event_mouse_button.hpp>
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
 #include <godot_cpp/classes/node2d.hpp>
@@ -48,6 +49,29 @@ Rect2 GDCubismPlugin::get_cubism_model_rect(GDCubismUserModel *model) const {
         size * model->get_scale()
     );
 }
+
+PackedVector2Array GDCubismPlugin::get_cubism_model_vertex(GDCubismUserModel *model) const {
+
+    PackedVector2Array ary_vtx;
+
+    ary_vtx.resize(4);
+
+    if (model == nullptr) return ary_vtx;
+    if (model->get_assets().length() == 0) return ary_vtx;
+    if (model->get_canvas_info().size() == 0) return ary_vtx;
+
+    Dictionary dict = model->get_canvas_info();
+    Vector2 size = dict["size_in_pixels"];
+    Vector2 orig = dict["origin_in_pixels"];
+
+    ary_vtx[0] = ((orig - size) + Vector2(     0,      0));
+    ary_vtx[1] = ((orig - size) + Vector2(size.x,      0));
+    ary_vtx[2] = ((orig - size) + Vector2(size.x, size.y));
+    ary_vtx[3] = ((orig - size) + Vector2(     0, size.y));
+
+    return ary_vtx;
+}
+
 
 bool GDCubismPlugin::update_selected_info() {
     if (this->selected_model == nullptr) return false;
@@ -112,7 +136,16 @@ void GDCubismPlugin::_input(const Ref<InputEvent> &p_event) {
                 for(int64_t i = 0; i < ary_node.size(); i++) {
                     GDCubismUserModel *model = Object::cast_to<GDCubismUserModel>(ary_node[i]);
                     if (model == nullptr) continue;
-                    if (get_cubism_model_rect(model).has_point(mouse_pos) == false) continue;
+
+                    Transform2D m_tform = model->get_global_transform();
+                    PackedVector2Array ary_vtx = this->get_cubism_model_vertex(model);
+
+                    for (int i = 0; i < ary_vtx.size(); i++) {
+                        ary_vtx[i] = m_tform.xform(ary_vtx[i]);
+                    }
+            
+                    if (Geometry2D::get_singleton()->is_point_in_polygon(mouse_pos, ary_vtx) == false) continue;
+
                     if (get_editor_interface()->get_selection()->get_selected_nodes().size() > 1) continue;
 
                     this->drag = true;
@@ -120,6 +153,7 @@ void GDCubismPlugin::_input(const Ref<InputEvent> &p_event) {
                     this->base_position = model->get_global_position();
 
                     get_editor_interface()->edit_node(model);
+                    break;
                 }
             }
         }
@@ -128,8 +162,13 @@ void GDCubismPlugin::_input(const Ref<InputEvent> &p_event) {
 
 
 void GDCubismPlugin::_edit(Object *p_object) {
-    this->drag = false;
-    this->selected_model = Object::cast_to<GDCubismUserModel>(p_object);
+    GDCubismUserModel* model = Object::cast_to<GDCubismUserModel>(p_object);
+    if (model != nullptr) {
+        if (model != this->selected_model) {
+            this->drag = false;
+        }
+    }
+    this->selected_model = model;
 }
 
 
@@ -148,7 +187,14 @@ bool GDCubismPlugin::_forward_canvas_gui_input(const Ref<InputEvent> &p_event) {
         if (p_evt_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
             if (p_evt_mouse_button->is_pressed() == true) {
                 if (this->update_selected_info() == true) {
-                    if (this->selected_rect.has_point(mouse_pos) == true) {
+                    Transform2D m_tform = this->selected_model->get_global_transform();
+                    PackedVector2Array ary_vtx = this->get_cubism_model_vertex(this->selected_model);
+
+                    for (int i = 0; i < ary_vtx.size(); i++) {
+                        ary_vtx[i] = m_tform.xform(ary_vtx[i]);
+                    }
+            
+                    if (Geometry2D::get_singleton()->is_point_in_polygon(mouse_pos, ary_vtx) == true) {
                         this->drag = true;
                         this->drag_position = mouse_pos;
                         this->base_position = this->selected_model->get_global_position();
@@ -189,15 +235,20 @@ bool GDCubismPlugin::_forward_canvas_gui_input(const Ref<InputEvent> &p_event) {
 void GDCubismPlugin::_forward_canvas_draw_over_viewport(Control *p_viewport_control) {
 
     if (this->update_selected_info() == true) {
-        Transform2D tform = this->get_editor_interface()->get_editor_viewport_2d()->get_global_canvas_transform();
+        Transform2D c_tform = this->get_editor_interface()->get_editor_viewport_2d()->get_global_canvas_transform();
+        Transform2D m_tform = this->selected_model->get_global_transform();
 
-        p_viewport_control->draw_rect(
-            Rect2(
-                tform.xform(this->selected_rect.position),
-                this->selected_rect.size * tform.get_scale()
-            ),
-            this->selected_border_color,
-            false
-        );
+        PackedVector2Array ary_vtx = this->get_cubism_model_vertex(this->selected_model);
+
+        for (int i = 0; i < ary_vtx.size(); i++) {
+            ary_vtx[i] = c_tform.xform(m_tform.xform(ary_vtx[i]));
+        }
+
+        Geometry2D::get_singleton()->is_point_in_polygon(Vector2(), ary_vtx);
+
+        p_viewport_control->draw_line(ary_vtx[0], ary_vtx[1], this->selected_border_color);
+        p_viewport_control->draw_line(ary_vtx[1], ary_vtx[2], this->selected_border_color);
+        p_viewport_control->draw_line(ary_vtx[2], ary_vtx[3], this->selected_border_color);
+        p_viewport_control->draw_line(ary_vtx[3], ary_vtx[0], this->selected_border_color);
     }
 }
