@@ -55,6 +55,7 @@ public:
     Array ary_shader;
     Dictionary dict_mesh;
     Dictionary dict_mask;
+    Dictionary dict_mask_meshes;
 
     // Render parameters
     Vector2i vct_canvas_size;
