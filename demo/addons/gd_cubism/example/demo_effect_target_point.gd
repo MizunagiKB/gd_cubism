@@ -8,13 +8,26 @@ const DEFAULT_ASSET: String = "res://addons/gd_cubism/example/res/live2d/mao_pro
 var pressed: bool = false
 
 
+func recalc_model_position(model: GDCubismUserModel):
+    if model.assets == "":
+        return
+
+    var canvas_info: Dictionary = model.get_canvas_info()
+
+    if canvas_info.is_empty() != true:
+        var vct_viewport_size = Vector2(get_viewport_rect().size)
+        var scale: float = vct_viewport_size.y / max(canvas_info.size_in_pixels.x, canvas_info.size_in_pixels.y)
+        model.position = vct_viewport_size / 2.0
+        model.scale = Vector2(scale, scale)
+
+
 func _ready():
     if $GDCubismUserModel.assets == "":
         $GDCubismUserModel.assets = DEFAULT_ASSET
 
 
 func _process(delta):
-    pass
+    self.recalc_model_position($GDCubismUserModel)
 
 
 func _input(event):

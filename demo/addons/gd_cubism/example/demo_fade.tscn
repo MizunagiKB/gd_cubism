@@ -50,14 +50,3 @@ offset_top = 16.0
 offset_right = 1264.0
 offset_bottom = 48.0
 value = 100.0
-
-[node name="CheckBox" type="CheckBox" parent="."]
-offset_left = 16.0
-offset_top = 64.0
-offset_right = 176.0
-offset_bottom = 104.0
-focus_mode = 0
-text = "PoseUpdate"
-
-[connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]
-[connection signal="toggled" from="CheckBox" to="." method="_on_check_box_toggled"]

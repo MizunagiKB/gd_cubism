@@ -31,7 +31,16 @@ This software (GDCubism) is an **unofficial** GDExtension that makes the link:ht
 
 [NOTE]
 ====
-This GDExtension is available for use with Godot Engine 4.3 and above. (If you wish to use it with versions 4.1 or 4.2, please use link:https://github.com/MizunagiKB/gd_cubism/tree/0.7-godot4.1[7.0-godot41])
+This GDExtension is available for use with Godot Engine 4.3 and above. (If you wish to use it with versions 4.1 or 4.2, please use link:https://github.com/MizunagiKB/gd_cubism/releases/tag/v0.8.2-godot4.1[v0.8.2-godot4.1])
+====
+
+[IMPORTANT]
+====
+Starting from version 0.9, the rendering method has been switched to direct rendering, significantly reducing the processing load on the Godot Engine and GPU memory consumption.
+
+However, this change has introduced several modifications. The most notable change is that _GDCubismUserModel_ is no longer a _SubViewport_.
+
+If you wish to handle it in the same manner as before, place the _GDCubismUserModel_ under a _SubViewport_. (As a demonstration of this change, the demo file `demo_fade.tscn` has been added.)
 ====
 
 Internally, GDCubism uses the link:https://github.com/Live2D/CubismNativeFramework[Cubism Native Framework] published by Live2D Inc.

@@ -64,6 +64,7 @@ void InternalCubismRendererResource::clear() {
     this->ary_texture.clear();
     this->dict_mesh.clear();
     this->dict_mask.clear();
+    this->dict_mask_meshes.clear();
 }
 
 MeshInstance2D* InternalCubismRendererResource::request_mesh_instance() {

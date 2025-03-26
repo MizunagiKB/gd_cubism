@@ -35,6 +35,10 @@ NOTE: The _addons_ folder is a designated folder for storing programs that exten
 
 Describes how to import a Live2D model and view it in _Sprite2D_.
 
+[CAUTION]  
+====  
+This explanation is based on version 0.8. Starting from version 0.9, direct rendering is implemented, and textures to reflect rendering results are no longer required. An updated explanation is currently being prepared.  
+====
 
 ==== Layout
 
@@ -132,20 +136,20 @@ Please arrange the contents of the downloaded file as follows:
 ***** ...
 **** motions
 ***** ...
-**** mao_pro_t02.cdi3.json
-**** mao_pro_t02.moc3
-**** mao_pro_t02.model3.json
-**** mao_pro_t02.physics3.json
-**** mao_pro_t02.pose3.json
-*** mao_pro_t02.can3
-*** mao_pro_t02.cmo3
+**** mao_pro.cdi3.json
+**** mao_pro.moc3
+**** mao_pro.model3.json
+**** mao_pro.physics3.json
+**** mao_pro.pose3.json
+*** mao_pro_t05.can3
+*** mao_pro_t05.cmo3
 
 If you want to try with your own model, please place the output referring to the above in _demo/addons/gd_cubism/example/res/live2d_.
 
 
 === Related Documentation
 
-* xref:ja/custom/motion.adoc[]
+* xref:en/custom/motion.adoc[]
 
 
 === Description of the Demo
@@ -163,11 +167,14 @@ If you want to try with your own model, please place the output referring to the
 |demo_effect_custom_03.tscn
 |This is a sample using _GDCubismEffectCustom_. It performs a simple lip sync, moving the mouth according to the volume.
 
-|demo_effect_custom_target_pooint.tscn
-|This is a sample using _GDCubismEffectTargetPoint_. The Live2D model will look in the direction of the mouse position.
-
 |demo_effect_hit_area.tscn
 |This is a sample using _GDCubismEffectHitArea_. It also serves as a usage sample for the _HitArea_ set in the Live2D model.
+
+|demo_effect_target_pooint.tscn
+|This is a sample using _GDCubismEffectTargetPoint_. The Live2D model will look in the direction of the mouse position.
+
+|demo_fade.tscn
+|A sample utilizing _SubViewport_ to replicate the rendering method used prior to version 0.9.
 
 |demo_simple.tscn
 |This is a sample that displays the Live2D model only with a combination of Nodes.
@@ -201,7 +208,7 @@ GDCubism provides a variety of classes. Please refer to the document linked belo
 
 |link:./api/gd_cubism_effect_custom{adocsuffix}[GDCubismEffectCustom]
 |GDCubismEffectCustomCS
-|△
+|○
 
 |link:./api/gd_cubism_effect_eye_blink{adocsuffix}[GDCubismEffectEyeBlink]
 |GDCubismEffectEyeBlinkCS
@@ -209,18 +216,18 @@ GDCubism provides a variety of classes. Please refer to the document linked belo
 
 |link:./api/gd_cubism_effect_hit_area{adocsuffix}[GDCubismEffectHitArea]
 |GDCubismEffectHitAreaCS
-|△
+|○
 
 |link:./api/gd_cubism_effect_target_point{adocsuffix}[GDCubismEffectTargetPoint]
 |GDCubismEffectTargetPointCS
-|△
+|○
 
 |link:./api/gd_cubism_motion_entry{adocsuffix}[GDCubismMotionEntry]
 |GDCubismMotionEntryCS
 |x
 
 |link:./api/gd_cubism_motion_queue_entry_handle{adocsuffix}[GDCubismMotionQueueEntryHandle]
-|GDCubismMotionQueueEntryHadleCS
+|GDCubismMotionQueueEntryHandleCS
 |x
 
 |link:./api/gd_cubism_value_abs{adocsuffix}[GDCubismValueAbs]

@@ -1,20 +1,14 @@
 [gd_scene load_steps=2 format=3 uid="uid://xk7rqvf532rj"]
 
-[ext_resource type="Script" path="res://addons/gd_cubism/example/custom_efx_03.gd" id="1_lh0xb"]
+[ext_resource type="Script" path="res://addons/gd_cubism/example/demo_effect_custom_03.gd" id="1_g4xfj"]
 
 [node name="demo_effect_custom_03" type="Node2D"]
+script = ExtResource("1_g4xfj")
 
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="."]
-position = Vector2(640, 360)
-scale = Vector2(0.075, 0.075)
 
 [node name="GDCubismEffectCustom" type="GDCubismEffectCustom" parent="GDCubismUserModel"]
-script = ExtResource("1_lh0xb")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 autoplay = true
 bus = &"Voice"
-
-[connection signal="cubism_init" from="GDCubismUserModel/GDCubismEffectCustom" to="GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_init"]
-[connection signal="cubism_process" from="GDCubismUserModel/GDCubismEffectCustom" to="GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_process"]
-[connection signal="cubism_term" from="GDCubismUserModel/GDCubismEffectCustom" to="GDCubismUserModel/GDCubismEffectCustom" method="_on_cubism_term"]

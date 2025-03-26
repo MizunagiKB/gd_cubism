@@ -29,23 +29,15 @@ If you want to move the eyes to the position where you drag the mouse pointer on
 [source, gdscript, numlines]
 ----
 func _input(event):
-
     if event as InputEventMouseButton:
         pressed = event.is_pressed()
 
     if event as InputEventMouseMotion:
         if pressed == true:
-            # Convert to Node using mouse coordinates for display
-            var local_pos = $Sprite2D.to_local(event.position)
-            # Adjust the converted coordinates to the display size of SubViewport
-            var render_size: Vector2 = Vector2(
-                float($Sprite2D/GDCubismUserModel.size.x) * $Sprite2D.scale.x,
-                float($Sprite2D/GDCubismUserModel.size.y) * $Sprite2D.scale.y * -1.0
-            ) * 0.5
-            local_pos /= render_size
-            $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_target(local_pos)
+            var calc_pos: Vector2 = $GDCubismUserModel.to_local(event.position) * Vector2(1, -1)
+            $GDCubismUserModel/GDCubismEffectTargetPoint.set_target(calc_pos.normalized())
         else:
-            $Sprite2D/GDCubismUserModel/GDCubismEffectTargetPoint.set_target(Vector2.ZERO)
+            $GDCubismUserModel/GDCubismEffectTargetPoint.set_target(Vector2.ZERO)
 ----
 
 
