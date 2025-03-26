@@ -101,7 +101,7 @@ public partial class demo_effect_custom_03 : Node2D
         this.history_position = 0;
     }
 
-    private void _on_cubism_process(Node2D _model, float delta)
+    private void _on_cubism_process(Node2D _model, double delta)
     {
         if (this.lipsync_ready == false) return;
 

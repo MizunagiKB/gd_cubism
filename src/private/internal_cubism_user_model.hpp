@@ -63,9 +63,9 @@ private:
 public:
     bool model_load(const String &model_pathname);
     void model_load_resource();
-    void pro_update(const float delta);
-    void efx_update(const float delta);
-    void epi_update(const float delta);
+    void pro_update(const double delta);
+    void efx_update(const double delta);
+    void epi_update(const double delta);
     void update_node();
     void clear();
 
@@ -88,7 +88,7 @@ private:
 
     void effect_init();
     void effect_term();
-    void effect_batch(const float delta, const EFFECT_CALL efx_call);
+    void effect_batch(const double delta, const EFFECT_CALL efx_call);
 };
 
 
