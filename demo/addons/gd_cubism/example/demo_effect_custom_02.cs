@@ -70,7 +70,7 @@ public partial class demo_effect_custom_02 : Node2D
         recalc_model_position(this.cubism_model);
     }
 
-    private void _on_cubism_process(Node2D model, float delta)
+    private void _on_cubism_process(Node2D model, double delta)
     {
         const int ARRAY_VERTEX = (int)ArrayMesh.ArrayType.Vertex;
 

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
-using System;
 using Godot;
 using Godot.NativeInterop;
 
@@ -24,7 +23,7 @@ public partial class GDCubismEffectCustomCS : GDCubismEffectCS
     // -------------------------------------------------------------- Method(s)
     // -------------------------------------------------------------- Signal(s)
 
-    public delegate void CubismEpilogueEventHandler(Node2D value, float delta);
+    public delegate void CubismEpilogueEventHandler(Node2D value, double delta);
 
     private static void CubismEpilogueTrampoline(object delegateObj, NativeVariantPtrArgs args, out godot_variant ret)
     {
@@ -57,7 +56,7 @@ public partial class GDCubismEffectCustomCS : GDCubismEffectCS
         remove => this.InternalObject.Disconnect(CubismInitName, Callable.CreateWithUnsafeTrampoline(value, &CubismInitrampoline));
     }
 
-    public delegate void CubsimPrologueEventHandler(Node2D value, float delta);
+    public delegate void CubsimPrologueEventHandler(Node2D value, double delta);
 
     private static void CubismPrologueTrampoline(object delegateObj, NativeVariantPtrArgs args, out godot_variant ret)
     {
@@ -74,7 +73,7 @@ public partial class GDCubismEffectCustomCS : GDCubismEffectCS
         remove => this.InternalObject.Disconnect(CubismPrologueName, Callable.CreateWithUnsafeTrampoline(value, &CubismPrologueTrampoline));
     }
 
-    public delegate void CubismProcessEventHandler(Node2D value, float delta);
+    public delegate void CubismProcessEventHandler(Node2D value, double delta);
 
     private static void CubismProcessTrampoline(object delegateObj, NativeVariantPtrArgs args, out godot_variant ret)
     {

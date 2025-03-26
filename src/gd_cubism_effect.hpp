@@ -42,9 +42,9 @@ public:
 
     virtual void _cubism_init(InternalCubismUserModel* model);
     virtual void _cubism_term(InternalCubismUserModel* model);
-    virtual void _cubism_prologue(InternalCubismUserModel* model, const float delta);
-    virtual void _cubism_process(InternalCubismUserModel* model, const float delta);
-    virtual void _cubism_epilogue(InternalCubismUserModel* model, const float delta);
+    virtual void _cubism_prologue(InternalCubismUserModel* model, const double delta);
+    virtual void _cubism_process(InternalCubismUserModel* model, const double delta);
+    virtual void _cubism_epilogue(InternalCubismUserModel* model, const double delta);
 
     void _enter_tree() override;
     void _exit_tree() override;

@@ -279,7 +279,7 @@ public partial class GDCubismUserModelCS : GodotObject
     ///     Please specify a value of 0.0 or more for delta.
     /// </summary>
     /// <param name="delta">The time to progress the animation.</param>
-    public void Advance(float delta)
+    public void Advance(double delta)
     {
         this.InternalObject.Call("advance", delta);
     }

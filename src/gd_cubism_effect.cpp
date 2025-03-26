@@ -35,9 +35,9 @@ void GDCubismEffect::_cubism_term(InternalCubismUserModel* model) {
 }
 
 
-void GDCubismEffect::_cubism_prologue(InternalCubismUserModel* model, const float delta) {}
-void GDCubismEffect::_cubism_process(InternalCubismUserModel* model, const float delta) {}
-void GDCubismEffect::_cubism_epilogue(InternalCubismUserModel* model, const float delta) {}
+void GDCubismEffect::_cubism_prologue(InternalCubismUserModel* model, const double delta) {}
+void GDCubismEffect::_cubism_process(InternalCubismUserModel* model, const double delta) {}
+void GDCubismEffect::_cubism_epilogue(InternalCubismUserModel* model, const double delta) {}
 
 
 void GDCubismEffect::_enter_tree() {

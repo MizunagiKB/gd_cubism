@@ -172,7 +172,7 @@ void InternalCubismUserModel::model_load_resource()
 }
 
 
-void InternalCubismUserModel::pro_update(const float delta) {
+void InternalCubismUserModel::pro_update(const double delta) {
     if(this->IsInitialized() == false) return;
     if(this->_model_setting == nullptr) return;
     if(this->_model == nullptr) return;
@@ -193,7 +193,7 @@ void InternalCubismUserModel::pro_update(const float delta) {
 }
 
 
-void InternalCubismUserModel::efx_update(const float delta) {
+void InternalCubismUserModel::efx_update(const double delta) {
     if(this->IsInitialized() == false) return;
     if(this->_model_setting == nullptr) return;
     if(this->_model == nullptr) return;
@@ -208,7 +208,7 @@ void InternalCubismUserModel::efx_update(const float delta) {
 }
 
 
-void InternalCubismUserModel::epi_update(const float delta) {
+void InternalCubismUserModel::epi_update(const double delta) {
     if(this->IsInitialized() == false) return;
     if(this->_model_setting == nullptr) return;
     if(this->_model == nullptr) return;
@@ -479,7 +479,7 @@ void InternalCubismUserModel::effect_term() {
 }
 
 
-void InternalCubismUserModel::effect_batch(const float delta, const EFFECT_CALL efx_call) {
+void InternalCubismUserModel::effect_batch(const double delta, const EFFECT_CALL efx_call) {
     for(
         Csm::csmVector<GDCubismEffect*>::iterator i = this->_owner_viewport->_list_cubism_effect.Begin();
         i != this->_owner_viewport->_list_cubism_effect.End();

@@ -450,7 +450,7 @@ void GDCubismUserModel::on_motion_finished(Csm::ACubismMotion* motion) {
 }
 
 
-void GDCubismUserModel::_update(const float delta) {
+void GDCubismUserModel::_update(const double delta) {
 
     this->internal_model->pro_update(delta * this->speed_scale);
 
@@ -493,7 +493,7 @@ void GDCubismUserModel::_update(const float delta) {
 }
 
 
-void GDCubismUserModel::advance(const float delta) {
+void GDCubismUserModel::advance(const double delta) {
     ERR_FAIL_COND(this->is_initialized() == false);
     if(this->playback_process_mode != MANUAL) return;
 

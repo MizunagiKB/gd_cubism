@@ -221,9 +221,9 @@ public:
     // for Signal
     static void on_motion_finished(Csm::ACubismMotion* motion);
 
-    void _update(const float delta);
+    void _update(const double delta);
 
-    void advance(const float delta);
+    void advance(const double delta);
 
     bool check_cubism_effect_dirty() const;
     void cubism_effect_dirty_reset();
