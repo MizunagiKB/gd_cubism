@@ -127,7 +127,13 @@ void GDCubismPlugin::_input(const Ref<InputEvent> &p_event) {
     InputEventMouseButton* p_evt_mouse_button = Object::cast_to<InputEventMouseButton>(p_event.ptr());
 
     if (p_evt_mouse_button != nullptr) {
-        Vector2 mouse_pos = get_editor_interface()->get_editor_viewport_2d()->get_mouse_position();
+        const SubViewport *editor_viewport = this->get_editor_interface()->get_editor_viewport_2d();
+        const Rect2 viewport_rect(Point2(0.0, 0.0), editor_viewport->get_size());
+
+        // Check in Viewport2D
+        if (viewport_rect.has_point(p_evt_mouse_button->get_position()) == false) return;
+
+        Vector2 mouse_pos = editor_viewport->get_mouse_position();
 
         if (p_evt_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
             if (p_evt_mouse_button->is_pressed() == true) {
@@ -182,7 +188,13 @@ bool GDCubismPlugin::_forward_canvas_gui_input(const Ref<InputEvent> &p_event) {
     InputEventMouseButton *p_evt_mouse_button = Object::cast_to<InputEventMouseButton>(p_event.ptr());
 
     if (p_evt_mouse_button != nullptr) {
-        Vector2 mouse_pos = this->get_editor_interface()->get_editor_viewport_2d()->get_mouse_position();
+        const SubViewport *editor_viewport = this->get_editor_interface()->get_editor_viewport_2d();
+        const Rect2 viewport_rect(Point2(0.0, 0.0), editor_viewport->get_size());
+
+        // Check in Viewport2D
+        if (viewport_rect.has_point(p_evt_mouse_button->get_position()) == false) return false;
+
+        Vector2 mouse_pos = editor_viewport->get_mouse_position();
 
         if (p_evt_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
             if (p_evt_mouse_button->is_pressed() == true) {
