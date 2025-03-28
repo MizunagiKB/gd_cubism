@@ -12,17 +12,20 @@
 #include <Motion/CubismMotionQueueManager.hpp>
 #include <Utils/CubismString.hpp>
 #include <CubismFramework.hpp>
-#include <CubismModelSettingJson.hpp>
-
-#include <private/internal_cubism_renderer_resource.hpp>
+#include <ICubismModelSetting.hpp>
 
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
+using namespace Live2D::Cubism::Framework;
+using namespace godot;
+
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
+class GDCubismUserModel;
+class GDCubismEffect;
 class GDCubismEffectBreath;
 class GDCubismEffectCustom;
 class GDCubismEffectEyeBlink;
@@ -37,58 +40,30 @@ class InternalCubismUserModel : public Csm::CubismUserModel {
     friend GDCubismEffectEyeBlink;
     friend GDCubismEffectHitArea;
 
-    enum EFFECT_CALL {
-        EFFECT_CALL_PROLOGUE,
-        EFFECT_CALL_PROCESS,
-        EFFECT_CALL_EPILOGUE
-    };
-
 public:
     InternalCubismUserModel(GDCubismUserModel *owner_viewport);
     virtual ~InternalCubismUserModel();
 
+    static Vector2 get_size(const Csm::CubismModel *model);
+    static Vector2 get_origin(const Csm::CubismModel *model);
+    static float get_ppunit(const Csm::CubismModel *model);
+
 public:
     GDCubismUserModel *_owner_viewport = nullptr;
-
+    
 private:
-    InternalCubismRendererResource _renderer_resource;
-    GDCubismUserModel::moc3FileFormatVersion _moc3_file_format_version;
     String _model_pathname;
-    Csm::ICubismModelSetting* _model_setting;
-    Csm::csmVector<Csm::CubismIdHandle> _list_eye_blink;
-    Csm::csmVector<Csm::CubismIdHandle> _list_lipsync;
-    Csm::csmMap<Csm::csmString,Csm::CubismExpressionMotion*> _map_expression;
-    Csm::csmMap<Csm::csmString,Csm::CubismMotion*> _map_motion;
-
+    ICubismModelSetting *model_settings;
+    
 public:
-    bool model_load(const String &model_pathname);
-    void model_load_resource();
-    void pro_update(const double delta);
-    void efx_update(const double delta);
-    void epi_update(const double delta);
-    void update_node();
-    void clear();
-
-    void stop();
-
-    void expression_set(const char* expression_id);
-    void expression_stop();
-
-    Csm::CubismMotionQueueEntryHandle motion_start(const char* group, const int32_t no, const int32_t priority, const bool loop, const bool loop_fade_in, void* custom_data);
-    void motion_stop();
-
-    virtual void MotionEventFired(const Csm::csmString& eventValue) override;
-
-private:
-    void expression_load();
-    void physics_load();
-    void pose_load();
-    void userdata_load();
-    void motion_load();
-
-    void effect_init();
-    void effect_term();
-    void effect_batch(const double delta, const EFFECT_CALL efx_call);
+    bool model_bind();
+    ICubismModelSetting* get_model_settings() {
+        if (!this->IsInitialized()) return nullptr;
+        return this->model_settings;
+    };
+    String get_model_path() {
+        return this->_model_pathname;
+    }
 };
 
 

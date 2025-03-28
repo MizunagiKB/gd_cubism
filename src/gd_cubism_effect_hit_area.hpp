@@ -14,6 +14,8 @@
 #include <private/internal_cubism_user_model.hpp>
 #include <gd_cubism_effect.hpp>
 
+#include <godot_cpp/classes/array_mesh.hpp>
+
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -42,6 +44,8 @@ protected:
     	ClassDB::bind_method(D_METHOD("get_monitoring"), &GDCubismEffectHitArea::get_monitoring);
         ADD_PROPERTY(PropertyInfo(Variant::BOOL, "monitoring"), "set_monitoring", "get_monitoring");
 
+        ClassDB::bind_method(D_METHOD("get_hit_areas"), &GDCubismEffectHitArea::get_hit_areas);
+
         ADD_SIGNAL(MethodInfo(
             SIGNAL_EFFECT_HIT_AREA_ENTERED,
             PropertyInfo(Variant::OBJECT, "model", PROPERTY_HINT_RESOURCE_TYPE, "GDCubismUserModel"),
@@ -59,6 +63,7 @@ private:
     bool _target_update = false;
     bool _monitoring = true;
     Dictionary _dict_monitoring;
+    Array _hit_areas;
 
     Rect2 build_rect2(const Ref<ArrayMesh>& ref_ary_mesh) const {
         Array ary = ref_ary_mesh->surface_get_arrays(0);
@@ -118,7 +123,7 @@ public:
         if(model == nullptr) return Dictionary();
         if(model->is_initialized() == false) return Dictionary();
 
-        const Dictionary dict_mesh = model->get_meshes();
+        Dictionary dict_mesh = model->get_mesh_dict();
         if(dict_mesh.is_empty() == true) return Dictionary();
 
         MeshInstance2D* p_mesh_inst = cast_to<MeshInstance2D>(dict_mesh[id]);
@@ -148,11 +153,28 @@ public:
 
     bool get_monitoring() const { return this->_monitoring; }
 
+    Array get_hit_areas() const {
+        return this->_hit_areas;
+    }
+
     virtual void _cubism_init(InternalCubismUserModel* model) override {
         if(this->_initialized == true) return;
 
         this->_dict_monitoring.clear();
         this->_target_update = false;
+
+        // Hit Areas
+        this->_hit_areas.clear();
+        {
+            ICubismModelSetting *model_settings = model->get_model_settings();
+            for (uint32_t i = 0; i < model_settings->GetHitAreasCount(); i++) {
+                Dictionary dict_hit_area;
+                
+                dict_hit_area["id"] = model_settings->GetHitAreaId(i);
+                dict_hit_area["name"] = model_settings->GetHitAreaName(i);
+                this->_hit_areas.append(dict_hit_area);
+            }
+        }
 
         this->_initialized = true;
     }
@@ -169,9 +191,8 @@ public:
         if(this->_initialized == false) return;
         if(this->_active == false) return;
 
-        Csm::ICubismModelSetting* setting = model->_model_setting;
-        Array ary = model->_owner_viewport->get_hit_areas();
-        Dictionary dict_mesh = model->_owner_viewport->get_meshes();
+        Array ary = this->get_hit_areas();
+        Dictionary dict_mesh = model->_owner_viewport->get_mesh_dict();
 
         for(int64_t i = 0; i < ary.size(); i++) {
             const String id = static_cast<Dictionary>(ary[i]).get("id", String());

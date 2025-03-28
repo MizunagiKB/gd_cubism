@@ -15,6 +15,8 @@
 #include <gd_cubism_user_model.hpp>
 #include <plugin.hpp>
 
+#include <importers/gd_cubism_model_importer.hpp>
+
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -32,13 +34,14 @@ const double SNAPSIZE_MAX = 256;
 const double SNAPSIZE_STEP = 1;
 const double SNAPSIZE_INIT_VALUE = 8;
 
+static Ref<GDCubismModelImporter> modelImporter;
+
 
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
 Rect2 GDCubismPlugin::get_cubism_model_rect(GDCubismUserModel *model) const {
     if (model == nullptr) return Rect2();
-    if (model->get_assets().length() == 0) return Rect2();
-    if (model->get_canvas_info().size() == 0) return Rect2();
+    if (model->get_canvas_info().is_empty()) return Rect2();
 
     Dictionary dict = model->get_canvas_info();
     Vector2 size = dict["size_in_pixels"];
@@ -57,8 +60,7 @@ PackedVector2Array GDCubismPlugin::get_cubism_model_vertex(GDCubismUserModel *mo
     ary_vtx.resize(4);
 
     if (model == nullptr) return ary_vtx;
-    if (model->get_assets().length() == 0) return ary_vtx;
-    if (model->get_canvas_info().size() == 0) return ary_vtx;
+    if (model->get_canvas_info().is_empty()) return ary_vtx;
 
     Dictionary dict = model->get_canvas_info();
     Vector2 size = dict["size_in_pixels"];
@@ -75,8 +77,7 @@ PackedVector2Array GDCubismPlugin::get_cubism_model_vertex(GDCubismUserModel *mo
 
 bool GDCubismPlugin::update_selected_info() {
     if (this->selected_model == nullptr) return false;
-    if (this->selected_model->get_assets().length() == 0) return false;
-    if (this->selected_model->get_canvas_info().size() == 0) return false;
+    if (this->selected_model->get_canvas_info().is_empty()) return false;
 
     this->selected_rect = this->get_cubism_model_rect(this->selected_model);
 
@@ -85,6 +86,9 @@ bool GDCubismPlugin::update_selected_info() {
 
 
 void GDCubismPlugin::_enter_tree() {
+    modelImporter.instantiate();
+
+    this->add_import_plugin(modelImporter);
 
     this->drag = false;
 
@@ -107,6 +111,9 @@ void GDCubismPlugin::_enter_tree() {
 
 
 void GDCubismPlugin::_exit_tree() {
+    this->remove_import_plugin(modelImporter);
+    
+    modelImporter.unref();
 
     if (this->p_snapsize_spinbox != nullptr) {
         this->remove_control_from_container(CONTAINER_CANVAS_EDITOR_MENU, this->p_snapsize_spinbox);

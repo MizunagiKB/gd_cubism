@@ -16,9 +16,6 @@
 
 #include <Rendering/CubismRenderer.hpp>
 
-#include <private/internal_cubism_renderer_resource.hpp>
-#include <gd_cubism_user_model.hpp>
-
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
 using namespace Live2D::Cubism::Framework::Rendering;
@@ -29,41 +26,18 @@ using namespace godot;
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
-class InternalCubismRenderer2D : public CubismRenderer
+class InternalCubismRenderer2D
 {
-    friend class CubismRenderer;
-
 public:
-    InternalCubismRenderer2D();
-    virtual ~InternalCubismRenderer2D();
-
-private:
-    static void ready_mask(const MeshInstance2D *node);
-
-    void update_material(const Csm::CubismModel *model, const Csm::csmInt32 index, const Ref<ShaderMaterial> mat) const;
+    static void update(const Csm::CubismModel *model, const Array meshes, Array masks, int32_t viewport_size = 0);
     
-    void make_ArrayMesh_prepare(
-        const Csm::CubismModel *model,
-        InternalCubismRendererResource &res);
+    static void update_material(const Csm::CubismModel *model, const Csm::csmInt32 index, const Ref<ShaderMaterial> mat);
 
-    void update_mesh(
+    static void update_mesh(
         const Csm::CubismModel *model,
         const Csm::csmInt32 index,
-        const InternalCubismRendererResource &res,
-        const Ref<ArrayMesh> mesh) const;
-
-public:
-    Vector2 get_size(const Csm::CubismModel *model) const;
-    Vector2 get_origin(const Csm::CubismModel *model) const;
-    float get_ppunit(const Csm::CubismModel *model) const;
-
-    void update(InternalCubismRendererResource &res, int32_t viewport_size = 0);
-    void build_model(InternalCubismRendererResource &res, Node *target_node);
-
-    virtual void Initialize(Csm::CubismModel *model, Csm::csmInt32 maskBufferCount);
-    void DoDrawModel();
-    void SaveProfile();
-    void RestoreProfile();
+        const Ref<ArrayMesh> mesh
+    );
 };
 
 // ------------------------------------------------------------------ method(s)
