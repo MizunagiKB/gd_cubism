@@ -8,6 +8,7 @@
 
 #ifdef GD_CUBISM_USE_RENDERER_2D
     #include <private/internal_cubism_renderer_2d.hpp>
+    #include <private/internal_cubism_renderer_2d_rd.hpp>
 #else
     #include <private/internal_cubism_renderer_3d.hpp>
 #endif // GD_CUBISM_USE_RENDERER_2D
@@ -27,7 +28,7 @@ using namespace Live2D::Cubism::Framework::Rendering;
 // ------------------------------------------------------------------- class(s)
 CubismRenderer* CubismRenderer::Create() {
     #ifdef GD_CUBISM_USE_RENDERER_2D
-    return CSM_NEW InternalCubismRenderer2D();
+    return CSM_NEW InternalCubismRenderer2D_RD();
     #else
     return CSM_NEW InternalCubismRenderer3D();
     #endif // GD_CUBISM_USE_RENDERER_2D

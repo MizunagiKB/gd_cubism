@@ -10,6 +10,7 @@
 
 #ifdef GD_CUBISM_USE_RENDERER_2D
     #include <private/internal_cubism_renderer_2d.hpp>
+    #include <private/internal_cubism_renderer_2d_rd.hpp>
 #else
     #include <private/internal_cubism_renderer_3d.hpp>
 #endif // GD_CUBISM_USE_RENDERER_2D
@@ -130,7 +131,7 @@ bool InternalCubismUserModel::model_load(
     // The process is almost the same as the InternalCubismUserModel::update_node() function.
     {
         #ifdef GD_CUBISM_USE_RENDERER_2D
-        InternalCubismRenderer2D* renderer = this->GetRenderer<InternalCubismRenderer2D>();
+        InternalCubismRenderer2D_RD* renderer = this->GetRenderer<InternalCubismRenderer2D_RD>();
         #else
         #endif // GD_CUBISM_USE_RENDERER_2D
 
@@ -230,7 +231,7 @@ void InternalCubismUserModel::update_node() {
     if(this->IsInitialized() == false) return;
 
     #ifdef GD_CUBISM_USE_RENDERER_2D
-    InternalCubismRenderer2D* renderer = this->GetRenderer<InternalCubismRenderer2D>();
+    InternalCubismRenderer2D_RD* renderer = this->GetRenderer<InternalCubismRenderer2D_RD>();
     #else
     #endif // GD_CUBISM_USE_RENDERER_2D
 
