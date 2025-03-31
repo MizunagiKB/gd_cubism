@@ -131,11 +131,7 @@ private:
     csmUint32   _bufferHeight;
     RID _frameBuffer;
     RID _texture;
-
     csmBool _isValid;
-
-    Color _clearColor;
-    csmBool _doClear;
 };
 
 class InternalCubismClippingManager_RD : public CubismClippingManager<
