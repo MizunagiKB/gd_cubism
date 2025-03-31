@@ -46,11 +46,23 @@ InternalCubismRenderer2D_RD::InternalCubismRenderer2D_RD() : _renderingDevice(NU
 
 InternalCubismRenderer2D_RD::~InternalCubismRenderer2D_RD()
 {
+    CsmDelete(_outputTexture);
+    CsmDelete(_clippingManager);
+
     _renderingDevice->free_rid(_uniformBuffer);
+    _renderingDevice->free_rid(_sampler);
+    _renderingDevice->free_rid(_emptyTexture);
+    _outputTexture->DestroyOffscreenSurface();
 
     {
         for(int i = 0; i < _offscreenSurfaces.GetSize(); i++) {
             _offscreenSurfaces[i].DestroyOffscreenSurface();
+        }
+    }
+
+    {
+        for(int i = 0; i < _textures.GetSize(); i++) {
+            _renderingDevice->free_rid(_textures[i]);
         }
     }
 
@@ -101,6 +113,7 @@ float InternalCubismRenderer2D_RD::get_ppunit(const Csm::CubismModel *model) con
 void InternalCubismRenderer2D_RD::InitializeRenderer()
 {
     const csmInt32 drawableCount = GetModel()->GetDrawableCount();
+    _drawableIndexData.Resize(drawableCount);
 
     for (csmInt32 drawAssign = 0; drawAssign < drawableCount; drawAssign++)
     {
@@ -135,7 +148,7 @@ void InternalCubismRenderer2D_RD::InitializeRenderer()
             drawableData.vertexPositionBuffer = vertexPositionBuffer;
             drawableData.vertexUVBuffer = vertexUVBuffer;
             drawableData.vertexArray = vertexArray;
-            _drawableIndexData.PushBack(drawableData);
+            _drawableIndexData[drawAssign] = drawableData;
         }
     }
 
@@ -146,7 +159,6 @@ void InternalCubismRenderer2D_RD::InitializeRenderer()
     samplerState->set_min_filter(RenderingDevice::SamplerFilter::SAMPLER_FILTER_LINEAR);
     samplerState->set_mag_filter(RenderingDevice::SamplerFilter::SAMPLER_FILTER_LINEAR);
 	_sampler = _renderingDevice->sampler_create(samplerState);
-
 
     _emptyTexture = RenderingServer::get_singleton()->texture_get_rd_texture(RenderingServer::get_singleton()->get_white_texture());
 
@@ -423,14 +435,12 @@ void InternalCubismRenderer2D_RD::ExecuteDrawForDraw(const CubismModel& model, c
     uniforms.append(textureUniform);
     uniforms.append(maskUniform);
     RID uniformSet = UniformSetCacheRD::get_cache(rdPipeline.shader, 0, uniforms);
-    PackedColorArray clearColors = PackedColorArray();
-    clearColors.append(Color(1.0,1.0,1.0,1.0));
     uint64_t drawList = _renderingDevice->draw_list_begin(surface->GetFrameBuffer(), 
                     RenderingDevice::InitialAction::INITIAL_ACTION_LOAD, 
                     RenderingDevice::FinalAction::FINAL_ACTION_STORE,
                     RenderingDevice::InitialAction::INITIAL_ACTION_LOAD, 
                     RenderingDevice::FinalAction::FINAL_ACTION_STORE,
-                    clearColors);
+                    PackedColorArray());
 
     _renderingDevice->draw_list_bind_render_pipeline(drawList, rdPipeline.pipeline);
 	_renderingDevice->draw_list_bind_index_array(drawList, _drawableIndexData[index].indexArray);
@@ -485,7 +495,6 @@ void InternalCubismRenderer2D_RD::ExecuteDrawForMask(const CubismModel& model, c
     uniforms.append(textureUniform);
     uniforms.append(maskUniform);
 
-
     uint64_t drawList = _renderingDevice->draw_list_begin(surface->GetFrameBuffer(), 
                     RenderingDevice::InitialAction::INITIAL_ACTION_LOAD, 
                     RenderingDevice::FinalAction::FINAL_ACTION_STORE,
@@ -517,7 +526,6 @@ void InternalCubismRenderer2D_RD::CopyToBuffer(csmInt32 index, const csmInt32 vc
         p_UVBuffer[i].X = uvarray[i*2+0];
         p_UVBuffer[i].Y = uvarray[i*2+1];
     }
-
    _renderingDevice->buffer_update(_drawableIndexData[index].vertexPositionBuffer, 0, vertexPositionCopyBuffer.size(), vertexPositionCopyBuffer);
    _renderingDevice->buffer_update(_drawableIndexData[index].vertexUVBuffer, 0, vertexUVCopyBuffer.size(), vertexUVCopyBuffer);
 }
@@ -623,15 +631,15 @@ csmBool InternalCubismOffscreenSurface_RD::CreateOffscreenSurface(csmUint32 disp
 void InternalCubismOffscreenSurface_RD::DestroyOffscreenSurface()
 {
     RenderingDevice* rd = RenderingServer::get_singleton()->get_rendering_device();
-    if(_texture.is_valid()) 
-    {
-        rd->free_rid(_texture);
-        _texture = RID();
-    }
     if(_frameBuffer.is_valid())
     {
          rd->free_rid(_frameBuffer);
         _frameBuffer = RID();
+    }
+    if(_texture.is_valid()) 
+    {
+        rd->free_rid(_texture);
+        _texture = RID();
     }
 }
 
@@ -743,7 +751,6 @@ void InternalCubismClippingManager_RD::SetupClippingContext(CubismModel& model, 
 }
 
 //ClippingContext
-
 InternalCubismClippingContext_RD::InternalCubismClippingContext_RD(
     CubismClippingManager<InternalCubismClippingContext_RD, InternalCubismOffscreenSurface_RD>* manager, CubismModel& model,
     const csmInt32* clippingDrawableIndices, csmInt32 clipCount)
@@ -753,8 +760,7 @@ InternalCubismClippingContext_RD::InternalCubismClippingContext_RD(
     _owner = manager;
 }
 
-InternalCubismClippingContext_RD::~InternalCubismClippingContext_RD()
-{}
+InternalCubismClippingContext_RD::~InternalCubismClippingContext_RD() { }
 
 CubismClippingManager<InternalCubismClippingContext_RD, InternalCubismOffscreenSurface_RD> *InternalCubismClippingContext_RD::GetClippingManager()
 {
@@ -762,6 +768,31 @@ CubismClippingManager<InternalCubismClippingContext_RD, InternalCubismOffscreenS
 }
 
 namespace {InternalCubismPipelineMangerRD  *_pipelineManagerInstance = NULL;}
+
+InternalCubismPipelineMangerRD::~InternalCubismPipelineMangerRD()  
+{
+    RenderingDevice *rd = RenderingServer::get_singleton()->get_rendering_device();
+    if(rd == NULL) {return;}
+    {
+        for(int i = 0; i < _pipelinesForMask.GetSize(); i++) 
+        {
+            rd->free_rid(_pipelinesForMask[i].pipeline);
+        }
+    }
+    {
+        for(int i = 0; i < _pipelinesForDraw.GetSize(); i++) 
+        {
+            rd->free_rid(_pipelinesForDraw[i].pipeline);
+        }
+    }
+    {
+        for(int i = 0; i < _shaders.GetSize(); i++) 
+        {
+            rd->free_rid(_shaders[i]);
+        }
+    }
+}
+
 InternalCubismPipelineMangerRD *InternalCubismPipelineMangerRD::GetInstance() 
 {
     if(_pipelineManagerInstance == NULL) 
@@ -769,6 +800,15 @@ InternalCubismPipelineMangerRD *InternalCubismPipelineMangerRD::GetInstance()
         _pipelineManagerInstance = CSM_NEW InternalCubismPipelineMangerRD();
     }
     return _pipelineManagerInstance;
+}
+
+void InternalCubismPipelineMangerRD::Release()
+{
+    if(_pipelineManagerInstance != NULL) 
+    {
+        CsmDelete(_pipelineManagerInstance); 
+        _pipelineManagerInstance = NULL;
+    }
 }
 
 InternalCubismPipelineMangerRD::RDPipeline InternalCubismPipelineMangerRD::GetPipelineForMask(InternalCubismRenderer2D_RD* renderer, const CubismModel& model, const csmInt32 index) 
@@ -805,6 +845,8 @@ uint64_t InternalCubismPipelineMangerRD::GetVertexFormat() const
 
 InternalCubismPipelineMangerRD::InternalCubismPipelineMangerRD() 
 {
+    RenderingDevice *rd = RenderingServer::get_singleton()->get_rendering_device();
+    if(rd == NULL) {return;}
     InitializeFrameBufferFormat();
     InitializeVertexFormat();
     InitializeShaders();
@@ -1030,8 +1072,6 @@ InternalCubismPipelineMangerRD::RDPipeline InternalCubismPipelineMangerRD::Creat
     int blendModeOffset = blendMode;
     int offset = cullingOffset + premultipliedAlphaOffset + maskingOffset + blendModeOffset;
     PipelineConfiguration configuration = static_cast<PipelineConfiguration>(offset);
-
-    UtilityFunctions::print("Pipeline config ", configuration, "shader ", shaderID);
 
     return {pipeline, shader, configuration};
 }

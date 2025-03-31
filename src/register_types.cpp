@@ -10,6 +10,7 @@
 
 #include <loaders/gd_cubism_motion_loader.hpp>
 #include <private/internal_cubism_allocator.hpp>
+#include <private/internal_cubism_renderer_2d_rd.hpp>
 #include <gd_cubism_effect.hpp>
 #include <gd_cubism_effect_breath.hpp>
 #include <gd_cubism_effect_custom.hpp>
@@ -96,6 +97,8 @@ void uninitialize_gd_cubism_module(ModuleInitializationLevel p_level) {
 
     ResourceLoader::get_singleton()->remove_resource_format_loader(motionLoader);
     motionLoader.unref();
+
+    InternalCubismPipelineMangerRD::Release();
     
     Csm::CubismFramework::Dispose();
 }

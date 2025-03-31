@@ -32,6 +32,7 @@ class InternalCubismOffscreenSurface_RD;
 class InternalCubismClippingManager_RD;
 class InternalCubismClippingContext_RD;
 
+
 class InternalCubismRenderer2D_RD : public CubismRenderer
 {
     friend class CubismRenderer;
@@ -238,6 +239,8 @@ class InternalCubismPipelineMangerRD
     };
 
     static InternalCubismPipelineMangerRD  *GetInstance();
+    static void  Release();
+    ~InternalCubismPipelineMangerRD();
     RDPipeline GetPipelineForMask(InternalCubismRenderer2D_RD* renderer, const CubismModel& model, const csmInt32 index);
     RDPipeline GetPipelineForDraw(InternalCubismRenderer2D_RD* renderer, const CubismModel& model, const csmInt32 index);
     uint64_t GetVertexFormat() const;
@@ -256,8 +259,6 @@ class InternalCubismPipelineMangerRD
     csmVector<RDPipeline> _pipelinesForMask;
     csmVector<RDPipeline> _pipelinesForDraw;
     csmVector<RID> _shaders;
-    RID __setupMaskPipelineNoCulling; 
-    RID __setupMaskPipelineCulling; 
     uint64_t _vertexFormat;
     uint64_t _frameBufferFormat;
 
