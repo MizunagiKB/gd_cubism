@@ -79,8 +79,8 @@ void InternalCubismRenderer2D::update_mesh(
         PackedByteArray ary;
         ary.resize(size * sizeof(Vector2));
 
-        Vector3 vct_min(__DBL_MAX__, __DBL_MAX__, 0.0);
-        Vector3 vct_max(__DBL_MIN__, __DBL_MIN__, 0.0);
+        Vector3 vct_min(DBL_MAX, DBL_MAX, 0.0);
+        Vector3 vct_max(DBL_MIN, DBL_MIN, 0.0);
 
         for (int i = 0, n = 0; i < size; i++, n += sizeof(Vector2))
         {

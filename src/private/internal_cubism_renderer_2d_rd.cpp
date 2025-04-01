@@ -40,7 +40,8 @@ using namespace Live2D::Cubism::Framework;
 using namespace Live2D::Cubism::Framework::Rendering;
 using namespace godot;
 
-InternalCubismRenderer2D_RD::InternalCubismRenderer2D_RD() : _renderingDevice(NULL), _modelInitialized(false)
+InternalCubismRenderer2D_RD::InternalCubismRenderer2D_RD() : 
+_renderingDevice(NULL), _modelInitialized(false), _clippingManager(NULL), _clippingContextBufferForDraw(NULL), _clippingContextBufferForMask(NULL)
 {
 }
 
@@ -51,7 +52,6 @@ InternalCubismRenderer2D_RD::~InternalCubismRenderer2D_RD()
 
     _renderingDevice->free_rid(_uniformBuffer);
     _renderingDevice->free_rid(_sampler);
-    _renderingDevice->free_rid(_emptyTexture);
     _outputTexture->DestroyOffscreenSurface();
 
     {
@@ -68,6 +68,7 @@ InternalCubismRenderer2D_RD::~InternalCubismRenderer2D_RD()
 
     {
         for(int i = 0; i < _drawableIndexData.GetSize(); i++) {
+            if(GetModel()->GetDrawableVertexCount(i) == 0) {continue;}
             _renderingDevice->free_rid(_drawableIndexData[i].indexArray);
             _renderingDevice->free_rid(_drawableIndexData[i].indexBuffer);
             _renderingDevice->free_rid(_drawableIndexData[i].vertexArray);
@@ -160,7 +161,6 @@ void InternalCubismRenderer2D_RD::InitializeRenderer()
     samplerState->set_mag_filter(RenderingDevice::SamplerFilter::SAMPLER_FILTER_LINEAR);
 	_sampler = _renderingDevice->sampler_create(samplerState);
 
-    _emptyTexture = RenderingServer::get_singleton()->texture_get_rd_texture(RenderingServer::get_singleton()->get_white_texture());
 
     InitializeUBO();
 }
@@ -227,6 +227,7 @@ void InternalCubismRenderer2D_RD::build_model(InternalCubismRendererResource &re
     sprite->set_centered(false);
     sprite->set_texture(renderTexture);
     target_node->add_child(sprite);
+    res.managed_nodes.append(sprite);
 
     InitializeRenderer();
     for(int i = 0; i < res.ary_texture.size(); i++) 
@@ -396,7 +397,7 @@ void InternalCubismRenderer2D_RD::ExecuteDrawForDraw(const CubismModel& model, c
     CubismTextureColor screenColor = model.GetScreenColor(index);
     SetColorUniformBuffer(_modelUBO, baseColor, multiplyColor, screenColor);
 
-    RID maskTexture = _emptyTexture;
+    RID maskTexture = InternalCubismPipelineMangerRD::GetInstance()->GetEmptyTexture();
 
     if(masked) {
         UpdateMatrix(_modelUBO.clipMatrix, GetClippingContextBufferForDraw()->_matrixForDraw); 
@@ -487,7 +488,7 @@ void InternalCubismRenderer2D_RD::ExecuteDrawForMask(const CubismModel& model, c
     maskUniform.instantiate();
     maskUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_SAMPLER_WITH_TEXTURE);
     maskUniform->add_id(_sampler);
-    maskUniform->add_id(_emptyTexture);
+    maskUniform->add_id(InternalCubismPipelineMangerRD::GetInstance()->GetEmptyTexture());
     maskUniform->set_binding(2);
 
 	
@@ -772,6 +773,7 @@ namespace {InternalCubismPipelineMangerRD  *_pipelineManagerInstance = NULL;}
 InternalCubismPipelineMangerRD::~InternalCubismPipelineMangerRD()  
 {
     RenderingDevice *rd = RenderingServer::get_singleton()->get_rendering_device();
+    rd->free_rid(_emptyTexture);
     if(rd == NULL) {return;}
     {
         for(int i = 0; i < _pipelinesForMask.GetSize(); i++) 
@@ -843,17 +845,30 @@ uint64_t InternalCubismPipelineMangerRD::GetVertexFormat() const
     return _vertexFormat;
 }
 
+RID InternalCubismPipelineMangerRD::GetEmptyTexture() const
+{
+    //Empty texture for the uniform set, otherwise Godot complains for the missing uniform
+    return _emptyTexture;
+}
+
 InternalCubismPipelineMangerRD::InternalCubismPipelineMangerRD() 
 {
     RenderingDevice *rd = RenderingServer::get_singleton()->get_rendering_device();
     if(rd == NULL) {return;}
+    InitializeEmptyTexture();
     InitializeFrameBufferFormat();
     InitializeVertexFormat();
     InitializeShaders();
     InitializePipelines();
 }
 
-void InternalCubismPipelineMangerRD::InitializeVertexFormat() {
+void InternalCubismPipelineMangerRD::InitializeEmptyTexture() 
+{
+    _emptyTexture = RenderingServer::get_singleton()->texture_get_rd_texture(RenderingServer::get_singleton()->get_white_texture());
+}
+
+void InternalCubismPipelineMangerRD::InitializeVertexFormat() 
+{
     RenderingDevice *rd = RenderingServer::get_singleton()->get_rendering_device();
     Ref<RDVertexAttribute> vertexAttributePosition;
     vertexAttributePosition.instantiate();

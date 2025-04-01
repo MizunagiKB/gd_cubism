@@ -77,7 +77,6 @@ private:
     csmVector<csmInt32> _sortedDrawableIndexList; 
     RID _sampler;
     RID _uniformBuffer;
-    RID _emptyTexture;
     csmBool _modelInitialized;
 
     void InitializeRenderer();
@@ -243,6 +242,7 @@ class InternalCubismPipelineMangerRD
     ~InternalCubismPipelineMangerRD();
     RDPipeline GetPipelineForMask(InternalCubismRenderer2D_RD* renderer, const CubismModel& model, const csmInt32 index);
     RDPipeline GetPipelineForDraw(InternalCubismRenderer2D_RD* renderer, const CubismModel& model, const csmInt32 index);
+    RID GetEmptyTexture() const;
     uint64_t GetVertexFormat() const;
     
 
@@ -252,10 +252,12 @@ class InternalCubismPipelineMangerRD
     void InitializeFrameBufferFormat();
     void InitializeShaders();
     void InitializePipelines();
+    void InitializeEmptyTexture();
     RID CompileShader(String vertSrc, String fragSrc);
     RDPipeline CreatePipelineForMask(csmBool isCulling);
     RDPipeline CreatePipelineForDraw(csmBool isCulling, csmBool isPremultipliedAlpha, MaskingMode masking, CubismRenderer::CubismBlendMode blendMode);
 
+    RID _emptyTexture;
     csmVector<RDPipeline> _pipelinesForMask;
     csmVector<RDPipeline> _pipelinesForDraw;
     csmVector<RID> _shaders;
