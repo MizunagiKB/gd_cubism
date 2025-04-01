@@ -50,6 +50,12 @@ InternalCubismRenderer2D_RD::~InternalCubismRenderer2D_RD()
     CsmDelete(_outputTexture);
     CsmDelete(_clippingManager);
 
+    {
+        for(int i = 0; i < _uniform_sets.GetSize(); i++) {
+            _renderingDevice->free_rid(_uniform_sets[i]);
+        }
+    }
+
     _renderingDevice->free_rid(_uniformBuffer);
     _renderingDevice->free_rid(_sampler);
     _outputTexture->DestroyOffscreenSurface();
@@ -68,7 +74,7 @@ InternalCubismRenderer2D_RD::~InternalCubismRenderer2D_RD()
 
     {
         for(int i = 0; i < _drawableIndexData.GetSize(); i++) {
-            if(GetModel()->GetDrawableVertexCount(i) == 0) {continue;}
+            if(GetModel()->GetDrawableVertexCount(i) == 0 || GetModel()->GetDrawableVertexIndexCount(i) == 0) {continue;}
             _renderingDevice->free_rid(_drawableIndexData[i].indexArray);
             _renderingDevice->free_rid(_drawableIndexData[i].indexBuffer);
             _renderingDevice->free_rid(_drawableIndexData[i].vertexArray);
@@ -163,6 +169,7 @@ void InternalCubismRenderer2D_RD::InitializeRenderer()
 
 
     InitializeUBO();
+    InitializeUniformSets();
 }
 
 void InternalCubismRenderer2D_RD::InitializeUBO()
@@ -182,6 +189,46 @@ void InternalCubismRenderer2D_RD::InitializeUBO()
         _modelUBO.channelFlag.to_byte_array().size();
 
     _uniformBuffer = _renderingDevice->uniform_buffer_create(size);
+}
+
+//Initialize UniformSets for every Shader/Texture/MaskTexture (including dummy mask), because the Godot Uniform cache stops working after freeing resources (for example when switching models)
+void InternalCubismRenderer2D_RD::InitializeUniformSets() 
+{
+    Ref<RDUniform> modelUniform;
+    modelUniform.instantiate();
+    modelUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_UNIFORM_BUFFER);
+    modelUniform->set_binding(0);
+    modelUniform->add_id(_uniformBuffer);
+
+    for(int i = 0; i < InternalCubismPipelineMangerRD::MeshShaders::nShaders; i++) {
+        for(int j = 0; j < _textures.GetSize(); j++) {
+            Ref<RDUniform> textureUniform;
+            textureUniform.instantiate();
+            textureUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_SAMPLER_WITH_TEXTURE);
+            textureUniform->add_id(_sampler);
+            textureUniform->add_id(_textures[j]);
+            textureUniform->set_binding(1);
+
+            for(int k = 0; k < _offscreenSurfaces.GetSize(); k++) {
+                Ref<RDUniform> maskUniform;
+                maskUniform.instantiate();
+                maskUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_SAMPLER_WITH_TEXTURE);
+                maskUniform->add_id(_sampler);
+                maskUniform->add_id(_offscreenSurfaces[k].GetTexture());
+                maskUniform->set_binding(2);
+
+                TypedArray<RDUniform> uniforms;
+                uniforms.push_back(modelUniform);
+                uniforms.push_back(textureUniform);
+                uniforms.push_back(maskUniform);
+
+                InternalCubismPipelineMangerRD::MeshShaders shaderID = static_cast<InternalCubismPipelineMangerRD::MeshShaders>(i);
+                RID shader = InternalCubismPipelineMangerRD::GetInstance()->GetShader(shaderID);
+                RID uniformSet = _renderingDevice->uniform_set_create(uniforms, shader, 0);
+                _uniform_sets.PushBack(uniformSet);
+            }
+        }
+    }
 }
 
 void InternalCubismRenderer2D_RD::Initialize(Csm::CubismModel *model, Csm::csmInt32 maskBufferCount)
@@ -211,30 +258,35 @@ void InternalCubismRenderer2D_RD::Initialize(Csm::CubismModel *model, Csm::csmIn
             _offscreenSurfaces.PushBack(offscreenSurface);
         }
     }
+
+    //Dummy mask buffer so there's always a valid uniform set
+    InternalCubismOffscreenSurface_RD dummyMask;
+    dummyMask.CreateOffscreenSurface(1,1);
+    _offscreenSurfaces.PushBack(dummyMask);
+
     CubismRenderer::Initialize(model, maskBufferCount);
 }
 
 void InternalCubismRenderer2D_RD::build_model(InternalCubismRendererResource &res, Node *target_node) 
 {
-    Vector2 size = target_node->get_viewport()->get_texture()->get_size();
     _outputTexture = CSM_NEW InternalCubismOffscreenSurface_RD();
-    
-    _outputTexture->CreateOffscreenSurface(GetModel()->GetCanvasWidthPixel(),GetModel()->GetCanvasHeightPixel());
+
+    _outputTexture->CreateOffscreenSurface(GetModel()->GetCanvasWidthPixel(), GetModel()->GetCanvasHeightPixel());
     Texture2DRD* renderTexture = memnew(Texture2DRD);
     renderTexture->set_texture_rd_rid(_outputTexture->GetTexture());
 
     Sprite2D *sprite = memnew(Sprite2D);
-    sprite->set_centered(false);
+    sprite->set_centered(true);
     sprite->set_texture(renderTexture);
     target_node->add_child(sprite);
     res.managed_nodes.append(sprite);
 
-    InitializeRenderer();
     for(int i = 0; i < res.ary_texture.size(); i++) 
     {
         Texture* texture = Object::cast_to<Texture>(res.ary_texture[i]);
         _textures.PushBack(RenderingServer::get_singleton()->texture_get_rd_texture(texture->get_rid()));
     }
+    InitializeRenderer();
 }
 
 
@@ -397,45 +449,21 @@ void InternalCubismRenderer2D_RD::ExecuteDrawForDraw(const CubismModel& model, c
     CubismTextureColor screenColor = model.GetScreenColor(index);
     SetColorUniformBuffer(_modelUBO, baseColor, multiplyColor, screenColor);
 
-    RID maskTexture = InternalCubismPipelineMangerRD::GetInstance()->GetEmptyTexture();
-
+    uint32_t maskBufferIndex = _offscreenSurfaces.GetSize()-1; //Default buffer always exists
     if(masked) {
         UpdateMatrix(_modelUBO.clipMatrix, GetClippingContextBufferForDraw()->_matrixForDraw); 
         SetColorChannel(_modelUBO, GetClippingContextBufferForDraw());
-        maskTexture = _offscreenSurfaces[GetClippingContextBufferForDraw()->_bufferIndex].GetTexture();
+        maskBufferIndex = GetClippingContextBufferForDraw()->_bufferIndex;
     }
+    RID maskTexture = _offscreenSurfaces[maskBufferIndex].GetTexture();
 
     CopyUniformBuffer();
 
     csmInt32 textureIndex = model.GetDrawableTextureIndex(index);
 
-    TypedArray<RDUniform> uniforms;
-    Ref<RDUniform> modelUniform;
-    modelUniform.instantiate();
-    modelUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_UNIFORM_BUFFER);
-    modelUniform->set_binding(0);
-    modelUniform->add_id(_uniformBuffer);
+    uint32_t uniformOffset = (rdPipeline.shaderID * _textures.GetSize() * _offscreenSurfaces.GetSize()) + (textureIndex * _offscreenSurfaces.GetSize()) + maskBufferIndex;
+    RID uniformSet = _uniform_sets[uniformOffset];
 
-
-    Ref<RDUniform> textureUniform;
-    textureUniform.instantiate();
-    textureUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_SAMPLER_WITH_TEXTURE);
-    textureUniform->add_id(_sampler);
-    textureUniform->add_id(_textures[textureIndex]);
-    textureUniform->set_binding(1);
-	
-
-    Ref<RDUniform> maskUniform;
-    maskUniform.instantiate();
-    maskUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_SAMPLER_WITH_TEXTURE);
-    maskUniform->add_id(_sampler);
-    maskUniform->add_id(maskTexture);
-    maskUniform->set_binding(2);
-
-    uniforms.append(modelUniform);
-    uniforms.append(textureUniform);
-    uniforms.append(maskUniform);
-    RID uniformSet = UniformSetCacheRD::get_cache(rdPipeline.shader, 0, uniforms);
     uint64_t drawList = _renderingDevice->draw_list_begin(surface->GetFrameBuffer(), 
                     RenderingDevice::InitialAction::INITIAL_ACTION_LOAD, 
                     RenderingDevice::FinalAction::FINAL_ACTION_STORE,
@@ -469,32 +497,10 @@ void InternalCubismRenderer2D_RD::ExecuteDrawForMask(const CubismModel& model, c
     CopyUniformBuffer();
 
     csmInt32 textureIndex = model.GetDrawableTextureIndex(index);
+    uint32_t maskBufferIndex = _offscreenSurfaces.GetSize()-1; //Default buffer always exists
 
-    TypedArray<RDUniform> uniforms;
-    Ref<RDUniform> modelUniform;
-    modelUniform.instantiate();
-    modelUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_UNIFORM_BUFFER);
-    modelUniform->set_binding(0);
-    modelUniform->add_id(_uniformBuffer);
-
-    Ref<RDUniform> textureUniform;
-    textureUniform.instantiate();
-    textureUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_SAMPLER_WITH_TEXTURE);
-    textureUniform->add_id(_sampler);
-    textureUniform->add_id(_textures[textureIndex]);
-    textureUniform->set_binding(1);
-
-    Ref<RDUniform> maskUniform;
-    maskUniform.instantiate();
-    maskUniform->set_uniform_type(RenderingDevice::UniformType::UNIFORM_TYPE_SAMPLER_WITH_TEXTURE);
-    maskUniform->add_id(_sampler);
-    maskUniform->add_id(InternalCubismPipelineMangerRD::GetInstance()->GetEmptyTexture());
-    maskUniform->set_binding(2);
-
-	
-    uniforms.append(modelUniform);
-    uniforms.append(textureUniform);
-    uniforms.append(maskUniform);
+    uint32_t uniformOffset = (rdPipeline.shaderID * _textures.GetSize() * _offscreenSurfaces.GetSize()) + (textureIndex * _offscreenSurfaces.GetSize()) + maskBufferIndex;
+    RID uniformSet = _uniform_sets[uniformOffset];
 
     uint64_t drawList = _renderingDevice->draw_list_begin(surface->GetFrameBuffer(), 
                     RenderingDevice::InitialAction::INITIAL_ACTION_LOAD, 
@@ -503,7 +509,6 @@ void InternalCubismRenderer2D_RD::ExecuteDrawForMask(const CubismModel& model, c
                     RenderingDevice::FinalAction::FINAL_ACTION_STORE,
                     PackedColorArray());
 
-    RID uniformSet = UniformSetCacheRD::get_cache(rdPipeline.shader, 0, uniforms);
     _renderingDevice->draw_list_bind_render_pipeline(drawList, rdPipeline.pipeline);
 	_renderingDevice->draw_list_bind_index_array(drawList, _drawableIndexData[index].indexArray);
 	_renderingDevice->draw_list_bind_vertex_array(drawList, _drawableIndexData[index].vertexArray);
@@ -773,7 +778,6 @@ namespace {InternalCubismPipelineMangerRD  *_pipelineManagerInstance = NULL;}
 InternalCubismPipelineMangerRD::~InternalCubismPipelineMangerRD()  
 {
     RenderingDevice *rd = RenderingServer::get_singleton()->get_rendering_device();
-    rd->free_rid(_emptyTexture);
     if(rd == NULL) {return;}
     {
         for(int i = 0; i < _pipelinesForMask.GetSize(); i++) 
@@ -845,26 +849,19 @@ uint64_t InternalCubismPipelineMangerRD::GetVertexFormat() const
     return _vertexFormat;
 }
 
-RID InternalCubismPipelineMangerRD::GetEmptyTexture() const
+RID InternalCubismPipelineMangerRD::GetShader(MeshShaders shader) const
 {
-    //Empty texture for the uniform set, otherwise Godot complains for the missing uniform
-    return _emptyTexture;
+    return _shaders[shader];
 }
 
 InternalCubismPipelineMangerRD::InternalCubismPipelineMangerRD() 
 {
     RenderingDevice *rd = RenderingServer::get_singleton()->get_rendering_device();
     if(rd == NULL) {return;}
-    InitializeEmptyTexture();
     InitializeFrameBufferFormat();
     InitializeVertexFormat();
     InitializeShaders();
     InitializePipelines();
-}
-
-void InternalCubismPipelineMangerRD::InitializeEmptyTexture() 
-{
-    _emptyTexture = RenderingServer::get_singleton()->texture_get_rd_texture(RenderingServer::get_singleton()->get_white_texture());
 }
 
 void InternalCubismPipelineMangerRD::InitializeVertexFormat() 
@@ -999,7 +996,7 @@ InternalCubismPipelineMangerRD::RDPipeline InternalCubismPipelineMangerRD::Creat
 		pipelineDepthStencilState,
 		pipelineColorBlendState
 	);
-    return {pipeline, shader, isCulling ? PipelineConfiguration::SetupMaskCulling : PipelineConfiguration::SetupMaskNoCulling};
+    return {pipeline, shader, isCulling ? PipelineConfiguration::SetupMaskCulling : PipelineConfiguration::SetupMaskNoCulling, MeshShaders::SetupMaskShader};
 }
 
 InternalCubismPipelineMangerRD::RDPipeline InternalCubismPipelineMangerRD::CreatePipelineForDraw(csmBool isCulling, csmBool isPremultipliedAlpha, MaskingMode masking, CubismRenderer::CubismBlendMode blendMode) 
@@ -1088,7 +1085,7 @@ InternalCubismPipelineMangerRD::RDPipeline InternalCubismPipelineMangerRD::Creat
     int offset = cullingOffset + premultipliedAlphaOffset + maskingOffset + blendModeOffset;
     PipelineConfiguration configuration = static_cast<PipelineConfiguration>(offset);
 
-    return {pipeline, shader, configuration};
+    return {pipeline, shader, configuration, shaderID};
 }
 
 #endif // GD_CUBISM_USE_RENDERER_2D

@@ -73,6 +73,7 @@ private:
     csmVector<InternalCubismOffscreenSurface_RD> _offscreenSurfaces;
     csmVector<DrawableIndexData> _drawableIndexData; 
 
+    csmVector<RID> _uniform_sets; 
     csmVector<RID> _textures; 
     csmVector<csmInt32> _sortedDrawableIndexList; 
     RID _sampler;
@@ -81,6 +82,7 @@ private:
 
     void InitializeRenderer();
     void InitializeUBO();
+    void InitializeUniformSets();
     void DrawMesh(const CubismModel& model, const csmInt32 index, InternalCubismOffscreenSurface_RD* surface);
     void ExecuteDrawForDraw(const CubismModel& model, const csmInt32 index, InternalCubismOffscreenSurface_RD* surface);
     void ExecuteDrawForMask(const CubismModel& model, const csmInt32 index, InternalCubismOffscreenSurface_RD* surface);
@@ -186,7 +188,8 @@ class InternalCubismPipelineMangerRD
         InvertedMaskShader,
         NoMaskShaderPremultipliedAlpha,
         MaskShaderPremultipliedAlpha,
-        InvertedMaskShaderPremultipliedAlpha
+        InvertedMaskShaderPremultipliedAlpha,
+        nShaders
     };
 
     enum PipelineConfiguration {
@@ -235,6 +238,7 @@ class InternalCubismPipelineMangerRD
         RID pipeline;
         RID shader;
         PipelineConfiguration configuration;
+        MeshShaders shaderID;
     };
 
     static InternalCubismPipelineMangerRD  *GetInstance();
@@ -242,7 +246,7 @@ class InternalCubismPipelineMangerRD
     ~InternalCubismPipelineMangerRD();
     RDPipeline GetPipelineForMask(InternalCubismRenderer2D_RD* renderer, const CubismModel& model, const csmInt32 index);
     RDPipeline GetPipelineForDraw(InternalCubismRenderer2D_RD* renderer, const CubismModel& model, const csmInt32 index);
-    RID GetEmptyTexture() const;
+    RID GetShader(MeshShaders shader) const;
     uint64_t GetVertexFormat() const;
     
 
@@ -257,7 +261,6 @@ class InternalCubismPipelineMangerRD
     RDPipeline CreatePipelineForMask(csmBool isCulling);
     RDPipeline CreatePipelineForDraw(csmBool isCulling, csmBool isPremultipliedAlpha, MaskingMode masking, CubismRenderer::CubismBlendMode blendMode);
 
-    RID _emptyTexture;
     csmVector<RDPipeline> _pipelinesForMask;
     csmVector<RDPipeline> _pipelinesForDraw;
     csmVector<RID> _shaders;
