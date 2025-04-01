@@ -2,8 +2,11 @@
 # SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 import sys
 import os
+import configparser
 from glob import glob
 from pathlib import Path
+
+from SCons.Script import SConscript, ARGUMENTS
 
 
 env = SConscript("godot-cpp/SConstruct")
@@ -13,8 +16,21 @@ print("--- GDCubism ---")
 print("")
 
 
+GD_EXTENSION_PATH = "demo/addons/gd_cubism/gd_cubism.gdextension"
+
+
+def live2d_arch() -> str:
+    return {
+        "arm64": "arm64-v8a",
+        "arm32": "armeabi-v7a",
+        "universal": "universal",
+        "x86_32": "x86",
+        "x86_64": "x86_64"
+    }[env["arch"]]
+
+
 # ------------------------------------------------------ get CubismSdkForNative
-def get_cubism_sdk(dirname):
+def get_cubism_sdk(dirname: str = "CubismSdkForNative*"):
     list_path: list[Path] = [
         o_path for o_path in Path("thirdparty").glob(dirname) if o_path.is_dir()
     ]
@@ -44,18 +60,124 @@ def get_cubism_sdk(dirname):
     sys.exit(1)
 
 
-CUBISM_NATIVE_CORE_DIR, CUBISM_NATIVE_FRAMEWORK_DIR = get_cubism_sdk(
-    "CubismSdkForNative*"
-)
+#
+def get_dylib_pathname(env) -> tuple[bool, Path | None]:
+    o = glob(os.path.join(CUBISM_NATIVE_CORE_DIR, "dll", "**"), recursive=True)
+    for v in o:
+        if os.path.isdir(v) is True:
+            continue
+        if v.find(env["platform"]) == -1:
+            continue
+        if env["platform"] != "macos":
+            if v.find(live2d_arch()) == -1:
+                continue
 
-# ------------------------------------------------------- check for experimenal
-CHECK_PATH = "thirdparty/CubismNativeFramework"
-if os.path.isdir(CHECK_PATH) is True:
-    print("*** You are using a custom native framework that you prepared yourself. ***")
-    CHECK_FILE = os.path.join(CHECK_PATH, "src", "Motion", "ACubismMotion.hpp")
-    if os.path.isfile(CHECK_FILE) is True:
-        print("CUBISM_NATIVE_FRAMEWORK_DIR = {:s}".format(CHECK_PATH))
-        CUBISM_NATIVE_FRAMEWORK_DIR = CHECK_PATH
+        if os.path.splitext(v)[1] in (".lib", ".dylib", ".so"):
+            if ARGUMENTS.get("GDCUBISM_DYLIB", "0") == "1":
+                return True, Path(v)
+
+    return False, None
+
+
+# ---------------------------------------------- generate gd_cubism.gdextension
+def generate_gdextension() -> configparser.ConfigParser:
+    libraries = {
+        "macos": {
+            "arch": ["universal"],
+            "target": ["debug", "release"],
+            "tpl_k": "{0}.{2}",
+            "tpl_v": '"res://addons/gd_cubism/bin/{0}/libgd_cubism.{0}.{2}.framework"',
+        },
+        "windows": {
+            "arch": ["x86_64"],
+            "target": ["debug", "release"],
+            "tpl_k": "{0}.{2}.{1}",
+            "tpl_v": '"res://addons/gd_cubism/bin/{0}/{1}/libgd_cubism.{0}.{2}.{1}.dll"',
+        },
+        "linux": {
+            "arch": ["x86_64"],
+            "target": ["debug", "release"],
+            "tpl_k": "{0}.{2}.{1}",
+            "tpl_v": '"res://addons/gd_cubism/bin/{0}/{1}/libgd_cubism.{0}.{2}.{1}.so"',
+        },
+        "ios": {
+            "arch": ["universal"],
+            "target": ["debug", "release"],
+            "tpl_k": "{0}.{2}",
+            "tpl_v": '"res://addons/gd_cubism/bin/{0}/libgd_cubism.{0}.{2}.dylib"',
+        },
+        "android": {
+            "arch": ["arm32", "arm64"],
+            "target": ["debug", "release"],
+            "tpl_k": "{0}.{2}.{1}",
+            "tpl_v": '"res://addons/gd_cubism/bin/{0}/{1}/libgd_cubism.{0}.{2}.{1}.so"',
+        },
+    }
+    dependencies = {
+        "macos": {
+            "arch": ["universal"],
+            "tpl_k": "{0}.{1}",
+            "tpl_v": '{{"res://addons/gd_cubism/bin/{0}/libLive2DCubismCore.dylib": ""}}',
+        },
+        "windows": {
+            "arch": ["x86_64"],
+            "tpl_k": "{0}.{1}",
+            "tpl_v": '{{"res://addons/gd_cubism/bin/{0}/{1}/Live2DCubismCore.dll": ""}}',
+        },
+        "linux": {
+            "arch": ["x86_64"],
+            "tpl_k": "{0}.{1}",
+            "tpl_v": '{{"res://addons/gd_cubism/bin/{0}/{1}/libLive2DCubismCore.so": ""}}',
+        },
+    }
+
+    gdextension = configparser.ConfigParser()
+
+    gdextension.add_section("configuration")
+    gdextension.set("configuration", "entry_symbol", '"gd_cubism_library_init"')
+    gdextension.set("configuration", "compatibility_minimum", '"4.3"')
+
+    gdextension.add_section("libraries")
+
+    for plat, o in libraries.items():
+        for arch in o["arch"]:
+            for target in o["target"]:
+                gdextension.set(
+                    "libraries",
+                    o["tpl_k"].format(plat, arch, target),
+                    o["tpl_v"].format(
+                        plat,
+                        arch,
+                        target,
+                    ),
+                )
+
+    if GDCUBISM_DYLIB is True:
+        gdextension.add_section("dependencies")
+
+        for plat, o in dependencies.items():
+            for arch in o["arch"]:
+                gdextension.set(
+                    "dependencies",
+                    o["tpl_k"].format(plat, arch),
+                    o["tpl_v"].format(plat, arch),
+                )
+
+    with open(GD_EXTENSION_PATH, "w", encoding="utf-8") as wf:
+        gdextension.write(wf)
+
+    return gdextension
+
+
+CUBISM_NATIVE_CORE_DIR, CUBISM_NATIVE_FRAMEWORK_DIR = get_cubism_sdk()
+GDCUBISM_DYLIB, GDCUBISM_DYLIB_PATHNAME = get_dylib_pathname(env)
+conf_gdextension = generate_gdextension()
+
+TARGET = "release" if env["target"] == "template_release" else "debug"
+
+
+print("             GDCUBISM_DYLIB = {:d}".format(GDCUBISM_DYLIB))
+print("    GDCUBISM_DYLIB_PATHNAME = {:s}".format(str(GDCUBISM_DYLIB_PATHNAME)))
 
 
 # Add source files.
@@ -65,49 +187,62 @@ env.Append(CPPPATH=[os.path.join(CUBISM_NATIVE_CORE_DIR, "include")])
 
 print("                   platform = {:s}".format(env["platform"]))
 print("                       arch = {:s}".format(env["arch"]))
+print("                live2d_arch = {:s}".format(live2d_arch()))
+print("                     TARGET = {:s}".format(TARGET))
 
 
+# --------------------------------------------------------------------- Windows
 if env["platform"] == "windows":
     print(
         "               MSVC_VERSION = {:s}".format(
             env.get("MSVC_VERSION", "(undefined)")
         )
     )
-    arch = env["arch"]
-    if arch == "x86_32":
-        arch = "x86"
 
-    o_cubism_lib = (
-        Path(CUBISM_NATIVE_CORE_DIR)
-        .joinpath("lib")
-        .joinpath(env["platform"])
-        .joinpath(arch)
-        .joinpath(env["MSVC_VERSION"].replace(".", ""))
-        .joinpath("Live2DCubismCore_MT.lib")
-    )
-    env.Append(
-        LIBPATH=[
-            os.path.join(
-                CUBISM_NATIVE_CORE_DIR,
-                "lib",
-                "windows",
-                arch,
-                env["MSVC_VERSION"].replace(".", ""),
-            ),
-        ]
-    )
+    arch = live2d_arch()
+
+    if GDCUBISM_DYLIB is True:
+        o_cubism_lib = GDCUBISM_DYLIB_PATHNAME
+    else:
+        o_cubism_lib = (
+            Path(CUBISM_NATIVE_CORE_DIR)
+            .joinpath("lib")
+            .joinpath(env["platform"])
+            .joinpath(arch)
+            .joinpath(env["MSVC_VERSION"].replace(".", ""))
+            .joinpath("Live2DCubismCore_MT.lib")
+        )
 
     print("                       libs = {:s}".format(str(o_cubism_lib)))
-    env.Append(LIBS=["Live2DCubismCore_MT"])
+    if GDCUBISM_DYLIB is True:
+        env.Append(LIBPATH=GDCUBISM_DYLIB_PATHNAME.parent)
+        env.Append(LIBS=["Live2DCubismCore"])
+    else:
+        env.Append(
+            LIBPATH=[
+                Path(CUBISM_NATIVE_CORE_DIR)
+                .joinpath("lib")
+                .joinpath(env["platform"])
+                .joinpath(arch)
+                .joinpath(env["MSVC_VERSION"].replace(".", ""))
+            ]
+        )
+        env.Append(LIBS=["Live2DCubismCore_MT"])
 
+
+# ----------------------------------------------------------------------- macOS
 elif env["platform"] == "macos":
-    o_cubism_lib = (
-        Path(CUBISM_NATIVE_CORE_DIR)
-        .joinpath("lib")
-        .joinpath(env["platform"])
-        .joinpath(env["arch"])
-        .joinpath("libLive2DCubismCore.a")
-    )
+    if GDCUBISM_DYLIB is True:
+        o_cubism_lib = GDCUBISM_DYLIB_PATHNAME
+    else:
+        o_cubism_lib = (
+            Path(CUBISM_NATIVE_CORE_DIR)
+            .joinpath("lib")
+            .joinpath(env["platform"])
+            .joinpath(env["arch"])
+            .joinpath("libLive2DCubismCore.a")
+        )
+
     if env["arch"] == "universal":
         if o_cubism_lib.is_file() is False:
             print("*** File not found, {:s} ***".format(str(o_cubism_lib)))
@@ -123,11 +258,24 @@ elif env["platform"] == "macos":
             print("*** popd")
             sys.exit()
     print("                       libs = {:s}".format(str(o_cubism_lib)))
-    env.Append(
-        LIBPATH=[os.path.join(CUBISM_NATIVE_CORE_DIR, "lib", "macos", env["arch"])]
-    )
+
+    if GDCUBISM_DYLIB is True:
+        env.Append(LIBPATH=GDCUBISM_DYLIB_PATHNAME.parent)
+        env.Append(LINKFLAGS=["-Wl,-rpath,addons/gd_cubism/bin/macos"])
+    else:
+        env.Append(
+            LIBPATH=[
+                Path(CUBISM_NATIVE_CORE_DIR)
+                .joinpath("lib")
+                .joinpath(env["platform"])
+                .joinpath(env["arch"])
+            ]
+        )
+
     env.Append(LIBS=["Live2DCubismCore"])
 
+
+# ------------------------------------------------------------------------- iOS
 elif env["platform"] == "ios":
     o_cubism_lib = (
         Path(CUBISM_NATIVE_CORE_DIR)
@@ -139,50 +287,62 @@ elif env["platform"] == "ios":
     print("                       libs = {:s}".format(str(o_cubism_lib)))
     env.Append(
         LIBPATH=[
-            os.path.join(
-                CUBISM_NATIVE_CORE_DIR, "lib", env["platform"], "Release-iphoneos"
-            )
+            Path(CUBISM_NATIVE_CORE_DIR)
+            .joinpath("lib")
+            .joinpath(env["platform"])
+            .joinpath("Release-iphoneos")
         ]
     )
     env.Append(LIBS=["Live2DCubismCore"])
 
+
+# ----------------------------------------------------------------------- Linux
 elif env["platform"] == "linux":
-    o_cubism_lib = (
-        Path(CUBISM_NATIVE_CORE_DIR)
-        .joinpath("lib")
-        .joinpath(env["platform"])
-        .joinpath(env["arch"])
-        .joinpath("libLive2DCubismCore.a")
-    )
-    env.Append(
-        LIBPATH=[
-            os.path.join(
-                CUBISM_NATIVE_CORE_DIR, "lib", "linux/{:s}".format(env["arch"])
-            )
-        ]
-    )
+    arch = live2d_arch()
+
+    if GDCUBISM_DYLIB is True:
+        o_cubism_lib = GDCUBISM_DYLIB_PATHNAME
+    else:
+        o_cubism_lib = (
+            Path(CUBISM_NATIVE_CORE_DIR)
+            .joinpath("lib")
+            .joinpath(env["platform"])
+            .joinpath(arch)
+            .joinpath("libLive2DCubismCore.a")
+        )
+
     print("                       libs = {:s}".format(str(o_cubism_lib)))
+    if GDCUBISM_DYLIB is True:
+        env.Append(LIBPATH=GDCUBISM_DYLIB_PATHNAME.parent)
+    else:
+        env.Append(
+            LIBPATH=[
+                Path(CUBISM_NATIVE_CORE_DIR)
+                .joinpath("lib")
+                .joinpath(env["platform"])
+                .joinpath(arch)
+            ]
+        )
+
     env.Append(LIBS=["Live2DCubismCore"])
 
+
+# --------------------------------------------------------------------- android
 elif env["platform"] == "android":
-    dict_arch = {
-        "arm64": "arm64-v8a",
-        "arm32": "armeabi-v7a",
-        "x86_32": "x86",
-        "x86_64": "x86_64",
-    }
+    arch = live2d_arch()
+
     o_cubism_lib = (
         Path(CUBISM_NATIVE_CORE_DIR)
         .joinpath("lib")
         .joinpath(env["platform"])
-        .joinpath(dict_arch[env["arch"]])
+        .joinpath(arch)
         .joinpath("libLive2DCubismCore.a")
     )
 
     env.Append(
         LIBPATH=[
             os.path.join(
-                CUBISM_NATIVE_CORE_DIR, "lib", "android", dict_arch[env["arch"]]
+                CUBISM_NATIVE_CORE_DIR, "lib", "android", arch
             )
         ]
     )
@@ -233,13 +393,9 @@ if env["target"] in ["editor", "template_debug"]:
         print("Not including class reference as we're targeting a pre-4.3 baseline.")
 
 
-(extension_path,) = glob("demo/addons/*/*.gdextension")
-
 # Find the addon path (e.g. project/addons/example).
-addon_path = Path(extension_path).parent
+addon_path = Path(GD_EXTENSION_PATH).parent
 
-# Find the project name from the gdextension file (e.g. example).
-project_name = Path(extension_path).stem
 
 # TODO: Cache is disabled currently.
 # scons_cache_path = os.environ.get("SCONS_CACHE")
@@ -247,29 +403,18 @@ project_name = Path(extension_path).stem
 #     CacheDir(scons_cache_path)
 #     print("Scons cache enabled... (path: '" + scons_cache_path + "')")
 
-# Create the library target (e.g. libexample.linux.debug.x86_64.so).
-debug_or_release = "release" if env["target"] == "template_release" else "debug"
-if env["platform"] == "macos":
-    library = env.SharedLibrary(
-        "{0}/bin/lib{1}.{2}.{3}.framework/{1}.{2}.{3}".format(
-            addon_path,
-            project_name,
-            env["platform"],
-            debug_or_release,
-        ),
-        source=sources,
+if env["platform"] in ("macos", "ios"):
+    name = conf_gdextension.get(
+        "libraries", "{0}.{2}".format(env["platform"], env["arch"], TARGET)
     )
 else:
-    library = env.SharedLibrary(
-        "{}/bin/lib{}.{}.{}.{}{}".format(
-            addon_path,
-            project_name,
-            env["platform"],
-            debug_or_release,
-            env["arch"],
-            env["SHLIBSUFFIX"],
-        ),
-        source=sources,
+    name = conf_gdextension.get(
+        "libraries",
+        "{0}.{2}.{1}".format(env["platform"], env["arch"], TARGET),
     )
+
+name = name.replace("res://addons/gd_cubism/", "")
+library = env.SharedLibrary("{}/{}".format(addon_path, name[1:-1]), source=sources)
+
 
 Default(library)
