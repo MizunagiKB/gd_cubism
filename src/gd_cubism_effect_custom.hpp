@@ -6,9 +6,7 @@
 
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
-
 #include <gd_cubism_effect.hpp>
-#include <private/internal_cubism_user_model.hpp>
 
 
 // ------------------------------------------------------------------ define(s)
@@ -36,38 +34,38 @@ protected:
     }
 
 public:
-    virtual void _cubism_init(InternalCubismUserModel* model) override {
+    virtual void _cubism_init(GDCubismUserModel* model) override {
         if(this->_initialized == true) return;
 
-        this->emit_signal("cubism_init", model->_owner_viewport);
+        this->emit_signal("cubism_init", model);
 
         this->_initialized = true;
     }
 
-    virtual void _cubism_term(InternalCubismUserModel* model) override {
+    virtual void _cubism_term(GDCubismUserModel* model) override {
         if(this->_initialized == false) return;
 
-        this->emit_signal("cubism_term", model->_owner_viewport);
+        this->emit_signal("cubism_term", model);
 
         this->_initialized = false;
     }
 
-    virtual void _cubism_prologue(InternalCubismUserModel* model, const double delta) override {
+    virtual void _cubism_prologue(GDCubismUserModel* model, const double delta) override {
         if(this->_initialized == false) return;
         if(this->_active == false) return;
-        this->emit_signal("cubism_prologue", model->_owner_viewport, delta);
+        this->emit_signal("cubism_prologue", model, delta);
     }
 
-    virtual void _cubism_process(InternalCubismUserModel* model, const double delta) override {
+    virtual void _cubism_process(GDCubismUserModel* model, const double delta) override {
         if(this->_initialized == false) return;
         if(this->_active == false) return;
-        this->emit_signal("cubism_process", model->_owner_viewport, delta);
+        this->emit_signal("cubism_process", model, delta);
     }
 
-    virtual void _cubism_epilogue(InternalCubismUserModel* model, const double delta) override {
+    virtual void _cubism_epilogue(GDCubismUserModel* model, const double delta) override {
         if(this->_initialized == false) return;
         if(this->_active == false) return;
-        this->emit_signal("cubism_epilogue", model->_owner_viewport, delta);
+        this->emit_signal("cubism_epilogue", model, delta);
     }
 };
 

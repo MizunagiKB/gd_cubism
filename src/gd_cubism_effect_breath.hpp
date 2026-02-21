@@ -10,8 +10,8 @@
 #include <CubismFramework.hpp>
 #include <CubismDefaultParameterId.hpp>
 #include <Id/CubismIdManager.hpp>
+#include <Effect/CubismBreath.hpp>
 
-#include <private/internal_cubism_user_model.hpp>
 #include <gd_cubism_effect.hpp>
 
 
@@ -38,11 +38,10 @@ private:
     Csm::CubismBreath* _breath = nullptr;
 
 public:
-    virtual void _cubism_init(InternalCubismUserModel* model) override {
+    virtual void _cubism_init(GDCubismUserModel* model) override {
         if(this->_initialized == true) return;
 
         if(this->_breath == nullptr) {
-            Csm::ICubismModelSetting* _model_setting = model->_model_setting;
             this->_breath = Csm::CubismBreath::Create();
 
             Csm::csmVector<Csm::CubismBreath::BreathParameterData> param;
@@ -59,7 +58,7 @@ public:
         this->_initialized = true;
     }
 
-    virtual void _cubism_term(InternalCubismUserModel* model) override {
+    virtual void _cubism_term(GDCubismUserModel* model) override {
         if(this->_initialized == false) return;
 
         if(this->_breath != nullptr) {
@@ -70,12 +69,12 @@ public:
         this->_initialized = false;
     }
 
-    virtual void _cubism_process(InternalCubismUserModel* model, const double delta) override {
+    virtual void _cubism_process(GDCubismUserModel* model, const double delta) override {
         if(this->_initialized == false) return;
         if(this->_active == false) return;
         if(this->_breath == nullptr) return;
 
-        this->_breath->UpdateParameters(model->GetModel(), delta);
+        this->_breath->UpdateParameters(model->get_internal_model(), delta);
     }
 };
 

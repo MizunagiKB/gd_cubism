@@ -5,8 +5,9 @@
 
 
 // ----------------------------------------------------------------- include(s)
-#include <gd_cubism.hpp>
+#include <Effect/CubismEyeBlink.hpp>
 
+#include <gd_cubism.hpp>
 #include <gd_cubism_effect.hpp>
 
 
@@ -31,20 +32,19 @@ private:
     Csm::CubismEyeBlink* _eye_blink = nullptr;
 
 public:
-    virtual void _cubism_init(InternalCubismUserModel* model) override {
+    virtual void _cubism_init(GDCubismUserModel* model) override {
         if(this->_initialized == true) return;
+        if(this->_eye_blink != nullptr) return;
 
-        if(this->_eye_blink == nullptr) {
-            Csm::ICubismModelSetting* _model_setting = model->_model_setting;
-            if(_model_setting->GetEyeBlinkParameterCount() > 0) {
-                this->_eye_blink = Csm::CubismEyeBlink::Create(_model_setting);
-            }
+        ICubismModelSetting *model_settings = model->get_model_settings();
+        if (model_settings->GetEyeBlinkParameterCount() > 0) {
+            this->_eye_blink = Csm::CubismEyeBlink::Create(model_settings);
         }
 
         this->_initialized = true;
     }
 
-    virtual void _cubism_term(InternalCubismUserModel* model) override {
+    virtual void _cubism_term(GDCubismUserModel* model) override {
         if(this->_initialized == false) return;
 
         if(this->_eye_blink != nullptr) {
@@ -55,12 +55,12 @@ public:
         this->_initialized = false;
     }
 
-    virtual void _cubism_process(InternalCubismUserModel* model, const double delta) override {
+    virtual void _cubism_process(GDCubismUserModel* model, const double delta) override {
         if(this->_initialized == false) return;
         if(this->_active == false) return;
         if(this->_eye_blink == nullptr) return;
 
-        this->_eye_blink->UpdateParameters(model->GetModel(), delta);
+        this->_eye_blink->UpdateParameters(model->get_internal_model(), delta);
     }
 };
 

@@ -9,22 +9,16 @@
 
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node.hpp>
-
 #include <gd_cubism_user_model.hpp>
-
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
 using namespace godot;
 
-
 // -------------------------------------------------------------------- enum(s)
 // ------------------------------------------------------------------- const(s)
 // ------------------------------------------------------------------ static(s)
 // ----------------------------------------------------------- class:forward(s)
-class InternalCubismUserModel;
-
-
 // ------------------------------------------------------------------- class(s)
 class GDCubismEffect : public Node {
     GDCLASS(GDCubismEffect, Node);
@@ -40,11 +34,11 @@ public:
     void set_active(const bool active) { this->_active = active; }
     bool get_active() const { return this->_active; }
 
-    virtual void _cubism_init(InternalCubismUserModel* model);
-    virtual void _cubism_term(InternalCubismUserModel* model);
-    virtual void _cubism_prologue(InternalCubismUserModel* model, const double delta);
-    virtual void _cubism_process(InternalCubismUserModel* model, const double delta);
-    virtual void _cubism_epilogue(InternalCubismUserModel* model, const double delta);
+    virtual void _cubism_init(GDCubismUserModel* model);
+    virtual void _cubism_term(GDCubismUserModel* model);
+    virtual void _cubism_prologue(GDCubismUserModel* model, const double delta);
+    virtual void _cubism_process(GDCubismUserModel* model, const double delta);
+    virtual void _cubism_epilogue(GDCubismUserModel* model, const double delta);
 
     void _enter_tree() override;
     void _exit_tree() override;

@@ -11,6 +11,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 
 #include <gd_cubism.hpp>
+#include <loaders/gd_cubism_model_loader.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -20,9 +21,22 @@ class GDCubismMotionLoader : public ResourceFormatLoader {
     GDCLASS(GDCubismMotionLoader, ResourceFormatLoader);
 
 protected:
-    static void _bind_methods() {}
+    static void _bind_methods() {
+        // Priority
+        BIND_ENUM_CONSTANT(MOTION_DISABLED);
+        BIND_ENUM_CONSTANT(MOTION_GODOT);
+        BIND_ENUM_CONSTANT(MOTION_NATIVE);
+
+        ClassDB::bind_static_method("GDCubismMotionLoader", D_METHOD("load_motion_library", "model"), &GDCubismMotionLoader::load_motion_library);
+    }
 
 public:
+    enum MotionManagerType {
+        MOTION_DISABLED = 0,
+        MOTION_GODOT = 1,
+        MOTION_NATIVE = 2
+    };
+
     PackedStringArray _get_recognized_extensions() const override {
         PackedStringArray ext;
         ext.append(MOTION_FILE_EXTENSION);
@@ -50,6 +64,10 @@ public:
     }
     
     Variant _load(const String &p_path, const String &p_original_path, bool p_use_sub_threads, int32_t p_cache_mode) const override;
+
+    static Ref<AnimationLibrary> load_motion_library(GDCubismUserModel *model);
 };
+
+VARIANT_ENUM_CAST(GDCubismMotionLoader::MotionManagerType);
 
 #endif // GD_CUBISM_MOTION_LOADER

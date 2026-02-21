@@ -6,10 +6,8 @@
 
 // ----------------------------------------------------------------- include(s)
 #include <gd_cubism.hpp>
-
 #include <gd_cubism_effect.hpp>
-#include <private/internal_cubism_user_model.hpp>
-
+#include <Math/CubismTargetPoint.hpp>
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -146,7 +144,7 @@ public:
         return Vector2(this->_target_point->GetX(), this->_target_point->GetY());
     }
 
-    virtual void _cubism_init(InternalCubismUserModel* model) override {
+    virtual void _cubism_init(GDCubismUserModel* model) override {
         if(this->_initialized == true) return;
 
         if(this->_target_point == nullptr) {
@@ -158,7 +156,7 @@ public:
         this->_initialized = true;
     }
 
-    virtual void _cubism_term(InternalCubismUserModel* model) override {
+    virtual void _cubism_term(GDCubismUserModel* model) override {
         if(this->_initialized == false) return;
 
         this->_map_param_idx.Clear();
@@ -170,12 +168,12 @@ public:
         this->_initialized = false;
     }
 
-    virtual void _cubism_process(InternalCubismUserModel* model, const double delta) override {
+    virtual void _cubism_process(GDCubismUserModel* model, const double delta) override {
         if(this->_initialized == false) return;
         if(this->_active == false) return;
         if(this->_target_point == nullptr) return;
  
-        Csm::CubismModel* _model = model->GetModel();
+        Csm::CubismModel* _model = model->get_internal_model();
 
         if(this->_need_update == true) {
             Csm::csmInt32 v;

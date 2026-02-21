@@ -17,7 +17,7 @@ void GDCubismEffect::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "active"), "set_active", "get_active");
 }
 
-void GDCubismEffect::_cubism_init(InternalCubismUserModel* model) {
+void GDCubismEffect::_cubism_init(GDCubismUserModel* model) {
     // This is a sample code. Please write the following code in the inherited class as needed:
 
     if(this->_initialized == true) return;
@@ -26,7 +26,7 @@ void GDCubismEffect::_cubism_init(InternalCubismUserModel* model) {
 }
 
 
-void GDCubismEffect::_cubism_term(InternalCubismUserModel* model) {
+void GDCubismEffect::_cubism_term(GDCubismUserModel* model) {
     // This is a sample code. Please write the following code in the inherited class as needed:
 
     if(this->_initialized == false) return;
@@ -35,9 +35,9 @@ void GDCubismEffect::_cubism_term(InternalCubismUserModel* model) {
 }
 
 
-void GDCubismEffect::_cubism_prologue(InternalCubismUserModel* model, const double delta) {}
-void GDCubismEffect::_cubism_process(InternalCubismUserModel* model, const double delta) {}
-void GDCubismEffect::_cubism_epilogue(InternalCubismUserModel* model, const double delta) {}
+void GDCubismEffect::_cubism_prologue(GDCubismUserModel* model, const double delta) {}
+void GDCubismEffect::_cubism_process(GDCubismUserModel* model, const double delta) {}
+void GDCubismEffect::_cubism_epilogue(GDCubismUserModel* model, const double delta) {}
 
 
 void GDCubismEffect::_enter_tree() {

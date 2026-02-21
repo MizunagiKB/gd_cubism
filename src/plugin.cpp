@@ -15,6 +15,8 @@
 #include <gd_cubism_user_model.hpp>
 #include <plugin.hpp>
 
+#include <importers/gd_cubism_model_importer.hpp>
+
 
 // ------------------------------------------------------------------ define(s)
 // --------------------------------------------------------------- namespace(s)
@@ -32,17 +34,16 @@ const double SNAPSIZE_MAX = 256;
 const double SNAPSIZE_STEP = 1;
 const double SNAPSIZE_INIT_VALUE = 8;
 
+static Ref<GDCubismModelImporter> modelImporter;
+
 
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
 Rect2 GDCubismPlugin::get_cubism_model_rect(GDCubismUserModel *model) const {
     if (model == nullptr) return Rect2();
-    if (model->get_assets().length() == 0) return Rect2();
-    if (model->get_canvas_info().size() == 0) return Rect2();
 
-    Dictionary dict = model->get_canvas_info();
-    Vector2 size = dict["size_in_pixels"];
-    Vector2 orig = dict["origin_in_pixels"];
+    Vector2 size = model->get_size();
+    Vector2 orig = model->get_origin();
 
     return Rect2(
         model->get_global_position() + ((orig - size) * model->get_scale()),
@@ -57,12 +58,9 @@ PackedVector2Array GDCubismPlugin::get_cubism_model_vertex(GDCubismUserModel *mo
     ary_vtx.resize(4);
 
     if (model == nullptr) return ary_vtx;
-    if (model->get_assets().length() == 0) return ary_vtx;
-    if (model->get_canvas_info().size() == 0) return ary_vtx;
 
-    Dictionary dict = model->get_canvas_info();
-    Vector2 size = dict["size_in_pixels"];
-    Vector2 orig = dict["origin_in_pixels"];
+    Vector2 size = model->get_size();
+    Vector2 orig = model->get_origin();
 
     ary_vtx[0] = ((orig - size) + Vector2(     0,      0));
     ary_vtx[1] = ((orig - size) + Vector2(size.x,      0));
@@ -75,8 +73,6 @@ PackedVector2Array GDCubismPlugin::get_cubism_model_vertex(GDCubismUserModel *mo
 
 bool GDCubismPlugin::update_selected_info() {
     if (this->selected_model == nullptr) return false;
-    if (this->selected_model->get_assets().length() == 0) return false;
-    if (this->selected_model->get_canvas_info().size() == 0) return false;
 
     this->selected_rect = this->get_cubism_model_rect(this->selected_model);
 
@@ -85,6 +81,9 @@ bool GDCubismPlugin::update_selected_info() {
 
 
 void GDCubismPlugin::_enter_tree() {
+    modelImporter.instantiate();
+
+    this->add_import_plugin(modelImporter);
 
     this->drag = false;
 
@@ -107,6 +106,9 @@ void GDCubismPlugin::_enter_tree() {
 
 
 void GDCubismPlugin::_exit_tree() {
+    this->remove_import_plugin(modelImporter);
+    
+    modelImporter.unref();
 
     if (this->p_snapsize_spinbox != nullptr) {
         this->remove_control_from_container(CONTAINER_CANVAS_EDITOR_MENU, this->p_snapsize_spinbox);
@@ -137,7 +139,10 @@ void GDCubismPlugin::_input(const Ref<InputEvent> &p_event) {
 
         if (p_evt_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
             if (p_evt_mouse_button->is_pressed() == true) {
-                TypedArray<Node> ary_node = get_tree()->get_edited_scene_root()->get_children();
+                Node *root = get_tree()->get_edited_scene_root();
+                if (root == nullptr) return;
+
+                TypedArray<Node> ary_node = root->get_children();
 
                 for(int64_t i = 0; i < ary_node.size(); i++) {
                     GDCubismUserModel *model = Object::cast_to<GDCubismUserModel>(ary_node[i]);
