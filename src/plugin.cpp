@@ -137,7 +137,10 @@ void GDCubismPlugin::_input(const Ref<InputEvent> &p_event) {
 
         if (p_evt_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
             if (p_evt_mouse_button->is_pressed() == true) {
-                TypedArray<Node> ary_node = get_tree()->get_edited_scene_root()->get_children();
+                if (get_tree() == nullptr) return;
+                Node *scene_root = get_tree()->get_edited_scene_root();
+                if (scene_root == nullptr) return;
+                TypedArray<Node> ary_node = scene_root->get_children();
 
                 for(int64_t i = 0; i < ary_node.size(); i++) {
                     GDCubismUserModel *model = Object::cast_to<GDCubismUserModel>(ary_node[i]);
