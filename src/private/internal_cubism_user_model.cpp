@@ -115,7 +115,10 @@ bool InternalCubismUserModel::model_load(
         this->motion_load();
     }
 
-    this->CreateRenderer();
+    this->CreateRenderer(
+        static_cast<csmUint32>(this->_model->GetCanvasWidthPixel()),
+        static_cast<csmUint32>(this->_model->GetCanvasHeightPixel())
+    );
 
     // Resource(Texture)
     this->model_load_resource();
@@ -199,7 +202,10 @@ void InternalCubismUserModel::efx_update(const double delta) {
     if(this->_model == nullptr) return;
 
     if(this->_owner_viewport->check_cubism_effect_dirty() == true) {
-        this->effect_term();
+        // 补丁 #5: 不再先 effect_term() 再 effect_init() —— 那会让所有已挂载的效果
+        // 重跑 _cubism_term + _cubism_init(全局抖动)。_cubism_init 有 _initialized
+        // 守卫,这里只会初始化新挂载的效果;移除效果的 _cubism_term 已改在
+        // _on_remove_child_act 里单独调用。
         this->effect_init();
         this->_owner_viewport->cubism_effect_dirty_reset();
     }
@@ -288,10 +294,9 @@ void InternalCubismUserModel::expression_set(const char* expression_id) {
     ACubismMotion* motion = this->_map_expression[csmString(expression_id)];
 
     if(motion != nullptr) {
-        this->_expressionManager->StartMotionPriority(
+        this->_expressionManager->StartMotion(
             motion,
-            false,
-            GDCubismUserModel::Priority::PRIORITY_FORCE
+            false
         );
     }
 }
@@ -317,8 +322,8 @@ CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* g
 
     if(motion == nullptr ) return InvalidMotionQueueEntryHandleValue;
 
-    motion->IsLoop(loop);
-    motion->IsLoopFadeIn(loop_fade_in);
+    motion->SetLoop(loop);
+    motion->SetLoopFadeIn(loop_fade_in);
     motion->SetFinishedMotionHandler(GDCubismUserModel::on_motion_finished);
     #ifdef CUBISM_MOTION_CUSTOMDATA
     motion->SetFinishedMotionCustomData(custom_data);

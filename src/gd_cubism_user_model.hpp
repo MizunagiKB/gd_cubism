@@ -82,7 +82,10 @@ public:
         CSM_MOC_VERSION_33 = Live2D::Cubism::Core::csmMocVersion_33,
         CSM_MOC_VERSION_40 = Live2D::Cubism::Core::csmMocVersion_40,
         CSM_MOC_VERSION_42 = Live2D::Cubism::Core::csmMocVersion_42,
-        CSM_MOC_VERSION_50 = Live2D::Cubism::Core::csmMocVersion_50
+        CSM_MOC_VERSION_50 = Live2D::Cubism::Core::csmMocVersion_50,
+        // 追加: Core 5-r.5 起支持 moc3 5.3(SDK 侧枚举值 6)。
+        // 原实现漏绑定, 导致 csm_get_latest_moc_version() 的返回值落在枚举范围外。
+        CSM_MOC_VERSION_53 = Live2D::Cubism::Core::csmMocVersion_53
     };
 
     enum Priority {

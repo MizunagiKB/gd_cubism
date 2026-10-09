@@ -89,8 +89,8 @@ public partial class demo_effect_custom_03 : Node2D
         return sum_v / this.ary_volume_history.Count;
     }
 
-    private void _on_cubism_prologue(Node2D _model, float v) {}
-    private void _on_cubism_epilogue(Node2D _model, float v) {}
+    private void _on_cubism_prologue(Node2D _model, double v) {}
+    private void _on_cubism_epilogue(Node2D _model, double v) {}
     private void _on_cubism_init(Node2D _model) {}
 
     private void _on_cubism_term(Node2D _model)

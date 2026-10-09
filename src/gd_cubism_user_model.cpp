@@ -174,6 +174,7 @@ void GDCubismUserModel::_bind_methods() {
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_40);
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_42);
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_50);
+    BIND_ENUM_CONSTANT(CSM_MOC_VERSION_53);
 
     // Priority
     BIND_ENUM_CONSTANT(PRIORITY_NONE);
@@ -495,6 +496,10 @@ void GDCubismUserModel::_update(const double delta) {
 
 void GDCubismUserModel::advance(const double delta) {
     ERR_FAIL_COND(this->is_initialized() == false);
+    // 追加: 模型不在场景树内时 _update() 会访问渲染侧(子视口/节点)并崩溃(段错误)。
+    // 手工驱动模式常被误用在 add_child() 之前, 这里显式报错而不是让进程挂掉。
+    ERR_FAIL_COND_MSG(this->is_inside_tree() == false,
+        "advance() 需要模型已在场景树内(请先 add_child)。");
     if(this->playback_process_mode != MANUAL) return;
 
     this->_update(delta);
@@ -859,7 +864,11 @@ void GDCubismUserModel::_on_remove_child_act(GDCubismEffect* node) {
     for(Csm::csmVector<GDCubismEffect*>::iterator i = this->_list_cubism_effect.Begin(); i != this->_list_cubism_effect.End(); i++) {
         if(*i == node) { this->_list_cubism_effect.Erase(i); break; }
     }
-    this->cubism_effect_dirty = true;
+    // 补丁 #5: 被移除的效果补收 _cubism_term(原实现直接移出列表,永远收不到);
+    // 同时不再置脏 —— 其余效果保持初始化状态,避免整张效果表 term+init 抖动。
+    if(this->internal_model != nullptr && this->internal_model->IsInitialized() == true) {
+        node->_cubism_term(this->internal_model);
+    }
 }
 
 

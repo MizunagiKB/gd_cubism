@@ -41,8 +41,10 @@ public:
 
     SubViewport* request_viewport();
     MeshInstance2D* request_mesh_instance();
-    ShaderMaterial* request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index);
-    ShaderMaterial* request_mask_material();
+    // Ref<T>: 新版 godot-cpp 的 memnew() 对 RefCounted 派生类返回 Ref<T>(持有引用计数),
+    // 返回裸指针会在函数返回时析构并释放对象, 故返回类型改为 Ref<ShaderMaterial>。
+    Ref<ShaderMaterial> request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index);
+    Ref<ShaderMaterial> request_mask_material();
 
     // Shader
     Ref<Shader> get_shader(const GDCubismShader e) const { return this->ary_shader[e]; }

@@ -15,10 +15,18 @@ public partial class GDCubismEffectHitAreaCS : GDCubismEffectCS
 
     // ------------------------------------------------------------ Property(s)
 
+    /// <value>
+    ///     Property <c>Monitoring</c>
+    ///     <br />
+    ///     <c>true</c> 时只在进入/离开状态翻转时发信号；<c>false</c> 时每帧都发进入信号。
+    ///     <br />
+    ///     设置该属性会清空已记录的进入状态。
+    /// </value>
     public bool Monitoring
     {
         set { this.InternalObject.Call("set_monitoring", (bool)value); }
-        get { return (bool)this.InternalObject.Call("set_monitoring"); }
+        // 修正: 原实现调用的是 set_monitoring(无参), 每次读取都会报 Invalid call 且恒返回 false
+        get { return (bool)this.InternalObject.Call("get_monitoring"); }
     }
 
     // -------------------------------------------------------------- Method(s)

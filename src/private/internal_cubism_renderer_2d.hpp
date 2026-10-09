@@ -34,7 +34,7 @@ class InternalCubismRenderer2D : public CubismRenderer
     friend class CubismRenderer;
 
 public:
-    InternalCubismRenderer2D();
+    InternalCubismRenderer2D(Csm::csmUint32 width, Csm::csmUint32 height);
     virtual ~InternalCubismRenderer2D();
 
 private:
@@ -61,9 +61,12 @@ public:
     void build_model(InternalCubismRendererResource &res, Node *target_node);
 
     virtual void Initialize(Csm::CubismModel *model, Csm::csmInt32 maskBufferCount);
+    virtual void Initialize(Csm::CubismModel *model);
     void DoDrawModel();
     void SaveProfile();
     void RestoreProfile();
+    void BeforeDrawModelRenderTarget();
+    void AfterDrawModelRenderTarget();
 };
 
 // ------------------------------------------------------------------ method(s)
