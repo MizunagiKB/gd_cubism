@@ -202,7 +202,10 @@ void InternalCubismUserModel::efx_update(const double delta) {
     if(this->_model == nullptr) return;
 
     if(this->_owner_viewport->check_cubism_effect_dirty() == true) {
-        this->effect_term();
+        // 补丁 #5: 不再先 effect_term() 再 effect_init() —— 那会让所有已挂载的效果
+        // 重跑 _cubism_term + _cubism_init(全局抖动)。_cubism_init 有 _initialized
+        // 守卫,这里只会初始化新挂载的效果;移除效果的 _cubism_term 已改在
+        // _on_remove_child_act 里单独调用。
         this->effect_init();
         this->_owner_viewport->cubism_effect_dirty_reset();
     }

@@ -864,7 +864,11 @@ void GDCubismUserModel::_on_remove_child_act(GDCubismEffect* node) {
     for(Csm::csmVector<GDCubismEffect*>::iterator i = this->_list_cubism_effect.Begin(); i != this->_list_cubism_effect.End(); i++) {
         if(*i == node) { this->_list_cubism_effect.Erase(i); break; }
     }
-    this->cubism_effect_dirty = true;
+    // 补丁 #5: 被移除的效果补收 _cubism_term(原实现直接移出列表,永远收不到);
+    // 同时不再置脏 —— 其余效果保持初始化状态,避免整张效果表 term+init 抖动。
+    if(this->internal_model != nullptr && this->internal_model->IsInitialized() == true) {
+        node->_cubism_term(this->internal_model);
+    }
 }
 
 
