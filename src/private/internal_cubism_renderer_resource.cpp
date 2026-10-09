@@ -24,7 +24,7 @@
 InternalCubismRendererResource::InternalCubismRendererResource(GDCubismUserModel *owner_viewport)
     : _owner_viewport(owner_viewport)
 {
-    ResourceLoader* res_loader = memnew(ResourceLoader);
+    ResourceLoader *res_loader = ResourceLoader::get_singleton();
 
     this->ary_shader.resize(GD_CUBISM_SHADER_MAX);
 
@@ -41,7 +41,7 @@ InternalCubismRendererResource::InternalCubismRendererResource(GDCubismUserModel
     this->ary_shader[GD_CUBISM_SHADER_MASK_MUL] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader");
     this->ary_shader[GD_CUBISM_SHADER_MASK_MUL_INV] = res_loader->load("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader");
 
-    memdelete(res_loader);
+    
 }
 
 
@@ -68,68 +68,46 @@ void InternalCubismRendererResource::clear() {
 }
 
 MeshInstance2D* InternalCubismRendererResource::request_mesh_instance() {
-    ArrayMesh* mesh = memnew(ArrayMesh);
+    // Ref<T>: 新版 godot-cpp 的 memnew() 对 RefCounted 派生类返回 Ref<T>; node->set_mesh() 会持有引用计数
+    Ref<ArrayMesh> mesh = memnew(ArrayMesh);
     MeshInstance2D* node = memnew(MeshInstance2D);
     node->set_mesh(mesh);
     return node;
 }
 
-ShaderMaterial* InternalCubismRendererResource::request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index) {
-    ShaderMaterial* mat = memnew(ShaderMaterial);
+Ref<ShaderMaterial> InternalCubismRendererResource::request_shader_material(const Csm::CubismModel *model, const Csm::csmInt32 index) {
+    Ref<ShaderMaterial> mat = memnew(ShaderMaterial);
     
     GDCubismShader e = GD_CUBISM_SHADER_NORM_MIX;
+    Csm::csmInt32 blend_type = model->GetDrawableBlendModeType(index).GetColorBlendType();
     if (model->GetDrawableMaskCounts()[index] == 0)
     {
-        switch (model->GetDrawableBlendMode(index))
-        {
-        case CubismRenderer::CubismBlendMode_Additive:
+        if (blend_type == Live2D::Cubism::Core::csmColorBlendType_Add) {
             e = GD_CUBISM_SHADER_NORM_ADD;
-            break;
-        case CubismRenderer::CubismBlendMode_Normal:
-            e = GD_CUBISM_SHADER_NORM_MIX;
-            break;
-        case CubismRenderer::CubismBlendMode_Multiplicative:
+        } else if (blend_type == Live2D::Cubism::Core::csmColorBlendType_Multiply) {
             e = GD_CUBISM_SHADER_NORM_MUL;
-            break;
-        default:
+        } else {
             e = GD_CUBISM_SHADER_NORM_MIX;
-            break;
         }
     }
     else if (model->GetDrawableInvertedMask(index) == false)
     {
-        switch (model->GetDrawableBlendMode(index))
-        {
-        case CubismRenderer::CubismBlendMode_Additive:
+        if (blend_type == Live2D::Cubism::Core::csmColorBlendType_Add) {
             e = GD_CUBISM_SHADER_MASK_ADD;
-            break;
-        case CubismRenderer::CubismBlendMode_Normal:
-            e = GD_CUBISM_SHADER_MASK_MIX;
-            break;
-        case CubismRenderer::CubismBlendMode_Multiplicative:
+        } else if (blend_type == Live2D::Cubism::Core::csmColorBlendType_Multiply) {
             e = GD_CUBISM_SHADER_MASK_MUL;
-            break;
-        default:
+        } else {
             e = GD_CUBISM_SHADER_MASK_MIX;
-            break;
         }
     }
     else
     {
-        switch (model->GetDrawableBlendMode(index))
-        {
-        case CubismRenderer::CubismBlendMode_Additive:
+        if (blend_type == Live2D::Cubism::Core::csmColorBlendType_Add) {
             e = GD_CUBISM_SHADER_MASK_ADD_INV;
-            break;
-        case CubismRenderer::CubismBlendMode_Normal:
-            e = GD_CUBISM_SHADER_MASK_MIX_INV;
-            break;
-        case CubismRenderer::CubismBlendMode_Multiplicative:
+        } else if (blend_type == Live2D::Cubism::Core::csmColorBlendType_Multiply) {
             e = GD_CUBISM_SHADER_MASK_MUL_INV;
-            break;
-        default:
+        } else {
             e = GD_CUBISM_SHADER_MASK_MIX_INV;
-            break;
         }
     }
 
@@ -144,8 +122,8 @@ ShaderMaterial* InternalCubismRendererResource::request_shader_material(const Cs
     return mat;
 }
 
-ShaderMaterial* InternalCubismRendererResource::request_mask_material() {
-    ShaderMaterial* mat = memnew(ShaderMaterial);
+Ref<ShaderMaterial> InternalCubismRendererResource::request_mask_material() {
+    Ref<ShaderMaterial> mat = memnew(ShaderMaterial);
 
     Ref<Shader> shader = this->_owner_viewport->get_shader(GD_CUBISM_SHADER_MASK);
     if (shader.is_null())

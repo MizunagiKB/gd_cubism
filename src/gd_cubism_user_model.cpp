@@ -174,6 +174,7 @@ void GDCubismUserModel::_bind_methods() {
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_40);
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_42);
     BIND_ENUM_CONSTANT(CSM_MOC_VERSION_50);
+    BIND_ENUM_CONSTANT(CSM_MOC_VERSION_53);
 
     // Priority
     BIND_ENUM_CONSTANT(PRIORITY_NONE);
@@ -495,6 +496,10 @@ void GDCubismUserModel::_update(const double delta) {
 
 void GDCubismUserModel::advance(const double delta) {
     ERR_FAIL_COND(this->is_initialized() == false);
+    // 追加: 模型不在场景树内时 _update() 会访问渲染侧(子视口/节点)并崩溃(段错误)。
+    // 手工驱动模式常被误用在 add_child() 之前, 这里显式报错而不是让进程挂掉。
+    ERR_FAIL_COND_MSG(this->is_inside_tree() == false,
+        "advance() 需要模型已在场景树内(请先 add_child)。");
     if(this->playback_process_mode != MANUAL) return;
 
     this->_update(delta);

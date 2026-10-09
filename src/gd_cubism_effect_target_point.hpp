@@ -133,7 +133,13 @@ public:
     float get_eyes_range() const { return this->_eyesRange; }
 
     void set_target(const Vector2& target) {
-        if(this->_target_point == nullptr) return;
+        // 追加: 原实现里 _target_point == nullptr 时直接 return, 导致 _cubism_init() 之前
+        // 调用 set_target() 被静默丢弃(与 get_target() 的默认值语义也不一致)。
+        // 改为惰性创建, 与 _cubism_init() 使用同一套初始化, 提前设置的值会被保留。
+        if(this->_target_point == nullptr) {
+            this->_target_point = memnew(Csm::CubismTargetPoint);
+            this->_target_point->Set(0.0, 0.0);
+        }
 
         this->_target_point->Set(
             CLAMP<float, float, float>(target.x, -1.0, 1.0),

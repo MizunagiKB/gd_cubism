@@ -35,7 +35,8 @@ const Vector4 make_vector4(const Live2D::Cubism::Core::csmVector4 &src_vec4);
 
 // ----------------------------------------------------------- class:forward(s)
 // ------------------------------------------------------------------- class(s)
-InternalCubismRenderer2D::InternalCubismRenderer2D()
+InternalCubismRenderer2D::InternalCubismRenderer2D(Csm::csmUint32 width, Csm::csmUint32 height)
+    : CubismRenderer(width, height)
 {
 }
 
@@ -163,7 +164,7 @@ float InternalCubismRenderer2D::get_ppunit(const Csm::CubismModel *model) const
 void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, int32_t mask_viewport_size)
 {
     const CubismModel *model = this->GetModel();
-    const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
+    const Csm::csmInt32 *renderOrder = model->GetRenderOrders();
     const Csm::csmInt32 *maskCount = model->GetDrawableMaskCounts();
 
     this->make_ArrayMesh_prepare(
@@ -277,7 +278,7 @@ void InternalCubismRenderer2D::update(InternalCubismRendererResource &res, int32
 void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, Node* target_node)
 {
     const CubismModel *model = this->GetModel();
-    const Csm::csmInt32 *renderOrder = model->GetDrawableRenderOrders();
+    const Csm::csmInt32 *renderOrder = model->GetRenderOrders();
     const Csm::csmInt32 *maskCount = model->GetDrawableMaskCounts();
 
     this->make_ArrayMesh_prepare(
@@ -306,7 +307,7 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
             this->update_mesh(model, index, res, node->get_mesh());
         }
         
-        ShaderMaterial* mat = res.request_shader_material(model, index);
+        Ref<ShaderMaterial> mat = res.request_shader_material(model, index);
         node->set_material(mat);        
         node->set_name(node_name);
 
@@ -385,14 +386,14 @@ void InternalCubismRenderer2D::build_model(InternalCubismRendererResource &res, 
                     meshes[j] = node->get_mesh();
                     this->update_mesh(model, j, res, node->get_mesh());
                 }
-                ShaderMaterial *mat = res.request_mask_material();
+                Ref<ShaderMaterial> mat = res.request_mask_material();
 
                 node->set_name(mask_name);
                 node->set_material(mat);
                 mat->set_shader_parameter("channel", Vector4(0.0, 0.0, 0.0, 1.0));
-                mat->set_shader_parameter("tex_main", res.ary_texture[model->GetDrawableTextureIndex(index)]);
+                mat->set_shader_parameter("tex_main", res.ary_texture[model->GetDrawableTextureIndex(j)]);
 
-                node->set_z_index(model->GetDrawableRenderOrders()[index]);
+                node->set_z_index(model->GetRenderOrders()[index]);
                 node->set_visible(true);
 
                 viewport->add_child(node);
@@ -424,9 +425,16 @@ void InternalCubismRenderer2D::Initialize(Csm::CubismModel *model, Csm::csmInt32
     CubismRenderer::Initialize(model, maskBufferCount);
 }
 
+void InternalCubismRenderer2D::Initialize(Csm::CubismModel *model)
+{
+    CubismRenderer::Initialize(model);
+}
+
 void InternalCubismRenderer2D::DoDrawModel() {}
 void InternalCubismRenderer2D::SaveProfile() {}
 void InternalCubismRenderer2D::RestoreProfile() {}
+void InternalCubismRenderer2D::BeforeDrawModelRenderTarget() {}
+void InternalCubismRenderer2D::AfterDrawModelRenderTarget() {}
 
 // ------------------------------------------------------------------ method(s)
 PackedInt32Array make_Indices(const csmUint16 *ptr, const int32_t &size)

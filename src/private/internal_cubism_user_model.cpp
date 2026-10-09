@@ -115,7 +115,10 @@ bool InternalCubismUserModel::model_load(
         this->motion_load();
     }
 
-    this->CreateRenderer();
+    this->CreateRenderer(
+        static_cast<csmUint32>(this->_model->GetCanvasWidthPixel()),
+        static_cast<csmUint32>(this->_model->GetCanvasHeightPixel())
+    );
 
     // Resource(Texture)
     this->model_load_resource();
@@ -288,10 +291,9 @@ void InternalCubismUserModel::expression_set(const char* expression_id) {
     ACubismMotion* motion = this->_map_expression[csmString(expression_id)];
 
     if(motion != nullptr) {
-        this->_expressionManager->StartMotionPriority(
+        this->_expressionManager->StartMotion(
             motion,
-            false,
-            GDCubismUserModel::Priority::PRIORITY_FORCE
+            false
         );
     }
 }
@@ -317,8 +319,8 @@ CubismMotionQueueEntryHandle InternalCubismUserModel::motion_start(const char* g
 
     if(motion == nullptr ) return InvalidMotionQueueEntryHandleValue;
 
-    motion->IsLoop(loop);
-    motion->IsLoopFadeIn(loop_fade_in);
+    motion->SetLoop(loop);
+    motion->SetLoopFadeIn(loop_fade_in);
     motion->SetFinishedMotionHandler(GDCubismUserModel::on_motion_finished);
     #ifdef CUBISM_MOTION_CUSTOMDATA
     motion->SetFinishedMotionCustomData(custom_data);

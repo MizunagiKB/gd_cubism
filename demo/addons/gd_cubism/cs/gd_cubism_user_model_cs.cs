@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2023 MizunagiKB <mizukb@live.jp>
 using System;
+using System.Collections.Generic;
 using Godot;
 using Godot.NativeInterop;
 
@@ -8,7 +9,7 @@ using Godot.NativeInterop;
 #pragma warning disable CA1050
 
 
-public partial class GDCubismUserModelCS : GodotObject
+public class GDCubismUserModelCS
 {
     public enum Moc3FileFormatVersionEnum : long
     {
@@ -23,7 +24,15 @@ public partial class GDCubismUserModelCS : GodotObject
         /// <summary>moc3 file version 4.2.00 - 4.2.02</summary>
         CSM_MOC_VERSION_42 = 4,
         /// <summary>moc3 file version 5.0.00 -</summary>
-        CSM_MOC_VERSION_50 = 5
+        CSM_MOC_VERSION_50 = 5,
+        /// <summary>
+        ///     moc3 file version 5.3.00 -
+        ///     <br />
+        ///     对应 SDK 头文件 Live2DCubismCore.h 的 csmMocVersion_53(枚举值 6)。
+        ///     原包装枚举滞后到 CSM_MOC_VERSION_50，而 csm_get_latest_moc_version() 返回 6，
+        ///     导致返回值落在枚举范围外，故此处补上。
+        /// </summary>
+        CSM_MOC_VERSION_53 = 6
     }
 
     public enum PriorityEnum : long
@@ -405,12 +414,14 @@ public partial class GDCubismUserModelCS : GodotObject
 
     /// <summary>
     ///     Retrieves the controller class for operating the currently held Live2D model.
+    ///     返回 List 而非 Godot.Collections.Array: 泛型包装类已不是 Variant 兼容类型(GD0301),
+    ///     List 与既有用法(.Count / 索引 / foreach)完全兼容。
     /// </summary>
-    /// <returns>Godot.Collections.Array</returns>
-    public Godot.Collections.Array<GDCubismParameterCS> GetParameters()
+    /// <returns>System.Collections.Generic.List</returns>
+    public List<GDCubismParameterCS> GetParameters()
     {
         Godot.Collections.Array<GodotObject> ary = (Godot.Collections.Array<GodotObject>)this.InternalObject.Call("get_parameters");
-        Godot.Collections.Array<GDCubismParameterCS> ary_result = new();
+        List<GDCubismParameterCS> ary_result = new();
         foreach (GodotObject o in ary)
         {
             ary_result.Add(new GDCubismParameterCS(o));
@@ -421,12 +432,13 @@ public partial class GDCubismUserModelCS : GodotObject
 
     /// <summary>
     ///     Retrieves the controller class for operating the transparency of the parts of the currently held Live2D model.
+    ///     返回 List 而非 Godot.Collections.Array(同上)。
     /// </summary>
-    /// <returns>Godot.Collections.Array</returns>
-    public Godot.Collections.Array<GDCubismPartOpacityCS> GetPartOpacities()
+    /// <returns>System.Collections.Generic.List</returns>
+    public List<GDCubismPartOpacityCS> GetPartOpacities()
     {
         Godot.Collections.Array<GodotObject> ary = (Godot.Collections.Array<GodotObject>)this.InternalObject.Call("get_part_opacities");
-        Godot.Collections.Array<GDCubismPartOpacityCS> ary_result = new();
+        List<GDCubismPartOpacityCS> ary_result = new();
         foreach (GodotObject o in ary)
         {
             ary_result.Add(new GDCubismPartOpacityCS(o));
@@ -450,9 +462,17 @@ public partial class GDCubismUserModelCS : GodotObject
     /// <param name="grp_name"></param>
     /// <param name="no"></param>
     /// <param name="priority"></param>
-    public void StartMotion(String grp_name, int no, PriorityEnum priority)
+    /// <returns>
+    ///     The native <c>GDCubismMotionQueueEntryHandle</c> (a <c>Resource</c>). Read its read-only
+    ///     <c>error</c> property to check the result:
+    ///     <code>var handle = model.StartMotion("mtn_idle_01", 0, Priority);</code>
+    ///     <code>if ((int)handle.Get("error") != 0) { /* FAILED */ }</code>
+    ///     <br />
+    ///     注: 原实现返回 void，调用方拿不到 OK/FAILED；改为返回句柄对象后语句式调用写法不变。
+    /// </returns>
+    public GodotObject StartMotion(String grp_name, int no, PriorityEnum priority)
     {
-        this.InternalObject.Call("start_motion", grp_name, no, (int)priority);
+        return this.InternalObject.Call("start_motion", grp_name, no, (int)priority).As<GodotObject>();
     }
 
     /// <summary>
@@ -465,9 +485,10 @@ public partial class GDCubismUserModelCS : GodotObject
     /// <param name="priority"></param>
     /// <param name="loop"></param>
     /// <param name="loop_in_fade"></param>
-    public void StartMotionLoop(String grp_name, int no, PriorityEnum priority, bool loop, bool loop_in_fade)
+    /// <returns>The native <c>GDCubismMotionQueueEntryHandle</c> (see <see cref="StartMotion"/>).</returns>
+    public GodotObject StartMotionLoop(String grp_name, int no, PriorityEnum priority, bool loop, bool loop_in_fade)
     {
-        this.InternalObject.Call("start_motion_loop", grp_name, no, (int)priority, loop, loop_in_fade);
+        return this.InternalObject.Call("start_motion_loop", grp_name, no, (int)priority, loop, loop_in_fade).As<GodotObject>();
     }
 
     /// <summary>

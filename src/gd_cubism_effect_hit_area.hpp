@@ -120,8 +120,12 @@ public:
 
         const Dictionary dict_mesh = model->get_meshes();
         if(dict_mesh.is_empty() == true) return Dictionary();
+        // 追加: 未知 id 时 dict_mesh[id] 返回 null, 直接解引用会崩溃。
+        // (同文件 _cubism_process() 已有同样的 has() 守卫)
+        if(dict_mesh.has(id) != true) return Dictionary();
 
         MeshInstance2D* p_mesh_inst = cast_to<MeshInstance2D>(dict_mesh[id]);
+        if(p_mesh_inst == nullptr) return Dictionary();
         Ref<ArrayMesh> ref_ary_mesh =  static_cast<ArrayMesh*>(p_mesh_inst->get_mesh().ptr());
         if(ref_ary_mesh.is_valid() != true) return Dictionary();
         if(ref_ary_mesh->surface_get_array_index_len(0) < 3) return Dictionary();

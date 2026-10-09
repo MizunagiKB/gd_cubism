@@ -63,9 +63,7 @@ public partial class demo_effect_custom_01 : Node2D
 
         if (this.param_mode == E_PARAM_MODE.PROCESS) {
 
-            Godot.Collections.Array<GDCubismParameterCS> ary_param = this.cubism_model.GetParameters();
-
-            foreach (GDCubismParameterCS o in this.cubism_model.GetParameters()) 
+            foreach (GDCubismParameterCS o in this.cubism_model.GetParameters())
             {
                 if (o.Id == "ParamEyeLOpen") {
                     o.Value = 0.0f;
